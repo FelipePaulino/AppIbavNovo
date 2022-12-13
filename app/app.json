@@ -2,7 +2,7 @@
   "expo": {
     "name": "IBAV RP",
     "slug": "aguavivarp",
-    "version": "1.0.0",
+    "version": "15.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -21,11 +21,12 @@
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 15,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.aguavivarp"
+      "package": "com.viniciusdevitalo.aguavivarp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
