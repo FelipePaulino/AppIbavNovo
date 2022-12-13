@@ -25,11 +25,12 @@ export function MultiplicationCelula() {
   const [listCelula, setListCelula] = useState<any>([]);
   const [memberSelected, setMemberSelected] = useState<any>();
   const [newCelula, setNewCelula] = useState<any>();
+  const [membersChecked, setMembersChecked] = useState([])
+  const [membersUncheck, setMembersUncheck] = useState([])
+  const [leaderCelula, setLeaderCelula] = useState<any>([])
 
   const { state, dispatch } = useFormReport();
   const { user, loading } = useUserFiltered();
-
-
 
   const userInfo = user && user[0][1];
   const whatOffice = userInfo && userInfo.cargo;
@@ -40,6 +41,7 @@ export function MultiplicationCelula() {
         const response = await connectApi.get("/celulas.json");
 
         setCelulas(Object.values(response.data));
+        setLeaderCelula(Object.entries(response.data))
       };
       getCelulas();
     }
@@ -145,7 +147,7 @@ export function MultiplicationCelula() {
       });
     setListMembersCelula(newArraytoSelectCelula);
   }, [listCelula]);
-  const [checked, setChecked] = React.useState(false);
+
   const memberMultiply = (member: any) => {
     const newMember = { ...member, checked: !member?.checked };
     const transformClick = Object.values(listMembersCelula).filter(
@@ -155,6 +157,13 @@ export function MultiplicationCelula() {
     );
     setListMembersCelula([...transformClick, newMember]);
   };
+
+  useEffect(() => {
+    const filterCheckedMembers = listMembersCelula && listMembersCelula.filter((item: any) => item.checked === true)
+    const filterUncheckedMembers = listMembersCelula && listMembersCelula.filter((item: any) => item.checked === false)
+    setMembersChecked(filterCheckedMembers)
+    setMembersUncheck(filterUncheckedMembers)
+  }, [listMembersCelula])
 
   function compared(a: any, b: any) {
     if (a.nome < b.nome) return -1;
@@ -176,12 +185,15 @@ export function MultiplicationCelula() {
     str = memberSelected.replace(/[ÀÁÂÃÄÅ]/g, "A");
     str = memberSelected.replace(/[àáâãäå]/g, "a");
     str = memberSelected.replace(/[ÈÉÊË]/g, "E");
+    str = memberSelected.replace(/\s/g, '');
     memberSelected.replace(/[^a-z0-9]/gi, '');
-    console.log(objectNewLider, 'objectNewLider')
+    // console.log(objectNewLider, 'objectNewLider')
     const email = `${str}@aguaviva.com.br`
     const password = `${str}123456`
     createUserWithEmailAndPassword(auth, email, password);
     credentialsPost(objectNewLider, email, password);
+    newCelulaMultiplied();
+    removeMembersNewCelula();
   };
 
 
@@ -197,10 +209,43 @@ export function MultiplicationCelula() {
           rede: state.redeSelect,
           senha: password,
         })
-        .then(() => alert("deu bom"));
+        .then(() => alert("Usuario Criado"));
     }
     catch (err) {
       throw new Error("Ops, algo deu errado!");
+    }
+  }
+
+  const celulaFilter = state.celulaSelect.split('- ')[1]
+  const renderOptionsLeader = listMembersCelula && listMembersCelula.filter((item: any) => item.nome !== celulaFilter)
+  const renderPastor = celulas && celulas.filter((item: any) => item.rede === state.redeSelect)
+  const pastorCelula = renderPastor[0]?.pastor
+  const renderLeader = leaderCelula.filter((item: any) => item[1].lider === celulaFilter)
+  const idCelula = renderLeader && renderLeader.length && renderLeader[0][0]
+
+  const newCelulaMultiplied = () => {
+    try {
+      connectApi.post("/celulas.json", {
+        lider: memberSelected,
+        numero_celula: newCelula,
+        pastor: pastorCelula,
+        discipulador: state.discipuladoSelect,
+        membros: membersChecked,
+        rede: state.redeSelect
+      })
+        .then(() => alert("Nova Celula Registrada"));
+    } catch (err) {
+
+    }
+  }
+
+  const removeMembersNewCelula = () => {
+    try {
+      connectApi.put(`/celulas/${idCelula}.json`, {
+        membros: membersUncheck
+      }).then(() => alert("Celula editada"));
+    } catch (err) {
+      alert('Erro ao editar a celula')
     }
   }
 
@@ -271,16 +316,18 @@ export function MultiplicationCelula() {
               <SelectComponent
                 onChange={handleMember}
                 labelSelect={memberSelected ?? "Selecione"}
-                dataOptions={listMembersCelula ?? "Selecione"}
+                dataOptions={renderOptionsLeader ?? "Selecione"}
                 selectedOption={handleMember}
                 disabled={state.celulaSelect === "Selecione" ? true : false}
               />
             </S.GridItem>
           </S.GridForm>
-          <TitleComponent title={`Membros`} small primary />
-          <S.Paragraph>
-            Selecione os membros que vão para a nova célula
-          </S.Paragraph>
+          <TitleComponent title={`Membros:`} small primary uppercase blue weight />
+          <S.labelParagraph>
+            <S.Paragraph>
+              Selecione os membros que vão para a nova célula
+            </S.Paragraph>
+          </S.labelParagraph>
           <S.Grid>
             {listMembersCelula &&
               listMembersCelula.length > 0 &&
@@ -293,6 +340,7 @@ export function MultiplicationCelula() {
                       label={item.nome}
                       color="red"
                       status={item.checked ? "checked" : "unchecked"}
+                      disabled={state.celulaSelect.includes(item.nome)}
                       onPress={() => {
                         memberMultiply(item);
                       }}

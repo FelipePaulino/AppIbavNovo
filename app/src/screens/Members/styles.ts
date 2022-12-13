@@ -4,16 +4,15 @@ import { Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import theme from "../../styles/theme";
 
 export const Logout = styled(MaterialIcons)`
-  font-size: ${theme.fonts.fontSize.medium};
-  color: ${theme.colors.light};
+  font-size: ${({ theme }) => theme.fonts.fontSize.medium};
+  color: ${({ theme }) => theme.colors.light};
 `;
 
 export const Navigation = styled.Text`
-  color: ${theme.colors.light};
-  font-size: ${theme.fonts.fontSize.small};
+  color: ${({ theme }) => theme.colors.light};
+  font-size: ${({ theme }) => theme.fonts.fontSize.small};
 `;
 
 export const ContentHeader = styled.View`
@@ -31,7 +30,7 @@ export const Division = styled.View`
 export const Names = styled.View`
   align-items: center;
   width: 100%;
-  border-bottom-color: ${theme.colors.grey};
+  border-bottom-color: ${({ theme }) => theme.colors.grey};
   border-bottom-width: 1;
 `;
 
@@ -49,18 +48,18 @@ export const ContentOptions = styled.View`
 `;
 
 export const SendReportIcon = styled(Ionicons)`
-  color: ${theme.colors.light};
-  font-size: ${theme.fonts.fontSize.large};
+  color: ${({ theme }) => theme.colors.light};
+  font-size: ${({ theme }) => theme.fonts.fontSize.large};
 `;
 
 export const MembersIcon = styled(FontAwesome5)`
-  color: ${theme.colors.light};
-  font-size: ${theme.fonts.fontSize.large};
+  color: ${({ theme }) => theme.colors.light};
+  font-size: ${({ theme }) => theme.fonts.fontSize.large};
 `;
 
 export const RegisterIcon = styled(FontAwesome5)`
-  color: ${theme.colors.light};
-  font-size: ${theme.fonts.fontSize.small};
+  color: ${({ theme }) => theme.colors.light};
+  font-size: ${({ theme }) => theme.fonts.fontSize.small};
 `;
 
 export const Content = styled.View`
@@ -90,8 +89,8 @@ export const ContentC = styled.View`
 `;
 
 export const IconC = styled(FontAwesome5)`
-  color: ${theme.colors.red};
-  font-size: ${theme.fonts.fontSize.medium};
+  color: ${({ theme }) => theme.colors.red};
+  font-size: ${({ theme }) => theme.fonts.fontSize.medium};
   margin-right: 20;
 `;
 
@@ -99,9 +98,9 @@ export const IconC = styled(FontAwesome5)`
 export const DescriptionC = styled.Text`
   width: 100%;
   font-size: 14;
-  font-family: ${theme.fonts.fontFamily.bold};
-  color: ${theme.colors.grey};
+  font-family: ${({ theme }) => theme.fonts.fontFamily.bold};
+  color: ${({ theme }) => theme.colors.grey};
   text-transform: uppercase;
-  border-bottom-color: ${theme.colors.grey};
+  border-bottom-color: ${({ theme }) => theme.colors.grey};
   border-bottom-width: 1;
 `;
