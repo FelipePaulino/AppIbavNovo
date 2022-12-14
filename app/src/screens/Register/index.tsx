@@ -321,7 +321,6 @@ export function RegisterScreen() {
     }
   })
 
-  console.log('burlei')
   const office = () => {
     switch (whatOffice) {
       case "discipulador":
