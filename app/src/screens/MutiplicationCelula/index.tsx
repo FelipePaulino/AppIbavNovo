@@ -244,6 +244,8 @@ export function MultiplicationCelula() {
     }
   }
 
+  console.log(memberSelected, 'memberSelected')
+
   const removeMembersNewCelula = () => {
     try {
       connectApi.put(`/celulas/${idCelula}.json`, {
@@ -358,7 +360,7 @@ export function MultiplicationCelula() {
                   );
                 })}
           </S.Grid>
-          <ButtonComponent title="Multiplicar" onPress={cadastro} width="100%" />
+          <ButtonComponent title="Multiplicar" onPress={cadastro} width="100%" disabled={!newCelula} />
         </S.Content>
       </ScrollView>
 
