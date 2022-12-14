@@ -17,6 +17,10 @@ import { ButtonComponent } from "../../components/Button";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "../../config/firebase";
+import { useNavigation } from "@react-navigation/native";
+import { IPropsAppStack } from "../../routes/AppStack/types";
+import { ModalComponent } from "../../components/Modal";
+import { DefaultContentModalComponent } from "../../components/Modal/Default";
 
 export function MultiplicationCelula() {
   const [celulas, setCelulas] = useState<any>([]);
@@ -28,9 +32,12 @@ export function MultiplicationCelula() {
   const [membersChecked, setMembersChecked] = useState([])
   const [membersUncheck, setMembersUncheck] = useState([])
   const [leaderCelula, setLeaderCelula] = useState<any>([])
+  const [successModal, setSuccessModal] = useState(false);
 
   const { state, dispatch } = useFormReport();
   const { user, loading } = useUserFiltered();
+  const navigation = useNavigation<IPropsAppStack>();
+
 
   const userInfo = user && user[0][1];
   const whatOffice = userInfo && userInfo.cargo;
@@ -187,7 +194,6 @@ export function MultiplicationCelula() {
     str = memberSelected.replace(/[ÈÉÊË]/g, "E");
     str = memberSelected.replace(/\s/g, '');
     memberSelected.replace(/[^a-z0-9]/gi, '');
-    // console.log(objectNewLider, 'objectNewLider')
     const email = `${str}@aguaviva.com.br`
     const password = `${str}123456`
     createUserWithEmailAndPassword(auth, email, password);
@@ -209,7 +215,6 @@ export function MultiplicationCelula() {
           rede: state.redeSelect,
           senha: password,
         })
-        .then(() => alert("Usuario Criado"));
     }
     catch (err) {
       throw new Error("Ops, algo deu errado!");
@@ -217,6 +222,7 @@ export function MultiplicationCelula() {
   }
 
   const celulaFilter = state.celulaSelect.split('- ')[1]
+  const numberCelulaFilter = state.celulaSelect.split(' - ')[0]
   const renderOptionsLeader = listMembersCelula && listMembersCelula.filter((item: any) => item.nome !== celulaFilter)
   const renderPastor = celulas && celulas.filter((item: any) => item.rede === state.redeSelect)
   const pastorCelula = renderPastor[0]?.pastor
@@ -228,12 +234,11 @@ export function MultiplicationCelula() {
       connectApi.post("/celulas.json", {
         lider: memberSelected,
         numero_celula: newCelula,
-        pastor: pastorCelula,
         discipulador: state.discipuladoSelect,
         membros: membersChecked,
         rede: state.redeSelect
       })
-        .then(() => alert("Nova Celula Registrada"));
+        .then(() => setSuccessModal(true));
     } catch (err) {
 
     }
@@ -242,8 +247,13 @@ export function MultiplicationCelula() {
   const removeMembersNewCelula = () => {
     try {
       connectApi.put(`/celulas/${idCelula}.json`, {
-        membros: membersUncheck
-      }).then(() => alert("Celula editada"));
+        lider: celulaFilter,
+        numero_celula: numberCelulaFilter,
+        pastor: pastorCelula,
+        discipulador: state.discipuladoSelect,
+        membros: membersUncheck,
+        rede: state.redeSelect
+      })
     } catch (err) {
       alert('Erro ao editar a celula')
     }
@@ -351,6 +361,19 @@ export function MultiplicationCelula() {
           <ButtonComponent title="Multiplicar" onPress={cadastro} width="100%" />
         </S.Content>
       </ScrollView>
+
+      <ModalComponent
+        isVisible={successModal}
+        onBackdropPress={() => {
+          setSuccessModal(false);
+          navigation.navigate("Multiplication");
+        }
+        }
+      >
+        <DefaultContentModalComponent
+          type="multiplication"
+        />
+      </ModalComponent>
     </>
   );
 }

@@ -36,6 +36,11 @@ export function DefaultContentModalComponent({
           Cadastro de <S.Name>{data}</S.Name> editado com sucesso
         </S.Description>
       )}
+      {type === "multiplication" && (
+        <S.Description>
+          Célula multiplicada com sucesso
+        </S.Description>
+      )}
       <S.Success name="verified" />
     </S.ContentModal>
   );
