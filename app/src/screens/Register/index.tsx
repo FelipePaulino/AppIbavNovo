@@ -320,6 +320,8 @@ export function RegisterScreen() {
       value: `${item[1].numero_celula} - ${item[1].lider}`
     }
   })
+
+  console.log('burlei')
   const office = () => {
     switch (whatOffice) {
       case "discipulador":
