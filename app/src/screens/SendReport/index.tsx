@@ -151,7 +151,7 @@ export function SendReportScreen() {
   // tratativas para o usuário administrador
   const redes = celulas.map((item: any) => item.rede);
   const redesUnicas = redes.filter(function (este: any, i: any) {
-    return redes.indexOf(este) === i;
+    return redes.indexOf(este) === i && este;
   });
 
   const mapRedesUnicas = redesUnicas.map((item: any) => {
@@ -237,9 +237,8 @@ export function SendReportScreen() {
             <TitleComponent title={`${FormFields.CELULA}*:`} small primary />
             <S.ContentC>
               <S.IconC name="user-friends" />
-              <S.DescriptionC>{`${userInfo && userInfo.numero_celula} - ${
-                userInfo && userInfo.rede
-              }`}</S.DescriptionC>
+              <S.DescriptionC>{`${userInfo && userInfo.numero_celula} - ${userInfo && userInfo.rede
+                }`}</S.DescriptionC>
             </S.ContentC>
           </S.Grid>
         );
@@ -419,10 +418,10 @@ export function SendReportScreen() {
                     onPress={handleOpenModal}
                     disabled={
                       state.celulaSelect === "Selecione" ||
-                      state.textDate === "Selecione uma data" ||
-                      state.offer === "" ||
-                      state.presencaCelula.length === 0 ||
-                      state.presencaCulto.length === 0
+                        state.textDate === "Selecione uma data" ||
+                        state.offer === "" ||
+                        state.presencaCelula.length === 0 ||
+                        state.presencaCulto.length === 0
                         ? true
                         : false
                     }

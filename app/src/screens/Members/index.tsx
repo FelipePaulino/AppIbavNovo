@@ -175,7 +175,7 @@ export function MembersScreen(this: any) {
   const redes = celulas && celulas?.map((item: any) => (item[1].rede))
 
   const redesUnicas = redes && redes.filter(function (este: any, i: any) {
-    return redes.indexOf(este) === i;
+    return redes.indexOf(este) === i && este;
   });
 
   const mapRedesUnicas = redesUnicas && redesUnicas.map((item: any) => {

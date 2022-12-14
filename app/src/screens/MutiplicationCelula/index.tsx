@@ -93,7 +93,7 @@ export function MultiplicationCelula() {
   // tratativas para o usuário administrador
   const redes = celulas.map((item: any) => item.rede);
   const redesUnicas = redes.filter(function (este: any, i: any) {
-    return redes.indexOf(este) === i;
+    return redes.indexOf(este) === i && este;
   });
 
   const mapRedesUnicas = redesUnicas.map((item: any) => {

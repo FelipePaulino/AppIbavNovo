@@ -53,7 +53,7 @@ export function SeeReports() {
 
   const redes = reports?.map((item: any) => item[1].rede);
   const redesUnicas = redes?.filter(function (este: any, i: any) {
-    return redes.indexOf(este) === i;
+    return redes.indexOf(este) === i && este;
   });
 
   const mapRedesUnicas = redesUnicas?.map((item: any) => {
