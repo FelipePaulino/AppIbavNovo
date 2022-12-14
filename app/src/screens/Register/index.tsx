@@ -42,6 +42,7 @@ export function RegisterScreen() {
   const [loading, setLoading] = useState(true);
   const [members, setMembers] = useState<any>();
   const [celulas, setCelulas] = useState<any>([]);
+
   const [numberHouse, setNumberHouse] = useState("");
   const [showCalender, setShowCalender] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
@@ -283,7 +284,7 @@ export function RegisterScreen() {
 
   const redes = celulas.map((item: any) => (item[1].rede))
   const redesUnicas = redes.filter(function (este: any, i: any) {
-    return redes.indexOf(este) === i;
+    return redes.indexOf(este) === i && este
   });
 
   const mapRedesUnicas = redesUnicas.map((item: any) => {
@@ -319,7 +320,6 @@ export function RegisterScreen() {
       value: `${item[1].numero_celula} - ${item[1].lider}`
     }
   })
-
   const office = () => {
     switch (whatOffice) {
       case "discipulador":
@@ -359,6 +359,7 @@ export function RegisterScreen() {
             </S.BoxSelect>
           </Fragment>
         );
+
 
       case "administrador":
         return (
