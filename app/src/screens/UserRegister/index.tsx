@@ -80,12 +80,11 @@ export function UserRegisterScreen() {
         value: disc.nome,
       };
     });
-
   const optionsNetwork =
     usersMinister &&
     usersMinister.map((pastor: IDataUser) => {
       return {
-        value: `${pastor?.rede}`,
+        value: `${pastor?.rede} - ${pastor?.nome}`,
       };
     });
 
@@ -101,7 +100,6 @@ export function UserRegisterScreen() {
 
     setSelectDisciples("Selecionar");
   };
-
   const handleDisciplesChange = (value: string) => {
     setSelectDisciples(value);
   };
@@ -200,7 +198,7 @@ export function UserRegisterScreen() {
         connectApi
           .post("/users.json", {
             cargo: "discipulador",
-            rede: selectNetwork,
+            rede: selectNetwork.split(' -')[0],
             cep: address.cep,
             nome: formValues.name,
             bairro: address.bairro,
@@ -229,26 +227,32 @@ export function UserRegisterScreen() {
             });
           });
       } else {
-        connectApi
-          .post("/users.json", {
-            cargo: "lider",
-            rede: selectNetwork,
-            discipulado: selectDisciples,
-            cep: address.cep,
-            nome: formValues.name,
-            bairro: address.bairro,
-            email: formValues.email,
-            estado: address.uf ? address.uf : formValues.state,
-            cidade: address.localidade,
-            senha: formValues.password,
-            telefone: formValues.phone,
-            endereco: address.logradouro,
-            estado_civil: formValues.stateCivil,
-            numero_casa: formValues.numberHouse,
+        connectApi.post("/users.json", {
+          cargo: "lider",
+          rede: selectNetwork.split(' -')[0],
+          discipulado: selectDisciples,
+          cep: address.cep,
+          nome: formValues.name,
+          bairro: address.bairro,
+          email: formValues.email,
+          estado: address.uf ? address.uf : formValues.state,
+          cidade: address.localidade,
+          senha: formValues.password,
+          telefone: formValues.phone,
+          endereco: address.logradouro,
+          estado_civil: formValues.stateCivil,
+          numero_casa: formValues.numberHouse,
+          numero_celula: formValues.numberCelula,
+          data_de_nascimento: stateReducer.textRegister,
+        }).then(() => {
+          connectApi.post("/celulas.json", {
+            lider: formValues.name,
             numero_celula: formValues.numberCelula,
-            data_de_nascimento: stateReducer.textRegister,
-          })
-          .then(() => {
+            discipulador: selectDisciples,
+            pastor: selectNetwork.split('- ')[1],
+            rede: selectNetwork.split(' -')[0],
+            membros: []
+          }).then(() => {
             setConfirmRegisterModal(true);
             setFormValues(initialValueRegisterUser);
             setAddress(initialValuesRequestCep);
@@ -263,6 +267,7 @@ export function UserRegisterScreen() {
               payload: "",
             });
           });
+        });
       }
     } catch (err) {
       throw new Error("Ops, algo deu errado!");
@@ -273,25 +278,25 @@ export function UserRegisterScreen() {
     if (office === "pastor de rede") {
       setDiseble(
         formValues.network === "" ||
-          formValues.email === "" ||
-          FormFields.PASSWORD === "" ||
-          formValues.name === "" ||
-          formValues.phone === ""
+        formValues.email === "" ||
+        FormFields.PASSWORD === "" ||
+        formValues.name === "" ||
+        formValues.phone === ""
       );
     } else if (office === "lider de celula") {
       setDiseble(
         formValues.numberCelula === "" ||
-          formValues.email === "" ||
-          FormFields.PASSWORD === "" ||
-          formValues.name === "" ||
-          formValues.phone === ""
+        formValues.email === "" ||
+        FormFields.PASSWORD === "" ||
+        formValues.name === "" ||
+        formValues.phone === ""
       );
     } else if (office === "discipulador") {
       setDiseble(
         formValues.email === "" ||
-          FormFields.PASSWORD === "" ||
-          formValues.name === "" ||
-          formValues.phone === ""
+        FormFields.PASSWORD === "" ||
+        formValues.name === "" ||
+        formValues.phone === ""
       );
     }
   }, [formValues, FormFields, office]);
@@ -323,7 +328,6 @@ export function UserRegisterScreen() {
                 dataOptions={optionsNetwork && optionsNetwork}
               />
             </S.GridSelect>
-
             <S.GridSelect>
               <SelectComponent
                 label="Discipulado"
