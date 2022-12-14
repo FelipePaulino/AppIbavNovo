@@ -20,21 +20,21 @@ export function Multiplication() {
   const { signOut } = useAuth();
   const navigation = useNavigation<IPropsAppStack>();
 
-  const clean = (page: string) => {
-    navigation.navigate(page);
+  const clean = (value: string) => {
+    navigation.navigate(value)
     dispatch({
       type: FormReportActions.setRedeSelect,
-      payload: "*Selecione",
+      payload: 'Selecione',
     });
     dispatch({
       type: FormReportActions.setDiscipuladoSelect,
-      payload: "*Selecione",
+      payload: 'Selecione',
     });
     dispatch({
       type: FormReportActions.setCelulaSelect,
-      payload: "*Selecione",
+      payload: 'Selecione',
     });
-  };
+  }
 
   return (
     <Fragment>
