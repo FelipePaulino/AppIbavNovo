@@ -170,7 +170,7 @@ export function MultiplicationCelula() {
     const filterUncheckedMembers = listMembersCelula && listMembersCelula.filter((item: any) => item.checked === false)
     setMembersChecked(filterCheckedMembers)
     setMembersUncheck(filterUncheckedMembers)
-  }, [listMembersCelula])
+  }, [listMembersCelula, memberSelected])
 
   function compared(a: any, b: any) {
     if (a.nome < b.nome) return -1;
@@ -244,7 +244,10 @@ export function MultiplicationCelula() {
     }
   }
 
-  console.log(memberSelected, 'memberSelected')
+  // const validMembers = listMembersCelula && listMembersCelula.filter((item: any) => item.checked)
+  // const validFormWithMembers = newCelula && memberSelected && validMembers.length !== 0
+  console.log(listMembersCelula, 'listMembersCelula')
+  const validForm = newCelula && memberSelected
 
   const removeMembersNewCelula = () => {
     try {
@@ -327,7 +330,7 @@ export function MultiplicationCelula() {
               <TitleComponent title={`Novo líder:`} small primary />
               <SelectComponent
                 onChange={handleMember}
-                labelSelect={memberSelected ?? "Selecione"}
+                labelSelect={memberSelected ?? "Selecione*"}
                 dataOptions={renderOptionsLeader ?? "Selecione"}
                 selectedOption={handleMember}
                 disabled={state.celulaSelect === "Selecione" ? true : false}
@@ -351,7 +354,7 @@ export function MultiplicationCelula() {
                       key={item.nome}
                       label={item.nome}
                       color="red"
-                      status={item.checked ? "checked" : "unchecked"}
+                      status={memberSelected === item.nome || item.checked ? "checked" : "unchecked"}
                       disabled={state.celulaSelect.includes(item.nome)}
                       onPress={() => {
                         memberMultiply(item);
@@ -360,7 +363,7 @@ export function MultiplicationCelula() {
                   );
                 })}
           </S.Grid>
-          <ButtonComponent title="Multiplicar" onPress={cadastro} width="100%" disabled={!newCelula} />
+          <ButtonComponent title="Multiplicar" onPress={cadastro} width="100%" disabled={!validForm} />
         </S.Content>
       </ScrollView>
 
