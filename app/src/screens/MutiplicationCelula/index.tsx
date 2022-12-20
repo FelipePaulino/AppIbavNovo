@@ -67,6 +67,7 @@ export function MultiplicationCelula() {
       type: FormReportActions.setCelulaSelect,
       payload: "Selecione",
     });
+    setMemberSelected("Selecione*")
   };
 
   const handleDiscipuladoChange = (value: string) => {
@@ -78,6 +79,7 @@ export function MultiplicationCelula() {
       type: FormReportActions.setCelulaSelect,
       payload: "Selecione",
     });
+    setMemberSelected("Selecione*")
   };
 
   const handleCelulaChange = (value: string) => {
@@ -85,6 +87,7 @@ export function MultiplicationCelula() {
       type: FormReportActions.setCelulaSelect,
       payload: value,
     });
+    setMemberSelected("Selecione*")
   };
 
   const handleMember = (value: string) => {
@@ -244,10 +247,9 @@ export function MultiplicationCelula() {
     }
   }
 
-  // const validMembers = listMembersCelula && listMembersCelula.filter((item: any) => item.checked)
-  // const validFormWithMembers = newCelula && memberSelected && validMembers.length !== 0
-  console.log(listMembersCelula, 'listMembersCelula')
-  const validForm = newCelula && memberSelected
+  const validMembers = listMembersCelula && listMembersCelula.filter((item: any) => item.checked)
+  const validFormWithMembers = newCelula && memberSelected && validMembers.length !== 0
+  // const validForm = newCelula && memberSelected
 
   const removeMembersNewCelula = () => {
     try {
@@ -275,7 +277,7 @@ export function MultiplicationCelula() {
       <ScrollView>
         <S.Content>
           <S.Grid>
-            <TitleComponent title={`Rede`} small primary />
+            <TitleComponent title={`Rede*`} small primary />
             <S.ContentC>
               <S.IconC name="vector-square" />
               <SelectComponent
@@ -288,7 +290,7 @@ export function MultiplicationCelula() {
             </S.ContentC>
           </S.Grid>
           <S.Grid>
-            <TitleComponent title={`Discipulado`} small primary />
+            <TitleComponent title={`Discipulado*`} small primary />
             <S.ContentC>
               <S.IconC name="network-wired" />
               <SelectComponent
@@ -302,7 +304,7 @@ export function MultiplicationCelula() {
             </S.ContentC>
           </S.Grid>
           <S.Grid>
-            <TitleComponent title={`Celula`} small primary />
+            <TitleComponent title={`Celula*`} small primary />
             <S.ContentC>
               <S.IconC name="user-friends" />
               <SelectComponent
@@ -317,7 +319,7 @@ export function MultiplicationCelula() {
           </S.Grid>
           <S.GridForm>
             <S.GridItem>
-              <TitleComponent title={`Célula nova:`} small primary />
+              <TitleComponent title={`Célula nova*:`} small primary />
               <InputFieldComponent
                 primary
                 value={newCelula ?? ""}
@@ -327,17 +329,17 @@ export function MultiplicationCelula() {
               />
             </S.GridItem>
             <S.GridItem>
-              <TitleComponent title={`Novo líder:`} small primary />
+              <TitleComponent title={`Novo líder*:`} small primary />
               <SelectComponent
                 onChange={handleMember}
                 labelSelect={memberSelected ?? "Selecione*"}
-                dataOptions={renderOptionsLeader ?? "Selecione"}
+                dataOptions={renderOptionsLeader ?? []}
                 selectedOption={handleMember}
                 disabled={state.celulaSelect === "Selecione" ? true : false}
               />
             </S.GridItem>
           </S.GridForm>
-          <TitleComponent title={`Membros:`} small primary uppercase blue weight />
+          <TitleComponent title={`Membros*:`} small primary uppercase blue weight />
           <S.labelParagraph>
             <S.Paragraph>
               Selecione os membros que vão para a nova célula
@@ -354,7 +356,7 @@ export function MultiplicationCelula() {
                       key={item.nome}
                       label={item.nome}
                       color="red"
-                      status={memberSelected === item.nome || item.checked ? "checked" : "unchecked"}
+                      status={item.checked ? "checked" : "unchecked"}
                       disabled={state.celulaSelect.includes(item.nome)}
                       onPress={() => {
                         memberMultiply(item);
@@ -363,7 +365,7 @@ export function MultiplicationCelula() {
                   );
                 })}
           </S.Grid>
-          <ButtonComponent title="Multiplicar" onPress={cadastro} width="100%" disabled={!validForm} />
+          <ButtonComponent title="Multiplicar" onPress={cadastro} width="100%" disabled={!validFormWithMembers} />
         </S.Content>
       </ScrollView>
 
