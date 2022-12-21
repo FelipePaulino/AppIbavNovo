@@ -1,5 +1,6 @@
 import styled from "styled-components/native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import theme from "../../styles/theme";
 
 export const Container = styled.View`
   flex: 1;
@@ -14,13 +15,13 @@ export const Division = styled.View`
 `
 
 export const Navigation = styled.Text`
-  color: ${({ theme }) => theme.colors.light};
-  font-size: ${({ theme }) => theme.fonts.fontSize.small};
+  color: ${theme.colors.light};
+  font-size: ${theme.fonts.fontSize.small};
 `;
 
 export const RegisterIcon = styled(FontAwesome5)`
-  color: ${({ theme }) => theme.colors.light};
-  font-size: ${({ theme }) => theme.fonts.fontSize.small};
+  color: ${theme.colors.light};
+  font-size: ${theme.fonts.fontSize.small};
 `;
 
 export const Information = styled.View`
