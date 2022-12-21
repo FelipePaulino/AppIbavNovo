@@ -6,8 +6,8 @@ export const Footer = styled.View`
   margin-bottom: 15;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around
-`;
+  justify-content: space-around;
+`
 
 export const Info = styled.Text`
 font-size: 12px;

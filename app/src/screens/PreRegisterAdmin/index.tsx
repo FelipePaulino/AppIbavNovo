@@ -59,7 +59,7 @@ export function PreRegisterAdminScreen() {
         <S.ContentOptions>
           <SelectedMenuComponent
             icon={<S.RegisterIcon name="user-plus" />}
-            title="Membros"
+            title="Membros/Visitante"
             onPress={() => clean('Register')}
           />
           <SelectedMenuComponent

@@ -97,25 +97,25 @@ export function VisitorsReportScreen() {
   // };
 
 
-  useEffect(() => {
-    const checkMembers = async () => {
-      const members = await AsyncStorage.getItem(GetStorage.MEMBERS_FILTERED);
-      if (members) {
-        setMemberStorage(JSON.parse(members));
-      }
-    };
-    checkMembers();
-  }, []);
+  // useEffect(() => {
+  //   const checkMembers = async () => {
+  //     const members = await AsyncStorage.getItem(GetStorage.MEMBERS_FILTERED);
+  //     if (members) {
+  //       setMemberStorage(JSON.parse(members));
+  //     }
+  //   };
+  //   checkMembers();
+  // }, []);
 
-  useEffect(() => {
-    const checkUser = async () => {
-      const user = await AsyncStorage.getItem(GetStorage.USER_FILTERED);
-      if (user) {
-        setUser(JSON.parse(user));
-      }
-    };
-    checkUser();
-  }, []);
+  // useEffect(() => {
+  //   const checkUser = async () => {
+  //     const user = await AsyncStorage.getItem(GetStorage.USER_FILTERED);
+  //     if (user) {
+  //       setUser(JSON.parse(user));
+  //     }
+  //   };
+  //   checkUser();
+  // }, []);
 
   const dataUser = user && user[0] && user[0][1];
   const whatIsOffice = dataUser && dataUser.cargo;
@@ -240,7 +240,7 @@ export function VisitorsReportScreen() {
 
             <HeadingPresentComponent />
             {newArrayVisitors &&
-              newArrayVisitors.map((data: any) => {
+              newArrayVisitors?.map((data: any) => {
                 return (
                   <CardMembersComponent
                     key={data}
