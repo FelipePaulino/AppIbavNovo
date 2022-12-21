@@ -52,7 +52,7 @@ export const BoxStatus = styled.View<props>`
   background: ${(props) =>
     typeStatus(props)?.Background
       ? typeStatus(props)?.Background
-      : props.theme.colors.light};
+      : theme.colors.light};
 `;
 
 export const TextStatus = styled.Text`

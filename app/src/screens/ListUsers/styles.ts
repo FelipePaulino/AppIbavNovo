@@ -1,5 +1,6 @@
 import { Image } from "react-native";
 import styled from "styled-components/native";
+import theme from "../../styles/theme";
 
 export const ComeBack = styled.View`
   flex-direction: row;
@@ -14,8 +15,8 @@ export const ContentHeader = styled.View`
 `
 
 export const Navigation = styled.Text`
-  color: ${({ theme }) => theme.colors.light};
-  font-size: ${({ theme }) => theme.fonts.fontSize.small};
+  color: ${theme.colors.light};
+  font-size: ${theme.fonts.fontSize.small};
 `;
 
 export const Container = styled.View`
