@@ -8,7 +8,6 @@ export function PersonLabelComponent({
   onPress,
   delMember,
 }: IPersonProps) {
-  console.log(status, 'status')
   return (
     <S.Box>
       <S.ContainerPerson>
