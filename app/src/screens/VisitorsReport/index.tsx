@@ -132,8 +132,6 @@ export function VisitorsReportScreen() {
     return visitors.status === 'visitante'
   })
 
-
-  console.log(visitantes, 'visitantes')
   const newArrayVisitors = visitorsIdentify
     ? visitorsIdentify
     : visitantes;
@@ -194,8 +192,6 @@ export function VisitorsReportScreen() {
   }
 
   newArrayVisitors && newArrayVisitors.sort(compared);
-
-
 
   return (
     <Fragment>
