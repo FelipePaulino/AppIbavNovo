@@ -8,6 +8,7 @@ export function PersonLabelComponent({
   onPress,
   delMember,
 }: IPersonProps) {
+
   return (
     <S.Box>
       <S.ContainerPerson>
