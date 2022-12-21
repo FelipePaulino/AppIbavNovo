@@ -8,6 +8,7 @@ import * as S from "./styles";
 export function InputFieldComponent({
   icon,
   value,
+  placeholderTextColor,
   primary,
   label,
   showPass,
@@ -17,7 +18,7 @@ export function InputFieldComponent({
     <Fragment>
       {label && <S.Label>{label}</S.Label>}
       <S.Field primary={primary}>
-        <S.Input primary={primary} value={value} {...rest} onFocus={() => true} />
+        <S.Input primary={primary} placeholderTextColor={placeholderTextColor} value={value} {...rest} onFocus={() => true} />
 
         {icon && (
           <Feather onPress={showPass} name={icon} size={24} color="#fff" />

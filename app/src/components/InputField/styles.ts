@@ -22,6 +22,7 @@ export const Field = styled.View<IColorsProps>`
 export const Input = styled.TextInput<IColorsProps>`
   width: 80%;
   padding-left: 16;
+  color: ${props => props.placeholderTextColor && '#ffffff'};  
 
 `;
 

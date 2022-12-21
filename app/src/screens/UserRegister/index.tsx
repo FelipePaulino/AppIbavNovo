@@ -160,7 +160,23 @@ export function UserRegisterScreen() {
     credentialsPost();
   };
 
+
   const credentialsPost = () => {
+    const dataLider = {
+      bairro: address.bairro,
+      cep: address.cep,
+      cidade: address.localidade,
+      data_de_nascimento: stateReducer.textRegister,
+      email: formValues.email,
+      endereco: address.logradouro,
+      estado: address.uf ? address.uf : formValues.state,
+      estado_civil: formValues.stateCivil,
+      n_end: formValues.numberHouse,
+      nome: formValues.name,
+      status: "lider",
+      telefone: formValues.phone,
+      value: formValues.name
+    }
     try {
       if (office === "pastor de rede") {
         connectApi
@@ -231,19 +247,8 @@ export function UserRegisterScreen() {
           cargo: "lider",
           rede: selectNetwork.split(' -')[0],
           discipulado: selectDisciples,
-          cep: address.cep,
-          nome: formValues.name,
-          bairro: address.bairro,
-          email: formValues.email,
-          estado: address.uf ? address.uf : formValues.state,
-          cidade: address.localidade,
-          senha: formValues.password,
-          telefone: formValues.phone,
-          endereco: address.logradouro,
-          estado_civil: formValues.stateCivil,
-          numero_casa: formValues.numberHouse,
           numero_celula: formValues.numberCelula,
-          data_de_nascimento: stateReducer.textRegister,
+          ...dataLider
         }).then(() => {
           connectApi.post("/celulas.json", {
             lider: formValues.name,
@@ -251,7 +256,7 @@ export function UserRegisterScreen() {
             discipulador: selectDisciples,
             pastor: selectNetwork.split('- ')[1],
             rede: selectNetwork.split(' -')[0],
-            membros: []
+            membros: [dataLider]
           }).then(() => {
             setConfirmRegisterModal(true);
             setFormValues(initialValueRegisterUser);
