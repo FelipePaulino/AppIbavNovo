@@ -169,16 +169,6 @@ export function MultiplicationCelula() {
     setListMembersCelula([...transformClick, newMember]);
   };
 
-  const memberMultiplyTeste = (member: any) => {
-    const newMember = { ...member, checked: !member?.checked };
-    const transformClick = Object.values(listMembersCelula).filter(
-      (item: any) => {
-        return item.nome !== member.nome;
-      }
-    );
-    setListMembersCelula([...transformClick, newMember]);
-  };
-
   useEffect(() => {
     const filterCheckedMembers = listMembersCelula && listMembersCelula.filter((item: any) => item.checked === true)
     const filterUncheckedMembers = listMembersCelula && listMembersCelula.filter((item: any) => item.checked === false)
@@ -288,16 +278,12 @@ export function MultiplicationCelula() {
   }, [memberSelected])
   
   useEffect(() => {
-    // console.log(newLeaderSelected && newLeaderSelected, 'newLeaderSelected')
-    // const filterLeader = listMembersCelula && listMembersCelula.filter((item:any) => item.nome === newLeaderSelected[0].nome)
     if (newLeaderSelected && newLeaderSelected.length > 0) {
         if(!newLeaderSelected[0].checked){
-          return memberMultiplyTeste(newLeaderSelected[0])
+          return memberMultiply(newLeaderSelected[0])
         }
-        
       }
-    }, [newLeaderSelected])
-    console.log(listMembersCelula, 'listMembersCelula')
+  }, [newLeaderSelected])
 
   return (
     <>
