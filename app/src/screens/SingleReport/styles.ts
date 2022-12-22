@@ -1,15 +1,16 @@
 import styled from "styled-components/native";
 import { Image } from "react-native";
+import theme from "../../styles/theme";
 
 export const ComeBack = styled.View`
   flex-direction: row;
 `;
 
 export const TitlePage = styled.Text`
-  color: ${({ theme }) => theme.colors.light};
+  color: ${theme.colors.light};
   text-transform: uppercase;
   font-size: 14;
-  font-family: ${({ theme }) => theme.fonts.fontFamily.bold};
+  font-family: ${theme.fonts.fontFamily.bold};
 `;
 
 export const Container = styled.View`
@@ -24,26 +25,26 @@ export const Heading = styled.View`
 `;
 
 export const Title = styled.Text`
-  font-size: ${({ theme }) => theme.fonts.fontSize.medium};
-  font-family: ${({ theme }) => theme.fonts.fontFamily.bold};
+  font-size: ${theme.fonts.fontSize.medium};
+  font-family: ${theme.fonts.fontFamily.bold};
   text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.blue};
+  color: ${theme.colors.blue};
 `;
 
 export const Celula = styled.Text`
-  font-size: ${({ theme }) => theme.fonts.fontSize.small};
-  font-family: ${({ theme }) => theme.fonts.fontFamily.bold};
+  font-size: ${theme.fonts.fontSize.small};
+  font-family: ${theme.fonts.fontFamily.bold};
   text-transform: uppercase;
   margin-top: -10;
-  color: ${({ theme }) => theme.colors.grey};
+  color: ${theme.colors.grey};
 `;
 
 export const Subtitle = styled.Text`
-  font-size: ${({ theme }) => theme.fonts.fontSize.medium};
-  font-family: ${({ theme }) => theme.fonts.fontFamily.bold};
+  font-size: ${theme.fonts.fontSize.medium};
+  font-family: ${theme.fonts.fontFamily.bold};
   text-align: center;
   text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.blue};
+  color: ${theme.colors.blue};
 `;
 
 export const TextBold = styled.Text`
@@ -55,11 +56,11 @@ export const TextCapitalize = styled.Text`
 `;
 
 export const SubtitlePresents = styled.Text`
-  font-size: ${({ theme }) => theme.fonts.fontSize.medium};
-  font-family: ${({ theme }) => theme.fonts.fontFamily.bold};
+  font-size: ${theme.fonts.fontSize.medium};
+  font-family: ${theme.fonts.fontFamily.bold};
   text-align: center;
   text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.blue};
+  color: ${theme.colors.blue};
   margin-top: 12px;
   margin-bottom: 17px;
 `;

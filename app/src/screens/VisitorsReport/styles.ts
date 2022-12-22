@@ -1,11 +1,12 @@
 import { Image } from "react-native";
 import styled from "styled-components/native";
+import theme from "../../styles/theme";
 
 export const Navigation = styled.Text`
-  color: ${({ theme }) => theme.colors.light};
+  color: ${theme.colors.light};
   text-transform: capitalize;
 
-  font-size: ${({ theme }) => theme.fonts.fontSize.small};
+  font-size: ${theme.fonts.fontSize.small};
 `;
 
 export const Content = styled.View`
@@ -26,19 +27,19 @@ export const Heading = styled.View`
 `;
 
 export const Title = styled.Text`
-  font-size: ${({ theme }) => theme.fonts.fontSize.medium};
-  font-family: ${({ theme }) => theme.fonts.fontFamily.bold};
+  font-size: ${theme.fonts.fontSize.medium};
+  font-family: ${theme.fonts.fontFamily.bold};
 
   text-transform: uppercase;
 
-  color: ${({ theme }) => theme.colors.blue};
+  color: ${theme.colors.blue};
 `;
 
 export const Subtitle = styled.Text`
-  font-size: ${({ theme }) => theme.fonts.fontSize.small};
-  font-family: ${({ theme }) => theme.fonts.fontFamily.bold};
+  font-size: ${theme.fonts.fontSize.small};
+  font-family: ${theme.fonts.fontFamily.bold};
   text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.grey};
+  color: ${theme.colors.grey};
   margin-top: -10;
 `;
 
@@ -52,7 +53,7 @@ export const FinishForm = styled.View`
 `;
 
 export const Info = styled.Text`
-  color: ${({ theme }) => theme.colors.red};
+  color: ${theme.colors.red};
 `;
 
 export const Button = styled.View`

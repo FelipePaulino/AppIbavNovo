@@ -1,5 +1,6 @@
 import styled from "styled-components/native";
 import { AntDesign } from "@expo/vector-icons";
+import theme from "../../../styles/theme";
 
 export const Background = styled.View`
   flex: 1;
@@ -11,8 +12,8 @@ export const Heading = styled.View`
 `;
 
 export const Close = styled(AntDesign)`
-  color: ${({ theme }) => theme.colors.light};
-  font-size: ${({ theme }) => theme.fonts.fontSize.medium};
+  color: ${theme.colors.light};
+  font-size: ${theme.fonts.fontSize.medium};
 
   margin-left: auto;
 `;
@@ -30,7 +31,7 @@ export const ContentInfo = styled.View`
 `;
 
 export const Line = styled.View`
-  background-color: ${({ theme }) => theme.colors.red};
+  background-color: ${theme.colors.red};
   width: 8;
   height: 65;
 
@@ -40,18 +41,18 @@ export const Line = styled.View`
 export const Info = styled.View``;
 
 export const InfoText = styled.Text`
-  color: ${({ theme }) => theme.colors.light};
-  font-size: ${({ theme }) => theme.fonts.fontSize.small};
+  color: ${theme.colors.light};
+  font-size: ${theme.fonts.fontSize.small};
 `;
 
 export const Call = styled.Text`
-  color: ${({ theme }) => theme.colors.red};
-  font-family: ${({ theme }) => theme.fonts.fontFamily.bold};
+  color: ${theme.colors.red};
+  font-family: ${theme.fonts.fontFamily.bold};
 `;
 
 export const Decoration = styled.Text`
-  color: ${({ theme }) => theme.colors.light};
-  font-family: ${({ theme }) => theme.fonts.fontFamily.bold};
+  color: ${theme.colors.light};
+  font-family: ${theme.fonts.fontFamily.bold};
 `;
 
 export const InfoNotResults = styled.View`
