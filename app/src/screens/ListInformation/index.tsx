@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { IDataUser } from "../UserRegister/types";
 
 import FormFields from "../../common/constants/form";
 import useUserFiltered from "../../hooks/useUserFiltered";
@@ -30,6 +31,8 @@ import { IPropsAppStack } from "../../routes/AppStack/types";
 import * as S from "./styles";
 
 export function UsersInformationScreen(this: any, { route }: any) {
+  const [users, setUsers] = useState([]);
+  const [payload, setPayload] = useState<any>();
   const [date, setDate] = useState(new Date());
   const [celulas, setCelulas] = useState<any>();
   const [members, setMembers] = useState<any>([]);
@@ -40,18 +43,23 @@ export function UsersInformationScreen(this: any, { route }: any) {
   const [name, setName] = useState(route.params?.nome || "");
   const [city, setCity] = useState(route.params?.cidade || "");
   const [email, setEmail] = useState(route.params?.email || "");
-  const [state, setState] = useState(route.params?.estado || "");
-  const [status, setStatus] = useState(route.params?.status || "");
+  const [state, setState] = useState(route.params?.estado || "Selecione");
+  const [nEnd, setNEnd] = useState(route.params?.n_end || "");
   const [phone, setPhone] = useState(route.params?.telefone || "");
   const [address, setAddress] = useState(route.params?.endereco || "");
   const [district, setDistrict] = useState(route.params?.bairro || "");
+  const [password, setPassword] = useState(route.params?.senha || "");
+  const [numberCelula, setNumberCelular] = useState(route.params?.numero_celula || "");
+  const [office, setOffice] = useState(route.params?.cargo || 'Selecione');
+  const [selectDisciples, setSelectDisciples] = useState(route.params?.discipulado || "Selecione");
+  const [selectNetwork, setSelectNetwork] = useState(`${route.params?.rede} - ${route.params?.pastor}` || "Selecione");
   const [birthday, setBirthday] = useState(
     route.params?.data_de_nascimento || ""
   );
   const [civilStatus, setCivilStatus] = useState(
-    route.params?.estado_civil || ""
+    route.params?.estado_civil || "Selecione"
   );
-
+  console.log(route.params, 'params')
   const { user } = useUserFiltered();
   const { trigger, setTrigger } = useFormReport();
 
@@ -67,6 +75,15 @@ export function UsersInformationScreen(this: any, { route }: any) {
     };
 
     getCelulas();
+  }, []);
+
+  useEffect(() => {
+    const getUsers = async () => {
+      const response = await connectApi.get("/users.json");
+
+      setUsers(Object.values(response.data));
+    };
+    getUsers();
   }, []);
 
   useEffect(() => {
@@ -111,24 +128,130 @@ export function UsersInformationScreen(this: any, { route }: any) {
   };
 
   const submitRegister = () => {
+    const payloadDefault = {
+      cargo: office,
+      senha: password,
+      n_end: nEnd,
+      nome: name,
+      telefone: phone,
+      email: email,
+      endereco: address,
+      cep: cep,
+      bairro: district,
+      cidade: city,
+      estado: state,
+      data_de_nascimento: birthday,
+      estado_civil: civilStatus,
+    }
+    if (office === 'lider de celula') {
+      setPayload({
+        ...payloadDefault,
+        discipulado: selectDisciples,
+        numero_celula: numberCelula,
+        rede: selectNetwork.split('-')[0],
+        pastor: selectNetwork.split('-')[1],
+      })
+    }
+    else if (office === 'lider de celula') {
+      setPayload({
+        ...payloadDefault,
+        rede: selectNetwork.split('-')[0],
+        pastor: selectNetwork.split('-')[1],
+      })
+    }
+    else {
+      setPayload({
+        ...payloadDefault,
+        rede: selectNetwork,
+      })
+    }
+
     try {
-      connectApi.put(`/users/${id}.json`, {
-        nome: name,
-        status: status,
-        telefone: phone,
-        email: email,
-        endereco: address,
-        cep: cep,
-        bairro: district,
-        cidade: city,
-        estado: state,
-        data_de_nascimento: birthday,
-        estado_civil: civilStatus,
-      });
+      connectApi.put(`/users/${id}.json`, payload);
       setTrigger(!trigger);
       handleOpenModal()
     } catch (err) {
       alert(err);
+    }
+  };
+
+  const handleSelectOffice = (value: string) => {
+    setOffice(value);
+  };
+  const handleNetworkChange = (value: string) => {
+    setSelectNetwork(value);
+
+    setSelectDisciples("Selecionar");
+  };
+
+  const usersMinister =
+    users && users.filter((minister: IDataUser) => minister.cargo === "pastor");
+
+  const optionsNetwork =
+    usersMinister &&
+    usersMinister.map((pastor: IDataUser) => {
+      return {
+        value: `${pastor?.rede} - ${pastor?.nome}`,
+      };
+    });
+
+  const handleDisciplesChange = (value: string) => {
+    setSelectDisciples(value);
+  };
+
+  const usersDisciples =
+    users &&
+    users.filter((discipler: IDataUser) => discipler.cargo === "discipulador");
+
+  const disciplesFiltered =
+    usersDisciples &&
+    usersDisciples.filter((user: IDataUser) => user.rede === selectNetwork.split(" -")[0]);
+
+  const optionsDisciples =
+    disciplesFiltered &&
+    disciplesFiltered.map((disc: IDataUser) => {
+      return {
+        value: disc.nome,
+      };
+    });
+
+  const renderSelectsOptions = () => {
+    switch (office) {
+      case "lider de celula":
+        return (
+          <>
+            <S.GridItemFull>
+              <SelectComponent
+                label="Rede"
+                onChange={handleNetworkChange}
+                selectedOption={handleNetworkChange}
+                labelSelect={selectNetwork}
+                dataOptions={optionsNetwork && optionsNetwork}
+              />
+            </S.GridItemFull>
+            <S.GridItemFull>
+              <SelectComponent
+                label="Discipulado"
+                onChange={handleDisciplesChange}
+                selectedOption={handleDisciplesChange}
+                labelSelect={selectDisciples}
+                dataOptions={optionsDisciples && optionsDisciples}
+              />
+            </S.GridItemFull>
+            <S.GridItemFull>
+              <InputFieldComponent
+                primary
+                value={numberCelula === "undefined" ? FormFields.NUMBER_CELULA : numberCelula}
+                placeholder={`* ${FormFields.NUMBER_CELULA}`}
+                onChangeText={(value) => setNumberCelular(value)}
+                label={`* ${FormFields.NUMBER_CELULA}`}
+              />
+            </S.GridItemFull>
+          </>
+        );
+
+      default:
+        return;
     }
   };
 
@@ -143,6 +266,35 @@ export function UsersInformationScreen(this: any, { route }: any) {
       <ScrollView>
         <S.Container>
           <S.Form>
+            <S.GridItemFull>
+              <SelectComponent
+                label="Cargo"
+                onChange={handleSelectOffice}
+                selectedOption={handleSelectOffice}
+                labelSelect={office}
+                dataOptions={officeMembers}
+              />
+            </S.GridItemFull>
+            {renderSelectsOptions()}
+            <S.GridItemFull>
+              <InputFieldComponent
+                primary
+                value={email === "undefined" ? FormFields.EMAIL : email}
+                placeholder={FormFields.EMAIL}
+                onChangeText={(value) => setEmail(value)}
+                label="*Usuário"
+                disabled
+              />
+            </S.GridItemFull>
+            <S.GridItemFull>
+              <InputFieldComponent
+                primary
+                value={password === "undefined" ? FormFields.PASSWORD : password}
+                placeholder={FormFields.PASSWORD}
+                onChangeText={(value) => setPassword(value)}
+                label="*Senha"
+              />
+            </S.GridItemFull>
             <S.GridItemFull>
               <InputFieldComponent
                 primary
@@ -162,16 +314,16 @@ export function UsersInformationScreen(this: any, { route }: any) {
                 label="*Telefone"
               />
             </S.GridItemFull>
-
             <S.GridItemFull>
               <InputFieldComponent
                 primary
-                value={email === "undefined" ? FormFields.EMAIL : email}
-                placeholder={FormFields.EMAIL}
-                onChangeText={(value) => setEmail(value)}
-                label="*Email"
+                value={cep === "undefined" ? FormFields.CEP : cep}
+                placeholder={FormFields.CEP}
+                onChangeText={(value) => setCep(value)}
+                label="Cep"
               />
             </S.GridItemFull>
+
 
             <S.GridForm>
               <S.GridItem>
@@ -187,10 +339,10 @@ export function UsersInformationScreen(this: any, { route }: any) {
               <S.GridItem>
                 <InputFieldComponent
                   primary
-                  value={cep === "undefined" ? FormFields.CEP : cep}
-                  placeholder={FormFields.CEP}
-                  onChangeText={(value) => setCep(value)}
-                  label="Cep"
+                  value={nEnd === "undefined" ? FormFields.NUMBER : nEnd}
+                  placeholder={FormFields.NUMBER}
+                  onChangeText={(value) => setNEnd(value)}
+                  label="Nº"
                 />
               </S.GridItem>
             </S.GridForm>
@@ -257,17 +409,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
                 />
               </S.GridItem>
 
-              <S.GridItem>
-                <SelectComponent
-                  label="Categoria"
-                  onChange={(labelSelect) => setStatus(labelSelect)}
-                  selectedOption={(labelSelect) => setStatus(labelSelect)}
-                  labelSelect={
-                    status === "undefined" ? FormFields.CATEGORY : status
-                  }
-                  dataOptions={officeMembers}
-                />
-              </S.GridItem>
+
             </S.GridForm>
           </S.Form>
 

@@ -7,8 +7,10 @@ export type IContentInputProps = TextInputProps & {
   primary?: boolean;
   label?: string;
   showPass?: () => void;
+  disabled?: boolean;
 };
 
 export type IColorsProps = {
   primary?: boolean;
+  disabled?: boolean;
 };
