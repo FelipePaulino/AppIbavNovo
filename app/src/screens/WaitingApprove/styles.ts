@@ -36,12 +36,12 @@ export const RowText = styled.Text`
 `;
 
 export const Decoration = styled.Text`
-    font-family: "Poppins_700Bold";
-    color: "#666666";
+    font-family: ${theme.fonts.fontFamily.bold};
+    color: ${theme.colors.grey};
 `;
 
 export const RowDetails = styled.Text`
-    color: "#D30000";
+    color: ${theme.colors.red};
 `;
 
 export const Loading = styled(Image)``;
