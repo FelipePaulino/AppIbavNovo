@@ -33,6 +33,7 @@ export function MultiplicationCelula() {
   const [membersUncheck, setMembersUncheck] = useState([])
   const [leaderCelula, setLeaderCelula] = useState<any>([])
   const [successModal, setSuccessModal] = useState(false);
+  const [newLeaderSelected, setNewLeaderSelected] = useState<any>()
 
   const { state, dispatch } = useFormReport();
   const { user, loading } = useUserFiltered();
@@ -168,6 +169,16 @@ export function MultiplicationCelula() {
     setListMembersCelula([...transformClick, newMember]);
   };
 
+  const memberMultiplyTeste = (member: any) => {
+    const newMember = { ...member, checked: !member?.checked };
+    const transformClick = Object.values(listMembersCelula).filter(
+      (item: any) => {
+        return item.nome !== member.nome;
+      }
+    );
+    setListMembersCelula([...transformClick, newMember]);
+  };
+
   useEffect(() => {
     const filterCheckedMembers = listMembersCelula && listMembersCelula.filter((item: any) => item.checked === true)
     const filterUncheckedMembers = listMembersCelula && listMembersCelula.filter((item: any) => item.checked === false)
@@ -266,6 +277,28 @@ export function MultiplicationCelula() {
     }
   }
 
+  useEffect(() => {
+    const memberDisabled = listMembersCelula && listMembersCelula.map((member: any) => {
+      if (member.checked && memberSelected === member.nome) {
+        return {...member, checked: member.checked}
+      } return {...member, checked: false}
+    })
+    setListMembersCelula(memberDisabled && memberDisabled)
+    setNewLeaderSelected(listMembersCelula && listMembersCelula.filter((item: any) => item.nome === memberSelected))
+  }, [memberSelected])
+  
+  useEffect(() => {
+    // console.log(newLeaderSelected && newLeaderSelected, 'newLeaderSelected')
+    // const filterLeader = listMembersCelula && listMembersCelula.filter((item:any) => item.nome === newLeaderSelected[0].nome)
+    if (newLeaderSelected && newLeaderSelected.length > 0) {
+        if(!newLeaderSelected[0].checked){
+          return memberMultiplyTeste(newLeaderSelected[0])
+        }
+        
+      }
+    }, [newLeaderSelected])
+    console.log(listMembersCelula, 'listMembersCelula')
+
   return (
     <>
       <HeaderComponent>
@@ -350,18 +383,19 @@ export function MultiplicationCelula() {
               listMembersCelula.length > 0 &&
               Object.values(listMembersCelula)
                 .sort(compared)
-                .map((item: any) => {
+                .map((item: any, index: number) => {
                   return (
-                    <Checkbox.Item
-                      key={item.nome}
-                      label={item.nome}
-                      color="red"
-                      status={item.checked ? "checked" : "unchecked"}
-                      disabled={state.celulaSelect.includes(item.nome)}
-                      onPress={() => {
-                        memberMultiply(item);
-                      }}
-                    />
+                    <div key={index}>
+                      <Checkbox.Item
+                        label={item.nome}
+                        color="red"
+                        status={item.checked || memberSelected === item.nome ? "checked" : "unchecked"}
+                        disabled={state.celulaSelect.includes(item.nome) || memberSelected === item.nome}
+                        onPress={() => {
+                          memberMultiply(item);
+                        }}
+                      />
+                    </div>
                   );
                 })}
           </S.Grid>
