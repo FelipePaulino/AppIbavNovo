@@ -1,16 +1,17 @@
 import styled from "styled-components/native";
 import { Image } from "react-native";
+import theme from "../../styles/theme";
 
 export const ComeBack = styled.View`
   flex-direction: row;
 `;
 
 export const TitlePage = styled.Text`
-  color: ${({ theme }) => theme.colors.light};
+  color: ${theme.colors.light};
   text-transform: uppercase;
 
   font-size: 14;
-  font-family: ${({ theme }) => theme.fonts.fontFamily.bold};
+  font-family: ${theme.fonts.fontFamily.bold};
 `;
 
 export const Container = styled.View`
@@ -32,13 +33,13 @@ export const Info = styled.View`
 `;
 
 export const Username = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.fontFamily.bold};
-  color: ${({ theme }) => theme.colors.blue};
+  font-family: ${theme.fonts.fontFamily.bold};
+  color: ${theme.colors.blue};
 `;
 
 export const Name = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.fontFamily.regular};
-  color: ${({ theme }) => theme.colors.grey};
+  font-family: ${theme.fonts.fontFamily.regular};
+  color: ${theme.colors.grey};
 `;
 
 export const InfoFullName = styled.Text``;
@@ -65,13 +66,13 @@ export const GroupName = styled.View`
 `;
 
 export const TitleInfo = styled.Text`
-  color: ${({ theme }) => theme.colors.blue};
+  color: ${theme.colors.blue};
 
-  font-family: ${({ theme }) => theme.fonts.fontFamily.bold};
+  font-family: ${theme.fonts.fontFamily.bold};
 `;
 
 export const NameInfo = styled.Text`
-  color: ${({ theme }) => theme.colors.grey};
+  color: ${theme.colors.grey};
 `;
 
 export const NameInfoFull = styled.Text``;

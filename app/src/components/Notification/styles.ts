@@ -1,15 +1,16 @@
 import styled from "styled-components/native";
 
 import { Ionicons } from "@expo/vector-icons";
+import theme from "../../styles/theme";
 
 export const Notification = styled.TouchableOpacity`
   position: relative;
 `;
 
 export const Icon = styled(Ionicons)`
-  font-size: ${({ theme }) => theme.fonts.fontSize.medium};
+  font-size:${theme.fonts.fontSize.medium};
 
-  color: ${({ theme }) => theme.colors.light};
+  color: ${theme.colors.light};
 `;
 
 export const Count = styled.View`
@@ -17,7 +18,7 @@ export const Count = styled.View`
   right: 0;
   top: -5;
 
-  background-color: ${({ theme }) => theme.colors.red};
+  background-color: ${theme.colors.red};
 
   border-radius: 15;
 
@@ -29,7 +30,7 @@ export const Count = styled.View`
 `;
 
 export const Number = styled.Text`
-  color: ${({ theme }) => theme.colors.light};
+  color: ${theme.colors.light};
 
   font-size: 10;
 `;

@@ -1,5 +1,6 @@
 import styled from "styled-components/native";
 import { AntDesign } from '@expo/vector-icons';
+import theme from "../../../styles/theme";
 
 export const Container = styled.View`
     display: flex;
@@ -51,5 +52,5 @@ export const IconBox = styled.View`
 `
 
 export const Icon = styled(AntDesign)`
-  font-size: ${({ theme }) => theme.fonts.fontSize.large};
+  font-size: ${theme.fonts.fontSize.large};
 `;

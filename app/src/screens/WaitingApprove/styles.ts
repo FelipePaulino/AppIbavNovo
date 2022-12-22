@@ -1,16 +1,17 @@
 import styled from "styled-components/native";
 import { Image } from "react-native";
+import theme from "../../styles/theme";
 
 export const ComeBack = styled.View`
   flex-direction: row;
 `;
 
 export const TitlePage = styled.Text`
-  color: ${({ theme }) => theme.colors.light};
+  color: ${theme.colors.light};
   text-transform: uppercase;
 
   font-size: 14;
-  font-family: ${({ theme }) => theme.fonts.fontFamily.bold};
+  font-family: ${theme.fonts.fontFamily.bold};
 `;
 
 export const Container = styled.View`
@@ -26,7 +27,7 @@ export const Row = styled.View`
     margin-bottom: 10;
     padding-bottom: 10;
 
-    border-bottom-color: ${({ theme }) => theme.colors.grey};
+    border-bottom-color: ${theme.colors.grey};
     border-bottom-width: 1;
 `;
 
@@ -35,12 +36,12 @@ export const RowText = styled.Text`
 `;
 
 export const Decoration = styled.Text`
-    font-family: ${({ theme }) => theme.fonts.fontFamily.bold};
-    color: ${({ theme }) => theme.colors.grey};
+    font-family: "Poppins_700Bold";
+    color: "#666666";
 `;
 
 export const RowDetails = styled.Text`
-    color: ${({ theme }) => theme.colors.red};
+    color: "#D30000";
 `;
 
 export const Loading = styled(Image)``;
