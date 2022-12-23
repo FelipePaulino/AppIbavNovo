@@ -23,7 +23,7 @@ export function MultiplicationDiscipulado() {
   const { state, dispatch } = useFormReport();
   const { user, loading } = useUserFiltered();
 
-
+const [arrayEnvio, setArrayEnvio] = useState<any>()
   const userInfo = user && user[0][1];
   const whatOffice = userInfo && userInfo.cargo;
 
@@ -70,16 +70,8 @@ console.log(response.data, 'response.data')
       payload: value,
     });
   };
+  
 
-  const memberMultiply = (member: any) => {
-    const newMember = { ...member, checked: !member?.checked };
-    const transformClick = Object.values(listMembersCelula).filter(
-      (item: any) => {
-        return item.nome !== member.nome;
-      }
-    );
-    setListMembersCelula([...transformClick, newMember]);
-  };
 
   // tratativas para o usuário administrador
 
@@ -123,29 +115,74 @@ console.log(response.data, 'response.data')
     };
   });
 
-  // const discipuladosNaoSelecionados = celulas.filter((item:any) => {
-  //   return item.discipulador !== state.discipuladoSelect
-  // })
+  const arrayLideres = listMembersCelula.length > 0 ? listMembersCelula : Object.values(filtrandoDiscipulado)
 
+  const memberMultiply = (member: any) => {
+    console.log(member, 'member')
+    const newMember = { ...member, checked: !member?.checked };
+    const transformClick = arrayLideres.filter(
+      (item: any) => {
+        return item.lider !== member.lider;
+      }
+    );
+    setListMembersCelula([...transformClick, newMember]);
+  };
+
+
+  console.log(filtrandoDiscipulado, 'filtrandoDiscipulado')
+
+
+
+  const discipuladosNaoSelecionados = celulas.filter((item:any) => {
+    return item.discipulador !== state.discipuladoSelect
+  })
+
+  const discipuladoAntigo = arrayLideres.filter((item:any) =>{
+    return !item.checked  
+  })
+
+  const discipuladoNovo = arrayLideres.filter((item:any) =>{
+    return item.checked  
+  })
+
+  const mudandoDisc = discipuladoNovo.map((item:any) =>{
+    return {...item, discipulador: state.celulaSelect.split('- ')[1]}
+  })
+  console.log(mudandoDisc, 'mudandoDisc')
+
+  useEffect(() => {
+      const arrayParaEnviar: any = [...discipuladosNaoSelecionados, ...discipuladoAntigo, ...mudandoDisc]
+
+      setArrayEnvio(arrayParaEnviar)
+
+
+  }, [state.celulaSelect, listMembersCelula]);
+
+
+
+  console.log(discipuladosNaoSelecionados, 'discipuladosNaoSelecionados')
+  console.log(discipuladoAntigo, 'discipuladoAntigo')
+  console.log(discipuladoNovo, 'discipuladoNovo')
   // const discipuladosSelecionados = celulas.filter((item:any) => {
   //   return item.discipulador === state.discipuladoSelect
   // })
 
-  // const removeMembersNewCelula = () => {
-  //   try {
-  //     connectApi.put(`/celulas.json`, {
-  //       ...discipuladosSelecionados, 
-  //     })
-  //   } catch (err) {
-  //     alert('Erro ao editar a celula')
-  //   }
-  // }
+  const MultiplyDisc = () => {
+    try {
+      connectApi.put(`/celulas.json`, {
+        ...arrayEnvio, 
+      })
+    } catch (err) {
+      alert('Erro ao editar a celula')
+    }
+  }
 
   function compared(a: any, b: any) {
-    if (a.nome < b.nome) return -1;
-    if (a.nome > b.nome) return 1;
+    if (a.lider < b.lider) return -1;
+    if (a.lider > b.lider) return 1;
     return 0;
   }
+
 
   return (
     <>
@@ -205,15 +242,11 @@ console.log(response.data, 'response.data')
             </S.Paragraph>
           </S.labelParagraph>
           <S.Grid>
-          {celulaAdm &&
-              celulaAdm.length > 0 &&
-              Object.values(celulaAdm)
-                .sort(compared)
-                .map((item: any) => {
+          {arrayLideres.sort(compared).map((item: any) => {
                   return (
                     <Checkbox.Item
                       key={item.nome}
-                      label={item.value}
+                      label={item.lider}
                       color="red"
                       status={item.checked ? "checked" : "unchecked"}
                       disabled={state.celulaSelect.includes(item.nome)}
@@ -224,7 +257,7 @@ console.log(response.data, 'response.data')
                   );
                 })}
           </S.Grid>
-          <ButtonComponent title="Multiplicar" onPress={() => { }} width="100%" />
+          <ButtonComponent title="Multiplicar" onPress={() => { MultiplyDisc()}} width="100%" />
         </S.Content>
       </ScrollView>
     </>
