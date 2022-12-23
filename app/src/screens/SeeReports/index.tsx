@@ -351,13 +351,14 @@ export function SeeReports() {
               icon="filter"
               color="white"
               onPress={() => setShowFilter(true)}
+              margin = {"50%"}
             />
             <ButtonComponent
               title="LIMPAR FILTROS"
               width="200px"
               icon="times"
               color="white"
-              onPress={() => cleanFilter()}
+              onPress={() => cleanFilter()}             
             />
           </S.BoxButtons>
           {loading ? (

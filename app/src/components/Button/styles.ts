@@ -11,6 +11,10 @@ export const Content = styled.TouchableOpacity<ISizeProps>`
   background-color: ${({ disabled }) =>
     disabled ? theme.colors.grey : "#A60100"};
   border-radius: 10;
+
+  padding: 9px;
+  /* margin-right: ${({ margin }) => margin}; */
+  /* margin-left: ${({ margin }) => margin}; */
 `;
 
 export const Background = styled.View`
@@ -29,8 +33,8 @@ export const BoxIcon = styled.View<ISvgProps>`
 `;
 
 export const Title = styled.Text<ISizeProps>`
-  font-size: ${({ size }) =>
-    size ? size : theme.fonts.fontSize.small};
+  /* font-size: ${({ size }) =>
+    size ? size : theme.fonts.fontSize.small}; */
   font-family: ${theme.fonts.fontFamily.bold};
 
   text-transform: uppercase;
