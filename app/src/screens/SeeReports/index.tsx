@@ -345,14 +345,15 @@ export function SeeReports() {
           <S.BoxButtons>
             <ButtonComponent
               title="FILTRAR"
-              width="130px"
+              width="180px"
               icon="filter"
               color="white"
               onPress={() => setShowFilter(true)}
+              margin="10px"
             />
             <ButtonComponent
               title="LIMPAR FILTROS"
-              width="130px"
+              width="180px"
               icon="times"
               color="white"
               onPress={() => cleanFilter()}             

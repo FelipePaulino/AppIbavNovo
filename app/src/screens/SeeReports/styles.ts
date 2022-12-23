@@ -84,9 +84,9 @@ export const Grid = styled.View`
 `;
 
 export const BoxButtons = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  
+  margin: 0 auto;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 export const Loading = styled(Image)``;

@@ -18,7 +18,7 @@ export function ButtonComponent({
 }: IContentProps) {
 
   return (
-    <S.Content width={width} heigth={heigth} {...rest} disabled={disabled} >
+    <S.Content width={width} heigth={heigth} margin={margin} {...rest} disabled={disabled} >
       <S.Background >
         {icon && (
           <S.BoxIcon icon>
