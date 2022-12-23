@@ -75,7 +75,7 @@ export const ContentC = styled.View`
   align-items: flex-end;
   margin: 0;
   padding: 0;
-  width: 900px;
+  width: 90%;
   height: 40;
 `;
 

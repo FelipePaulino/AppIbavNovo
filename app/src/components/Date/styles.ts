@@ -1,9 +1,13 @@
 import styled from "styled-components/native";
 import { AntDesign } from "@expo/vector-icons";
 import theme from "../../styles/theme";
+interface Props {
+  width?: string
+}
 
-export const Date = styled.View`
+export const Date = styled.View<Props>`
   flex-direction: column;
+  width: ${({ width }) => width}
 `;
 
 export const Label = styled.Text`

@@ -11,9 +11,10 @@ export function DateComponent({
   open,
   text,
   label,
+  width,
 }: IContentProps) {
   return (
-    <S.Date>
+    <S.Date width={width}>
       <S.Label>{label}</S.Label>
       <S.Content onPress={open}>
         <S.TextSelect numberOfLines={1}>{text}</S.TextSelect>
