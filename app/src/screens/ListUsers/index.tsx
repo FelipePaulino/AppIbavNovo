@@ -102,6 +102,7 @@ export function ListUsersScreen() {
             <Fragment>
               {listUsers.map((user: any) => {
                 console.log(user, 'user')
+                console.log(user[1].senha, 'senha')
                 return (
                   <PersonLabelComponent
                     nome={user[1]?.nome}
@@ -122,8 +123,9 @@ export function ListUsersScreen() {
                         cargo: `${user[1].cargo}`,
                         rede: `${user[1].rede}`,
                         pastor: `${user[1].pastor}`,
-                        discipulado: `${user[1].discipulado}`,
+                        discipulador: `${user[1].discipulador}`,
                         numero_celula: `${user[1].numero_celula}`,
+                        senha: `${user[1].senha}`,
                         active: setTrigger,
                       })
                     }

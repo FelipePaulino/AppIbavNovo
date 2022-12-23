@@ -32,7 +32,6 @@ import * as S from "./styles";
 
 export function UsersInformationScreen(this: any, { route }: any) {
   const [users, setUsers] = useState([]);
-  const [payload, setPayload] = useState<any>();
   const [date, setDate] = useState(new Date());
   const [celulas, setCelulas] = useState<any>();
   const [members, setMembers] = useState<any>([]);
@@ -50,9 +49,10 @@ export function UsersInformationScreen(this: any, { route }: any) {
   const [district, setDistrict] = useState(route.params?.bairro || "");
   const [password, setPassword] = useState(route.params?.senha || "");
   const [numberCelula, setNumberCelular] = useState(route.params?.numero_celula || "");
-  const [office, setOffice] = useState(route.params?.cargo || 'Selecione');
-  const [selectDisciples, setSelectDisciples] = useState(route.params?.discipulado || "Selecione");
+  const [office, setOffice] = useState(route.params?.cargo === 'pastor' ? 'pastor de rede' : route.params?.cargo || 'Selecione');
+  const [selectDisciples, setSelectDisciples] = useState(route.params?.discipulador || "Selecione");
   const [selectNetwork, setSelectNetwork] = useState(`${route.params?.rede} - ${route.params?.pastor}` || "Selecione");
+  console.log(route.params?.rede, '${route.params?.rede}')
   const [birthday, setBirthday] = useState(
     route.params?.data_de_nascimento || ""
   );
@@ -128,8 +128,8 @@ export function UsersInformationScreen(this: any, { route }: any) {
   };
 
   const submitRegister = () => {
+    let payload
     const payloadDefault = {
-      cargo: office,
       senha: password,
       n_end: nEnd,
       nome: name,
@@ -143,27 +143,31 @@ export function UsersInformationScreen(this: any, { route }: any) {
       data_de_nascimento: birthday,
       estado_civil: civilStatus,
     }
+
     if (office === 'lider de celula') {
-      setPayload({
+      payload = {
         ...payloadDefault,
-        discipulado: selectDisciples,
+        cargo: 'lider de celular',
+        discipulador: selectDisciples,
         numero_celula: numberCelula,
         rede: selectNetwork.split('-')[0],
         pastor: selectNetwork.split('-')[1],
-      })
+      }
     }
-    else if (office === 'lider de celula') {
-      setPayload({
+    else if (office === 'discipulador') {
+      payload = {
         ...payloadDefault,
+        cargo: 'discipulador',
         rede: selectNetwork.split('-')[0],
         pastor: selectNetwork.split('-')[1],
-      })
+      }
     }
     else {
-      setPayload({
+      payload = {
         ...payloadDefault,
         rede: selectNetwork,
-      })
+        cargo: 'pastor',
+      }
     }
 
     try {
@@ -214,7 +218,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
         value: disc.nome,
       };
     });
-
+  console.log(selectNetwork, 'console.log(selectNetwork)')
   const renderSelectsOptions = () => {
     switch (office) {
       case "lider de celula":
@@ -249,7 +253,36 @@ export function UsersInformationScreen(this: any, { route }: any) {
             </S.GridItemFull>
           </>
         );
+      case "discipulador":
+        return (
+          <>
+            <S.GridItemFull>
+              <SelectComponent
+                label="Rede"
+                onChange={handleNetworkChange}
+                selectedOption={handleNetworkChange}
+                labelSelect={selectNetwork}
+                dataOptions={optionsNetwork && optionsNetwork}
+              />
+            </S.GridItemFull>
 
+          </>
+        );
+
+      case "pastor de rede":
+        return (
+          <>
+            <S.GridItemFull>
+              <InputFieldComponent
+                primary
+                value={selectNetwork === "undefined" ? FormFields.NETWORK : selectNetwork.split('-')[0]}
+                placeholder={`* ${FormFields.NETWORK}`}
+                onChangeText={(value) => setSelectNetwork(value)}
+                label={`* ${FormFields.NETWORK}`}
+              />
+            </S.GridItemFull>
+          </>
+        );
       default:
         return;
     }

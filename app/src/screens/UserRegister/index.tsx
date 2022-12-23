@@ -175,7 +175,6 @@ export function UserRegisterScreen() {
       nome: formValues.name,
       status: "membro",
       telefone: formValues.phone,
-      value: formValues.name
     }
     try {
       if (office === "pastor de rede") {
@@ -215,7 +214,7 @@ export function UserRegisterScreen() {
           .post("/users.json", {
             cargo: "discipulador",
             rede: selectNetwork.split(' -')[0],
-            pastor: selectNetwork.split('- ')[1],
+            pastor: selectNetwork.split(' -')[1],
             cep: address.cep,
             nome: formValues.name,
             bairro: address.bairro,
@@ -247,9 +246,10 @@ export function UserRegisterScreen() {
         connectApi.post("/users.json", {
           cargo: "lider de celula",
           rede: selectNetwork.split(' -')[0],
-          discipulado: selectDisciples,
+          pastor: selectNetwork.split(' -')[1],
+          discipulador: selectDisciples,
           numero_celula: formValues.numberCelula,
-          pastor: selectNetwork.split('- ')[1],
+          senha: formValues.password,
           ...dataLider
         }).then(() => {
           connectApi.post("/celulas.json", {
