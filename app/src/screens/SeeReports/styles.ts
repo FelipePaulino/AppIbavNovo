@@ -11,11 +11,11 @@ export const ComeBack = styled.View`
 `;
 
 export const TitlePage = styled.Text`
-  color: ${({ theme }) => theme.colors.light};
+  /* color: ${({ theme }) => theme.colors.light}; */
   text-transform: uppercase;
 
   font-size: 14;
-  font-family: ${({ theme }) => theme.fonts.fontFamily.bold};
+  /* font-family: ${({ theme }) => theme.fonts.fontFamily.bold}; */
 `;
 
 export const Container = styled.View`
@@ -56,10 +56,10 @@ export const BgDark = styled.View<Props>`
 `;
 
 export const Title = styled.Text`
-  font-size: ${({ theme }) => theme.fonts.fontSize.medium};
+  /* font-size: ${({ theme }) => theme.fonts.fontSize.medium};
   font-family: ${({ theme }) => theme.fonts.fontFamily.bold};
   text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.blue};
+  color: ${({ theme }) => theme.colors.blue}; */
   margin-bottom: 24px;
 `;
 
