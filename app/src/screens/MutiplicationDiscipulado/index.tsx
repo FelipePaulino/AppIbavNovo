@@ -265,7 +265,7 @@ console.log(state.redeSelect, 'state.redeSelect')
         }
       >
         <DefaultContentModalComponent
-          type="multiplication"
+          type="multiplicationDiscipulado"
         />
       </ModalComponent>
     </>
