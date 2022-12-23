@@ -22,4 +22,5 @@ export interface ISizeProps {
 
 export interface ISvgProps {
   icon?: boolean;
+  margin?: string;
 }

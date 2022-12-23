@@ -10,6 +10,7 @@ export function ButtonComponent({
   icon,
   width,
   heigth,
+  margin,
   size,
   color = "#000A3E",
   disabled,
