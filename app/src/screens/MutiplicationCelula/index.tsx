@@ -6,7 +6,6 @@ import { SelectComponent } from "../../components/Select";
 import { TitleComponent } from "../../components/Title";
 import { InputFieldComponent } from "../../components/InputField";
 import * as S from "./styles";
-import { TextSelect } from "../../components/Date/styles";
 import { useFormReport } from "../../hooks/useFormReport";
 import { connectApi } from "../../common/services/ConnectApi";
 import { FormReportActions } from "../../contexts/FormReport";
@@ -35,7 +34,7 @@ export function MultiplicationCelula() {
   const [successModal, setSuccessModal] = useState(false);
 
   const { state, dispatch } = useFormReport();
-  const { user, loading } = useUserFiltered();
+  const { user } = useUserFiltered();
   const navigation = useNavigation<IPropsAppStack>();
 
 
