@@ -15,6 +15,10 @@ import { Checkbox } from "react-native-paper";
 import * as S from "./styles";
 import { ButtonComponent } from "../../components/Button";
 import axios from "axios";
+import { ModalComponent } from "../../components/Modal";
+import { DefaultContentModalComponent } from "../../components/Modal/Default";
+import { useNavigation } from "@react-navigation/native";
+import { IPropsAppStack } from "../../routes/AppStack/types";
 
 export function MultiplicationDiscipulado() {
   const [celulas, setCelulas] = useState<any>([]);
@@ -22,8 +26,10 @@ export function MultiplicationDiscipulado() {
 
   const { state, dispatch } = useFormReport();
   const { user, loading } = useUserFiltered();
+  const [successModal, setSuccessModal] = useState(false);
+  const navigation = useNavigation<IPropsAppStack>();
 
-const [arrayEnvio, setArrayEnvio] = useState<any>()
+  const [arrayEnvio, setArrayEnvio] = useState<any>()
   const userInfo = user && user[0][1];
   const whatOffice = userInfo && userInfo.cargo;
 
@@ -31,7 +37,6 @@ const [arrayEnvio, setArrayEnvio] = useState<any>()
     if (whatOffice !== "lider") {
       const getCelulas = async () => {
         const response = await connectApi.get("/celulas.json");
-console.log(response.data, 'response.data')
         setCelulas(Object.values(response.data));
       };
       getCelulas();
@@ -70,12 +75,11 @@ console.log(response.data, 'response.data')
       payload: value,
     });
   };
-  
+
 
 
   // tratativas para o usuário administrador
-
-  const redes = celulas.map((item: any) => item.rede);
+  const redes = celulas.map((item: any) => item?.rede);
   const redesUnicas = redes.filter(function (este: any, i: any) {
     return redes.indexOf(este) === i && este;
   });
@@ -87,10 +91,10 @@ console.log(response.data, 'response.data')
   });
 
   const filterRedes = celulas.filter((item: any) => {
-    return item.rede === state.redeSelect;
+    return item?.rede === state.redeSelect;
   });
 
-  const discipulado = filterRedes.map((item: any) => item.discipulador);
+  const discipulado = filterRedes.map((item: any) => item?.discipulador);
 
   const discipuladossUnicos = discipulado.filter(function (este: any, i: any) {
     return discipulado.indexOf(este) === i;
@@ -104,8 +108,8 @@ console.log(response.data, 'response.data')
 
   const filtrandoDiscipulado = celulas.filter((item: any) => {
     return (
-      item.discipulador === state.discipuladoSelect &&
-      item.rede === state.redeSelect
+      item?.discipulador === state.discipuladoSelect &&
+      item?.rede === state.redeSelect
     );
   });
 
@@ -118,7 +122,6 @@ console.log(response.data, 'response.data')
   const arrayLideres = listMembersCelula.length > 0 ? listMembersCelula : Object.values(filtrandoDiscipulado)
 
   const memberMultiply = (member: any) => {
-    console.log(member, 'member')
     const newMember = { ...member, checked: !member?.checked };
     const transformClick = arrayLideres.filter(
       (item: any) => {
@@ -128,50 +131,39 @@ console.log(response.data, 'response.data')
     setListMembersCelula([...transformClick, newMember]);
   };
 
-
-  console.log(filtrandoDiscipulado, 'filtrandoDiscipulado')
-
-
-
-  const discipuladosNaoSelecionados = celulas.filter((item:any) => {
-    return item.discipulador !== state.discipuladoSelect
+  const discipuladosNaoSelecionados = celulas.filter((item: any) => {
+    return item?.discipulador !== state.discipuladoSelect
   })
 
-  const discipuladoAntigo = arrayLideres.filter((item:any) =>{
-    return !item.checked  
+  const discipuladoAntigo = arrayLideres.filter((item: any) => {
+    return !item.checked
   })
 
-  const discipuladoNovo = arrayLideres.filter((item:any) =>{
-    return item.checked  
+  const discipuladoNovo = arrayLideres.filter((item: any) => {
+    return item.checked
   })
 
-  const mudandoDisc = discipuladoNovo.map((item:any) =>{
-    return {...item, discipulador: state.celulaSelect.split('- ')[1]}
+  const mudandoDisc = discipuladoNovo.map((item: any) => {
+    return { ...item, discipulador: state.celulaSelect.split('- ')[1] }
   })
-  console.log(mudandoDisc, 'mudandoDisc')
 
   useEffect(() => {
+    if (listMembersCelula) {
       const arrayParaEnviar: any = [...discipuladosNaoSelecionados, ...discipuladoAntigo, ...mudandoDisc]
 
       setArrayEnvio(arrayParaEnviar)
+    }
 
 
   }, [state.celulaSelect, listMembersCelula]);
 
 
-
-  console.log(discipuladosNaoSelecionados, 'discipuladosNaoSelecionados')
-  console.log(discipuladoAntigo, 'discipuladoAntigo')
-  console.log(discipuladoNovo, 'discipuladoNovo')
-  // const discipuladosSelecionados = celulas.filter((item:any) => {
-  //   return item.discipulador === state.discipuladoSelect
-  // })
-
   const MultiplyDisc = () => {
     try {
       connectApi.put(`/celulas.json`, {
-        ...arrayEnvio, 
+        ...arrayEnvio,
       })
+      setSuccessModal(true)
     } catch (err) {
       alert('Erro ao editar a celula')
     }
@@ -183,7 +175,9 @@ console.log(response.data, 'response.data')
     return 0;
   }
 
+  const validFormWithMembers = state.redeSelect !== 'Selecione' && state.discipuladoSelect !== 'Selecione' && state.celulaSelect !== 'Selecione'
 
+console.log(state.redeSelect, 'state.redeSelect')
   return (
     <>
       <HeaderComponent>
@@ -242,24 +236,38 @@ console.log(response.data, 'response.data')
             </S.Paragraph>
           </S.labelParagraph>
           <S.Grid>
-          {arrayLideres.sort(compared).map((item: any) => {
-                  return (
-                    <Checkbox.Item
-                      key={item.nome}
-                      label={item.lider}
-                      color="red"
-                      status={item.checked ? "checked" : "unchecked"}
-                      disabled={state.celulaSelect.includes(item.nome)}
-                      onPress={() => {
-                        memberMultiply(item);
-                      }}
-                    />
-                  );
-                })}
+            {arrayLideres.sort(compared).map((item: any) => {
+              return (
+                <Checkbox.Item
+                  key={item.nome}
+                  label={item.lider}
+                  color="red"
+                  status={item.checked ? "checked" : "unchecked"}
+                  disabled={state.celulaSelect.includes(item.nome)}
+                  onPress={() => {
+                    memberMultiply(item);
+                  }}
+                />
+              );
+            })}
           </S.Grid>
-          <ButtonComponent title="Multiplicar" onPress={() => { MultiplyDisc()}} width="100%" />
+
+
+          <ButtonComponent title="Multiplicar" onPress={() => { MultiplyDisc() }} width="100%" disabled={!validFormWithMembers} />
         </S.Content>
       </ScrollView>
+      <ModalComponent
+        isVisible={successModal}
+        onBackdropPress={() => {
+          setSuccessModal(false);
+          navigation.navigate("Multiplication");
+        }
+        }
+      >
+        <DefaultContentModalComponent
+          type="multiplication"
+        />
+      </ModalComponent>
     </>
   )
 }
