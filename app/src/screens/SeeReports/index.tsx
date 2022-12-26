@@ -366,23 +366,24 @@ export function SeeReports() {
           ) : (
             <S.ListContainer>
               {filter?.map((item: any) => {
-                console.log(filter.length, 'filter');     
-                if (item[0] !== 'value') {
-                  return (
-                    <Fragment>
-                      {filter.length > 1 ? (
-                        <S.List>
-                          <Text onPress={() => actionReportId(item[0])}>
-                            {item[1].celula} - {item[1].data}
-                          </Text>
-                          <FontAwesome5 name="eye" color="#000A3E" />
-                        </S.List>
-                      ) : (
-                        <Text>Não existe relatórios</Text>
-                      )}
-                    </Fragment>
-                  )
-                };
+                return (
+                  <Fragment>
+                    {filter.length > 1 ? (
+                      <>
+                        {item[0] !== 'value' &&
+                          <S.List>
+                            <Text onPress={() => actionReportId(item[0])}>
+                              {item[1].celula} - {item[1].data}
+                            </Text>
+                            <FontAwesome5 name="eye" color="#000A3E" />
+                          </S.List>
+                        }
+                      </>
+                    ) : (
+                      <Text>Não existe relatórios</Text>
+                    )}
+                  </Fragment>
+                )
               })}
             </S.ListContainer>
           )}
