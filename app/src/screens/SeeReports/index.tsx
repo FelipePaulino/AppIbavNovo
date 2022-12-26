@@ -370,7 +370,7 @@ export function SeeReports() {
                 if (item[0] !== 'value') {
                   return (
                     <Fragment>
-                      {filter.length >= 2 ? (
+                      {filter.length > 1 ? (
                         <S.List>
                           <Text onPress={() => actionReportId(item[0])}>
                             {item[1].celula} - {item[1].data}
