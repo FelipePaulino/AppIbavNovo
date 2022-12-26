@@ -37,7 +37,6 @@ export function SeeReports() {
         setLoading(false);
         setReports(Object.entries(response));
         setFilter(Object.entries(response));
-        console.log(response, 'response');
       });
     };
 
@@ -371,7 +370,7 @@ export function SeeReports() {
                 if (item[0] !== 'value') {
                   return (
                     <Fragment>
-                      {filter.length > 1 ? (
+                      {filter.length >= 2 ? (
                         <S.List>
                           <Text onPress={() => actionReportId(item[0])}>
                             {item[1].celula} - {item[1].data}
@@ -384,11 +383,6 @@ export function SeeReports() {
                     </Fragment>
                   )
                 };
-                if (filter.length = 1) {
-                  return (
-                    <Text>Não existe relatórios</Text>
-                  )
-                }
               })}
             </S.ListContainer>
           )}

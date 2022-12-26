@@ -14,7 +14,9 @@ export function DateComponent({
   width,
 }: IContentProps) {
   return (
-    <S.Date width={width}>
+    <S.Date 
+    width={width}
+    >
       <S.Label>{label}</S.Label>
       <S.Content onPress={open}>
         <S.TextSelect numberOfLines={1}>{text}</S.TextSelect>
