@@ -244,7 +244,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
             <S.GridItemFull>
               <InputFieldComponent
                 primary
-                value={numberCelula === "undefined" ? FormFields.NUMBER_CELULA : numberCelula}
+                value={numberCelula !== "undefined" && numberCelula}
                 placeholder={`* ${FormFields.NUMBER_CELULA}`}
                 onChangeText={(value) => setNumberCelular(value)}
                 label={`* ${FormFields.NUMBER_CELULA}`}
@@ -274,7 +274,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
             <S.GridItemFull>
               <InputFieldComponent
                 primary
-                value={selectNetwork === "undefined" || selectNetwork === "" ? FormFields.NETWORK : selectNetwork.split('-')[0]}
+                value={selectNetwork !== "undefined" || !selectNetwork && selectNetwork.split('-')[0]}
                 placeholder={`* ${FormFields.NETWORK}`}
                 onChangeText={(value) => setSelectNetwork(value)}
                 label={`* ${FormFields.NETWORK}`}
@@ -286,6 +286,18 @@ export function UsersInformationScreen(this: any, { route }: any) {
         return;
     }
   };
+
+  const disabledSubmit = () => {
+    if (office === 'lider de celula') {
+      if (!selectNetwork || !selectDisciples) {
+        return true
+      } else { return false }
+    } else {
+      if (!selectNetwork) {
+        return true
+      } else { return false }
+    }
+  }
 
   return (
     <>
@@ -311,7 +323,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
             <S.GridItemFull>
               <InputFieldComponent
                 primary
-                value={email === "undefined" ? FormFields.EMAIL : email}
+                value={email !== "undefined" && email}
                 placeholder={FormFields.EMAIL}
                 onChangeText={(value) => setEmail(value)}
                 label="*Usuário"
@@ -321,7 +333,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
             <S.GridItemFull>
               <InputFieldComponent
                 primary
-                value={password === "undefined" ? FormFields.PASSWORD : password}
+                value={password !== "undefined" && password}
                 placeholder={FormFields.PASSWORD}
                 onChangeText={(value) => setPassword(value)}
                 label="*Senha"
@@ -330,7 +342,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
             <S.GridItemFull>
               <InputFieldComponent
                 primary
-                value={name === "undefined" ? FormFields.FULL_NAME : name}
+                value={name !== "undefined" && name}
                 placeholder={`* ${FormFields.FULL_NAME}`}
                 onChangeText={(value) => setName(value)}
                 label="*Nome Completo"
@@ -340,7 +352,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
             <S.GridItemFull>
               <InputFieldComponent
                 primary
-                value={phone === "undefined" ? FormFields.PHONE : phone}
+                value={phone !== "undefined" && phone}
                 placeholder={`* ${FormFields.PHONE}`}
                 onChangeText={(value) => setPhone(value)}
                 label="*Telefone"
@@ -349,7 +361,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
             <S.GridItemFull>
               <InputFieldComponent
                 primary
-                value={cep === "undefined" ? FormFields.CEP : cep}
+                value={cep !== "undefined" && cep}
                 placeholder={FormFields.CEP}
                 onChangeText={(value) => setCep(value)}
                 label="Cep"
@@ -361,7 +373,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
               <S.GridItem>
                 <InputFieldComponent
                   primary
-                  value={address && address}
+                  value={address !== "undefined" && address}
                   placeholder={FormFields.ADDRESS}
                   onChangeText={(value) => setAddress(value)}
                   label="Endereço"
@@ -371,7 +383,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
               <S.GridItem>
                 <InputFieldComponent
                   primary
-                  value={nEnd === "undefined" ? FormFields.NUMBER : nEnd}
+                  value={nEnd !== "undefined" && nEnd}
                   placeholder={FormFields.NUMBER}
                   onChangeText={(value) => setNEnd(value)}
                   label="Nº"
@@ -384,8 +396,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
                 <InputFieldComponent
                   primary
                   value={
-                    district === "undefined" ? FormFields.DISTRICT : district
-                  }
+                    district !== "undefined" && district}
                   placeholder={FormFields.DISTRICT}
                   onChangeText={(value) => setDistrict(value)}
                   label="Bairro"
@@ -395,7 +406,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
               <S.GridItem>
                 <InputFieldComponent
                   primary
-                  value={city === "undefined" ? FormFields.CITY : city}
+                  value={city !== "undefined" && city}
                   placeholder={FormFields.CITY}
                   onChangeText={(value) => setCity(value)}
                   label="Cidade"
@@ -409,7 +420,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
                   label="Estado"
                   onChange={(labelSelect) => setState(labelSelect)}
                   selectedOption={(labelSelect) => setState(labelSelect)}
-                  labelSelect={state === "undefined" ? FormFields.STATE : state}
+                  labelSelect={state !== "undefined" && state}
                   dataOptions={selectState}
                 />
               </S.GridItem>
@@ -420,10 +431,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
                   onChange={(labelSelect) => setCivilStatus(labelSelect)}
                   selectedOption={(labelSelect) => setCivilStatus(labelSelect)}
                   labelSelect={
-                    civilStatus === "undefined"
-                      ? FormFields.CIVIL_STATUS
-                      : civilStatus
-                  }
+                    civilStatus !== "undefined" && civilStatus}
                   dataOptions={selectCivilStatus}
                 />
               </S.GridItem>
@@ -453,6 +461,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
               width="213px"
               heigth="39px"
               size="14px"
+              disabled={disabledSubmit()}
             />
           </S.FooterFields>
         </S.Container>
