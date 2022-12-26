@@ -37,6 +37,7 @@ export function SeeReports() {
         setLoading(false);
         setReports(Object.entries(response));
         setFilter(Object.entries(response));
+        console.log(response, 'response');
       });
     };
 
@@ -366,22 +367,28 @@ export function SeeReports() {
           ) : (
             <S.ListContainer>
               {filter?.map((item: any) => {
-                console.log(item.length, 'item length');
-                console.log(item, 'item');
-                return (
-                  <Fragment>
-                    {item.length > 1 ? (
-                      <S.List>
-                        <Text onPress={() => actionReportId(item[0])}>
-                          {item[1].celula} - {item[1].data}
-                        </Text>
-                        <FontAwesome5 name="eye" color="#000A3E" />
-                      </S.List>
-                    ) : (
-                      <Text>Não existe relatórios</Text>
-                    )}
-                  </Fragment>
-                );
+                console.log(filter.length, 'filter');     
+                if (item[0] !== 'value') {
+                  return (
+                    <Fragment>
+                      {filter.length > 1 ? (
+                        <S.List>
+                          <Text onPress={() => actionReportId(item[0])}>
+                            {item[1].celula} - {item[1].data}
+                          </Text>
+                          <FontAwesome5 name="eye" color="#000A3E" />
+                        </S.List>
+                      ) : (
+                        <Text>Não existe relatórios</Text>
+                      )}
+                    </Fragment>
+                  )
+                };
+                if (filter.length = 1) {
+                  return (
+                    <Text>Não existe relatórios</Text>
+                  )
+                }
               })}
             </S.ListContainer>
           )}
