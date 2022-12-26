@@ -12,13 +12,14 @@ export function InputFieldComponent({
   primary,
   label,
   showPass,
+  disabled,
   ...rest
 }: IContentInputProps) {
   return (
     <Fragment>
       {label && <S.Label>{label}</S.Label>}
-      <S.Field primary={primary}>
-        <S.Input primary={primary} placeholderTextColor={placeholderTextColor} value={value} {...rest} onFocus={() => true} />
+      <S.Field primary={primary} disabled={disabled}>
+        <S.Input primary={primary} placeholderTextColor={placeholderTextColor} value={value} {...rest} onFocus={() => true} disabled={disabled} />
 
         {icon && (
           <Feather onPress={showPass} name={icon} size={24} color="#fff" />
