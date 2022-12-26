@@ -32,8 +32,8 @@ export const BoxIcon = styled.View<ISvgProps>`
 `;
 
 export const Title = styled.Text<ISizeProps>`
-  /* font-size: ${({ size }) =>
-    size ? size : theme.fonts.fontSize.small}; */
+  font-size: ${({ size }) =>
+    size ? size : theme.fonts.fontSize.small};
   font-family: ${theme.fonts.fontFamily.bold};
 
   text-transform: uppercase;
