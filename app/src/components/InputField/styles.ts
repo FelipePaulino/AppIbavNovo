@@ -23,10 +23,6 @@ export const Input = styled.TextInput<IColorsProps>`
   width: 80%;
   padding-left: 16;
   color: ${props => props.placeholderTextColor && '#ffffff'};  
-  :disabled {
-    color: red;
-}
-
 `;
 
 export const Icons = styled.TouchableOpacity``;

@@ -49,17 +49,15 @@ export function UsersInformationScreen(this: any, { route }: any) {
   const [district, setDistrict] = useState(route.params?.bairro || "");
   const [password, setPassword] = useState(route.params?.senha || "");
   const [numberCelula, setNumberCelular] = useState(route.params?.numero_celula || "");
-  const [office, setOffice] = useState(route.params?.cargo === 'pastor' ? 'pastor de rede' : route.params?.cargo || 'Selecione');
-  const [selectDisciples, setSelectDisciples] = useState(route.params?.discipulador || "Selecione");
-  const [selectNetwork, setSelectNetwork] = useState(`${route.params?.rede} - ${route.params?.pastor}` || "Selecione");
-  console.log(route.params?.rede, '${route.params?.rede}')
+  const [office, setOffice] = useState(route.params?.cargo === 'pastor' ? 'pastor de rede' : route.params?.cargo || '');
+  const [selectDisciples, setSelectDisciples] = useState(route.params?.discipulador || "");
+  const [selectNetwork, setSelectNetwork] = useState(`${route.params?.rede} - ${route.params?.pastor}` || "");
   const [birthday, setBirthday] = useState(
     route.params?.data_de_nascimento || ""
   );
   const [civilStatus, setCivilStatus] = useState(
     route.params?.estado_civil || "Selecione"
   );
-  console.log(route.params, 'params')
   const { user } = useUserFiltered();
   const { trigger, setTrigger } = useFormReport();
 
@@ -181,11 +179,13 @@ export function UsersInformationScreen(this: any, { route }: any) {
 
   const handleSelectOffice = (value: string) => {
     setOffice(value);
+    setSelectNetwork('')
+    setSelectDisciples("")
   };
   const handleNetworkChange = (value: string) => {
     setSelectNetwork(value);
 
-    setSelectDisciples("Selecionar");
+    setSelectDisciples("");
   };
 
   const usersMinister =
@@ -218,7 +218,6 @@ export function UsersInformationScreen(this: any, { route }: any) {
         value: disc.nome,
       };
     });
-  console.log(selectNetwork, 'console.log(selectNetwork)')
   const renderSelectsOptions = () => {
     switch (office) {
       case "lider de celula":
@@ -229,7 +228,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
                 label="Rede"
                 onChange={handleNetworkChange}
                 selectedOption={handleNetworkChange}
-                labelSelect={selectNetwork}
+                labelSelect={selectNetwork ? selectNetwork : 'Selecione'}
                 dataOptions={optionsNetwork && optionsNetwork}
               />
             </S.GridItemFull>
@@ -238,7 +237,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
                 label="Discipulado"
                 onChange={handleDisciplesChange}
                 selectedOption={handleDisciplesChange}
-                labelSelect={selectDisciples}
+                labelSelect={selectDisciples ? selectDisciples : 'Selecione'}
                 dataOptions={optionsDisciples && optionsDisciples}
               />
             </S.GridItemFull>
@@ -261,7 +260,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
                 label="Rede"
                 onChange={handleNetworkChange}
                 selectedOption={handleNetworkChange}
-                labelSelect={selectNetwork}
+                labelSelect={selectNetwork ? selectNetwork : 'Selecione'}
                 dataOptions={optionsNetwork && optionsNetwork}
               />
             </S.GridItemFull>
@@ -275,7 +274,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
             <S.GridItemFull>
               <InputFieldComponent
                 primary
-                value={selectNetwork === "undefined" ? FormFields.NETWORK : selectNetwork.split('-')[0]}
+                value={selectNetwork === "undefined" || selectNetwork === "" ? FormFields.NETWORK : selectNetwork.split('-')[0]}
                 placeholder={`* ${FormFields.NETWORK}`}
                 onChangeText={(value) => setSelectNetwork(value)}
                 label={`* ${FormFields.NETWORK}`}

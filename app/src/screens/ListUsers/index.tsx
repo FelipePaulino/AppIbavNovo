@@ -101,8 +101,6 @@ export function ListUsersScreen() {
           ) : (
             <Fragment>
               {listUsers.map((user: any) => {
-                console.log(user, 'user')
-                console.log(user[1].senha, 'senha')
                 return (
                   <PersonLabelComponent
                     nome={user[1]?.nome}
