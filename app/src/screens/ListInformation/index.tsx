@@ -244,7 +244,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
             <S.GridItemFull>
               <InputFieldComponent
                 primary
-                value={numberCelula !== "undefined" && numberCelula}
+                value={numberCelula === "undefined" ? FormFields.NUMBER_CELULA : numberCelula}
                 placeholder={`* ${FormFields.NUMBER_CELULA}`}
                 onChangeText={(value) => setNumberCelular(value)}
                 label={`* ${FormFields.NUMBER_CELULA}`}
@@ -274,7 +274,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
             <S.GridItemFull>
               <InputFieldComponent
                 primary
-                value={selectNetwork !== "undefined" || !selectNetwork && selectNetwork.split('-')[0]}
+                value={(selectNetwork !== "undefined" || !selectNetwork) && selectNetwork.split('-')[0]}
                 placeholder={`* ${FormFields.NETWORK}`}
                 onChangeText={(value) => setSelectNetwork(value)}
                 label={`* ${FormFields.NETWORK}`}
@@ -289,7 +289,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
 
   const disabledSubmit = () => {
     if (office === 'lider de celula') {
-      if (!selectNetwork || !selectDisciples) {
+      if (!selectNetwork || !selectDisciples || numberCelula === 'undefined') {
         return true
       } else { return false }
     } else {
@@ -333,7 +333,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
             <S.GridItemFull>
               <InputFieldComponent
                 primary
-                value={password !== "undefined" && password}
+                value={password === "undefined" ? FormFields.PASSWORD : password}
                 placeholder={FormFields.PASSWORD}
                 onChangeText={(value) => setPassword(value)}
                 label="*Senha"
