@@ -35,6 +35,10 @@ export const List = styled.View`
   border-bottom-color: #666;
   border-bottom-width: 1;
   padding-bottom: 5px;
+  `;
+
+export const NotFoundReports = styled.Text`
+  text-align: center;
 `;
 
 export const ContainerFilter = styled(Animated.View) <Props>`

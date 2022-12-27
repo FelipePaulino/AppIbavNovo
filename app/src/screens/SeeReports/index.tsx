@@ -380,7 +380,7 @@ export function SeeReports() {
                         }
                       </>
                     ) : (
-                      <Text>Não existe relatórios</Text>
+                      <S.NotFoundReports>Não existe relatórios</S.NotFoundReports>
                     )}
                   </Fragment>
                 )
