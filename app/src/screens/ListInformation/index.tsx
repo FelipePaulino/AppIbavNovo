@@ -242,7 +242,6 @@ export function UsersInformationScreen(this: any, { route }: any) {
               />
             </S.GridItemFull>
             <S.GridItemFull>
-              { }
               <InputFieldComponent
                 primary
                 value={numberCelula === "undefined" ? FormFields.NUMBER_CELULA : numberCelula}
