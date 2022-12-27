@@ -125,8 +125,6 @@ export function UsersInformationScreen(this: any, { route }: any) {
     setSuccessModal(true);
   };
 
-  console.log(route.params, 'route.params')
-
   const submitRegister = () => {
     let payload
     const payloadDefault = {
