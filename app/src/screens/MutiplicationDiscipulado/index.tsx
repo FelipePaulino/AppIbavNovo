@@ -22,6 +22,7 @@ import { IPropsAppStack } from "../../routes/AppStack/types";
 
 export function MultiplicationDiscipulado() {
   const [celulas, setCelulas] = useState<any>([]);
+  const [users, setUsers] = useState<any>([]);
   const [listMembersCelula, setListMembersCelula] = useState<any>([]);
 
   const { state, dispatch } = useFormReport();
@@ -41,6 +42,18 @@ export function MultiplicationDiscipulado() {
       };
       getCelulas();
     }
+  }, []);
+
+
+
+  useEffect(() => {
+
+      const getUsers = async () => {
+        const response = await connectApi.get("/users.json");
+        setUsers(Object.values(response.data));
+      };
+      getUsers();
+   
   }, []);
 
   const handleRedeChange = (value: string) => {
@@ -136,11 +149,11 @@ export function MultiplicationDiscipulado() {
   })
 
   const discipuladoAntigo = arrayLideres.filter((item: any) => {
-    return !item.checked
+    return !item.checked && item.lider !== state.celulaSelect.split('- ')[1] 
   })
 
   const discipuladoNovo = arrayLideres.filter((item: any) => {
-    return item.checked
+    return item.checked || item.lider === state.celulaSelect.split('- ')[1] 
   })
 
   const mudandoDisc = discipuladoNovo.map((item: any) => {
@@ -149,21 +162,41 @@ export function MultiplicationDiscipulado() {
 
   useEffect(() => {
     if (listMembersCelula) {
-      const arrayParaEnviar: any = [...discipuladosNaoSelecionados, ...discipuladoAntigo, ...mudandoDisc]
-
+      const noChecked = mudandoDisc.map((item:any) => {
+      return { ...item, checked: false}
+      })
+      const arrayParaEnviar: any = [...discipuladosNaoSelecionados, ...discipuladoAntigo, ...noChecked]
       setArrayEnvio(arrayParaEnviar)
     }
-
-
   }, [state.celulaSelect, listMembersCelula]);
 
 
   const MultiplyDisc = () => {
+    const filtrandoUser = users.filter((item:any) =>{
+      return item.nome === state.celulaSelect.split('- ')[1]
+    })
+
+    const changeCargo = {...filtrandoUser[0], cargo:'discipulador'}
+
+    const filtrandoUserSemTrocar = users.filter((item:any) =>{
+      return item.nome !== state.celulaSelect
+    })
+
+    const arrayUserEnvio = [changeCargo, ...filtrandoUserSemTrocar]
+
     try {
       connectApi.put(`/celulas.json`, {
         ...arrayEnvio,
       })
-      setSuccessModal(true)
+
+      try {
+        connectApi.put(`/users.json`, {
+          ...arrayUserEnvio,
+        })
+        setSuccessModal(true)
+      } catch (err) {
+        alert('Erro ao editar a Usuário')
+      }
     } catch (err) {
       alert('Erro ao editar a celula')
     }
@@ -177,7 +210,6 @@ export function MultiplicationDiscipulado() {
 
   const validFormWithMembers = state.redeSelect !== 'Selecione' && state.discipuladoSelect !== 'Selecione' && state.celulaSelect !== 'Selecione'
 
-console.log(state.redeSelect, 'state.redeSelect')
   return (
     <>
       <HeaderComponent>
@@ -242,8 +274,8 @@ console.log(state.redeSelect, 'state.redeSelect')
                   key={item.nome}
                   label={item.lider}
                   color="red"
-                  status={item.checked ? "checked" : "unchecked"}
-                  disabled={state.celulaSelect.includes(item.nome)}
+                  status={item.checked || state.celulaSelect !== 'Selecione' && item.lider === state.celulaSelect.split('- ')[1] ? "checked" : "unchecked"}
+                  disabled={item.lider === state.discipuladoSelect || state.celulaSelect !== 'Selecione' && item.lider === state.celulaSelect.split('- ')[1]}
                   onPress={() => {
                     memberMultiply(item);
                   }}
