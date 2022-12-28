@@ -6,7 +6,6 @@ import { SelectComponent } from "../../components/Select";
 import { TitleComponent } from "../../components/Title";
 import { InputFieldComponent } from "../../components/InputField";
 import * as S from "./styles";
-import { TextSelect } from "../../components/Date/styles";
 import { useFormReport } from "../../hooks/useFormReport";
 import { connectApi } from "../../common/services/ConnectApi";
 import { FormReportActions } from "../../contexts/FormReport";
@@ -36,7 +35,7 @@ export function MultiplicationCelula() {
   const [newLeaderSelected, setNewLeaderSelected] = useState<any>()
 
   const { state, dispatch } = useFormReport();
-  const { user, loading } = useUserFiltered();
+  const { user } = useUserFiltered();
   const navigation = useNavigation<IPropsAppStack>();
 
 
@@ -104,7 +103,7 @@ export function MultiplicationCelula() {
   };
 
   // tratativas para o usuário administrador
-  const redes = celulas.map((item: any) => item.rede);
+  const redes = celulas.map((item: any) => item?.rede);
   const redesUnicas = redes.filter(function (este: any, i: any) {
     return redes.indexOf(este) === i && este;
   });
@@ -116,7 +115,7 @@ export function MultiplicationCelula() {
   });
 
   const filtrandoRedes = celulas.filter((item: any) => {
-    return item.rede === state.redeSelect;
+    return item?.rede === state.redeSelect;
   });
 
   const discipulado = filtrandoRedes.map((item: any) => item.discipulador);
@@ -133,19 +132,19 @@ export function MultiplicationCelula() {
 
   const filtrandoDiscipulado = celulas.filter((item: any) => {
     return (
-      item.discipulador === state.discipuladoSelect &&
-      item.rede === state.redeSelect
+      item?.discipulador === state.discipuladoSelect &&
+      item?.rede === state.redeSelect
     );
   });
   const celulaAdm = filtrandoDiscipulado.map((item: any) => {
     return {
-      value: `${item.numero_celula} - ${item.lider}`,
+      value: `${item?.numero_celula} - ${item?.lider}`,
     };
   });
 
   useEffect(() => {
     const listMembers: any = Object.values(celulas).filter((item: any) => {
-      return celulasSelected === `${item.numero_celula} - ${item.lider}`;
+      return celulasSelected === `${item?.numero_celula} - ${item?.lider}`;
     });
     setListCelula(listMembers[0]?.membros);
   }, [celulasSelected]);
@@ -228,9 +227,9 @@ export function MultiplicationCelula() {
   const celulaFilter = state.celulaSelect.split('- ')[1]
   const numberCelulaFilter = state.celulaSelect.split(' - ')[0]
   const renderOptionsLeader = listMembersCelula && listMembersCelula.filter((item: any) => item.nome !== celulaFilter)
-  const renderPastor = celulas && celulas.filter((item: any) => item.rede === state.redeSelect)
+  const renderPastor = celulas && celulas.filter((item: any) => item?.rede === state.redeSelect)
   const pastorCelula = renderPastor[0]?.pastor
-  const renderLeader = leaderCelula.filter((item: any) => item[1].lider === celulaFilter)
+  const renderLeader = leaderCelula.filter((item: any) => item[1]?.lider === celulaFilter)
   const idCelula = renderLeader && renderLeader.length && renderLeader[0][0]
 
   const newCelulaMultiplied = () => {

@@ -71,12 +71,12 @@ export function Multiplication() {
           <SelectedMenuComponent
             icon={<S.UserGridIcon name="network-wired" />}
             title="Multiplicação Discipulado"
-            onPress={() => navigation.navigate("MultiplicationDiscipulado")}
+            onPress={() => clean("MultiplicationDiscipulado")}
           />
           <SelectedMenuComponent
             icon={<S.UserGridIcon name="vector-square" />}
             title="Multiplicação Rede"
-            onPress={() => navigation.navigate("MultiplicationRede")}
+            onPress={() => clean("MultiplicationRede")}
           />
         </S.ContentOptions>
       </S.Content>
