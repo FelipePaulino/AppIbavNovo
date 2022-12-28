@@ -165,7 +165,7 @@ export function MultiplicationDiscipulado() {
       const noChecked = mudandoDisc.map((item:any) => {
       return { ...item, checked: false}
       })
-      const arrayParaEnviar: any = [...discipuladosNaoSelecionados, ...discipuladoAntigo, ...noChecked]
+      const arrayParaEnviar: any = {...discipuladosNaoSelecionados, ...discipuladoAntigo, ...noChecked}
       setArrayEnvio(arrayParaEnviar)
     }
   }, [state.celulaSelect, listMembersCelula]);
@@ -182,7 +182,7 @@ export function MultiplicationDiscipulado() {
       return item.nome !== state.celulaSelect
     })
 
-    const arrayUserEnvio = [changeCargo, ...filtrandoUserSemTrocar]
+    const arrayUserEnvio = {...changeCargo, ...filtrandoUserSemTrocar}
 
     try {
       connectApi.put(`/celulas.json`, {
