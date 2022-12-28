@@ -137,16 +137,15 @@ export function MultiplicationRede() {
         const arrayLideres = listMembersCelula.length > 0 ? listMembersCelula  : Object.values(filterRedes)
       
         const memberMultiply = (member: any) => {
-const y = listMembersCelula.length > 0 ? listMembersCelula : filterRedes
+        const verifyDisc = listMembersCelula.length > 0 ? listMembersCelula : filterRedes
           const newMember = { ...member, checked: !member?.checked };
-          const transformClick = y.filter(
+          const transformClick = verifyDisc.filter(
             (item: any) => {
               return item.discipulador !== member.discipulador;
             }
           );
 
           setListMembersCelula([...transformClick, newMember]);
-          console.log(listMembersCelula, 'listMembersCelula')
         };
       
         const RedeNaoSelecionados = celulas.filter((item: any) => {
@@ -195,7 +194,7 @@ const y = listMembersCelula.length > 0 ? listMembersCelula : filterRedes
           const nomesDiscs = checkedDiscs.map((item: any) => item.discipulador)
 
           const RedeAntiga = users.filter((item: any) => {
-            return !nomesDiscs.includes(item.discipulador) && item.nome !== state.celulaSelect && item.discipulador !== state.celulaSelect && item.cargo !== 'administrador'
+            return !nomesDiscs.includes(item.discipulador) && item.nome !== state.celulaSelect && item.discipulador !== state.celulaSelect 
           })
 
           const discMudandoPastor = RedeAntiga.map((item: any) => {
@@ -218,13 +217,11 @@ const y = listMembersCelula.length > 0 ? listMembersCelula : filterRedes
             return nomesDiscs.includes(item.discipulador) || item.discipulador === state.celulaSelect
           })
 
-          console.log(nomesDiscs, 'nomesDiscs')
-
           const mudandoDisc = discipuladoNovo.map((item: any) => {
             return { ...item, rede: novaRede, pastor: state.celulaSelect}
           })
 
-          const arrayUserEnvio = [changeCargo, ...RedeNaoSelecionados, ...discValidos, ...discValidosRedeAntiga, ...mudandoDisc]
+          const arrayUserEnvio = [changeCargo, ...discValidos, ...discValidosRedeAntiga, ...mudandoDisc]
 
           try {
             connectApi.put(`/celulas.json`, {
@@ -236,7 +233,6 @@ const y = listMembersCelula.length > 0 ? listMembersCelula : filterRedes
                 ...arrayUserEnvio,
               })
 
-              console.log(arrayUserEnvio, 'arrayUserEnvio')
              setSuccessModal(true)
             } catch (err) {
               alert('Erro ao editar a Usuário')

@@ -192,7 +192,7 @@ export function MultiplicationDiscipulado() {
     const tirandoEspacos = discMudandoDisc.filter((item:any) => item)
 
     const DiscAntigo = users.filter((item: any) => {
-      return !nomesLider.includes(item.nome) && item.nome !== state.celulaSelect.split('- ')[1] && item.discipulador !== state.celulaSelect && item.cargo !== 'administrador'
+      return !nomesLider.includes(item.nome) && item.nome !== state.celulaSelect.split('- ')[1] && item.discipulador !== state.celulaSelect
     })
 
     const arrayUserEnvio = [changeCargo, ...DiscAntigo, ...tirandoEspacos]
