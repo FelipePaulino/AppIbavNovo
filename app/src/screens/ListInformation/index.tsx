@@ -145,7 +145,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
     if (office === 'lider de celula') {
       payload = {
         ...payloadDefault,
-        cargo: 'lider de celular',
+        cargo: 'lider de celula',
         discipulador: selectDisciples,
         numero_celula: numberCelula,
         rede: selectNetwork.split('-')[0],
