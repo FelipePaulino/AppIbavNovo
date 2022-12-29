@@ -176,13 +176,26 @@ export function MultiplicationDiscipulado() {
       return item.nome === state.celulaSelect.split('- ')[1]
     })
 
-    const changeCargo = {...filtrandoUser[0], cargo:'discipulador'}
+    const changeCargo = {...filtrandoUser[0], cargo:'discipulador', discipulador: state.celulaSelect.split('- ')[1]}
 
-    const filtrandoUserSemTrocar = users.filter((item:any) =>{
-      return item.nome !== state.celulaSelect
+    const checkedDiscs = arrayLideres.filter((item: any) => {
+      return item.checked
+    })
+    const nomesLider = checkedDiscs.map((item: any) => item.lider)
+
+    const discMudandoDisc = users.map((item: any) => {
+      if(nomesLider.includes(item.nome) ){
+          return { ...item, discipulador: state.celulaSelect.split('- ')[1]}
+      }
     })
 
-    const arrayUserEnvio = [changeCargo, ...filtrandoUserSemTrocar]
+    const tirandoEspacos = discMudandoDisc.filter((item:any) => item)
+
+    const DiscAntigo = users.filter((item: any) => {
+      return !nomesLider.includes(item.nome) && item.nome !== state.celulaSelect.split('- ')[1] && item.discipulador !== state.celulaSelect
+    })
+
+    const arrayUserEnvio = [changeCargo, ...DiscAntigo, ...tirandoEspacos]
 
     try {
       connectApi.put(`/celulas.json`, {
