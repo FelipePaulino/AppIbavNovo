@@ -274,7 +274,6 @@ export function SeeReports() {
                     labelSelect={state.redeSelect}
                     dataOptions={mapRedesUnicas}
                     selectedOption={handleRedeChange}
-                    width="300"
                   />
                 </S.ContentC>
               </S.Grid>
@@ -291,7 +290,6 @@ export function SeeReports() {
                     labelSelect={state.discipuladoSelect}
                     dataOptions={mapDiscipuladosUnicos}
                     selectedOption={handleDiscipuladoChange}
-                    width="300"
                     disabled={state.redeSelect === "Selecione" ? true : false}
                   />
                 </S.ContentC>
@@ -305,7 +303,6 @@ export function SeeReports() {
                     labelSelect={state.celulaSelect}
                     dataOptions={mapCelulasUnicos}
                     selectedOption={handleCelulaChange}
-                    width="300"
                     disabled={
                       state.discipuladoSelect === "Selecione" ? true : false
                     }
@@ -322,6 +319,7 @@ export function SeeReports() {
                     showCalender={showCalender}
                     dataDados={state.date}
                     onChange={handleDateChange}
+                    width="100%"
                   />
                 </S.ContentC>
               </S.Grid>
@@ -347,17 +345,20 @@ export function SeeReports() {
           <S.BoxButtons>
             <ButtonComponent
               title="FILTRAR"
-              width="130px"
+              width="180px"
               icon="filter"
               color="white"
               onPress={() => setShowFilter(true)}
+              margin="10px"
+              size="14px"
             />
             <ButtonComponent
               title="LIMPAR FILTROS"
-              width="200px"
+              width="180px"
               icon="times"
               color="white"
               onPress={() => cleanFilter()}
+              size="14px"
             />
           </S.BoxButtons>
           {loading ? (
@@ -366,13 +367,23 @@ export function SeeReports() {
             <S.ListContainer>
               {filter?.map((item: any) => {
                 return (
-                  <S.List>
-                    <Text onPress={() => actionReportId(item[0])}>
-                      {item[1].celula} - {item[1].data}
-                    </Text>
-                    <FontAwesome5 name="eye" color="#000A3E" />
-                  </S.List>
-                );
+                  <Fragment>
+                    {filter.length > 1 ? (
+                      <>
+                        {item[0] !== 'value' &&
+                          <S.List>
+                            <Text onPress={() => actionReportId(item[0])}>
+                              {item[1].celula} - {item[1].data}
+                            </Text>
+                            <FontAwesome5 name="eye" color="#000A3E" />
+                          </S.List>
+                        }
+                      </>
+                    ) : (
+                      <S.NotFoundReports>Não existe relatórios</S.NotFoundReports>
+                    )}
+                  </Fragment>
+                )
               })}
             </S.ListContainer>
           )}

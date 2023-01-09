@@ -35,6 +35,10 @@ export const List = styled.View`
   border-bottom-color: #666;
   border-bottom-width: 1;
   padding-bottom: 5px;
+  `;
+
+export const NotFoundReports = styled.Text`
+  text-align: center;
 `;
 
 export const ContainerFilter = styled(Animated.View) <Props>`
@@ -75,7 +79,7 @@ export const ContentC = styled.View`
   align-items: flex-end;
   margin: 0;
   padding: 0;
-  width: 900px;
+  width: 90%;
   height: 40;
 `;
 
@@ -84,14 +88,9 @@ export const Grid = styled.View`
 `;
 
 export const BoxButtons = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
+  margin: 0 auto;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 export const Loading = styled(Image)``;
-
-
-
-
-
-

@@ -5,4 +5,5 @@ export interface IContentProps {
   onChange: any;
   open: () => void;
   label?: string;
+  width?: string;
 }

@@ -11,6 +11,9 @@ export const Content = styled.TouchableOpacity<ISizeProps>`
   background-color: ${({ disabled }) =>
     disabled ? theme.colors.grey : "#A60100"};
   border-radius: 10;
+  margin-bottom: ${({ margin }) => 
+    margin ? margin : "0"};
+  padding: 9px;
 `;
 
 export const Background = styled.View`

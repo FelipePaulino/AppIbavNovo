@@ -2,10 +2,9 @@
 
 para rodar
 
-`cd app/`
-`yarn`
-
 `
+cd app/
+yarn
 expo start
 `
 
