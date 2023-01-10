@@ -27,6 +27,7 @@ export const InfoName = styled.Text`
 
 export const ContainerSelect = styled.View`
   flex-direction: row;
+  align-items: center;
   height: 100%;
   width: 40%;
 `;
