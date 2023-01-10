@@ -47,7 +47,6 @@ export function MembersReportScreen() {
   };
 
   const dataUser = user && user[0] && user[0][1];
-  const identifyCelula = user && user[0][1].numero_celula;
   const idCelulaSelect =
     state.celulaSelect && state.celulaSelect.split(" -")[0];
   const whatIsOffice = dataUser && dataUser.cargo;
@@ -59,7 +58,6 @@ export function MembersReportScreen() {
       celulas &&
       celulas.filter((item: any) => {
         return (
-          item[1].numero_celula == identifyCelula ||
           item[1].numero_celula == idCelulaSelect
         );
       });
@@ -71,7 +69,7 @@ export function MembersReportScreen() {
         JSON.stringify(filterMembers)
       );
     }
-  }, [identifyCelula, celulas]);
+  }, [idCelulaSelect, celulas]);
 
   const newMembersList =
     members &&
