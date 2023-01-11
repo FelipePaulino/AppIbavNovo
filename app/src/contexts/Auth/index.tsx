@@ -12,7 +12,7 @@ import { GetStorage } from "../../common/constants/storage";
 export const AuthenticatedContext = createContext({} as IAuthContextData);
 
 export function AuthenticatedProvider({ children }: IAuthProviderProps) {
-  const [isLogged, setIsLogged] = useState(false);
+  const [isLogged, setIsLogged] = useState(true);
   const [user, setUser] = useState<User | null>(null);
   const [errorLogin, setErrorLogin] = useState<string>(
     "Senha ou login incorreto"

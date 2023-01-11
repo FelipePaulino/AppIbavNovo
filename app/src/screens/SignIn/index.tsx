@@ -20,11 +20,9 @@ export function SignInScreen() {
 
   function handleSignIn() {
     signIn(email, password);
-    setTimeout(() => {
       if (isLogged === false) {
         setErrorr(errorLogin);
       }
-    }, 1000);
   }
 
   return (
