@@ -47,6 +47,10 @@ export function HomeScreen() {
       payload: "",
     });
     dispatch({
+      type: FormReportActions.setObservations,
+      payload: "",
+    });
+    dispatch({
       type: FormReportActions.setTextDate,
       payload: "Selecione uma data",
     });

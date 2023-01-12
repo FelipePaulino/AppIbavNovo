@@ -30,6 +30,11 @@ export const Grid = styled.View`
   margin-bottom: 32;
 `;
 
+export const GridLeft = styled.View`
+  margin-bottom: 32;
+  align-items: flex-start;
+`;
+
 export const ContentC = styled.View`
   flex-direction: row;
   align-items: flex-end;
@@ -63,6 +68,7 @@ export const DescriptionC = styled.Text`
 
 export const Observations = styled.TextInput`
   border-color: ${theme.colors.grey};
+  width: 100%;
   border-width: 1;
   padding: 10px;
   margin-top: 15;
