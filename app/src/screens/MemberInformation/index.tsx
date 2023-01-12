@@ -23,17 +23,18 @@ import { IPropsAppStack } from "../../routes/AppStack/types";
 export function MembersInformationScreen(this: any, { route }: any) {
     const [successModal, setSuccessModal] = useState(false);
     const [users, setUsers] = useState<any>();
-    console.log(route.params, 'params')
 
     const [name, setName] = useState(route.params?.nome || "");
-    const [office, setOffice] = useState(route.params?.cargo === 'pastor' ? 'pastor de rede' : route.params?.cargo || '');
+    const office = (route.params?.cargo === 'pastor' ? 'pastor de rede' : route.params?.cargo || '');
+    const [selectDisciples, setSelectDisciples] = useState(route.params?.discipulador || "");
     const [selectNetwork, setSelectNetwork] = useState(`${route.params?.rede} - ${route.params?.pastor}` || "");
-    const [email, setEmail] = useState(route.params?.email || "");
-    const [phone, setPhone] = useState(route.params?.telefone || "");
+    const [selectLider, setSelectLider] = useState(`${route.params?.lider}` || "");
+    const [celulas, setCelulas] = useState<any>()
+
     // const [id, setId] = useState(route.params?.id)
 
     // const [date, setDate] = useState(new Date())
-    // const [celulas, setCelulas] = useState<any>()
+
     // const [members, setMembers] = useState<any>([]);
 
     // const { user } = useUserFiltered();
@@ -44,15 +45,17 @@ export function MembersInformationScreen(this: any, { route }: any) {
 
     const service = new RequestService();
 
-    // useEffect(() => {
-    //     const getCelulas = async () => {
-    //         await serviceGet.getCelulas().then((response) => {
-    //             setCelulas(Object.entries(response))
-    //         })
-    //     }
 
-    //     getCelulas()
-    // }, [])
+    useEffect(() => {
+        const getCelulas = async () => {
+            await service.getCelulas().then((response) => {
+                setCelulas(Object.entries(response))
+            })
+        }
+        getCelulas()
+    }, [])
+
+    console.log(celulas, 'celulas')
 
     useEffect(() => {
         const getUsers = async () => {
@@ -60,8 +63,8 @@ export function MembersInformationScreen(this: any, { route }: any) {
                 .getUsers()
                 .then((response) => {
                     setUsers(Object.values(response));
+                    console.log(response, 'response')
                 })
-            // .finally(() => setLoading(false));
         };
         getUsers();
     }, []);
@@ -72,84 +75,138 @@ export function MembersInformationScreen(this: any, { route }: any) {
     };
 
     const submitRegister = () => {
-        console.log('submit')
-
+        const RedeNaoAlterados = celulas.filter((item: any) => {
+            return item?.rede !== selectNetwork
+        })
+        const RedeAlterados = celulas.filter((item: any) => {
+            return item?.rede === selectNetwork
+        })
+        console.log(RedeNaoAlterados, 'RedeNaoAlterados')
+        console.log(RedeAlterados, 'RedeAlterados')
     };
 
-    console.log(users, 'users')
-    // const removeAdm =
-    //     users &&
-    //     users.filter((item: any) => {
-    //         return (item.cargo !== 'administrador')
-    //     });
+    const removeAdm =
+        users &&
+        users.filter((item: any) => {
+            return (item.cargo !== 'administrador')
+        });
 
-    // const optionsUsers =
-    //     removeAdm &&
-    //     removeAdm.map((user: any) => {
-    //         return { value: user.nome, }
-    //     });
+    const usersNetwork =
+        removeAdm && removeAdm.filter((item: any) => item.cargo === "pastor");
 
-    // const optionsNetwork =
-    //     removeAdm &&
-    //     removeAdm.map((item: any) => {
-    //         return { value: item.rede, }
-    //     });
+    const optionsUsersPastor = usersNetwork && usersNetwork.map((user: any) => {
+        return { value: user.nome, }
+    });
 
-    // console.log(optionsNetwork, 'options pastor')
-    console.log(name, 'name')
+    const optionsNetwork =
+        usersNetwork &&
+        usersNetwork.map((item: any) => {
+            return { value: `${item.rede} - ${item.pastor}`, }
+        });
 
-    // const renderContent = () => {
-    //     switch (office) {
-    //         case "discipulador":
-    //             return (
-    //                 <>
-    //                     <S.GridItemFull>
-    //                         <SelectComponent
-    //                             label="Rede"
-    //                             onChange={(value) => setSelectNetwork(value)}
-    //                             selectedOption={(value) => setSelectNetwork(value)}
-    //                             labelSelect={selectNetwork}
-    //                             dataOptions={optionsNetwork && optionsNetwork}
-    //                         />
-    //                     </S.GridItemFull>
-    //                     <S.GridItemFull>
-    //                         <SelectComponent
-    //                             label="Rede"
-    //                             onChange={(value) => setSelectNetwork(value)}
-    //                             selectedOption={(value) => setSelectNetwork(value)}
-    //                             labelSelect={selectNetwork}
-    //                             dataOptions={optionsNetwork && optionsNetwork}
-    //                         />
-    //                     </S.GridItemFull>
-    //                 </>
-    //             );
-    //         case "pastor de rede":
-    //             return (
-    //                 <>
-    //                     <S.GridItemFull>
-    //                         <InputFieldComponent
-    //                             primary
-    //                             value={selectNetwork.split('-')[0]}
-    //                             placeholder={`* ${FormFields.NETWORK}`}
-    //                             onChangeText={(value) => setSelectNetwork(value)}
-    //                             label={`* ${FormFields.NETWORK}`}
-    //                         />
-    //                     </S.GridItemFull>
-    //                     <S.GridItemFull>
-    //                         <SelectComponent
-    //                             label="Pastor"
-    //                             onChange={(value) => setName(value)}
-    //                             selectedOption={(value) => setName(value)}
-    //                             labelSelect={name}
-    //                             dataOptions={optionsUsers && optionsUsers}
-    //                         />
-    //                     </S.GridItemFull>
-    //                 </>
-    //             );
-    //         default:
-    //             return;
-    //     }
-    // };
+    const usersDiscipulado =
+        removeAdm && removeAdm.filter((item: any) => item.cargo === "discipulador");
+
+    const optionsUsersDiscipulado =
+        usersDiscipulado &&
+        usersDiscipulado.map((user: any) => {
+            return { value: user.nome, }
+        });
+
+    const usersLider =
+        removeAdm && removeAdm.filter((item: any) => item.cargo === "lider de celula");
+
+    const optionsUsersLider =
+        usersLider &&
+        usersLider.map((user: any) => {
+            return { value: user.nome, }
+        });
+
+    const renderContent = () => {
+        switch (office) {
+            case "lider de celula":
+                return (
+                    <>
+                        <S.GridItemFull>
+                            <SelectComponent
+                                label="Rede"
+                                onChange={(value) => setSelectNetwork(value)}
+                                selectedOption={(value) => setSelectNetwork(value)}
+                                labelSelect={selectNetwork}
+                                dataOptions={optionsNetwork && optionsNetwork}
+                            />
+                        </S.GridItemFull>
+                        <S.GridItemFull>
+                            <SelectComponent
+                                label="Discipulado"
+                                onChange={(value) => setSelectDisciples(value)}
+                                selectedOption={(value) => setSelectDisciples(value)}
+                                labelSelect={selectDisciples}
+                                dataOptions={optionsUsersDiscipulado && optionsUsersDiscipulado}
+                            />
+                        </S.GridItemFull>
+                        <S.GridItemFull>
+                            <SelectComponent
+                                label="Lider"
+                                onChange={(value) => setSelectLider(value)}
+                                selectedOption={(value) => setSelectLider(value)}
+                                labelSelect={selectLider}
+                                dataOptions={optionsUsersLider && optionsUsersLider}
+                            />
+                        </S.GridItemFull>
+                    </>
+                );
+            case "discipulador":
+                return (
+                    <>
+                        <S.GridItemFull>
+                            <SelectComponent
+                                label="Rede"
+                                onChange={(value) => setSelectNetwork(value)}
+                                selectedOption={(value) => setSelectNetwork(value)}
+                                labelSelect={selectNetwork}
+                                dataOptions={optionsNetwork && optionsNetwork}
+                            />
+                        </S.GridItemFull>
+                        <S.GridItemFull>
+                            <SelectComponent
+                                label="Discipulado"
+                                onChange={(value) => setSelectDisciples(value)}
+                                selectedOption={(value) => setSelectDisciples(value)}
+                                labelSelect={selectDisciples}
+                                dataOptions={optionsUsersDiscipulado && optionsUsersDiscipulado}
+                            />
+                        </S.GridItemFull>
+                    </>
+                );
+            case "pastor de rede":
+                return (
+                    <>
+                        <S.GridItemFull>
+                            <InputFieldComponent
+                                primary
+                                value={selectNetwork.split('-')[0]}
+                                placeholder={`* ${FormFields.NETWORK}`}
+                                onChangeText={(value) => setSelectNetwork(value)}
+                                label={`* ${FormFields.NETWORK}`}
+                            />
+                        </S.GridItemFull>
+                        <S.GridItemFull>
+                            <SelectComponent
+                                label="Pastor"
+                                onChange={(value) => setName(value)}
+                                selectedOption={(value) => setName(value)}
+                                labelSelect={name}
+                                dataOptions={optionsUsersPastor && optionsUsersPastor}
+                            />
+                        </S.GridItemFull>
+                    </>
+                );
+
+            default:
+                return;
+        }
+    };
 
     return (
         <>
@@ -164,7 +221,7 @@ export function MembersInformationScreen(this: any, { route }: any) {
             <ScrollView>
                 <S.Container>
                     <S.Form>
-                        {/* {renderContent()} */}
+                        {renderContent()}
                     </S.Form>
 
                     <S.FooterFields>
