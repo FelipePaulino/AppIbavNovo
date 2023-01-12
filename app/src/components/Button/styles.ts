@@ -7,6 +7,7 @@ import { ISizeProps, ISvgProps } from "./types";
 export const Content = styled.TouchableOpacity<ISizeProps>`
   height: ${({ heigth }) => (heigth ? heigth : "48")};
   width: ${({ width }) => (width ? width : "100%")};
+  padding: 9px;
 
   background-color: ${({ disabled }) =>
     disabled ? theme.colors.grey : "#A60100"};
@@ -29,8 +30,8 @@ export const BoxIcon = styled.View<ISvgProps>`
 `;
 
 export const Title = styled.Text<ISizeProps>`
-  font-size: ${({ size }) =>
-    size ? size : theme.fonts.fontSize.small};
+  /* font-size: ${({ size }) =>
+    size ? size : theme.fonts.fontSize.small}; */
   font-family: ${theme.fonts.fontFamily.bold};
 
   text-transform: uppercase;

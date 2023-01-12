@@ -8,7 +8,8 @@ export interface IContentProps extends TouchableOpacityProps {
   heigth?: string;
   size?: string;
   color?: string;
-  disabled?: any
+  disabled?: any;
+  margin?: string;
 }
 
 export interface ISizeProps {
@@ -16,6 +17,7 @@ export interface ISizeProps {
   heigth?: string;
   size?: string;
   icon?: string;
+  margin?: string;
 }
 
 export interface ISvgProps {

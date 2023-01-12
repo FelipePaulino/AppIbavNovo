@@ -85,13 +85,9 @@ export const Grid = styled.View`
 
 export const BoxButtons = styled.View`
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
 `;
 
 export const Loading = styled(Image)``;
-
-
-
-
-
-
