@@ -16,16 +16,20 @@ export const FilteredProvider = ({ children }: IProviderProps) => {
 
   const { data: listUsers, isFetching: loading } = useFetch("/users.json");
   const { user: userAuth } = useAuth();
+  // console.log(listUsers, 'LIST USER FILTERED PROVIDER')
+  console.log(userAuth, 'userAuth')
 
   useEffect(() => {
-    const emailAuth = userAuth?.email;
+    const emailAuth = userAuth && userAuth?.email;
     const filterUser =
       listUsers &&
       listUsers.filter((item: any) => {
         return item[1].email === emailAuth;
       });
+      console.log(filterUser, 'filterUser')
 
-    if (filterUser) {
+    if (filterUser && filterUser.length !== 0) {
+      console.log('ENTROU NO IF FILTER USER')
       setUser(filterUser);
       AsyncStorage.setItem(
         GetStorage.USER_FILTERED,
