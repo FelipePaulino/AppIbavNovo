@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { IDataUser } from "../UserRegister/types";
 
 import FormFields from "../../common/constants/form";
 import useUserFiltered from "../../hooks/useUserFiltered";
@@ -30,6 +31,7 @@ import { IPropsAppStack } from "../../routes/AppStack/types";
 import * as S from "./styles";
 
 export function UsersInformationScreen(this: any, { route }: any) {
+  const [users, setUsers] = useState([]);
   const [date, setDate] = useState(new Date());
   const [celulas, setCelulas] = useState<any>();
   const [members, setMembers] = useState<any>([]);
@@ -40,18 +42,22 @@ export function UsersInformationScreen(this: any, { route }: any) {
   const [name, setName] = useState(route.params?.nome || "");
   const [city, setCity] = useState(route.params?.cidade || "");
   const [email, setEmail] = useState(route.params?.email || "");
-  const [state, setState] = useState(route.params?.estado || "");
-  const [status, setStatus] = useState(route.params?.status || "");
+  const [state, setState] = useState(route.params?.estado || "Selecione");
+  const [nEnd, setNEnd] = useState(route.params?.n_end || "");
   const [phone, setPhone] = useState(route.params?.telefone || "");
   const [address, setAddress] = useState(route.params?.endereco || "");
   const [district, setDistrict] = useState(route.params?.bairro || "");
+  const [password, setPassword] = useState(route.params?.senha || "");
+  const [numberCelula, setNumberCelular] = useState(route.params?.numero_celula || "");
+  const [office, setOffice] = useState(route.params?.cargo === 'pastor' ? 'pastor de rede' : route.params?.cargo || '');
+  const [selectDisciples, setSelectDisciples] = useState(route.params?.discipulador || "");
+  const [selectNetwork, setSelectNetwork] = useState(`${route.params?.rede} - ${route.params?.pastor}` || "");
   const [birthday, setBirthday] = useState(
     route.params?.data_de_nascimento || ""
   );
   const [civilStatus, setCivilStatus] = useState(
-    route.params?.estado_civil || ""
+    route.params?.estado_civil || "Selecione"
   );
-
   const { user } = useUserFiltered();
   const { trigger, setTrigger } = useFormReport();
 
@@ -67,6 +73,15 @@ export function UsersInformationScreen(this: any, { route }: any) {
     };
 
     getCelulas();
+  }, []);
+
+  useEffect(() => {
+    const getUsers = async () => {
+      const response = await connectApi.get("/users.json");
+
+      setUsers(Object.values(response.data));
+    };
+    getUsers();
   }, []);
 
   useEffect(() => {
@@ -111,26 +126,178 @@ export function UsersInformationScreen(this: any, { route }: any) {
   };
 
   const submitRegister = () => {
+    let payload
+    const payloadDefault = {
+      senha: password,
+      n_end: nEnd,
+      nome: name,
+      telefone: phone,
+      email: email,
+      endereco: address,
+      cep: cep,
+      bairro: district,
+      cidade: city,
+      estado: state,
+      data_de_nascimento: birthday,
+      estado_civil: civilStatus,
+    }
+
+    if (office === 'lider de celula') {
+      payload = {
+        ...payloadDefault,
+        cargo: 'lider de celular',
+        discipulador: selectDisciples,
+        numero_celula: numberCelula,
+        rede: selectNetwork.split('-')[0],
+        pastor: selectNetwork.split('-')[1],
+      }
+    }
+    else if (office === 'discipulador') {
+      payload = {
+        ...payloadDefault,
+        cargo: 'discipulador',
+        rede: selectNetwork.split('-')[0],
+        pastor: selectNetwork.split('-')[1],
+      }
+    }
+    else {
+      payload = {
+        ...payloadDefault,
+        rede: selectNetwork,
+        cargo: 'pastor',
+      }
+    }
+
     try {
-      connectApi.put(`/users/${id}.json`, {
-        nome: name,
-        status: status,
-        telefone: phone,
-        email: email,
-        endereco: address,
-        cep: cep,
-        bairro: district,
-        cidade: city,
-        estado: state,
-        data_de_nascimento: birthday,
-        estado_civil: civilStatus,
-      });
+      connectApi.put(`/users/${id}.json`, payload);
       setTrigger(!trigger);
       handleOpenModal()
     } catch (err) {
       alert(err);
     }
   };
+
+  const handleSelectOffice = (value: string) => {
+    setOffice(value);
+    setSelectNetwork('')
+    setSelectDisciples("")
+  };
+  const handleNetworkChange = (value: string) => {
+    setSelectNetwork(value);
+
+    setSelectDisciples("");
+  };
+
+  const usersMinister =
+    users && users.filter((minister: IDataUser) => minister.cargo === "pastor");
+
+  const optionsNetwork =
+    usersMinister &&
+    usersMinister.map((pastor: IDataUser) => {
+      return {
+        value: `${pastor?.rede} - ${pastor?.nome}`,
+      };
+    });
+
+  const handleDisciplesChange = (value: string) => {
+    setSelectDisciples(value);
+  };
+
+  const usersDisciples =
+    users &&
+    users.filter((discipler: IDataUser) => discipler.cargo === "discipulador");
+
+  const disciplesFiltered =
+    usersDisciples &&
+    usersDisciples.filter((user: IDataUser) => user.rede === selectNetwork.split(" -")[0]);
+
+  const optionsDisciples =
+    disciplesFiltered &&
+    disciplesFiltered.map((disc: IDataUser) => {
+      return {
+        value: disc.nome,
+      };
+    });
+  const renderSelectsOptions = () => {
+    switch (office) {
+      case "lider de celula":
+        return (
+          <>
+            <S.GridItemFull>
+              <SelectComponent
+                label="Rede"
+                onChange={handleNetworkChange}
+                selectedOption={handleNetworkChange}
+                labelSelect={selectNetwork ? selectNetwork : 'Selecione'}
+                dataOptions={optionsNetwork && optionsNetwork}
+              />
+            </S.GridItemFull>
+            <S.GridItemFull>
+              <SelectComponent
+                label="Discipulado"
+                onChange={handleDisciplesChange}
+                selectedOption={handleDisciplesChange}
+                labelSelect={selectDisciples ? selectDisciples : 'Selecione'}
+                dataOptions={optionsDisciples && optionsDisciples}
+              />
+            </S.GridItemFull>
+            <S.GridItemFull>
+              <InputFieldComponent
+                primary
+                value={numberCelula === "undefined" ? FormFields.NUMBER_CELULA : numberCelula}
+                placeholder={`* ${FormFields.NUMBER_CELULA}`}
+                onChangeText={(value) => setNumberCelular(value)}
+                label={`* ${FormFields.NUMBER_CELULA}`}
+              />
+            </S.GridItemFull>
+          </>
+        );
+      case "discipulador":
+        return (
+          <>
+            <S.GridItemFull>
+              <SelectComponent
+                label="Rede"
+                onChange={handleNetworkChange}
+                selectedOption={handleNetworkChange}
+                labelSelect={selectNetwork ? selectNetwork : 'Selecione'}
+                dataOptions={optionsNetwork && optionsNetwork}
+              />
+            </S.GridItemFull>
+
+          </>
+        );
+
+      case "pastor de rede":
+        return (
+          <>
+            <S.GridItemFull>
+              <InputFieldComponent
+                primary
+                value={(selectNetwork !== "undefined" || !selectNetwork) && selectNetwork.split('-')[0]}
+                placeholder={`* ${FormFields.NETWORK}`}
+                onChangeText={(value) => setSelectNetwork(value)}
+                label={`* ${FormFields.NETWORK}`}
+              />
+            </S.GridItemFull>
+          </>
+        );
+      default:
+        return;
+    }
+  };
+
+  const disabledSubmit = () => {
+    if (office === 'lider de celula') {
+      if (!selectNetwork || !selectDisciples || numberCelula === 'undefined') {
+        return true
+      } else { return false }
+    } else {
+      if (!selectNetwork) {
+        return true
+      } else { return false }
+    }
+  }
 
   return (
     <>
@@ -144,9 +311,38 @@ export function UsersInformationScreen(this: any, { route }: any) {
         <S.Container>
           <S.Form>
             <S.GridItemFull>
+              <SelectComponent
+                label="Cargo"
+                onChange={handleSelectOffice}
+                selectedOption={handleSelectOffice}
+                labelSelect={office}
+                dataOptions={officeMembers}
+              />
+            </S.GridItemFull>
+            {renderSelectsOptions()}
+            <S.GridItemFull>
               <InputFieldComponent
                 primary
-                value={name === "undefined" ? FormFields.FULL_NAME : name}
+                value={email !== "undefined" && email}
+                placeholder={FormFields.EMAIL}
+                onChangeText={(value) => setEmail(value)}
+                label="*Usuário"
+                disabled
+              />
+            </S.GridItemFull>
+            <S.GridItemFull>
+              <InputFieldComponent
+                primary
+                value={password === "undefined" ? FormFields.PASSWORD : password}
+                placeholder={FormFields.PASSWORD}
+                onChangeText={(value) => setPassword(value)}
+                label="*Senha"
+              />
+            </S.GridItemFull>
+            <S.GridItemFull>
+              <InputFieldComponent
+                primary
+                value={name !== "undefined" && name}
                 placeholder={`* ${FormFields.FULL_NAME}`}
                 onChangeText={(value) => setName(value)}
                 label="*Nome Completo"
@@ -156,28 +352,28 @@ export function UsersInformationScreen(this: any, { route }: any) {
             <S.GridItemFull>
               <InputFieldComponent
                 primary
-                value={phone === "undefined" ? FormFields.PHONE : phone}
+                value={phone !== "undefined" && phone}
                 placeholder={`* ${FormFields.PHONE}`}
                 onChangeText={(value) => setPhone(value)}
                 label="*Telefone"
               />
             </S.GridItemFull>
-
             <S.GridItemFull>
               <InputFieldComponent
                 primary
-                value={email === "undefined" ? FormFields.EMAIL : email}
-                placeholder={FormFields.EMAIL}
-                onChangeText={(value) => setEmail(value)}
-                label="*Email"
+                value={cep !== "undefined" && cep}
+                placeholder={FormFields.CEP}
+                onChangeText={(value) => setCep(value)}
+                label="Cep"
               />
             </S.GridItemFull>
+
 
             <S.GridForm>
               <S.GridItem>
                 <InputFieldComponent
                   primary
-                  value={address && address}
+                  value={address !== "undefined" && address}
                   placeholder={FormFields.ADDRESS}
                   onChangeText={(value) => setAddress(value)}
                   label="Endereço"
@@ -187,10 +383,10 @@ export function UsersInformationScreen(this: any, { route }: any) {
               <S.GridItem>
                 <InputFieldComponent
                   primary
-                  value={cep === "undefined" ? FormFields.CEP : cep}
-                  placeholder={FormFields.CEP}
-                  onChangeText={(value) => setCep(value)}
-                  label="Cep"
+                  value={nEnd !== "undefined" && nEnd}
+                  placeholder={FormFields.NUMBER}
+                  onChangeText={(value) => setNEnd(value)}
+                  label="Nº"
                 />
               </S.GridItem>
             </S.GridForm>
@@ -200,8 +396,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
                 <InputFieldComponent
                   primary
                   value={
-                    district === "undefined" ? FormFields.DISTRICT : district
-                  }
+                    district !== "undefined" && district}
                   placeholder={FormFields.DISTRICT}
                   onChangeText={(value) => setDistrict(value)}
                   label="Bairro"
@@ -211,7 +406,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
               <S.GridItem>
                 <InputFieldComponent
                   primary
-                  value={city === "undefined" ? FormFields.CITY : city}
+                  value={city !== "undefined" && city}
                   placeholder={FormFields.CITY}
                   onChangeText={(value) => setCity(value)}
                   label="Cidade"
@@ -225,7 +420,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
                   label="Estado"
                   onChange={(labelSelect) => setState(labelSelect)}
                   selectedOption={(labelSelect) => setState(labelSelect)}
-                  labelSelect={state === "undefined" ? FormFields.STATE : state}
+                  labelSelect={state !== "undefined" && state}
                   dataOptions={selectState}
                 />
               </S.GridItem>
@@ -236,10 +431,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
                   onChange={(labelSelect) => setCivilStatus(labelSelect)}
                   selectedOption={(labelSelect) => setCivilStatus(labelSelect)}
                   labelSelect={
-                    civilStatus === "undefined"
-                      ? FormFields.CIVIL_STATUS
-                      : civilStatus
-                  }
+                    civilStatus !== "undefined" && civilStatus}
                   dataOptions={selectCivilStatus}
                 />
               </S.GridItem>
@@ -257,17 +449,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
                 />
               </S.GridItem>
 
-              <S.GridItem>
-                <SelectComponent
-                  label="Categoria"
-                  onChange={(labelSelect) => setStatus(labelSelect)}
-                  selectedOption={(labelSelect) => setStatus(labelSelect)}
-                  labelSelect={
-                    status === "undefined" ? FormFields.CATEGORY : status
-                  }
-                  dataOptions={officeMembers}
-                />
-              </S.GridItem>
+
             </S.GridForm>
           </S.Form>
 
@@ -279,6 +461,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
               width="213px"
               heigth="39px"
               size="14px"
+              disabled={disabledSubmit()}
             />
           </S.FooterFields>
         </S.Container>

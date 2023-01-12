@@ -13,7 +13,7 @@ export const Field = styled.View<IColorsProps>`
 
   width: 100%;
   height: 48;
-
+  background-color: ${(props) => props.disabled && '#ccc'};
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -23,7 +23,6 @@ export const Input = styled.TextInput<IColorsProps>`
   width: 80%;
   padding-left: 16;
   color: ${props => props.placeholderTextColor && '#ffffff'};  
-
 `;
 
 export const Icons = styled.TouchableOpacity``;
