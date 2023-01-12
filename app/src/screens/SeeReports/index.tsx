@@ -274,7 +274,7 @@ export function SeeReports() {
                     labelSelect={state.redeSelect}
                     dataOptions={mapRedesUnicas}
                     selectedOption={handleRedeChange}
-                    width="300"
+                    width="260"
                   />
                 </S.ContentC>
               </S.Grid>
@@ -291,7 +291,7 @@ export function SeeReports() {
                     labelSelect={state.discipuladoSelect}
                     dataOptions={mapDiscipuladosUnicos}
                     selectedOption={handleDiscipuladoChange}
-                    width="300"
+                    width="260"
                     disabled={state.redeSelect === "Selecione" ? true : false}
                   />
                 </S.ContentC>
@@ -305,7 +305,7 @@ export function SeeReports() {
                     labelSelect={state.celulaSelect}
                     dataOptions={mapCelulasUnicos}
                     selectedOption={handleCelulaChange}
-                    width="300"
+                    width="260"
                     disabled={
                       state.discipuladoSelect === "Selecione" ? true : false
                     }
