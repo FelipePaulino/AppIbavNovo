@@ -398,7 +398,7 @@ export function SendReportScreen() {
                   </S.ContentC>
                 </S.Grid>
 
-                <S.Grid>
+                <S.GridLeft>
                   <TitleComponent
                     title={`${FormFields.OBSERVATIONS}:`}
                     small
@@ -410,7 +410,7 @@ export function SendReportScreen() {
                     onChangeText={handleObservationsChange}
                     value={state.observations}
                   />
-                </S.Grid>
+                </S.GridLeft>
 
                 <S.ContentButton>
                   <ButtonComponent
