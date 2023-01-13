@@ -160,7 +160,6 @@ export function UserRegisterScreen() {
     credentialsPost();
   };
 
-
   const credentialsPost = () => {
     const dataLider = {
       bairro: address.bairro,
@@ -185,7 +184,7 @@ export function UserRegisterScreen() {
             nome: formValues.name,
             bairro: address.bairro,
             email: formValues.email,
-            estado: address.uf ? address.uf : formValues.state,
+            estado: formValues.state ? formValues.state : '',
             rede: formValues.network,
             cidade: address.localidade,
             senha: formValues.password,
