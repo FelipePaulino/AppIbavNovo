@@ -12,7 +12,7 @@ export function PersonLabelComponent({
   return (
     <S.Box>
       <S.ContainerPerson>
-        <S.TextName>{nome}</S.TextName>
+        <S.TextName numberOfLines={1}>{nome}</S.TextName>
         <S.BoxStatus status={status}>
           <S.TextStatus>{status}</S.TextStatus>
         </S.BoxStatus>
