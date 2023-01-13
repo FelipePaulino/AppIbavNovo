@@ -367,10 +367,10 @@ export function SeeReports() {
               {filter?.map((item: any) => {
                 return (
                   <S.List>
-                    <Text onPress={() => actionReportId(item[0])}>
+                    <Text>
                       {item[1].celula} - {item[1].data}
                     </Text>
-                    <FontAwesome5 name="eye" color="#000A3E" />
+                    <FontAwesome5 name="eye" color="#000A3E" onPress={() => actionReportId(item[0])}/>
                   </S.List>
                 );
               })}
