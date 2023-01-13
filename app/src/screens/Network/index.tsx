@@ -185,9 +185,7 @@ export default function NetworkScreenList() {
                     dataOptions={state.redeSelect && mapDiscipuladosUnicos}
                     selectedOption={handleDiscipuladoChange}
                     width="300px"
-                    disabled={
-                      state.redeSelect === "TODOS" && "Selecione" ? true : false
-                    }
+                    disabled={state.redeSelect === "Selecione" ? true : false}
                   />
                 </S.ContentC>
               </S.Grid>
