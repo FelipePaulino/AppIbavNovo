@@ -46,6 +46,7 @@ export const TextName = styled.Text`
   font-size: 14;
   line-height: 16;
   color: #666666;
+  max-width: 240px;
 `;
 
 export const BoxStatus = styled.View<props>`
