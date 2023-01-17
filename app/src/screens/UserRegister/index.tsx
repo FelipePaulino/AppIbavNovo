@@ -307,6 +307,8 @@ export function UserRegisterScreen() {
     }
   }, [formValues, FormFields, office]);
 
+  console.log(selectNetwork, 'selectNetwork')
+
   const renderSelectsOptions = () => {
     switch (office) {
       case "discipulador":
@@ -341,6 +343,7 @@ export function UserRegisterScreen() {
                 selectedOption={handleDisciplesChange}
                 labelSelect={selectDisciples}
                 dataOptions={optionsDisciples && optionsDisciples}
+                disabled={selectNetwork === 'Selecionar'}
               />
             </S.GridSelect>
           </Fragment>
