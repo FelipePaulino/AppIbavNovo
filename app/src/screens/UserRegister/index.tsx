@@ -307,8 +307,6 @@ export function UserRegisterScreen() {
     }
   }, [formValues, FormFields, office]);
 
-  console.log(selectNetwork, 'selectNetwork')
-
   const renderSelectsOptions = () => {
     switch (office) {
       case "discipulador":
