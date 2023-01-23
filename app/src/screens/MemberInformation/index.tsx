@@ -264,9 +264,9 @@ export function MembersInformationScreen(this: any, { route }: any) {
                         <S.Required>* Campos obrigatórios</S.Required>
                         <ButtonComponent title="SALVAR INFORMAÇÕES"
                             onPress={submitRegister}
-                            width='213px'
-                            heigth="39px"
-                            size="14px"
+                            width='213'
+                            heigth="39"
+                            size="14"
                         />
                     </S.FooterFields>
                 </S.Container>

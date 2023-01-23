@@ -8,7 +8,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import theme from "../../styles/theme";
 
 export const Logout = styled(MaterialIcons)`
-  font-size: ${theme.fonts.fontSize.medium};
+  font-size: ${theme.fonts.fontSize.medium}px;
 
   color: ${theme.colors.light};
 `;
@@ -32,10 +32,10 @@ export const Content = styled.View`
   flex: 1;
   align-items: center;
 
-  max-width: 350;
+  max-width: 350px;
   width: 100%;
 
-  margin-top: 32;
+  margin-top: 32px;
   margin-left: auto;
   margin-right: auto;
 `;
@@ -45,7 +45,7 @@ export const Names = styled.View`
   width: 100%;
 
   border-bottom-color: ${theme.colors.grey};
-  border-bottom-width: 1;
+  border-bottom-width: 1px;
 `;
 
 export const Info = styled.View`
@@ -53,12 +53,12 @@ export const Info = styled.View`
 
   align-items: center;
 
-  margin-top: 24;
+  margin-top: 24px;
 `;
 
 export const ContentOptions = styled.View`
   width: 100%;
-  margin-top: 24;
+  margin-top: 24px;
 
   flex-direction: row;
   justify-content: space-around;

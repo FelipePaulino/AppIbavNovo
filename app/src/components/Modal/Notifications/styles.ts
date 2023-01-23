@@ -13,7 +13,7 @@ export const Heading = styled.View`
 
 export const Close = styled(AntDesign)`
   color: ${theme.colors.light};
-  font-size: ${theme.fonts.fontSize.medium};
+  font-size: ${theme.fonts.fontSize.medium}px;
 
   margin-left: auto;
 `;
@@ -24,7 +24,7 @@ export const ContainerInfo = styled.View`
 `;
 
 export const ContentInfo = styled.View`
-  margin-bottom: 32;
+  margin-bottom: 32px;
 
   flex-direction: row;
   align-items: center;
@@ -33,7 +33,7 @@ export const ContentInfo = styled.View`
 export const Line = styled.View`
   background-color: ${theme.colors.red};
   width: 8;
-  height: 65;
+  height: 65px;
 
   margin-right: 16;
 `;
@@ -42,7 +42,7 @@ export const Info = styled.View``;
 
 export const InfoText = styled.Text`
   color: ${theme.colors.light};
-  font-size: ${theme.fonts.fontSize.small};
+  font-size: ${theme.fonts.fontSize.small}px;
 `;
 
 export const Call = styled.Text`

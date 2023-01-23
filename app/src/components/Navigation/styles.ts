@@ -6,7 +6,7 @@ export const Navigation = styled.Text<IDataProps>`
   text-transform: uppercase;
 
   color: ${({ disabled }) => disabled ? 'grey' : '#F2F2F2'};
-  font-size: 14;
+  font-size: 14px;
   font-family: ${theme.fonts.fontFamily.bold};
 
 `;

@@ -3,7 +3,7 @@ import theme from "../../styles/theme";
 
 export const Footer = styled.View`
   padding-top: 25;
-  margin-bottom: 15;
+  margin-bottom: 15px;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;

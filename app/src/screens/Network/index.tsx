@@ -162,7 +162,7 @@ export default function NetworkScreenList() {
                     labelSelect={state.redeSelect}
                     dataOptions={mapRedesUnicas}
                     selectedOption={handleRedeChange}
-                    width="300px"
+                    width="300"
                   />
                 </S.ContentC>
               </S.Grid>
@@ -184,7 +184,7 @@ export default function NetworkScreenList() {
                     }
                     dataOptions={state.redeSelect && mapDiscipuladosUnicos}
                     selectedOption={handleDiscipuladoChange}
-                    width="300px"
+                    width="300"
                     disabled={state.redeSelect === "Selecione" ? true : false}
                   />
                 </S.ContentC>

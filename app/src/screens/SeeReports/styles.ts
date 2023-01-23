@@ -15,7 +15,7 @@ export const TitlePage = styled.Text`
   color: ${theme.colors.light};
   text-transform: uppercase;
 
-  font-size: 14;
+  font-size: 14px;
   font-family: ${theme.fonts.fontFamily.bold};
 `;
 
@@ -33,7 +33,7 @@ export const List = styled.View`
   align-items: center;
   flex-direction: row;
   border-bottom-color: #666;
-  border-bottom-width: 1;
+  border-bottom-width: 1px;
   padding-bottom: 5px;
 `;
 
@@ -57,7 +57,7 @@ export const BgDark = styled.View<Props>`
 `;
 
 export const Title = styled.Text`
-  font-size: ${theme.fonts.fontSize.medium};
+  font-size: ${theme.fonts.fontSize.medium}px;
   font-family: ${theme.fonts.fontFamily.bold};
   text-transform: uppercase;
   color: ${theme.colors.blue};
@@ -76,11 +76,11 @@ export const ContentC = styled.View`
   margin: 0;
   padding: 0;
   width: 900px;
-  height: 40;
+  height: 40px;
 `;
 
 export const Grid = styled.View`
-  margin-bottom: 32;
+  margin-bottom: 32px;
 `;
 
 export const BoxButtons = styled.View`

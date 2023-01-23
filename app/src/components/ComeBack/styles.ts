@@ -6,5 +6,5 @@ import theme from "../../styles/theme";
 export const ArrowLeft = styled(MaterialIcons)`
   color: ${theme.colors.light};
 
-  font-size: ${theme.fonts.fontSize.medium};
+  font-size: ${theme.fonts.fontSize.medium}px;
 `;

@@ -43,7 +43,7 @@ export const ContainerPerson = styled.View`
 
 export const TextName = styled.Text`
   text-transform: uppercase;
-  font-size: 14;
+  font-size: 14px;
   line-height: 16;
   color: #666666;
   max-width: 240px;
@@ -57,7 +57,7 @@ export const BoxStatus = styled.View<props>`
 `;
 
 export const TextStatus = styled.Text`
-  font-size: 8;
+  font-size: 8px;
   line-height: 9;
   color: #ffffff;
   padding: 2px 5px;
@@ -74,9 +74,9 @@ margin: 5px 0 0 25px;
 `
 
 export const Icon = styled(FontAwesome)`
-  font-size: ${theme.fonts.fontSize.medium};
+  font-size: ${theme.fonts.fontSize.medium}px;
 `;
 
 export const IconEdit = styled(FontAwesome)`
-  font-size: ${theme.fonts.fontSize.medium};
+  font-size: ${theme.fonts.fontSize.medium}px;
 `;
