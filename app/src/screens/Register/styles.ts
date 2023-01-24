@@ -21,7 +21,7 @@ export const Container = styled.KeyboardAvoidingView`
 `;
 
 export const BoxSelect = styled.View`
-  margin-bottom: 10;
+  margin-bottom: 10px;
 `;
 
 export const Form = styled.View`
@@ -36,7 +36,7 @@ export const GridForm = styled.View`
   justify-content: space-between;
   align-items: flex-end;
 
-  margin-bottom: 12;
+  margin-bottom: 12px;
 `;
 
 export const GridItem = styled.View`

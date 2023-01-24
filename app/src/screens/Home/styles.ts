@@ -39,7 +39,7 @@ export const Name = styled.Text`
 export const Office = styled.Text`
   color: ${theme.colors.red};
   font-size: ${theme.fonts.fontSize.small}px;
-  margin-top: -10;
+  margin-top: -10px;
 `;
 
 export const Names = styled.View`

@@ -14,7 +14,7 @@ export const ContentModal = styled.View`
 `;
 
 export const TitleModal = styled.Text`
-  margin-bottom: 10;
+  margin-bottom: 10px;
 
   font-family: ${theme.fonts.fontFamily.bold};
   font-size: ${theme.fonts.fontSize.small}px;

@@ -15,8 +15,8 @@ export const TitlePage = styled.Text`
 `;
 
 export const Container = styled.View`
-  padding-left: 10;
-  padding-right: 10;
+  padding-left: 10px;
+  padding-right: 10px;
   padding-top: 20px;
 `;
 

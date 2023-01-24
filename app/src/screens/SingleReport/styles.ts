@@ -32,10 +32,10 @@ export const Title = styled.Text`
 `;
 
 export const Celula = styled.Text`
-  font-size: ${theme.fonts.fontSize.small};
+  font-size: ${theme.fonts.fontSize.small}px;
   font-family: ${theme.fonts.fontFamily.bold};
   text-transform: uppercase;
-  margin-top: -10;
+  margin-top: -10px;
   color: ${theme.colors.grey};
 `;
 

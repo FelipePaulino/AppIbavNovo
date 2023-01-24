@@ -2,7 +2,7 @@ import styled from "styled-components/native";
 import theme from "../../styles/theme";
 
 export const Footer = styled.View`
-  padding-top: 25;
+  padding-top: 25px;
   margin-bottom: 15px;
   flex-direction: row;
   flex-wrap: wrap;

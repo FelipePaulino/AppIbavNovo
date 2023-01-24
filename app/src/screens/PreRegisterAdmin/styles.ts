@@ -62,25 +62,25 @@ export const ContentOptions = styled.View`
 export const SendReportIcon = styled(Ionicons)`
   color: ${theme.colors.light};
 
-  font-size: ${theme.fonts.fontSize.large};
+  font-size: ${theme.fonts.fontSize.large}px;
 `;
 
 export const MembersIcon = styled(FontAwesome5)`
   color: ${theme.colors.light};
 
-  font-size: ${theme.fonts.fontSize.large};
+  font-size: ${theme.fonts.fontSize.large}px;
 `;
 
 export const RegisterIcon = styled(FontAwesome5)`
   color: ${theme.colors.light};
 
-  font-size: ${theme.fonts.fontSize.large};
+  font-size: ${theme.fonts.fontSize.large}px;
 `;
 
 export const UserGridIcon = styled(FontAwesome5)`
   color: ${theme.colors.light};
 
-  font-size: ${theme.fonts.fontSize.large};
+  font-size: ${theme.fonts.fontSize.large}px;
 `;
 
 export const Loading = styled(Image)``;
