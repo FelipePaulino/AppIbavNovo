@@ -341,6 +341,7 @@ export function UserRegisterScreen() {
                 selectedOption={handleDisciplesChange}
                 labelSelect={selectDisciples}
                 dataOptions={optionsDisciples && optionsDisciples}
+                disabled={selectNetwork === 'Selecionar'}
               />
             </S.GridSelect>
           </Fragment>
