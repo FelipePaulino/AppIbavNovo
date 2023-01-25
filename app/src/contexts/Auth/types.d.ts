@@ -7,6 +7,7 @@ export interface IAuthContextData {
   signOut: () => Promise<void>;
   user: User | null;
   errorLogin: string;
+  validError: boolean
 }
 
 export interface IAuthProviderProps {
