@@ -197,6 +197,7 @@ export default function NetworkScreenList() {
                     <>
                       <Text>Rede</Text>
                       {rede.map((items: any) => {
+                        console.log(items, 'items')
                         return (
                           <PersonLabelComponent
                             nome={items[1].rede}
