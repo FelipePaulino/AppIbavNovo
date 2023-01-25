@@ -21,8 +21,8 @@ export function RequestContentModalComponent({
         </S.ContainerText>
         <S.ContainerButton>
             
-          <ButtonComponent title="CANCELAR" onPress={cancel} width='105px' heigth='33px' size='12px'/>
-          <ButtonComponent title="CONFIRMAR" onPress={confirm} width='105px' heigth='33px' size='12px'/>
+          <ButtonComponent title="CANCELAR" onPress={cancel} width='105' heigth='33' size='12'/>
+          <ButtonComponent title="CONFIRMAR" onPress={confirm} width='105' heigth='33' size='12'/>
         </S.ContainerButton>
       </S.Box>
     </S.Container>

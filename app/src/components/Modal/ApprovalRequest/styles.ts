@@ -52,5 +52,5 @@ export const IconBox = styled.View`
 `
 
 export const Icon = styled(AntDesign)`
-  font-size: ${theme.fonts.fontSize.large};
+  font-size: ${theme.fonts.fontSize.large}px;
 `;

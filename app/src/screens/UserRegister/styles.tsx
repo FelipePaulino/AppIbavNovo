@@ -9,7 +9,7 @@ export const TitlePage = styled.Text`
   color: ${theme.colors.light};
   text-transform: uppercase;
 
-  font-size: 14;
+  font-size: 14px;
   font-family: ${theme.fonts.fontFamily.bold};
 `;
 
@@ -47,8 +47,8 @@ export const FooterFields = styled.View`
   flex-direction: row;
   justify-content: space-between;
 
-margin-top: 20;
-  margin-bottom: 15;
+  margin-top: 20px;
+  margin-bottom: 15px;
 `;
 
 export const Required = styled.Text``;

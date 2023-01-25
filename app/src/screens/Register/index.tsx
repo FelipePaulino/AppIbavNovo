@@ -585,7 +585,7 @@ export function RegisterScreen() {
               <ButtonComponent
                 title="Cadastrar"
                 onPress={submitRegister}
-                width='170px'
+                width='170'
                 disabled={(
                   state.celulaSelect === '*Selecione' ||
                   state.textSelectCategory === '*Selecione' ||

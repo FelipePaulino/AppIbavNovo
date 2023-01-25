@@ -9,7 +9,7 @@ export const Heading = styled.View`
   align-items: flex-end;
 
   border-bottom-color: ${theme.colors.red};
-  border-bottom-width: 1;
+  border-bottom-width: 1px;
 `;
 
 export const Titles = styled.View<Props>`

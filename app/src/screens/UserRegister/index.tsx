@@ -583,7 +583,7 @@ export function UserRegisterScreen() {
               <ButtonComponent
                 title="Cadastrar"
                 onPress={registerUser}
-                width="170px"
+                width="170"
                 disabled={diseble}
               />
             </S.FooterFields>

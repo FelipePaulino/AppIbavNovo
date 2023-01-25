@@ -328,7 +328,7 @@ export function SeeReports() {
 
               <ButtonComponent
                 title="FILTRAR"
-                width="150px"
+                width="150"
                 color="white"
                 onPress={() => submitFilter()}
               />
@@ -347,14 +347,14 @@ export function SeeReports() {
           <S.BoxButtons>
             <ButtonComponent
               title="FILTRAR"
-              width="130px"
+              width="130"
               icon="filter"
               color="white"
               onPress={() => setShowFilter(true)}
             />
             <ButtonComponent
               title="LIMPAR FILTROS"
-              width="200px"
+              width="200"
               icon="times"
               color="white"
               onPress={() => cleanFilter()}
@@ -364,9 +364,9 @@ export function SeeReports() {
             <S.Loading source={loadingGif}></S.Loading>
           ) : (
             <S.ListContainer>
-              {filter?.map((item: any) => {
+              {filter?.map((item: any, index: any) => {
                 return (
-                  <S.List>
+                  <S.List key={index}>
                     <Text>
                       {item[1].celula} - {item[1].data}
                     </Text>

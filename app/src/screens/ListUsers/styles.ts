@@ -16,14 +16,14 @@ export const ContentHeader = styled.View`
 
 export const Navigation = styled.Text`
   color: ${theme.colors.light};
-  font-size: ${theme.fonts.fontSize.small};
+  font-size: ${theme.fonts.fontSize.small}px;
 `;
 
 export const Container = styled.View`
-  margin-top: 20;
-  margin-bottom: 20;
-  margin-right: 20;
-  margin-left: 20;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
 `;
 
 export const Loading = styled(Image)``;

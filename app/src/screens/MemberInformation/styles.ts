@@ -16,12 +16,12 @@ export const Division = styled.View`
 
 export const Navigation = styled.Text`
   color: ${theme.colors.light};
-  font-size: ${theme.fonts.fontSize.small};
+  font-size: ${theme.fonts.fontSize.small}px;
 `;
 
 export const RegisterIcon = styled(FontAwesome5)`
   color: ${theme.colors.light};
-  font-size: ${theme.fonts.fontSize.small};
+  font-size: ${theme.fonts.fontSize.small}px;
 `;
 
 export const Information = styled.View`
@@ -35,9 +35,9 @@ export const BoxPrimary = styled.View`
 `;
 
 export const Form = styled.View`
-  padding-left: 15;
-  padding-right: 15;
-  margin-top: 15;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: 15px;
 `;
 
 export const GridDate = styled.View`
@@ -59,7 +59,7 @@ export const GridItem = styled.View`
 
 export const GridItemFull = styled.View`
   width: 100%;
-  margin-bottom: 5;
+  margin-bottom: 5px;
 `;
 
 export const GridItemLarge = styled.View`
@@ -75,9 +75,9 @@ export const GridItemSmall = styled.View`
 export const FooterFields = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  padding-left: 15;
-  padding-right: 15;
-  margin-bottom: 15;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-bottom: 15px;
 `;
 
 export const Required = styled.Text`
