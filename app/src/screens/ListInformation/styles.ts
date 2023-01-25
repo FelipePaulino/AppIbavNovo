@@ -49,7 +49,7 @@ export const GridForm = styled.View`
 
 export const GridItem = styled.View`
   width: 48%;
-  margin-bottom: 12;
+  margin-bottom: 12px;
 `;
 
 export const GridItemFull = styled.View`
@@ -59,12 +59,12 @@ export const GridItemFull = styled.View`
 
 export const GridItemLarge = styled.View`
   width: 73%;
-  margin-bottom: 12;
+  margin-bottom: 12px;
 `;
 
 export const GridItemSmall = styled.View`
   width: 25%;
-  margin-bottom: 12;
+  margin-bottom: 12px;
 `;
 
 export const FooterFields = styled.View`

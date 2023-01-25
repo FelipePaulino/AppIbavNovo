@@ -12,7 +12,7 @@ export const Navigation = styled.Text`
   color: ${theme.colors.light};
   text-transform: uppercase;
 
-  font-size: ${theme.fonts.fontSize.small};
+  font-size: ${theme.fonts.fontSize.small}px;
   font-family: ${theme.fonts.fontFamily.bold};
 `;
 
@@ -70,8 +70,8 @@ export const Observations = styled.TextInput`
   border-color: ${theme.colors.grey};
   border-width: 1px;
 
-  padding-left: 10;
-  padding-right: 10;
+  padding-left: 10px;
+  padding-right: 10px;
 
   margin-top: 15px;
 `;

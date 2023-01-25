@@ -33,7 +33,7 @@ export const Box = styled.View`
   margin: 10px 0;
 
   border-bottom-color: ${theme.colors.grey};
-  border-bottom-width: 0.5;
+  border-bottom-width: 0.5px;
 `;
 
 export const ContainerPerson = styled.View`
@@ -44,7 +44,7 @@ export const ContainerPerson = styled.View`
 export const TextName = styled.Text`
   text-transform: uppercase;
   font-size: 14px;
-  line-height: 16;
+  line-height: 16px;
   color: #666666;
   max-width: 240px;
 `;
@@ -58,7 +58,7 @@ export const BoxStatus = styled.View<props>`
 
 export const TextStatus = styled.Text`
   font-size: 8px;
-  line-height: 9;
+  line-height: 9px;
   color: #ffffff;
   padding: 2px 5px;
   text-transform: uppercase;

@@ -6,7 +6,7 @@ export const Navigation = styled.Text`
   color: ${theme.colors.light};
   text-transform: capitalize;
 
-  font-size: ${theme.fonts.fontSize.small};
+  font-size: ${theme.fonts.fontSize.small}px;
 `;
 
 export const Content = styled.View`
@@ -23,7 +23,7 @@ export const Content = styled.View`
 
 export const Heading = styled.View`
   align-items: center;
-  margin-bottom: 10;
+  margin-bottom: 10px;
 `;
 
 export const Title = styled.Text`
@@ -36,11 +36,11 @@ export const Title = styled.Text`
 `;
 
 export const Subtitle = styled.Text`
-  font-size: ${theme.fonts.fontSize.small};
+  font-size: ${theme.fonts.fontSize.small}px;
   font-family: ${theme.fonts.fontFamily.bold};
   text-transform: uppercase;
   color: ${theme.colors.grey};
-  margin-top: -10;
+  margin-top: -10px;
 `;
 
 export const FinishForm = styled.View`
@@ -48,7 +48,7 @@ export const FinishForm = styled.View`
   align-items: center;
   justify-content: space-between;
 
-  margin-top: 10;
+  margin-top: 10px;
   margin-bottom: 40px;
 `;
 

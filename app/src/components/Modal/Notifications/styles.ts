@@ -8,7 +8,7 @@ export const Background = styled.View`
 
 export const Heading = styled.View`
   align-items: flex-start;
-  margin-bottom: 12;
+  margin-bottom: 12px;
 `;
 
 export const Close = styled(AntDesign)`
@@ -19,8 +19,8 @@ export const Close = styled(AntDesign)`
 `;
 
 export const ContainerInfo = styled.View`
-  padding-left: 10;
-  padding-right: 10;
+  padding-left: 10px;
+  padding-right: 10px;
 `;
 
 export const ContentInfo = styled.View`
@@ -35,7 +35,7 @@ export const Line = styled.View`
   width: 8;
   height: 65px;
 
-  margin-right: 16;
+  margin-right: 16px;
 `;
 
 export const Info = styled.View``;

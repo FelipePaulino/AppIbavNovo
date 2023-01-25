@@ -13,7 +13,7 @@ export const Logout = styled(MaterialIcons)`
 
 export const Navigation = styled.Text`
   color: ${theme.colors.light};
-  font-size: ${theme.fonts.fontSize.small};
+  font-size: ${theme.fonts.fontSize.small}px;
 `;
 
 export const ContentHeader = styled.View`
@@ -50,17 +50,17 @@ export const ContentOptions = styled.View`
 
 export const SendReportIcon = styled(Ionicons)`
   color: ${theme.colors.light};
-  font-size: ${theme.fonts.fontSize.large};
+  font-size: ${theme.fonts.fontSize.large}px;
 `;
 
 export const MembersIcon = styled(FontAwesome5)`
   color: ${theme.colors.light};
-  font-size: ${theme.fonts.fontSize.large};
+  font-size: ${theme.fonts.fontSize.large}px;
 `;
 
 export const RegisterIcon = styled(FontAwesome5)`
   color: ${theme.colors.light};
-  font-size: ${theme.fonts.fontSize.small};
+  font-size: ${theme.fonts.fontSize.small}px;
 `;
 
 export const Content = styled.View`

@@ -36,7 +36,7 @@ export const Success = styled(MaterialIcons)`
   color: ${theme.colors.blue};
   font-size: 48px;
 
-  margin-top: 10;
+  margin-top: 10px;
 
   text-align: center;
 `;

@@ -46,10 +46,10 @@ export const IconC = styled(FontAwesome5)`
 export const labelParagraph = styled.View`
   padding: 3px;
   border-bottom-color: #999;
-  border-bottom-width: 0.5;
+  border-bottom-width: 0.5px;
 `
 
 export const Paragraph = styled.Text`
   color: #999;
-  font-size: 12;
+  font-size: 12px;
 `;

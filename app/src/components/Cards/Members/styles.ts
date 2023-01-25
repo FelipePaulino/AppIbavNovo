@@ -33,7 +33,7 @@ export const ContainerSelect = styled.View`
 `;
 
 export const BoxSelect = styled.View`
-margin-left: 10;
+margin-left: 10px;
 `;
 
 export const ContentPresent = styled.View``;

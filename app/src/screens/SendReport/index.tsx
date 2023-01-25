@@ -154,9 +154,9 @@ export function SendReportScreen() {
     return redes.indexOf(este) === i && este;
   });
 
-  const mapRedesUnicas = redesUnicas.map((item: any) => {
+  const mapRedesUnicas = redesUnicas.map((item: any, index: any) => {
     return {
-      value: item,
+      value: item, 
     };
   });
 

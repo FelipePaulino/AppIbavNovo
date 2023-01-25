@@ -18,7 +18,7 @@ export const Titles = styled.View<Props>`
 `;
 
 export const Title = styled.Text`
-  margin-left: 10;
+  margin-left: 10px;
 
   font-family: ${theme.fonts.fontFamily.bold};
   text-transform: uppercase;

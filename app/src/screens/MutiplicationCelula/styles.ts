@@ -41,7 +41,7 @@ export const GridForm = styled.View`
 
 export const GridItem = styled.View`
   width: 48%;
-  margin-bottom: 12;
+  margin-bottom: 12px;
 `;
 
 export const ContentC = styled.View`
@@ -61,11 +61,11 @@ export const IconC = styled(FontAwesome5)`
 
 export const Paragraph = styled.Text`
   color: #999;
-  font-size: 12;
+  font-size: 12px;
 `;
 
 export const labelParagraph = styled.View`
   padding: 3px;
   border-bottom-color: #999;
-  border-bottom-width: 0.5;
+  border-bottom-width: 0.5px;
 `

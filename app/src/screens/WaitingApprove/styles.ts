@@ -15,8 +15,8 @@ export const TitlePage = styled.Text`
 `;
 
 export const Container = styled.View`
-    padding-left: 10;
-    padding-right: 10;
+    padding-left: 10px;
+    padding-right: 10px;
     padding-top: 20px;
 `;
 
@@ -24,15 +24,15 @@ export const Row = styled.View`
     flex-direction: row;
     justify-content: space-between;
 
-    margin-bottom: 10;
-    padding-bottom: 10;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
 
     border-bottom-color: ${theme.colors.grey};
     border-bottom-width: 1px;
 `;
 
 export const RowText = styled.Text`
-    font-size: 12;
+    font-size: 12px;
 `;
 
 export const Decoration = styled.Text`
