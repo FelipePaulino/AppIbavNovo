@@ -25,6 +25,7 @@ export function MembersInformationScreen(this: any, { route }: any) {
     const [users, setUsers] = useState<any>();
 
     const [name, setName] = useState(route.params?.nome || "");
+    const [pastor, setPastor] = useState(route.params?.pastor || "");
     const office = (route.params?.cargo === 'pastor' ? 'pastor de rede' : route.params?.cargo || '');
     const [selectDisciples, setSelectDisciples] = useState(route.params?.discipulador || "");
     const [selectNetwork, setSelectNetwork] = useState(`${route.params?.rede} - ${route.params?.pastor}` || "");
@@ -55,8 +56,6 @@ export function MembersInformationScreen(this: any, { route }: any) {
         getCelulas()
     }, [])
 
-    console.log(celulas, 'celulas')
-
     useEffect(() => {
         const getUsers = async () => {
             await service
@@ -75,8 +74,16 @@ export function MembersInformationScreen(this: any, { route }: any) {
     };
     console.log(selectNetwork, 'selectNetwork')
     console.log(name, 'name')
-    const redeEscolhida = selectNetwork.includes('-')
-    console.log(redeEscolhida, 'redeEscolhida')
+
+    const UsersAlterados2 = users?.filter((item: any) => {
+        return item?.nome === name
+    })
+    const UsersAlterados = users?.filter((item: any) => {
+        return item?.rede === route.params?.rede && item?.nome !== name
+    })
+
+    console.log(UsersAlterados2, 'UsersAlterados2')
+    console.log(UsersAlterados, 'UsersAlterados')
     const submitRegister = () => {
         if (office === "pastor de rede") {
             const redeEscolhida = selectNetwork.includes('-')
@@ -89,7 +96,7 @@ export function MembersInformationScreen(this: any, { route }: any) {
             })
             const alteracaoesRede = RedeAlterados.map((item: any) => {
                 return {
-                    ...item, rede: redeEscolhida ? selectNetwork.split('-')[0] : selectNetwork, pastor: name
+                    ...item, rede: redeEscolhida ? selectNetwork.split('-')[0] : selectNetwork, pastor: pastor
                 }
             })
             const payloadCelulas = [
@@ -97,40 +104,83 @@ export function MembersInformationScreen(this: any, { route }: any) {
                 ...alteracaoesRede
             ]
 
-            const UsersNaoAlterados = users.filter((item: any) => {
-                return item?.rede !== route.params?.rede
-            })
-            const UsersAlterados = users.filter((item: any) => {
-                return item?.rede === route.params?.rede && item?.name !== name
-            })
+            // const UsersNaoAlterados = users.filter((item: any) => {
+            //     return item?.rede !== route.params?.rede
+            // })
+            // const UsersAlterados = users.filter((item: any) => {
+            //     return item?.rede === route.params?.rede && item?.nome !== name
+            // })
 
-            const UsersAlterados2 = users.filter((item: any) => {
-                return item?.rede === route.params?.rede && item?.name === name
-            })
-            const alteracaoesUsers = UsersAlterados.map((item: any) => {
-                return {
-                    ...item,
-                    rede: redeEscolhida ? selectNetwork.split('-')[0] : selectNetwork,
-                    pastor: name,
-                }
-            })
+            // const UsersAlterados2 = users.filter((item: any) => {
+            //     return item?.nome === name
+            // })
+            // const alteracaoesUsers = UsersAlterados.map((item: any) => {
+            //     return {
+            //         ...item,
+            //         rede: redeEscolhida ? selectNetwork.split('-')[0] : selectNetwork,
+            //         pastor: name,
+            //     }
+            // })
 
-            const alteracaoesUsers2 = UsersAlterados2.map((item: any) => {
-                return {
-                    ...item,
-                    rede: redeEscolhida ? selectNetwork.split('-')[0] : selectNetwork,
-                    pastor: name,
-                    name: name
-                }
-            })
-            const payloadUsers = [
-                ...UsersNaoAlterados,
-                ...alteracaoesUsers,
-                ...alteracaoesUsers2
-            ]
+            // const alteracaoesUsers2 = UsersAlterados2.map((item: any) => {
+            //     return {
+            //         ...item,
+            //         rede: redeEscolhida ? selectNetwork.split('-')[0] : selectNetwork,
+            //         pastor: name,
+            //         nome: name
+            //     }
+            // })
+            // const payloadUsers = [
+            //     ...UsersNaoAlterados,
+            //     ...alteracaoesUsers,
+            //     ...alteracaoesUsers2
+            // ]
 
             connectApi.put(`/celulas.json`, payloadCelulas);
-            connectApi.put(`/users.json`, payloadUsers);
+            // connectApi.put(`/users.json`, payloadUsers);
+        }
+        else if (office === "discipulador") {
+            const RedeNaoAlterados = celulas.filter((item: any) => {
+                return item?.discipulador !== route.params?.discipulador
+            })
+            const RedeAlterados = celulas.filter((item: any) => {
+                return item?.discipulador === route.params?.discipulador
+            })
+            const alteracaoesRede = RedeAlterados.map((item: any) => {
+                return {
+                    ...item,
+                    rede: selectNetwork.split('-')[0],
+                    pastor: selectNetwork.split('-')[1],
+                    discipulador: selectDisciples,
+                    lider: selectLider
+                }
+            })
+            const payloadCelulas = [
+                ...RedeNaoAlterados,
+                ...alteracaoesRede
+            ]
+            connectApi.put(`/celulas.json`, payloadCelulas);
+        }
+        else if (office === "lider de celula") {
+            const RedeNaoAlterados = celulas.filter((item: any) => {
+                return item?.lider !== route.params?.lider
+            })
+            const RedeAlterados = celulas.filter((item: any) => {
+                return item?.lider === route.params?.lider
+            })
+            const alteracaoesRede = RedeAlterados.map((item: any) => {
+                return {
+                    ...item,
+                    rede: selectNetwork.split('-')[0],
+                    pastor: selectNetwork.split('-')[1],
+                    discipulador: selectDisciples
+                }
+            })
+            const payloadCelulas = [
+                ...RedeNaoAlterados,
+                ...alteracaoesRede
+            ]
+            connectApi.put(`/celulas.json`, payloadCelulas);
         }
 
     };
@@ -151,7 +201,7 @@ export function MembersInformationScreen(this: any, { route }: any) {
     const optionsNetwork =
         usersNetwork &&
         usersNetwork.map((item: any) => {
-            return { value: `${item.rede} - ${item.pastor}`, }
+            return { value: `${item.rede} - ${item.nome}`, }
         });
 
     const usersDiscipulado =
@@ -244,9 +294,9 @@ export function MembersInformationScreen(this: any, { route }: any) {
                         <S.GridItemFull>
                             <SelectComponent
                                 label="Pastor"
-                                onChange={(value) => setName(value)}
-                                selectedOption={(value) => setName(value)}
-                                labelSelect={name}
+                                onChange={(value) => setPastor(value)}
+                                selectedOption={(value) => setPastor(value)}
+                                labelSelect={pastor}
                                 dataOptions={optionsUsersPastor && optionsUsersPastor}
                             />
                         </S.GridItemFull>
