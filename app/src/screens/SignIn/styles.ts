@@ -10,15 +10,15 @@ export const Container = styled.ImageBackground`
 `;
 
 export const Form = styled.KeyboardAvoidingView`
-  margin-top: 64;
+  margin-top: 64px;
 
   align-items: center;
 `;
 
 export const Content = styled.View`
-  margin-top: 48;
+  margin-top: 48px;
 
-  max-width: 400;
+  max-width: 400px;
   width: 100%;
 `;
 
@@ -27,22 +27,22 @@ export const Heading = styled.View`
 `;
 
 export const Field = styled.View`
-  margin-top: 24;
+  margin-top: 24px;
   width: 98%;
 `;
 
 export const FieldPassword = styled.View`
-  margin-top: 24;
+  margin-top: 24px;
   width: 70%;
 `;
 
 export const Buttons = styled.View`
-  margin-top: 48;
+  margin-top: 48px;
 `;
 
 export const ErrorLogin = styled.Text`
-  margin-top: 15;
-  font-size: 14;
+  margin-top: 15px;
+  font-size: 14px;
   font-weight: 500;
   color: #FF0000;
   text-align: center;

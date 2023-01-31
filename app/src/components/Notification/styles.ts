@@ -8,7 +8,7 @@ export const Notification = styled.TouchableOpacity`
 `;
 
 export const Icon = styled(Ionicons)`
-  font-size:${theme.fonts.fontSize.medium};
+  font-size:${theme.fonts.fontSize.medium}px;
 
   color: ${theme.colors.light};
 `;
@@ -20,10 +20,10 @@ export const Count = styled.View`
 
   background-color: ${theme.colors.red};
 
-  border-radius: 15;
+  border-radius: 15px;
 
-  height: 15;
-  width: 15;
+  height: 15px;
+  width: 15px;
 
   align-items: center;
   justify-content: center;
@@ -32,5 +32,5 @@ export const Count = styled.View`
 export const Number = styled.Text`
   color: ${theme.colors.light};
 
-  font-size: 10;
+  font-size: 10px;
 `;

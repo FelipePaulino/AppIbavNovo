@@ -9,7 +9,7 @@ export const ComeBack = styled.View`
 export const TitlePage = styled.Text`
   color: ${theme.colors.light};
   text-transform: uppercase;
-  font-size: 14;
+  font-size: 14px;
   font-family: ${theme.fonts.fontFamily.bold};
 `;
 
@@ -21,26 +21,26 @@ export const Loading = styled(Image)``;
 
 export const Heading = styled.View`
   align-items: center;
-  margin-bottom: 20;
+  margin-bottom: 20px;
 `;
 
 export const Title = styled.Text`
-  font-size: ${theme.fonts.fontSize.medium};
+  font-size: ${theme.fonts.fontSize.medium}px;
   font-family: ${theme.fonts.fontFamily.bold};
   text-transform: uppercase;
   color: ${theme.colors.blue};
 `;
 
 export const Celula = styled.Text`
-  font-size: ${theme.fonts.fontSize.small};
+  font-size: ${theme.fonts.fontSize.small}px;
   font-family: ${theme.fonts.fontFamily.bold};
   text-transform: uppercase;
-  margin-top: -10;
+  margin-top: -10px;
   color: ${theme.colors.grey};
 `;
 
 export const Subtitle = styled.Text`
-  font-size: ${theme.fonts.fontSize.medium};
+  font-size: ${theme.fonts.fontSize.medium}px;
   font-family: ${theme.fonts.fontFamily.bold};
   text-align: center;
   text-transform: uppercase;
@@ -56,7 +56,7 @@ export const TextCapitalize = styled.Text`
 `;
 
 export const SubtitlePresents = styled.Text`
-  font-size: ${theme.fonts.fontSize.medium};
+  font-size: ${theme.fonts.fontSize.medium}px;
   font-family: ${theme.fonts.fontFamily.bold};
   text-align: center;
   text-transform: uppercase;
@@ -70,7 +70,7 @@ export const ContentName = styled.View`
 `;
 
 export const InfoName = styled.Text`
-  font-size: 14;
+  font-size: 14px;
   text-transform: uppercase;
 `;
 
@@ -86,7 +86,7 @@ export const ContentPresent = styled.View`
   flex-direction: row;
   align-items: center;
   padding: 7px 0;
-  border-bottom-width: 1;
+  border-bottom-width: 1px;
   border-bottom-color: #6666;
 `;
 

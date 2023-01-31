@@ -7,11 +7,11 @@ export const Content = styled.View`
   justify-content: space-between;
   align-items: center;
 
-  height: 48;
+  height: 48px;
   width: 100%;
 
   border-bottom-color: ${theme.colors.grey};
-  border-bottom-width: 1;
+  border-bottom-width: 1px;
 `;
 
 export const ContentName = styled.View`
@@ -21,7 +21,7 @@ export const ContentName = styled.View`
 export const InfoName = styled.Text`
   color: ${theme.colors.grey};
 
-  font-size: 14;
+  font-size: 14px;
   text-transform: uppercase;
 `;
 
@@ -33,7 +33,7 @@ export const ContainerSelect = styled.View`
 `;
 
 export const BoxSelect = styled.View`
-margin-left: 10;
+margin-left: 10px;
 `;
 
 export const ContentPresent = styled.View``;

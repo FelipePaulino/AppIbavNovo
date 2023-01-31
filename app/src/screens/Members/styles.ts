@@ -7,13 +7,13 @@ import { MaterialIcons } from "@expo/vector-icons";
 import theme from "../../styles/theme";
 
 export const Logout = styled(MaterialIcons)`
-  font-size: ${theme.fonts.fontSize.medium};
+  font-size: ${theme.fonts.fontSize.medium}px;
   color: ${theme.colors.light};
 `;
 
 export const Navigation = styled.Text`
   color: ${theme.colors.light};
-  font-size: ${theme.fonts.fontSize.small};
+  font-size: ${theme.fonts.fontSize.small}px;
 `;
 
 export const ContentHeader = styled.View`
@@ -32,43 +32,43 @@ export const Names = styled.View`
   align-items: center;
   width: 100%;
   border-bottom-color: ${theme.colors.grey};
-  border-bottom-width: 1;
+  border-bottom-width: 1px;
 `;
 
 export const Info = styled.View`
   width: 100%;
   align-items: center;
-  margin-top: 24;
+  margin-top: 24px;
 `;
 
 export const ContentOptions = styled.View`
   width: 100%;
-  margin-top: 24;
+  margin-top: 24px;
   flex-direction: row;
   justify-content: space-between;
 `;
 
 export const SendReportIcon = styled(Ionicons)`
   color: ${theme.colors.light};
-  font-size: ${theme.fonts.fontSize.large};
+  font-size: ${theme.fonts.fontSize.large}px;
 `;
 
 export const MembersIcon = styled(FontAwesome5)`
   color: ${theme.colors.light};
-  font-size: ${theme.fonts.fontSize.large};
+  font-size: ${theme.fonts.fontSize.large}px;
 `;
 
 export const RegisterIcon = styled(FontAwesome5)`
   color: ${theme.colors.light};
-  font-size: ${theme.fonts.fontSize.small};
+  font-size: ${theme.fonts.fontSize.small}px;
 `;
 
 export const Content = styled.View`
-  max-width: 350;
+  max-width: 350px;
   width: 100%;
   height: 100%;
 
-  margin-top: 32;
+  margin-top: 32px;
   margin-left: auto;
   margin-right: auto;
 `;
@@ -77,7 +77,7 @@ export const Content = styled.View`
 export const Loading = styled(Image)``;
 
 export const Grid = styled.View`
-  margin-bottom: 32;
+  margin-bottom: 32px;
 `;
 
 export const ContentC = styled.View`
@@ -85,23 +85,23 @@ export const ContentC = styled.View`
   align-items: flex-end;
   margin: 0;
   padding: 0;
-  width: 310;
-  height: 40;
+  width: 310px;
+  height: 40px;
 `;
 
 export const IconC = styled(FontAwesome5)`
   color: ${theme.colors.red};
-  font-size: ${theme.fonts.fontSize.medium};
-  margin-right: 20;
+  font-size: ${theme.fonts.fontSize.medium}px;
+  margin-right: 20px;
 `;
 
 
 export const DescriptionC = styled.Text`
   width: 100%;
-  font-size: 14;
+  font-size: 14px;
   font-family: ${theme.fonts.fontFamily.bold};
   color: ${theme.colors.grey};
   text-transform: uppercase;
   border-bottom-color: ${theme.colors.grey};
-  border-bottom-width: 1;
+  border-bottom-width: 1px;
 `;

@@ -4,11 +4,11 @@ import { Image } from "react-native";
 export const Container = styled.View``;
 
 export const LogoImage = styled(Image)`
-  width: 200;
-  height: 200;
+  width: 200px;
+  height: 200px;
 `;
 
 export const LogoFull = styled(Image)`
-  width: 135;
-  height: 33;
+  width: 135px;
+  height: 33px;
 `;

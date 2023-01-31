@@ -10,22 +10,22 @@ export const TitlePage = styled.Text`
   color: ${theme.colors.light};
   text-transform: uppercase;
 
-  font-size: 14;
+  font-size: 14px;
   font-family: ${theme.fonts.fontFamily.bold};
 `;
 
 export const Content = styled.View`
-  max-width: 350;
+  max-width: 350px;
   width: 100%;
   height: 100%;
 
-  margin-top: 32;
+  margin-top: 32px;
   margin-left: auto;
   margin-right: auto;
 `;
 
 export const Grid = styled.View`
-  margin-bottom: 32;
+  margin-bottom: 32px;
 `;
 
 export const ContentC = styled.View`
@@ -33,23 +33,23 @@ export const ContentC = styled.View`
   align-items: flex-end;
   margin: 0;
   padding: 0;
-  width: 310;
-  height: 40;
+  width: 310px;
+  height: 40px;
 `;
 
 export const IconC = styled(FontAwesome5)`
   color: ${theme.colors.red};
-  font-size: ${theme.fonts.fontSize.medium};
-  margin-right: 20;
+  font-size: ${theme.fonts.fontSize.medium}px;
+  margin-right: 20px;
 `;
 
 export const labelParagraph = styled.View`
   padding: 3px;
   border-bottom-color: #999;
-  border-bottom-width: 0.5;
+  border-bottom-width: 0.5px;
 `
 
 export const Paragraph = styled.Text`
   color: #999;
-  font-size: 12;
+  font-size: 12px;
 `;

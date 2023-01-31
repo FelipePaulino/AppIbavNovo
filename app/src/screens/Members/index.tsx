@@ -396,9 +396,9 @@ export function MembersScreen(this: any) {
           <ButtonComponent
             title="Cadastrar"
             onPress={() => clean("Register")}
-            width="136px"
-            heigth="33px"
-            size="12px"
+            width="136"
+            heigth="33"
+            size="12"
             icon="user-plus"
             color="white"
           />

@@ -9,27 +9,27 @@ export const Date = styled.View`
 export const Label = styled.Text`
   color: ${theme.colors.grey};
 
-  font-size: 12;
+  font-size: 12px;
 
-  margin-bottom: 5;
+  margin-bottom: 5px;
 `;
 
 export const Content = styled.TouchableOpacity`
-  height: 32;
+  height: 32px;
 
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 
   border-color: ${theme.colors.grey};
-  border-width: 1;
+  border-width: 1px;
 `;
 
 export const TextSelect = styled.Text`
   color: ${theme.colors.grey};
 
-  padding-left: 5;
-  padding-right: 5;
+  padding-left: 5px;
+  padding-right: 5px;
 `;
 
 export const SelectDate = styled.View`
@@ -43,6 +43,6 @@ export const SelectDate = styled.View`
 `;
 
 export const Icon = styled(AntDesign)`
-  font-size: 16;
+  font-size: 16px;
   color: ${theme.colors.light};
 `;
