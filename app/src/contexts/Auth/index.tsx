@@ -28,8 +28,6 @@ export function AuthenticatedProvider({ children }: IAuthProviderProps) {
 
     setIsLogged(true);
 
-    console.log(user, 'USER')
-
     signInWithEmailAndPassword(auth, email, password)
       .then(async (account) => {
         if (account.user) {

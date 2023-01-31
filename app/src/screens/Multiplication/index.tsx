@@ -14,10 +14,13 @@ import { IPropsAppStack } from "../../routes/AppStack/types";
 import { FormReportActions } from "../../contexts/FormReport";
 
 import * as S from "./styles";
+import useUserFiltered from "../../hooks/useUserFiltered";
 
 export function Multiplication() {
   const { dispatch } = useFormReport();
   const { signOut } = useAuth();
+  const { updateUsers, setUpdateUsers } = useUserFiltered();
+
   const navigation = useNavigation<IPropsAppStack>();
 
   const clean = (value: string) => {
@@ -36,6 +39,11 @@ export function Multiplication() {
     });
   }
 
+  const logout = () => {
+    setUpdateUsers(!updateUsers)
+    signOut()
+  }
+
   return (
     <Fragment>
       <HeaderComponent>
@@ -45,7 +53,7 @@ export function Multiplication() {
         </S.HeadingIcons>
 
         <S.Buttons>
-          <TouchableOpacity onPress={signOut}>
+          <TouchableOpacity onPress={logout}>
             <S.Logout name="logout" />
           </TouchableOpacity>
         </S.Buttons>

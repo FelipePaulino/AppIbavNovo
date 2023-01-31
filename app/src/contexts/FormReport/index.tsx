@@ -126,8 +126,8 @@ const formReportReducer = (state: IState, action: IActions) => {
     case FormReportActions.setPresencaCulto:
       return { ...state, presencaCulto: action.payload };
 
-      case FormReportActions.setReportsId:
-        return { ...state, reportsId: action.payload };
+    case FormReportActions.setReportsId:
+      return { ...state, reportsId: action.payload };
 
     default:
       return state;

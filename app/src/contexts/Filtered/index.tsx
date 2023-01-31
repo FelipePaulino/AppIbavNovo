@@ -13,11 +13,10 @@ export const FilteredContext = createContext<IContextProps>(
 
 export const FilteredProvider = ({ children }: IProviderProps) => {
   const [user, setUser] = useState(null);
+  const [updateUsers, setUpdateUsers] = useState(false)
 
-  const { data: listUsers, isFetching: loading } = useFetch("/users.json");
+  const { data: listUsers, isFetching: loading } = useFetch("/users.json", undefined, updateUsers);
   const { user: userAuth } = useAuth();
-  // console.log(listUsers, 'LIST USER FILTERED PROVIDER')
-  console.log(userAuth, 'userAuth')
 
   useEffect(() => {
     const emailAuth = userAuth && userAuth?.email;
@@ -26,10 +25,8 @@ export const FilteredProvider = ({ children }: IProviderProps) => {
       listUsers.filter((item: any) => {
         return item[1].email === emailAuth;
       });
-      console.log(filterUser, 'filterUser')
 
     if (filterUser && filterUser.length !== 0) {
-      console.log('ENTROU NO IF FILTER USER')
       setUser(filterUser);
       AsyncStorage.setItem(
         GetStorage.USER_FILTERED,
@@ -39,7 +36,7 @@ export const FilteredProvider = ({ children }: IProviderProps) => {
   }, [listUsers, loading, userAuth]);
 
   return (
-    <FilteredContext.Provider value={{ user, loading }}>
+    <FilteredContext.Provider value={{ user, loading, updateUsers, setUpdateUsers }}>
       {children}
     </FilteredContext.Provider>
   );
