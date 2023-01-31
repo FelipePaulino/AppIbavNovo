@@ -21,7 +21,7 @@ import * as S from "./styles";
 
 export function HomeScreen() {
   const { signOut } = useAuth();
-  const { loading, user } = useUserFiltered();
+  const { loading, user, updateUsers, setUpdateUsers } = useUserFiltered();
   const navigation = useNavigation<IPropsAppStack>();
 
   const dataUser = user && user[0] && user[0][1];
@@ -78,12 +78,17 @@ export function HomeScreen() {
     }
   };
 
+  const logout = () => {
+    setUpdateUsers(!updateUsers)
+    signOut()
+  }
+
   return (
     <Fragment>
       <HeaderComponent>
         <LogoComponent full />
         <S.Buttons>
-          <TouchableOpacity onPress={signOut}>
+          <TouchableOpacity onPress={logout}>
             <S.Material name="logout" size={24} />
           </TouchableOpacity>
         </S.Buttons>
