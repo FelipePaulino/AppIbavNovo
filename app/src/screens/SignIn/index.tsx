@@ -12,7 +12,7 @@ import ButtonsText from "../../common/constants/buttons";
 import * as S from "./styles";
 
 export function SignInScreen() {
-  const { signIn, errorLogin, isLogged } = useAuth();
+  const { signIn, errorLogin, isLogged, validError } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorr, setErrorr] = useState("");
@@ -65,7 +65,7 @@ export function SignInScreen() {
                   onPress={handleSignIn}
                 />
               </S.Buttons>
-              <S.ErrorLogin>{errorr}</S.ErrorLogin>
+              <S.ErrorLogin>{validError && errorr}</S.ErrorLogin>
             </S.Content>
           </S.Form>
         </TouchableWithoutFeedback>
