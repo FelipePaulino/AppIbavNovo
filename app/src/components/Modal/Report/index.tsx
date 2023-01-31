@@ -184,15 +184,16 @@ export function ReportContentModalComponent({
             primary
           />
         </S.ListModal>
-
-        <S.ObservationModal>
-          <TitleComponent
-            title={`Observações: ${state.observations ? state.observations : "Nenhuma observação!"
-              }`}
-            decoration
-            primary
-          />
-        </S.ObservationModal>
+        {state.observations &&
+          <S.ObservationModal>
+            <TitleComponent
+              title={`Observações: ${state.observations ? state.observations : "Nenhuma observação!"
+                }`}
+              decoration
+              primary
+            />
+          </S.ObservationModal>
+        }
         <S.BoxButton>
           <ButtonComponent
             title="Cancelar"
