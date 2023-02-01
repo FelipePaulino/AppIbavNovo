@@ -21,6 +21,7 @@ import FormFields from "../../common/constants/form";
 import * as S from "./styles";
 import { selectCategory, selectCivilStatus, selectState } from "../../common/utils/selects";
 import { connectApi } from "../../common/services/ConnectApi";
+import { maskCep } from "../../common/utils/masks";
 import { useFormReport } from "../../hooks/useFormReport";
 import { IPropsAppStack } from "../../routes/AppStack/types";
 
@@ -185,8 +186,9 @@ export function MembersInformationScreen(this: any, { route }: any) {
                                 <InputFieldComponent
                                     primary
                                     value={cep === "undefined" ? FormFields.CEP : cep}
+                                    maxLength={9}
                                     placeholder={FormFields.CEP}
-                                    onChangeText={(value) => setCep(value)}
+                                    onChangeText={(value) => setCep(maskCep(value))}
                                     label="Cep"
                                 />
                             </S.GridItem>
