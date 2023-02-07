@@ -198,15 +198,15 @@ export function ReportContentModalComponent({
           <ButtonComponent
             title="Cancelar"
             onPress={() => handleCloseModal(false)}
-            width='150'
-            size='16'
+            width='130'
+            size='14'
           />
 
           <ButtonComponent
             title="Confirmar"
             onPress={handleSubmitForm}
-            width='150'
-            size='16'
+            width='130'
+            size='14'
 
           />
         </S.BoxButton>
