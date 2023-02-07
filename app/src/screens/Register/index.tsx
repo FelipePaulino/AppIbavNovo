@@ -11,7 +11,6 @@ import { ButtonComponent } from "../../components/Button";
 import { ComeBackComponent } from "../../components/ComeBack";
 import { InputMaskComponent } from "../../components/InputMask";
 import { InputFieldComponent } from "../../components/InputField";
-// import { NotificationComponent } from "../../components/Notification";
 import { DefaultContentModalComponent } from "../../components/Modal/Default";
 
 import FormFields from "../../common/constants/form";
@@ -33,6 +32,7 @@ const loadingGif = require("../../assets/loader-two.gif");
 import IAddress from "../../types/initialValues";
 
 import * as S from "./styles";
+import { maskCep } from "../../common/utils/masks";
 
 export function RegisterScreen() {
   const [address, setAddress] = useState(initialValuesRequestCep);
@@ -412,8 +412,6 @@ export function RegisterScreen() {
               : MenuNavigation.REGISTER}
           </S.TitlePage>
         </S.ComeBack>
-
-        {/* <NotificationComponent /> */}
       </HeaderComponent>
 
       {loading ? (
@@ -448,7 +446,7 @@ export function RegisterScreen() {
               <InputMaskComponent
                 value={address.cep}
                 mask="cep"
-                maxLength={8}
+                maxLength={9}
                 placeholder={FormFields.CEP}
                 inputMaskChange={(value: string) => setAddress((old) => ({
                   ...old,
@@ -457,7 +455,7 @@ export function RegisterScreen() {
                 onEndEditing={() => getAddressFromApi()}
                 onChangeText={(value) => setAddress((old) => ({
                   ...old,
-                  cep: value,
+                  cep: maskCep(value),
                 }))}
                 primary
               />
