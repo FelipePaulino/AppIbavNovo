@@ -15,9 +15,7 @@ import MenuNavigation from "../../common/constants/navigation";
 import FormFields from "../../common/constants/form";
 
 import * as S from "./styles";
-import { selectCategory, selectCivilStatus, selectState } from "../../common/utils/selects";
 import { connectApi } from "../../common/services/ConnectApi";
-import { useFormReport } from "../../hooks/useFormReport";
 import { IPropsAppStack } from "../../routes/AppStack/types";
 
 export function MembersInformationScreen(this: any, { route }: any) {
@@ -32,20 +30,9 @@ export function MembersInformationScreen(this: any, { route }: any) {
     const [selectLider, setSelectLider] = useState(`${route.params?.lider}` || "");
     const [celulas, setCelulas] = useState<any>()
 
-    // const [id, setId] = useState(route.params?.id)
-
-    // const [date, setDate] = useState(new Date())
-
-    // const [members, setMembers] = useState<any>([]);
-
-    // const { user } = useUserFiltered();
     const navigation = useNavigation<IPropsAppStack>();
-    // const { trigger, setTrigger, celulaId } = useFormReport()
-
-    // const identifyCelula = user && user[0][1].numero_celula;
 
     const service = new RequestService();
-
 
     useEffect(() => {
         const getCelulas = async () => {
@@ -62,28 +49,12 @@ export function MembersInformationScreen(this: any, { route }: any) {
                 .getUsers()
                 .then((response) => {
                     setUsers(Object.values(response));
-                    console.log(response, 'response')
                 })
         };
         getUsers();
     }, []);
 
 
-    const timeModal = () => {
-        setSuccessModal(true);
-    };
-    console.log(selectNetwork, 'selectNetwork')
-    console.log(name, 'name')
-
-    const UsersAlterados2 = users?.filter((item: any) => {
-        return item?.nome === name
-    })
-    const UsersAlterados = users?.filter((item: any) => {
-        return item?.rede === route.params?.rede && item?.nome !== name
-    })
-
-    console.log(UsersAlterados2, 'UsersAlterados2')
-    console.log(UsersAlterados, 'UsersAlterados')
     const submitRegister = () => {
         if (office === "pastor de rede") {
             const redeEscolhida = selectNetwork.includes('-')
