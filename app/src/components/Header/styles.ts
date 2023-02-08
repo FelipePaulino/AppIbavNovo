@@ -2,7 +2,7 @@ import styled from "styled-components/native";
 import theme from "../../styles/theme";
 
 export const Content = styled.View`
-  max-height: 100;
+  max-height: 100px;
   height: 100%;
 
   justify-content: center;
@@ -17,5 +17,5 @@ export const Container = styled.View`
   justify-content: space-between;
   align-items: flex-end;
 
-  margin-top: 10;
+  margin-top: 10px;
 `;

@@ -12,11 +12,10 @@ import { GetStorage } from "../../common/constants/storage";
 export const AuthenticatedContext = createContext({} as IAuthContextData);
 
 export function AuthenticatedProvider({ children }: IAuthProviderProps) {
-  const [isLogged, setIsLogged] = useState(false);
+  const [isLogged, setIsLogged] = useState(true);
   const [user, setUser] = useState<User | null>(null);
-  const [errorLogin, setErrorLogin] = useState<string>(
-    "Senha ou login incorreto"
-  );
+  const [errorLogin, setErrorLogin] = useState<string>("Senha ou login incorreto");
+  const [validError, setValidError] = useState<boolean>(false)
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
@@ -40,6 +39,7 @@ export function AuthenticatedProvider({ children }: IAuthProviderProps) {
       })
       .catch((error) => {
         const { code } = error;
+        setValidError(true)
 
         if (code === "auth/user-not-found" || code === "auth/wrong-password") {
           return setErrorLogin(errorLogin);
@@ -73,6 +73,7 @@ export function AuthenticatedProvider({ children }: IAuthProviderProps) {
     await AsyncStorage.removeItem(GetStorage.MEMBERS_FILTERED);
 
     setUser(null);
+    setValidError(false)
   }
 
   useEffect(() => {
@@ -81,7 +82,7 @@ export function AuthenticatedProvider({ children }: IAuthProviderProps) {
 
   return (
     <AuthenticatedContext.Provider
-      value={{ signIn, isLogged, user, signOut, errorLogin }}
+      value={{ signIn, isLogged, user, signOut, errorLogin, validError }}
     >
       {children}
     </AuthenticatedContext.Provider>

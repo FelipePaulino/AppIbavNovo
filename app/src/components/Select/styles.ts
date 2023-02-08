@@ -14,27 +14,27 @@ export const Container = styled.TouchableOpacity<ISizeProps>`
   align-items: center;
   justify-content: space-between;
 
-  height: 32;
+  height: 32px;
   width: ${({ width }) => (width ? width : "100%")};
   margin-top: ${(props) => (props.small ? "-20" : "0")};
 
   border-color: ${theme.colors.grey};
-  border-width: 1;
+  border-width: 1px;
 `;
 
 export const LabelField = styled.Text`
   color: ${theme.colors.grey};
 
-  font-size: 12;
+  font-size: 12px;
 
-  margin-bottom: 5;
-  margin-top: 5;
+  margin-bottom: 5px;
+  margin-top: 5px;
 `;
 
 export const Field = styled.View``;
 
 export const Label = styled.Text`
-  padding-left: 15;
+  padding-left: 15px;
   max-width: 135px; /* Tamanho */
   overflow: hidden;
   text-overflow: ellipsis;
@@ -51,10 +51,10 @@ export const Icons = styled.View<IStyledDisabled>`
   justify-content: center;
 
   height: 100%;
-  width: 20;
+  width: 20px;
 `;
 
 export const Icon = styled(MaterialIcons)`
-  font-size: 16;
+  font-size: 16px;
   color: ${theme.colors.light};
 `;

@@ -14,9 +14,12 @@ import { FormReportActions } from "../../contexts/FormReport";
 import { useAuth } from "../../hooks/useAuth";
 
 import * as S from "./styles";
+import useUserFiltered from "../../hooks/useUserFiltered";
 
 export function PreListAdminScreen() {
   const { signOut } = useAuth();
+  const { updateUsers, setUpdateUsers } = useUserFiltered();
+
   const navigation = useNavigation<IPropsAppStack>();
   const { dispatch } = useFormReport();
 
@@ -37,6 +40,11 @@ export function PreListAdminScreen() {
     });
   }
 
+  const logout = () => {
+    signOut()
+    setUpdateUsers(!updateUsers)
+  }
+
   return (
     <Fragment>
       <HeaderComponent>
@@ -46,7 +54,7 @@ export function PreListAdminScreen() {
         </S.HeadingIcons>
 
         <S.Buttons>
-          <TouchableOpacity onPress={signOut}>
+          <TouchableOpacity onPress={logout}>
             <S.Logout name="logout" />
           </TouchableOpacity>
         </S.Buttons>

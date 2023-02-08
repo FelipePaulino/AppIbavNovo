@@ -5,19 +5,19 @@ export const ContentModal = styled.View`
   background-color: ${theme.colors.light};
   width: 100%;
 
-  padding-left: 20;
-  padding-right: 20;
-  padding-bottom: 20;
-  padding-top: 20;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  padding-top: 20px;
 
-  border-radius: 5;
+  border-radius: 5px;
 `;
 
 export const TitleModal = styled.Text`
-  margin-bottom: 10;
+  margin-bottom: 10px;
 
   font-family: ${theme.fonts.fontFamily.bold};
-  font-size: ${theme.fonts.fontSize.small};
+  font-size: ${theme.fonts.fontSize.small}px;
   text-transform: uppercase;
 
   color: ${theme.colors.blue};
@@ -28,16 +28,17 @@ export const TitleModal = styled.Text`
 export const ListModal = styled.View``;
 
 export const ObservationModal = styled.View`
-  margin-top: 20;
-  margin-bottom: 20;
+  margin-top: 20px;
+  margin-bottom: 20px;
 `;
 
 export const BoxButton = styled.View`
-flex-direction: row;
-justify-content: space-between;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 10px;
 `;
 
 export const BoxTitle = styled.View`
-flex-direction: row;
-flex-wrap: wrap;
+  flex-direction: row;
+  flex-wrap: wrap;
 `;

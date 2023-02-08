@@ -21,10 +21,10 @@ export const Content = styled.View`
   flex: 1;
   align-items: center;
 
-  max-width: 350;
+  max-width: 350px;
   width: 100%;
 
-  margin-top: 32;
+  margin-top: 32px;
   margin-left: auto;
   margin-right: auto;
 `;
@@ -32,24 +32,24 @@ export const Content = styled.View`
 export const Name = styled.Text`
   color: ${theme.colors.grey};
   font-family: ${theme.fonts.fontFamily.bold};
-  font-size: ${theme.fonts.fontSize.medium};
+  font-size: ${theme.fonts.fontSize.medium}px;
   text-transform: uppercase;
 `;
 
 export const Office = styled.Text`
   color: ${theme.colors.red};
-  font-size: ${theme.fonts.fontSize.small};
-  margin-top: -10;
+  font-size: ${theme.fonts.fontSize.small}px;
+  margin-top: -10px;
 `;
 
 export const Names = styled.View`
   align-items: center;
   width: 100%;
 
-  padding-bottom: 12;
+  padding-bottom: 12px;
 
   border-bottom-color: ${theme.colors.grey};
-  border-bottom-width: 1;
+  border-bottom-width: 1px;
 `;
 
 export const Info = styled.View`
@@ -57,13 +57,13 @@ export const Info = styled.View`
 
   align-items: center;
 
-  margin-top: 24;
+  margin-top: 24px;
 `;
 
 export const InfoTextTitle = styled.Text`
   color: ${theme.colors.blue};
 
-  font-size: 16;
+  font-size: 16px;
   font-family: ${theme.fonts.fontFamily.bold};
   text-transform: uppercase;
 `;
@@ -71,7 +71,7 @@ export const InfoTextTitle = styled.Text`
 export const InfoTextSubtitle = styled.Text`
   color: ${theme.colors.grey};
 
-  font-size: 16;
+  font-size: 16px;
   font-family: ${theme.fonts.fontFamily.bold};
   text-transform: uppercase;
 
@@ -80,7 +80,7 @@ export const InfoTextSubtitle = styled.Text`
 
 export const ContentOptions = styled.View`
   width: 100%;
-  margin-top: 24;
+  margin-top: 24px;
 
   flex-direction: row;
   justify-content: space-around;
@@ -90,31 +90,31 @@ export const ContentOptions = styled.View`
 export const SendReportIcon = styled(Ionicons)`
   color: ${theme.colors.light};
 
-  font-size: ${theme.fonts.fontSize.large};
+  font-size: ${theme.fonts.fontSize.large}px;
 `;
 
 export const MembersIcon = styled(FontAwesome5)`
   color: ${theme.colors.light};
 
-  font-size: ${theme.fonts.fontSize.large};
+  font-size: ${theme.fonts.fontSize.large}px;
 `;
 
 export const RegisterIcon = styled(FontAwesome5)`
   color: ${theme.colors.light};
 
-  font-size: ${theme.fonts.fontSize.large};
+  font-size: ${theme.fonts.fontSize.large}px;
 `;
 
 export const ReportView = styled(FontAwesome5)`
   color: ${theme.colors.light};
 
-  font-size: ${theme.fonts.fontSize.large};
+  font-size: ${theme.fonts.fontSize.large}px;
 `;
 
 export const MultiplicationIcon = styled(MaterialCommunityIcons)`
   color: ${theme.colors.light};
 
-  font-size: ${theme.fonts.fontSize.large};
+  font-size: ${theme.fonts.fontSize.large}px;
 `;
 
 export const Loading = styled(Image)``;

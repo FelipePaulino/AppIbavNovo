@@ -274,7 +274,7 @@ export function SeeReports() {
                     labelSelect={state.redeSelect}
                     dataOptions={mapRedesUnicas}
                     selectedOption={handleRedeChange}
-                    width="300"
+                    width="260"
                   />
                 </S.ContentC>
               </S.Grid>
@@ -291,7 +291,7 @@ export function SeeReports() {
                     labelSelect={state.discipuladoSelect}
                     dataOptions={mapDiscipuladosUnicos}
                     selectedOption={handleDiscipuladoChange}
-                    width="300"
+                    width="260"
                     disabled={state.redeSelect === "Selecione" ? true : false}
                   />
                 </S.ContentC>
@@ -305,7 +305,7 @@ export function SeeReports() {
                     labelSelect={state.celulaSelect}
                     dataOptions={mapCelulasUnicos}
                     selectedOption={handleCelulaChange}
-                    width="300"
+                    width="260"
                     disabled={
                       state.discipuladoSelect === "Selecione" ? true : false
                     }
@@ -328,7 +328,7 @@ export function SeeReports() {
 
               <ButtonComponent
                 title="FILTRAR"
-                width="150px"
+                width="150"
                 color="white"
                 onPress={() => submitFilter()}
               />
@@ -347,14 +347,14 @@ export function SeeReports() {
           <S.BoxButtons>
             <ButtonComponent
               title="FILTRAR"
-              width="130px"
+              width="130"
               icon="filter"
               color="white"
               onPress={() => setShowFilter(true)}
             />
             <ButtonComponent
               title="LIMPAR FILTROS"
-              width="200px"
+              width="200"
               icon="times"
               color="white"
               onPress={() => cleanFilter()}
@@ -364,13 +364,13 @@ export function SeeReports() {
             <S.Loading source={loadingGif}></S.Loading>
           ) : (
             <S.ListContainer>
-              {filter?.map((item: any) => {
+              {filter?.map((item: any, index: any) => {
                 return (
-                  <S.List>
-                    <Text onPress={() => actionReportId(item[0])}>
+                  <S.List key={index}>
+                    <Text>
                       {item[1].celula} - {item[1].data}
                     </Text>
-                    <FontAwesome5 name="eye" color="#000A3E" />
+                    <FontAwesome5 name="eye" color="#000A3E" onPress={() => actionReportId(item[0])}/>
                   </S.List>
                 );
               })}

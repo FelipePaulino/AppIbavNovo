@@ -184,28 +184,29 @@ export function ReportContentModalComponent({
             primary
           />
         </S.ListModal>
-
-        <S.ObservationModal>
-          <TitleComponent
-            title={`Observações: ${state.observations ? state.observations : "Nenhuma observação!"
-              }`}
-            decoration
-            primary
-          />
-        </S.ObservationModal>
+        {state.observations &&
+          <S.ObservationModal>
+            <TitleComponent
+              title={`Observações: ${state.observations ? state.observations : "Nenhuma observação!"
+                }`}
+              decoration
+              primary
+            />
+          </S.ObservationModal>
+        }
         <S.BoxButton>
           <ButtonComponent
             title="Cancelar"
             onPress={() => handleCloseModal(false)}
-            width='150px'
-            size='16px'
+            width='130'
+            size='14'
           />
 
           <ButtonComponent
             title="Confirmar"
             onPress={handleSubmitForm}
-            width='150px'
-            size='16px'
+            width='130'
+            size='14'
 
           />
         </S.BoxButton>

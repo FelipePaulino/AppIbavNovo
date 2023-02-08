@@ -41,6 +41,16 @@ export function DefaultContentModalComponent({
           Célula multiplicada com sucesso
         </S.Description>
       )}
+      {type === "multiplicationDiscipulado" && (
+        <S.Description>
+          Discipulado multiplicado com sucesso
+        </S.Description>
+      )}
+      {type === "multiplicationRede" && (
+        <S.Description>
+          Rede multiplicada com sucesso
+        </S.Description>
+      )}
       <S.Success name="verified" />
     </S.ContentModal>
   );
