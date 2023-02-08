@@ -94,8 +94,8 @@ export default function NetworkScreenList() {
     celulas &&
     Object.entries(celulas).filter((items: any) => {
       return (
-        items[1]?.cargo === "lider" &&
-        items[1]?.discipulado === state.discipuladoSelect
+        items[1]?.cargo === "lider de celula" &&
+        items[1]?.discipulador === state.discipuladoSelect
       );
     });
 
@@ -195,6 +195,7 @@ export default function NetworkScreenList() {
                     <>
                       <Text>Rede</Text>
                       {rede.map((items: any) => {
+                        console.log(items, 'items')
                         return (
                           <PersonLabelComponent
                             nome={items[1].rede}
@@ -206,18 +207,9 @@ export default function NetworkScreenList() {
                             onPress={() =>
                               navigation.navigate("MemberInformation", {
                                 nome: `${items[1].nome}`,
-                                telefone: `${items[1].telefone}`,
-                                email: `${items[1].email}`,
-                                endereco: `${items[1].endereco}`,
-                                bairro: `${items[1].bairro}`,
-                                cep: `${items[1].cep}`,
-                                cidade: `${items[1].cidade}`,
-                                estado: `${items[1].estado}`,
-                                estado_civil: `${items[1].estado_civil}`,
-                                data_de_nascimento: `${items[1].data_de_nascimento}`,
-                                status: `${items[1].status}`,
-                                numero_casa: `${items[1].numero_casa}`,
-                                id: `${items[0]}`,
+                                cargo: `${items[1].cargo}`,
+                                pastor: `${items[1].nome}`,
+                                rede: `${items[1].rede}`,
                                 active: setTrigger
                               })
                             }
@@ -243,17 +235,10 @@ export default function NetworkScreenList() {
                                 onPress={() =>
                                   navigation.navigate("MemberInformation", {
                                     nome: `${item[1].nome}`,
-                                    telefone: `${item[1].telefone}`,
-                                    email: `${item[1].email}`,
-                                    endereco: `${item[1].endereco}`,
-                                    bairro: `${item[1].bairro}`,
-                                    cep: `${item[1].cep}`,
-                                    cidade: `${item[1].cidade}`,
-                                    estado: `${item[1].estado}`,
-                                    estado_civil: `${item[1].estado_civil}`,
-                                    data_de_nascimento: `${item[1].data_de_nascimento}`,
-                                    status: `${item[1].status}`,
-                                    numero_casa: `${item[1].numero_casa}`,
+                                    cargo: `${item[1].cargo}`,
+                                    pastor: `${item[1].pastor}`,
+                                    rede: `${item[1].rede}`,
+                                    discipulador: `${item[1].nome}`,
                                     id: `${item[0]}`,
                                     active: setTrigger
                                   })
@@ -284,17 +269,12 @@ export default function NetworkScreenList() {
                                 onPress={() =>
                                   navigation.navigate("MemberInformation", {
                                     nome: `${item[1].nome}`,
-                                    telefone: `${item[1].telefone}`,
-                                    email: `${item[1].email}`,
-                                    endereco: `${item[1].endereco}`,
-                                    bairro: `${item[1].bairro}`,
-                                    cep: `${item[1].cep}`,
-                                    cidade: `${item[1].cidade}`,
-                                    estado: `${item[1].estado}`,
-                                    estado_civil: `${item[1].estado_civil}`,
-                                    data_de_nascimento: `${item[1].data_de_nascimento}`,
-                                    status: `${item[1].status}`,
-                                    numero_casa: `${item[1].numero_casa}`,
+                                    cargo: `${item[1].cargo}`,
+                                    pastor: `${item[1].pastor}`,
+                                    rede: `${item[1].rede}`,
+                                    discipulador: `${item[1].discipulador}`,
+                                    lider: `${item[1].nome}`,
+                                    n_celula: `${item[1].n_celula}`,
                                     id: `${item[0]}`,
                                     active: setTrigger
                                   })
