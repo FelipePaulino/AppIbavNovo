@@ -406,7 +406,6 @@ export function SendReportScreen() {
                   />
                   <S.Observations
                     multiline={true}
-                    numberOfLines={5}
                     onChangeText={handleObservationsChange}
                     value={state.observations}
                   />
