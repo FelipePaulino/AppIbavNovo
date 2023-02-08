@@ -465,11 +465,7 @@ export function RegisterScreen() {
                   <InputFieldComponent
                     primary
                     value={address.logradouro}
-                    placeholder={
-                      address.logradouro !== ""
-                        ? address.logradouro
-                        : FormFields.ADDRESS
-                    }
+                    placeholder={address.logradouro ?? FormFields.ADDRESS}
                     onChangeText={(value) =>
                       setAddress((old) => ({
                         ...old,
@@ -495,11 +491,7 @@ export function RegisterScreen() {
                   <InputFieldComponent
                     primary
                     value={address.bairro}
-                    placeholder={
-                      address.bairro !== ""
-                        ? address.bairro
-                        : FormFields.DISTRICT
-                    }
+                    placeholder={address.bairro ?? FormFields.DISTRICT}
                     onChangeText={(value) =>
                       setAddress((old) => ({
                         ...old,
@@ -514,11 +506,7 @@ export function RegisterScreen() {
                   <InputFieldComponent
                     primary
                     value={address.localidade}
-                    placeholder={
-                      address.localidade !== ""
-                        ? address.localidade
-                        : FormFields.CITY
-                    }
+                    placeholder={address.localidade ?? FormFields.CITY}
                     onChangeText={(value) =>
                       setAddress((old) => ({
                         ...old,
