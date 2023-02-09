@@ -35,9 +35,11 @@ import IAddress from "../../types/initialValues";
 
 import * as S from "./styles";
 import { maskCep } from "../../common/utils/masks";
+import { ErrorModalComponent } from "../../components/Modal/Error";
 
 export function UserRegisterScreen() {
   const [users, setUsers] = useState([]);
+  const [celulas, setCelulas] = useState([])
   const [diseble, setDiseble] = useState<any>();
   const [office, setOffice] = useState("Selecionar");
   const [showCalender, setShowCalender] = useState(false);
@@ -46,6 +48,8 @@ export function UserRegisterScreen() {
   const [selectDisciples, setSelectDisciples] = useState("Selecionar");
   const [formValues, setFormValues] = useState<any>(initialValueRegisterUser);
   const [confirmRegisterModal, setConfirmRegisterModal] = useState(false);
+  const [updateList, setUpdateList] = useState(false)
+  const [errorNumberCel, setErrorNumberCel] = useState(false)
 
   const { state: stateReducer, dispatch } = useFormReport();
   const app = initializeApp(firebaseConfig);
@@ -54,11 +58,13 @@ export function UserRegisterScreen() {
   useEffect(() => {
     const getCelulas = async () => {
       const response = await connectApi.get("/users.json");
+      const dataCelulas = await connectApi.get("/celulas.json");
 
       setUsers(Object.values(response.data));
+      setCelulas(Object.values(dataCelulas.data))
     };
     getCelulas();
-  }, []);
+  }, [updateList]);
 
   const getNetwork = selectNetwork.split(" -")[0];
 
@@ -158,7 +164,12 @@ export function UserRegisterScreen() {
 
     createUserWithEmailAndPassword(auth, email, password);
     credentialsPost();
+    setUpdateList(!updateList)
   };
+
+    const validateCell: any = celulas.length && celulas.filter((item: any) => {
+      return item.numero_celula === formValues.numberCelula
+    })
 
   const credentialsPost = () => {
     const dataLider = {
@@ -242,6 +253,7 @@ export function UserRegisterScreen() {
             });
           });
       } else {
+        if (validateCell.length === 0) {
         connectApi.post("/users.json", {
           cargo: "lider de celula",
           rede: selectNetwork.split(' -')[0],
@@ -274,6 +286,9 @@ export function UserRegisterScreen() {
             });
           });
         });
+      } else {
+        setErrorNumberCel(true)
+      }
       }
     } catch (err) {
       throw new Error("Ops, algo deu errado!");
@@ -389,7 +404,6 @@ export function UserRegisterScreen() {
           <ComeBackComponent />
           <S.TitlePage>{MenuNavigation.REGISTER_USERS}</S.TitlePage>
         </S.ComeBack>
-        {/* <NotificationComponent /> */}
       </HeaderComponent>
 
       <S.Main>
@@ -599,6 +613,15 @@ export function UserRegisterScreen() {
         <DefaultContentModalComponent
           type="register"
           data={formValues.name}
+        />
+      </ModalComponent>
+
+      <ModalComponent
+        isVisible={errorNumberCel}
+        onBackdropPress={() => setErrorNumberCel(false)}
+      >
+        <ErrorModalComponent
+          text="Número da celula ja está sendo utilizado"
         />
       </ModalComponent>
     </Fragment>
