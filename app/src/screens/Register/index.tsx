@@ -465,14 +465,13 @@ export function RegisterScreen() {
                   <InputFieldComponent
                     primary
                     value={address.logradouro}
-                    placeholder={address.logradouro ?? FormFields.ADDRESS}
+                    placeholder={FormFields.ADDRESS}
                     onChangeText={(value) =>
                       setAddress((old) => ({
                         ...old,
                         logradouro: value,
                       }))
                     }
-                    editable={address.logradouro === ""}
                   />
                 </S.GridItemLarge>
 
@@ -491,14 +490,13 @@ export function RegisterScreen() {
                   <InputFieldComponent
                     primary
                     value={address.bairro}
-                    placeholder={address.bairro ?? FormFields.DISTRICT}
+                    placeholder={FormFields.DISTRICT}
                     onChangeText={(value) =>
                       setAddress((old) => ({
                         ...old,
                         bairro: value,
                       }))
                     }
-                    editable={address.bairro === ""}
                   />
                 </S.GridItem>
 
@@ -506,14 +504,13 @@ export function RegisterScreen() {
                   <InputFieldComponent
                     primary
                     value={address.localidade}
-                    placeholder={address.localidade ?? FormFields.CITY}
+                    placeholder={FormFields.CITY}
                     onChangeText={(value) =>
                       setAddress((old) => ({
                         ...old,
                         localidade: value,
                       }))
                     }
-                    editable={address.localidade === ""}
                   />
                 </S.GridItem>
               </S.GridForm>
