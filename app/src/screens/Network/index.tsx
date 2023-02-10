@@ -98,7 +98,7 @@ export default function NetworkScreenList() {
         items[1]?.discipulador === state.discipuladoSelect
       );
     });
-
+  console.log(celulas, 'celulas')
   const discipuladossUnicos = discipulado.map((items: any) => items[1]?.nome);
 
   const mapDiscipuladosUnicos = discipuladossUnicos.map((item: any) => {
@@ -195,24 +195,24 @@ export default function NetworkScreenList() {
                     <>
                       <Text>Rede</Text>
                       {rede.map((items: any) => {
-                        console.log(items, 'items')
                         return (
                           <PersonLabelComponent
+                            noPencial={true}
                             nome={items[1].rede}
                             delMember={() => {
                               setConfirmModal(true),
                                 setName(items[1].rede),
                                 setId(items[0]);
                             }}
-                            onPress={() =>
-                              navigation.navigate("MemberInformation", {
-                                nome: `${items[1].nome}`,
-                                cargo: `${items[1].cargo}`,
-                                pastor: `${items[1].nome}`,
-                                rede: `${items[1].rede}`,
-                                active: setTrigger
-                              })
-                            }
+                          // onPress={() =>
+                          //   navigation.navigate("MemberInformation", {
+                          //     nome: `${items[1].nome}`,
+                          //     cargo: `${items[1].cargo}`,
+                          //     pastor: `${items[1].nome}`,
+                          //     rede: `${items[1].rede}`,
+                          //     active: setTrigger
+                          //   })
+                          // }
                           />
                         );
                       })}
@@ -226,23 +226,24 @@ export default function NetworkScreenList() {
                           {discipulado.map((item: any) => {
                             return (
                               <PersonLabelComponent
+                                noPencial={true}
                                 nome={item[1].nome}
                                 delMember={() => {
                                   setConfirmModal(true),
                                     setName(item[1].nome),
                                     setId(item[0]);
                                 }}
-                                onPress={() =>
-                                  navigation.navigate("MemberInformation", {
-                                    nome: `${item[1].nome}`,
-                                    cargo: `${item[1].cargo}`,
-                                    pastor: `${item[1].pastor}`,
-                                    rede: `${item[1].rede}`,
-                                    discipulador: `${item[1].nome}`,
-                                    id: `${item[0]}`,
-                                    active: setTrigger
-                                  })
-                                }
+                              // onPress={() =>
+                              //   navigation.navigate("MemberInformation", {
+                              //     nome: `${item[1].nome}`,
+                              //     cargo: `${item[1].cargo}`,
+                              //     pastor: `${item[1].pastor}`,
+                              //     rede: `${item[1].rede}`,
+                              //     discipulador: `${item[1].nome}`,
+                              //     id: `${item[0]}`,
+                              //     active: setTrigger
+                              //   })
+                              // }
                               />
                             );
                           })}
@@ -260,25 +261,26 @@ export default function NetworkScreenList() {
                           {lider.map((item: any) => {
                             return (
                               <PersonLabelComponent
+                                noPencial={true}
                                 nome={item[1].nome}
                                 delMember={() => {
                                   setConfirmModal(true),
                                     setName(item[1].nome),
                                     setId(item[0]);
                                 }}
-                                onPress={() =>
-                                  navigation.navigate("MemberInformation", {
-                                    nome: `${item[1].nome}`,
-                                    cargo: `${item[1].cargo}`,
-                                    pastor: `${item[1].pastor}`,
-                                    rede: `${item[1].rede}`,
-                                    discipulador: `${item[1].discipulador}`,
-                                    lider: `${item[1].nome}`,
-                                    n_celula: `${item[1].n_celula}`,
-                                    id: `${item[0]}`,
-                                    active: setTrigger
-                                  })
-                                }
+                              // onPress={() =>
+                              //   navigation.navigate("MemberInformation", {
+                              //     nome: `${item[1].nome}`,
+                              //     cargo: `${item[1].cargo}`,
+                              //     pastor: `${item[1].pastor}`,
+                              //     rede: `${item[1].rede}`,
+                              //     discipulador: `${item[1].discipulador}`,
+                              //     lider: `${item[1].nome}`,
+                              //     n_celula: `${item[1].n_celula}`,
+                              //     id: `${item[0]}`,
+                              //     active: setTrigger
+                              //   })
+                              // }
                               />
                             );
                           })}

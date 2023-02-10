@@ -68,12 +68,14 @@ export function UsersInformationScreen(this: any, { route }: any) {
   useEffect(() => {
     const getCelulas = async () => {
       await serviceGet.getCelulas().then((response) => {
-        setCelulas(Object.entries(response));
+        setCelulas(Object.values(response));
       });
     };
 
     getCelulas();
   }, []);
+
+  console.log(celulas, 'celulas')
 
   useEffect(() => {
     const getUsers = async () => {
@@ -88,7 +90,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
     const filterMembers =
       celulas &&
       celulas.filter((item: any) => {
-        return item[1].numero_celula == identifyCelula;
+        return item?.numero_celula == identifyCelula;
       });
 
     if (filterMembers) {
@@ -124,9 +126,12 @@ export function UsersInformationScreen(this: any, { route }: any) {
   const handleOpenModal = () => {
     setSuccessModal(true);
   };
-
+  console.log(route.params?.rede)
   const submitRegister = () => {
+
     let payload
+
+    let payloadCelulas
     const payloadDefault = {
       senha: password,
       n_end: nEnd,
@@ -161,15 +166,35 @@ export function UsersInformationScreen(this: any, { route }: any) {
       }
     }
     else {
+      const redeEscolhida = selectNetwork.includes('-')
+      const RedeNaoAlterados = celulas.filter((item: any) => {
+        return item?.rede !== route.params?.rede
+      })
+      const RedeAlterados = celulas.filter((item: any) => {
+        return item?.rede === route.params?.rede
+      })
+      console.log(RedeAlterados, 'RedeAlterados')
+      const alteracaoesRede = RedeAlterados.map((item: any) => {
+        return {
+          ...item,
+          rede: redeEscolhida ? selectNetwork.split('-')[0] : selectNetwork,
+          pastor: name
+        }
+      })
+      payloadCelulas = [
+        ...RedeNaoAlterados,
+        ...alteracaoesRede
+      ]
       payload = {
         ...payloadDefault,
         rede: selectNetwork,
         cargo: 'pastor',
       }
     }
-
+    console.log(payloadCelulas, 'payloadCelulas')
     try {
       connectApi.put(`/users/${id}.json`, payload);
+      // connectApi.put(`/celulas.json`, payloadCelulas);
       setTrigger(!trigger);
       handleOpenModal()
     } catch (err) {

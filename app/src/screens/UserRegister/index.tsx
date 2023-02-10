@@ -245,7 +245,7 @@ export function UserRegisterScreen() {
         connectApi.post("/users.json", {
           cargo: "lider de celula",
           rede: selectNetwork.split(' -')[0],
-          pastor: selectNetwork.split(' -')[1],
+          pastor: selectNetwork.split(' - ')[1],
           discipulador: selectDisciples,
           numero_celula: formValues.numberCelula,
           senha: formValues.password,
