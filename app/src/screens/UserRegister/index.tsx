@@ -34,7 +34,7 @@ import { IDataUser } from "./types";
 import IAddress from "../../types/initialValues";
 
 import * as S from "./styles";
-import { maskCep } from "../../common/utils/masks";
+import { maskCep, maskEmail } from "../../common/utils/masks";
 import { ErrorModalComponent } from "../../components/Modal/Error";
 
 export function UserRegisterScreen() {
@@ -49,7 +49,8 @@ export function UserRegisterScreen() {
   const [formValues, setFormValues] = useState<any>(initialValueRegisterUser);
   const [confirmRegisterModal, setConfirmRegisterModal] = useState(false);
   const [updateList, setUpdateList] = useState(false)
-  const [errorNumberCel, setErrorNumberCel] = useState(false)
+  const [errorNumberCelula, setErrorNumberCelula] = useState(false)
+  const [errorEmailValidate, setErrorEmailValidate] = useState(false)
 
   const { state: stateReducer, dispatch } = useFormReport();
   const app = initializeApp(firebaseConfig);
@@ -167,9 +168,9 @@ export function UserRegisterScreen() {
     setUpdateList(!updateList)
   };
 
-    const validateCell: any = celulas.length && celulas.filter((item: any) => {
-      return item.numero_celula === formValues.numberCelula
-    })
+  const validateCell: any = celulas.length && celulas.filter((item: any) => {
+    return item.numero_celula === formValues.numberCelula
+  })
 
   const credentialsPost = () => {
     const dataLider = {
@@ -187,108 +188,112 @@ export function UserRegisterScreen() {
       telefone: formValues.phone,
     }
     try {
-      if (office === "pastor de rede") {
-        connectApi
-          .post("/users.json", {
-            cargo: "pastor",
-            cep: address.cep,
-            nome: formValues.name,
-            bairro: address.bairro,
-            email: formValues.email,
-            estado: formValues.state ? formValues.state : '',
-            rede: formValues.network,
-            cidade: address.localidade,
-            senha: formValues.password,
-            telefone: formValues.phone,
-            endereco: address.logradouro,
-            numero_casa: formValues.numberHouse,
-            estado_civil: formValues.stateCivil,
-            data_de_nascimento: stateReducer.textRegister,
-          })
-          .then(() => {
-            setConfirmRegisterModal(true);
-            setConfirmRegisterModal(true);
-            setFormValues(initialValueRegisterUser);
-            setAddress(initialValuesRequestCep);
-            setOffice("");
-            setSelectNetwork("Selecionar");
-            setSelectDisciples("Selecionar");
+      if (maskEmail.test(formValues.email)) {
+        if (office === "pastor de rede") {
+          connectApi
+            .post("/users.json", {
+              cargo: "pastor",
+              cep: address.cep,
+              nome: formValues.name,
+              bairro: address.bairro,
+              email: formValues.email,
+              estado: formValues.state ? formValues.state : '',
+              rede: formValues.network,
+              cidade: address.localidade,
+              senha: formValues.password,
+              telefone: formValues.phone,
+              endereco: address.logradouro,
+              numero_casa: formValues.numberHouse,
+              estado_civil: formValues.stateCivil,
+              data_de_nascimento: stateReducer.textRegister,
+            })
+            .then(() => {
+              setConfirmRegisterModal(true);
+              setConfirmRegisterModal(true);
+              setFormValues(initialValueRegisterUser);
+              setAddress(initialValuesRequestCep);
+              setOffice("");
+              setSelectNetwork("Selecionar");
+              setSelectDisciples("Selecionar");
 
-            dispatch({
-              type: FormReportActions.setTextRegister,
-              payload: "",
+              dispatch({
+                type: FormReportActions.setTextRegister,
+                payload: "",
+              });
             });
-          });
-      } else if (office === "discipulador") {
-        connectApi
-          .post("/users.json", {
-            cargo: "discipulador",
-            rede: selectNetwork.split(' -')[0],
-            pastor: selectNetwork.split(' -')[1],
-            cep: address.cep,
-            nome: formValues.name,
-            bairro: address.bairro,
-            email: formValues.email,
-            estado: address.uf ? address.uf : formValues.state,
-            cidade: address.localidade,
-            senha: formValues.password,
-            telefone: formValues.phone,
-            endereco: address.logradouro,
-            estado_civil: formValues.stateCivil,
-            numero_casa: formValues.numberHouse,
-            data_de_nascimento: stateReducer.textRegister,
-          })
-          .then(() => {
-            setConfirmRegisterModal(true);
-            setConfirmRegisterModal(true);
-            setFormValues(initialValueRegisterUser);
-            setAddress(initialValuesRequestCep);
-            setOffice("");
-            setSelectNetwork("Selecionar");
-            setSelectDisciples("Selecionar");
+        } else if (office === "discipulador") {
+          connectApi
+            .post("/users.json", {
+              cargo: "discipulador",
+              rede: selectNetwork.split(' -')[0],
+              pastor: selectNetwork.split(' -')[1],
+              cep: address.cep,
+              nome: formValues.name,
+              bairro: address.bairro,
+              email: formValues.email,
+              estado: address.uf ? address.uf : formValues.state,
+              cidade: address.localidade,
+              senha: formValues.password,
+              telefone: formValues.phone,
+              endereco: address.logradouro,
+              estado_civil: formValues.stateCivil,
+              numero_casa: formValues.numberHouse,
+              data_de_nascimento: stateReducer.textRegister,
+            })
+            .then(() => {
+              setConfirmRegisterModal(true);
+              setConfirmRegisterModal(true);
+              setFormValues(initialValueRegisterUser);
+              setAddress(initialValuesRequestCep);
+              setOffice("");
+              setSelectNetwork("Selecionar");
+              setSelectDisciples("Selecionar");
 
-            dispatch({
-              type: FormReportActions.setTextRegister,
-              payload: "",
+              dispatch({
+                type: FormReportActions.setTextRegister,
+                payload: "",
+              });
             });
-          });
+        } else {
+          if (validateCell.length === 0) {
+            connectApi.post("/users.json", {
+              cargo: "lider de celula",
+              rede: selectNetwork.split(' -')[0],
+              pastor: selectNetwork.split(' -')[1],
+              discipulador: selectDisciples,
+              numero_celula: formValues.numberCelula,
+              senha: formValues.password,
+              ...dataLider
+            }).then(() => {
+              connectApi.post("/celulas.json", {
+                lider: formValues.name,
+                numero_celula: formValues.numberCelula,
+                discipulador: selectDisciples,
+                pastor: selectNetwork.split('- ')[1],
+                rede: selectNetwork.split(' -')[0],
+                membros: [dataLider]
+              }).then(() => {
+                setConfirmRegisterModal(true);
+                setFormValues(initialValueRegisterUser);
+                setAddress(initialValuesRequestCep);
+                setSelectNetwork("Selecionar");
+                setOffice("");
+
+                setSelectNetwork("Selecionar");
+                setSelectDisciples("Selecionar");
+
+                dispatch({
+                  type: FormReportActions.setTextRegister,
+                  payload: "",
+                });
+              });
+            });
+          } else {
+            setErrorNumberCelula(true)
+          }
+        }
       } else {
-        if (validateCell.length === 0) {
-        connectApi.post("/users.json", {
-          cargo: "lider de celula",
-          rede: selectNetwork.split(' -')[0],
-          pastor: selectNetwork.split(' -')[1],
-          discipulador: selectDisciples,
-          numero_celula: formValues.numberCelula,
-          senha: formValues.password,
-          ...dataLider
-        }).then(() => {
-          connectApi.post("/celulas.json", {
-            lider: formValues.name,
-            numero_celula: formValues.numberCelula,
-            discipulador: selectDisciples,
-            pastor: selectNetwork.split('- ')[1],
-            rede: selectNetwork.split(' -')[0],
-            membros: [dataLider]
-          }).then(() => {
-            setConfirmRegisterModal(true);
-            setFormValues(initialValueRegisterUser);
-            setAddress(initialValuesRequestCep);
-            setSelectNetwork("Selecionar");
-            setOffice("");
-
-            setSelectNetwork("Selecionar");
-            setSelectDisciples("Selecionar");
-
-            dispatch({
-              type: FormReportActions.setTextRegister,
-              payload: "",
-            });
-          });
-        });
-      } else {
-        setErrorNumberCel(true)
-      }
+        setErrorEmailValidate(true)
       }
     } catch (err) {
       throw new Error("Ops, algo deu errado!");
@@ -617,11 +622,20 @@ export function UserRegisterScreen() {
       </ModalComponent>
 
       <ModalComponent
-        isVisible={errorNumberCel}
-        onBackdropPress={() => setErrorNumberCel(false)}
+        isVisible={errorNumberCelula}
+        onBackdropPress={() => setErrorNumberCelula(false)}
       >
         <ErrorModalComponent
           text="Número da celula ja está sendo utilizado"
+        />
+      </ModalComponent>
+
+      <ModalComponent
+        isVisible={errorEmailValidate}
+        onBackdropPress={() => setErrorEmailValidate(false)}
+      >
+        <ErrorModalComponent
+          text="Email inválido"
         />
       </ModalComponent>
     </Fragment>
