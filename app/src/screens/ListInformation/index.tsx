@@ -75,8 +75,6 @@ export function UsersInformationScreen(this: any, { route }: any) {
     getCelulas();
   }, []);
 
-  console.log(celulas, 'celulas')
-
   useEffect(() => {
     const getUsers = async () => {
       const response = await connectApi.get("/users.json");
@@ -126,12 +124,13 @@ export function UsersInformationScreen(this: any, { route }: any) {
   const handleOpenModal = () => {
     setSuccessModal(true);
   };
-  console.log(route.params?.rede)
+
   const submitRegister = () => {
+    let payload: { cargo: string; discipulador: any; numero_celula: any; rede: string; pastor: string; senha: any; n_end: any; nome: any; telefone: any; email: any; endereco: any; cep: any; bairro: any; cidade: any; estado: any; data_de_nascimento: any; estado_civil: any; } | { cargo: string; rede: string; pastor: string; senha: any; n_end: any; nome: any; telefone: any; email: any; endereco: any; cep: any; bairro: any; cidade: any; estado: any; data_de_nascimento: any; estado_civil: any; } | { rede: string; cargo: string; senha: any; n_end: any; nome: any; telefone: any; email: any; endereco: any; cep: any; bairro: any; cidade: any; estado: any; data_de_nascimento: any; estado_civil: any; } | undefined
 
-    let payload
+    let payloadCelulas: any[]
 
-    let payloadCelulas
+    let payloadUsers: any[]
     const payloadDefault = {
       senha: password,
       n_end: nEnd,
@@ -148,22 +147,134 @@ export function UsersInformationScreen(this: any, { route }: any) {
     }
 
     if (office === 'lider de celula') {
-      payload = {
-        ...payloadDefault,
-        cargo: 'lider de celula',
-        discipulador: selectDisciples,
-        numero_celula: numberCelula,
-        rede: selectNetwork.split('-')[0],
-        pastor: selectNetwork.split('-')[1],
-      }
+      const LideresNaoAlterados = celulas.filter((item: any) => {
+        return item?.lider !== route.params?.nome
+      })
+      const LideresAlterados = celulas.filter((item: any) => {
+        return item?.lider === route.params?.nome
+      })
+
+      const alteracaoesLideres = LideresAlterados.map((item: any) => {
+        return {
+          ...item,
+          rede: selectNetwork.split(' -')[0].trim(),
+          pastor: selectNetwork.split('- ')[1].trim(),
+          discipulador: selectDisciples.trim(),
+          numero_celula: numberCelula.trim(),
+          lider: name.trim()
+        }
+      })
+
+      const LideresNaoAlteradosUsers = users.filter((item: any) => {
+        return item?.lider !== route.params?.nome
+      })
+      const LideresAlteradosUsers = users.filter((item: any) => {
+        return item?.lider === route.params?.nome && item.nome !== route.params?.nome
+      })
+
+      const alteracaoesLideresUsers = LideresAlteradosUsers.map((item: any) => {
+        return {
+          ...item,
+          rede: selectNetwork.split(' -')[0].trim(),
+          pastor: selectNetwork.split('- ')[1].trim(),
+          discipulador: selectDisciples.trim(),
+          numero_celula: numberCelula.trim(),
+          lider: name.trim()
+        }
+      })
+
+      const LiderAlteradosID = users.filter((item: any) => {
+        return item?.discipulador === route.params?.rede && item.nome === route.params?.nome
+      })
+
+      const LiderAlteradosIdMap = LiderAlteradosID.map((item: any) => {
+        return {
+          ...payloadDefault,
+          cargo: 'lider de celula',
+          discipulador: selectDisciples.trim(),
+          numero_celula: numberCelula.trim(),
+          rede: selectNetwork.split(' -')[0].trim(),
+          pastor: selectNetwork.split('- ')[1].trim(),
+        }
+      })
+      payloadUsers = [
+        ...LideresNaoAlteradosUsers,
+        ...alteracaoesLideresUsers,
+        ...LiderAlteradosIdMap
+      ]
+      console.log(payloadUsers, 'payloadUsers')
+      console.log(LiderAlteradosIdMap, 'Map')
+      console.log(alteracaoesLideresUsers, 'Alterados')
+      console.log(LideresNaoAlteradosUsers, 'não alterados')
+      payloadCelulas = [
+        ...LideresNaoAlterados,
+        ...alteracaoesLideres
+      ]
     }
     else if (office === 'discipulador') {
-      payload = {
-        ...payloadDefault,
-        cargo: 'discipulador',
-        rede: selectNetwork.split('-')[0],
-        pastor: selectNetwork.split('-')[1],
-      }
+      const DisipuladosNaoAlterados = celulas.filter((item: any) => {
+        console.log(item.rede, 'rede')
+        console.log(route.params?.rede, 'parametros')
+        return (item?.discipulador !== route.params?.nome && item?.rede !== route.params?.rede)
+      })
+      const DiscipuladosAlterados = celulas.filter((item: any) => {
+        return item?.discipulador === route.params?.nome
+      })
+      const alteracaoesDiscipulados = DiscipuladosAlterados.map((item: any) => {
+        return {
+          ...item,
+          rede: selectNetwork.split(' -')[0].trim(),
+          pastor: selectNetwork.split('- ')[1].trim(),
+          discipulador: name.trim()
+        }
+      })
+      const DisipuladosNaoAlteradosUsers = users.filter((item: any) => {
+        return item?.discipulador !== route.params?.nome
+      })
+      const DiscipuladosAlteradosUsers = users.filter((item: any) => {
+        return item?.discipulador === route.params?.nome && item.nome !== route.params?.nome
+      })
+
+      const DiscipuladosAlteradosID = users.filter((item: any) => {
+        return item?.rede === route.params?.rede && item.nome === route.params?.nome
+      })
+
+      const DiscipuladosAlteradosIdMap = DiscipuladosAlteradosID.map((item: any) => {
+        return {
+          ...payloadDefault,
+          cargo: 'discipulador',
+          rede: selectNetwork.split(' -')[0].trim(),
+          pastor: selectNetwork.split('- ')[1].trim(),
+        }
+      })
+      console.log(DiscipuladosAlteradosIdMap, 'map')
+      console.log(DiscipuladosAlteradosUsers, 'alterados sem id')
+      console.log(DisipuladosNaoAlteradosUsers, 'Não alterados')
+      const alteracaoesDiscipuladosUsers = DiscipuladosAlteradosUsers.map((item: any) => {
+        return {
+          ...item,
+          rede: selectNetwork.split(' -')[0].trim(),
+          pastor: selectNetwork.split('- ')[1].trim(),
+          discipulador: name.trim()
+        }
+      })
+      payloadUsers = [
+        ...DisipuladosNaoAlteradosUsers,
+        ...alteracaoesDiscipuladosUsers,
+        ...DiscipuladosAlteradosIdMap
+      ]
+      console.log(payloadUsers, 'payloadUsers')
+      payloadCelulas = [
+        ...DisipuladosNaoAlterados,
+        ...alteracaoesDiscipulados
+      ]
+      console.log(payloadUsers, 'payload')
+      // payload = {
+      //   ...payloadDefault,
+      //   cargo: 'discipulador',
+      //   rede: selectNetwork.split(' -')[0].trim(),
+      //   pastor: selectNetwork.split('- ')[1].trim(),
+      // }
     }
     else {
       const redeEscolhida = selectNetwork.includes('-')
@@ -173,28 +284,66 @@ export function UsersInformationScreen(this: any, { route }: any) {
       const RedeAlterados = celulas.filter((item: any) => {
         return item?.rede === route.params?.rede
       })
-      console.log(RedeAlterados, 'RedeAlterados')
       const alteracaoesRede = RedeAlterados.map((item: any) => {
         return {
           ...item,
-          rede: redeEscolhida ? selectNetwork.split('-')[0] : selectNetwork,
-          pastor: name
+          rede: redeEscolhida ? selectNetwork.split(' -')[0].trim() : selectNetwork.trim(),
+          pastor: name.trim()
         }
       })
+
+      const RedeNaoAlteradosUsers = users.filter((item: any) => {
+        return item?.rede !== route.params?.rede
+      })
+      const RedeAlteradosUsers = users.filter((item: any) => {
+        return item?.rede === route.params?.rede && item.nome !== route.params?.nome
+      })
+
+      const RedeAlteradosId = users.filter((item: any) => {
+        return item?.rede === route.params?.rede && item.nome === route.params?.nome
+      })
+
+      const RedeAlteradosIdMap = RedeAlteradosId.map((item: any) => {
+        return {
+          ...payloadDefault,
+          rede: redeEscolhida ? selectNetwork.split(' -')[0].trim() : selectNetwork.trim(),
+          cargo: 'pastor',
+        }
+      })
+
+      const alteracaoesRedeUsers = RedeAlteradosUsers.map((item: any) => {
+        return {
+          ...item,
+          rede: redeEscolhida ? selectNetwork.split(' -')[0].trim() : selectNetwork.trim(),
+          pastor: name.trim()
+        }
+      })
+      console.log(RedeNaoAlteradosUsers, 'NÂO')
+      console.log(RedeAlteradosUsers, 'RedeAlteradosUsers')
+      console.log(RedeAlteradosId, 'ID')
       payloadCelulas = [
         ...RedeNaoAlterados,
         ...alteracaoesRede
       ]
-      payload = {
-        ...payloadDefault,
-        rede: selectNetwork,
-        cargo: 'pastor',
-      }
+      payloadUsers = [
+        ...RedeNaoAlteradosUsers,
+        ...alteracaoesRedeUsers,
+        ...RedeAlteradosIdMap
+      ]
+      console.log(payloadUsers, 'payloadUsers')
+      // payload = {
+      //   ...payloadDefault,
+      //   rede: redeEscolhida ? selectNetwork.split(' -')[0].trim() : selectNetwork.trim(),
+      //   cargo: 'pastor',
+      // }
     }
-    console.log(payloadCelulas, 'payloadCelulas')
     try {
-      connectApi.put(`/users/${id}.json`, payload);
-      // connectApi.put(`/celulas.json`, payloadCelulas);
+      // connectApi.put(`/users.json`, payloadUsers)
+      //   .then(() => {
+      //     connectApi.put(`/celulas.json`, payloadCelulas)
+
+      //   })
+
       setTrigger(!trigger);
       handleOpenModal()
     } catch (err) {
@@ -299,7 +448,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
             <S.GridItemFull>
               <InputFieldComponent
                 primary
-                value={(selectNetwork !== "undefined" || !selectNetwork) && selectNetwork.split('-')[0]}
+                value={(selectNetwork !== "undefined" || !selectNetwork) && selectNetwork.split(' -')[0]}
                 placeholder={`* ${FormFields.NETWORK}`}
                 onChangeText={(value) => setSelectNetwork(value)}
                 label={`* ${FormFields.NETWORK}`}
@@ -342,6 +491,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
                 selectedOption={handleSelectOffice}
                 labelSelect={office}
                 dataOptions={officeMembers}
+                disabled
               />
             </S.GridItemFull>
             {renderSelectsOptions()}
