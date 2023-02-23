@@ -172,6 +172,10 @@ export function UserRegisterScreen() {
     return item.numero_celula === formValues.numberCelula
   })
 
+  const validateExistingEmail: any = users.length && users.filter((item: any) => {
+    return item.email === formValues.email
+  })
+
   const credentialsPost = () => {
     const dataLider = {
       bairro: address.bairro,
@@ -256,38 +260,42 @@ export function UserRegisterScreen() {
             });
         } else {
           if (validateCell.length === 0) {
-            connectApi.post("/users.json", {
-              cargo: "lider de celula",
-              rede: selectNetwork.split(' -')[0],
-              pastor: selectNetwork.split(' -')[1],
-              discipulador: selectDisciples,
-              numero_celula: formValues.numberCelula,
-              senha: formValues.password,
-              ...dataLider
-            }).then(() => {
-              connectApi.post("/celulas.json", {
-                lider: formValues.name,
-                numero_celula: formValues.numberCelula,
-                discipulador: selectDisciples,
-                pastor: selectNetwork.split('- ')[1],
+            if (validateExistingEmail.length === 0) {
+              connectApi.post("/users.json", {
+                cargo: "lider de celula",
                 rede: selectNetwork.split(' -')[0],
-                membros: [dataLider]
+                pastor: selectNetwork.split(' -')[1],
+                discipulador: selectDisciples,
+                numero_celula: formValues.numberCelula,
+                senha: formValues.password,
+                ...dataLider
               }).then(() => {
-                setConfirmRegisterModal(true);
-                setFormValues(initialValueRegisterUser);
-                setAddress(initialValuesRequestCep);
-                setSelectNetwork("Selecionar");
-                setOffice("");
+                connectApi.post("/celulas.json", {
+                  lider: formValues.name,
+                  numero_celula: formValues.numberCelula,
+                  discipulador: selectDisciples,
+                  pastor: selectNetwork.split('- ')[1],
+                  rede: selectNetwork.split(' -')[0],
+                  membros: [dataLider]
+                }).then(() => {
+                  setConfirmRegisterModal(true);
+                  setFormValues(initialValueRegisterUser);
+                  setAddress(initialValuesRequestCep);
+                  setSelectNetwork("Selecionar");
+                  setOffice("");
 
-                setSelectNetwork("Selecionar");
-                setSelectDisciples("Selecionar");
+                  setSelectNetwork("Selecionar");
+                  setSelectDisciples("Selecionar");
 
-                dispatch({
-                  type: FormReportActions.setTextRegister,
-                  payload: "",
+                  dispatch({
+                    type: FormReportActions.setTextRegister,
+                    payload: "",
+                  });
                 });
               });
-            });
+            } else {
+              setErrorEmailValidate(true)
+            }
           } else {
             setErrorNumberCelula(true)
           }
@@ -635,7 +643,7 @@ export function UserRegisterScreen() {
         onBackdropPress={() => setErrorEmailValidate(false)}
       >
         <ErrorModalComponent
-          text="Email inválido"
+          text="Email inválido ou já existente"
         />
       </ModalComponent>
     </Fragment>
