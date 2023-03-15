@@ -22,4 +22,6 @@ function maskCurrency(value: string) {
   return value;
 }
 
-export { maskCep, maskPhone, maskCurrency };
+const maskEmail = /^[a-zA-Z0-9._]+@[a-z]+\.[a-z]{2,6}$/
+
+export { maskCep, maskPhone, maskCurrency, maskEmail };
