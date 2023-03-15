@@ -167,9 +167,9 @@ export function UserRegisterScreen() {
     setUpdateList(!updateList)
   };
 
-    const validateCell: any = celulas.length && celulas.filter((item: any) => {
-      return item.numero_celula === formValues.numberCelula
-    })
+  const validateCell: any = celulas.length && celulas.filter((item: any) => {
+    return item.numero_celula === formValues.numberCelula
+  })
 
   const credentialsPost = () => {
     const dataLider = {
@@ -254,41 +254,41 @@ export function UserRegisterScreen() {
           });
       } else {
         if (validateCell.length === 0) {
-        connectApi.post("/users.json", {
-          cargo: "lider de celula",
-          rede: selectNetwork.split(' -')[0],
-          pastor: selectNetwork.split(' -')[1],
-          discipulador: selectDisciples,
-          numero_celula: formValues.numberCelula,
-          senha: formValues.password,
-          ...dataLider
-        }).then(() => {
-          connectApi.post("/celulas.json", {
-            lider: formValues.name,
-            numero_celula: formValues.numberCelula,
-            discipulador: selectDisciples,
-            pastor: selectNetwork.split('- ')[1],
+          connectApi.post("/users.json", {
+            cargo: "lider de celula",
             rede: selectNetwork.split(' -')[0],
-            membros: [dataLider]
+            pastor: selectNetwork.split(' -')[1],
+            discipulador: selectDisciples,
+            numero_celula: formValues.numberCelula,
+            senha: formValues.password,
+            ...dataLider
           }).then(() => {
-            setConfirmRegisterModal(true);
-            setFormValues(initialValueRegisterUser);
-            setAddress(initialValuesRequestCep);
-            setSelectNetwork("Selecionar");
-            setOffice("");
+            connectApi.post("/celulas.json", {
+              lider: formValues.name,
+              numero_celula: formValues.numberCelula,
+              discipulador: selectDisciples,
+              pastor: selectNetwork.split('- ')[1],
+              rede: selectNetwork.split(' -')[0],
+              membros: [dataLider]
+            }).then(() => {
+              setConfirmRegisterModal(true);
+              setFormValues(initialValueRegisterUser);
+              setAddress(initialValuesRequestCep);
+              setSelectNetwork("Selecionar");
+              setOffice("");
 
-            setSelectNetwork("Selecionar");
-            setSelectDisciples("Selecionar");
+              setSelectNetwork("Selecionar");
+              setSelectDisciples("Selecionar");
 
-            dispatch({
-              type: FormReportActions.setTextRegister,
-              payload: "",
+              dispatch({
+                type: FormReportActions.setTextRegister,
+                payload: "",
+              });
             });
           });
-        });
-      } else {
-        setErrorNumberCel(true)
-      }
+        } else {
+          setErrorNumberCel(true)
+        }
       }
     } catch (err) {
       throw new Error("Ops, algo deu errado!");
@@ -461,18 +461,19 @@ export function UserRegisterScreen() {
               primary
             />
 
-            <InputFieldComponent
-              primary
-              value={maskCep(address.cep)}
+            <InputMaskComponent
+              value={address.cep}
+              mask="cep"
               maxLength={9}
               placeholder={FormFields.CEP}
               onEndEditing={() => getAddressFromApi()}
-              onChangeText={(value) =>
+              inputMaskChange={(value: any) =>
                 setAddress((old: any) => ({
                   ...old,
                   cep: value,
                 }))
               }
+              primary
             />
 
             <S.GridForm>
@@ -491,7 +492,6 @@ export function UserRegisterScreen() {
                       logradouro: value,
                     }))
                   }
-                  editable={address.logradouro === ""}
                 />
               </S.GridItemLarge>
 
@@ -521,7 +521,6 @@ export function UserRegisterScreen() {
                       bairro: value,
                     }))
                   }
-                  editable={address.bairro === ""}
                 />
               </S.GridItem>
 
@@ -540,7 +539,6 @@ export function UserRegisterScreen() {
                       localidade: value,
                     }))
                   }
-                  editable={address.localidade === ""}
                 />
               </S.GridItem>
             </S.GridForm>
@@ -559,7 +557,6 @@ export function UserRegisterScreen() {
                     address.uf ? address.uf : formValues.state || "Selecione"
                   }
                   dataOptions={selectState}
-                  disabled={address.uf !== ""}
                 />
               </S.GridItem>
 
