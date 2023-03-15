@@ -140,6 +140,10 @@ export function RegisterScreen() {
             type: FormReportActions.setCelulaSelect,
             payload: '*Selecione',
           });
+          dispatch({
+            type: FormReportActions.setDateRegister,
+            payload: new Date()
+          })
 
           setPhone("")
           setEmail("")
