@@ -474,18 +474,19 @@ export function UserRegisterScreen() {
               primary
             />
 
-            <InputFieldComponent
-              primary
-              value={maskCep(address.cep)}
+            <InputMaskComponent
+              value={address.cep}
+              mask="cep"
               maxLength={9}
               placeholder={FormFields.CEP}
               onEndEditing={() => getAddressFromApi()}
-              onChangeText={(value) =>
+              inputMaskChange={(value: any) =>
                 setAddress((old: any) => ({
                   ...old,
                   cep: value,
                 }))
               }
+              primary
             />
 
             <S.GridForm>
@@ -504,7 +505,6 @@ export function UserRegisterScreen() {
                       logradouro: value,
                     }))
                   }
-                  editable={address.logradouro === ""}
                 />
               </S.GridItemLarge>
 
@@ -534,7 +534,6 @@ export function UserRegisterScreen() {
                       bairro: value,
                     }))
                   }
-                  editable={address.bairro === ""}
                 />
               </S.GridItem>
 
@@ -553,7 +552,6 @@ export function UserRegisterScreen() {
                       localidade: value,
                     }))
                   }
-                  editable={address.localidade === ""}
                 />
               </S.GridItem>
             </S.GridForm>
@@ -572,7 +570,6 @@ export function UserRegisterScreen() {
                     address.uf ? address.uf : formValues.state || "Selecione"
                   }
                   dataOptions={selectState}
-                  disabled={address.uf !== ""}
                 />
               </S.GridItem>
 

@@ -11,7 +11,7 @@ import { connectApi } from "../../common/services/ConnectApi";
 import { FormReportActions } from "../../contexts/FormReport";
 import useUserFiltered from "../../hooks/useUserFiltered";
 import { Checkbox } from "react-native-paper";
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 import { ButtonComponent } from "../../components/Button";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { initializeApp } from "firebase/app";
@@ -370,7 +370,7 @@ export function MultiplicationCelula() {
                 .sort(compared)
                 .map((item: any, index: number) => {
                   return (
-                    <div key={index}>
+                    <View key={index}>
                       <Checkbox.Item
                         label={item.nome}
                         color="red"
@@ -380,7 +380,7 @@ export function MultiplicationCelula() {
                           memberMultiply(item);
                         }}
                       />
-                    </div>
+                    </View>
                   );
                 })}
           </S.Grid>
