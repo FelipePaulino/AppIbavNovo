@@ -28,9 +28,9 @@ import { connectApi } from "../../common/services/ConnectApi";
 import { FormReportActions } from "../../contexts/FormReport";
 
 import { IDataUserProps, ISelectedUserProps } from "../MembersReport/types";
-
+import useUserFiltered from "../../hooks/useUserFiltered";
 import * as S from "./styles";
-import { GetStorage } from "../../common/constants/storage";
+
 
 export function VisitorsReportScreen() {
   // const [error, setError] = useState("");
@@ -42,93 +42,38 @@ export function VisitorsReportScreen() {
   const [selectPerson, setSelectPerson] = useState<
     ISelectedUserProps | undefined
   >(undefined);
-
+  const { user: userCelula } = useUserFiltered();
   const { state, dispatch } = useFormReport();
   const { data: celulas, isFetching: loading } = useFetch("celulas.json");
   const [sendModal, setSendModal] = useState(false);
   const navigation = useNavigation<IPropsAppStack>();
 
-  // const ID_CELULA =
-  //   memberStorage && memberStorage.length > 0 && memberStorage[0][0];
-
-  // useEffect(() => {
-  //   setLoading(true);
-  //   connectApi.get(`/celulas/${ID_CELULA}/visitantes.json`)
-  //     .then((response) => {
-  //       setVisitantes(Object.values(response.data));
-  //       setLoading(false)
-  //     })
-
-  //     .catch(() => setLoading(false))
-  // }, [ID_CELULA])
-
   const handleOpenModalReport = () => {
     setModalVisible(true);
   };
-
-  // const handleOpenModalAdd = () => {
-  //   const nome = state.nameVisitor;
-  //   const telefone = state.phoneVisitor;
-
-  //   if (state.phoneVisitor !== "") {
-  //     connectApi
-  //       .post(`/celulas/${ID_CELULA}/visitantes.json`, {
-  //         nome,
-  //         telefone,
-  //       })
-  //       .then(() => {
-  //         setIsAddVisible(true);
-  //         setError("");
-
-  //         dispatch({
-  //           type: FormReportActions.setPhoneVisitor,
-  //           payload: "",
-  //         });
-
-  //         dispatch({
-  //           type: FormReportActions.setNameVisitor,
-  //           payload: "",
-  //         });
-
-  //       });
-  //   } else {
-  //     setError("Campo obrigatório!");
-  //   }
-  // };
-
-
-  // useEffect(() => {
-  //   const checkMembers = async () => {
-  //     const members = await AsyncStorage.getItem(GetStorage.MEMBERS_FILTERED);
-  //     if (members) {
-  //       setMemberStorage(JSON.parse(members));
-  //     }
-  //   };
-  //   checkMembers();
-  // }, []);
-
-  // useEffect(() => {
-  //   const checkUser = async () => {
-  //     const user = await AsyncStorage.getItem(GetStorage.USER_FILTERED);
-  //     if (user) {
-  //       setUser(JSON.parse(user));
-  //     }
-  //   };
-  //   checkUser();
-  // }, []);
 
   const dataUser = user && user[0] && user[0][1];
   const whatIsOffice = dataUser && dataUser.cargo;
   const idCelulaSelect =
     state.celulaSelect && state.celulaSelect.split(" -")[0];
+  let y 
 
-  const filterMembers = celulas && celulas.filter((item: any) => {
-    return (
-      item[1].numero_celula == idCelulaSelect
-    );
-  });
+  if(userCelula[0][1].cargo === 'lider de celula'){
+    y = celulas && celulas.filter((item: any) => {
+        return (
+          item[1].numero_celula == userCelula[0][1].numero_celula
+        );
+      });
+    }
+  else{
+    y = celulas && celulas.filter((item: any) => {
+        return (
+          item[1].numero_celula == idCelulaSelect
+        );
+      });
+    }
 
-  const visitantes = filterMembers && Object.values(filterMembers[0][1].membros).filter((visitors: any) => {
+  const visitantes = y && Object.values(y[0][1].membros).filter((visitors: any) => {
     return visitors.status === 'visitante'
   })
 
@@ -192,7 +137,7 @@ export function VisitorsReportScreen() {
   }
 
   newArrayVisitors && newArrayVisitors.sort(compared);
-
+  const isLider = userCelula[0][1].cargo === 'lider de celula' ? false : state.celulaSelect === "Selecione" 
   return (
     <Fragment>
       <HeaderComponent>
@@ -250,18 +195,17 @@ export function VisitorsReportScreen() {
                 );
               })}
             <FooterInfoComponent />
-
             <S.Button>
               <ButtonComponent
                 title={ButtonsText.REPORT}
                 onPress={handleOpenModalReport}
-                disabled={(
-                  state.celulaSelect === 'Selecione' ||
+                disabled={
+                  isLider ||
                   state.textDate === 'Selecione uma data' ||
                   state.offer === '' ||
                   state.presencaCelula.length === 0 ||
                   state.presencaCulto.length === 0
-                ) ? true : false
+                ? true : false
                 }
               />
             </S.Button>

@@ -5,4 +5,5 @@ export interface IDataProps {
   members?: boolean;
   visitors?: boolean;
   disabled?: boolean;
+  office?: any;
 }
