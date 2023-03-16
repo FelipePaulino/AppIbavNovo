@@ -229,6 +229,8 @@ export function SendReportScreen() {
       };
     });
 
+  const isLider = whatOffice === 'lider de celula' ? false : state.celulaSelect === "Selecione" 
+
   const office = () => {
     switch (whatOffice) {
       case "lider":
@@ -351,7 +353,7 @@ export function SendReportScreen() {
     <Fragment>
       <HeaderComponent>
         <ComeBackComponent />
-        <NavigationComponent data />
+        <NavigationComponent data office={userInfo} />
         {/* <NotificationComponent /> */}
       </HeaderComponent>
 
@@ -416,7 +418,7 @@ export function SendReportScreen() {
                     title={ButtonsText.REPORT}
                     onPress={handleOpenModal}
                     disabled={
-                      state.celulaSelect === "Selecione" ||
+                      isLider ||
                         state.textDate === "Selecione uma data" ||
                         state.offer === "" ||
                         state.presencaCelula.length === 0 ||

@@ -9,11 +9,12 @@ import { IPropsAppStack } from "../../routes/AppStack/types";
 import { useFormReport } from "../../hooks/useFormReport";
 import { Navigation } from "./styles";
 
-export function NavigationComponent({ data, members, visitors }: IDataProps) {
+export function NavigationComponent({ data, members, visitors, office }: IDataProps) {
   const navigation = useNavigation<IPropsAppStack>();
 
   const { state } = useFormReport();
-  const disableNavegation = state.celulaSelect === 'Selecione'
+  const disableNavegation = state.celulaSelect === 'Selecione' 
+const isLider = office?.cargo === 'lider de celula' ? false : disableNavegation
 
   return (
     <Fragment>
@@ -28,14 +29,14 @@ export function NavigationComponent({ data, members, visitors }: IDataProps) {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.navigate("MembersReport")}
-            disabled={disableNavegation}>
-            <Navigation disabled={disableNavegation}>{MenuNavigation.MEMBERS}</Navigation>
+            disabled={isLider}>
+            <Navigation disabled={isLider}>{MenuNavigation.MEMBERS}</Navigation>
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => navigation.navigate("VisitorsReport")}
-            disabled={disableNavegation}>
-            <Navigation disabled={disableNavegation}>{MenuNavigation.VISITORS}</Navigation>
+            disabled={isLider}>
+            <Navigation disabled={isLider}>{MenuNavigation.VISITORS}</Navigation>
           </TouchableOpacity>
         </Fragment>
       )}

@@ -27,7 +27,7 @@ export function ReportContentModalComponent({
 
   const presentCLVisitors = presentCL.filter((item: any) => item.status === "visitante");
   const presentCTVisitors = presentCT.filter((item: any) => item.status === "visitante");
-
+  const isLider = user[0][1]?.cargo === 'lider de celula' ?  `${user[0][1]?.numero_celula} - ${user[0][1]?.nome}` : state.celulaSelect
   const handleSubmitForm = () => {
     try {
       const numero_celula = user && user[0][1].numero_celula;
@@ -41,7 +41,7 @@ export function ReportContentModalComponent({
       connectApi
         .post("/relatorios.json", {
           data,
-          celula: state.celulaSelect,
+          celula: isLider ,
           rede: state.redeSelect,
           discipulado: state.discipuladoSelect,
           observacoes,

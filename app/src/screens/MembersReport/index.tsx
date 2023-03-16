@@ -57,12 +57,16 @@ export function MembersReportScreen() {
     const filterMembers =
       celulas &&
       celulas.filter((item: any) => {
-        return (
-          item[1].numero_celula == idCelulaSelect
-        );
+        return item[1].numero_celula == idCelulaSelect;
       });
-
-    if (filterMembers) {
+    if (dataUser.cargo === "lider de celula") {
+      const filterMembersCelula =
+        celulas &&
+        celulas.filter((item: any) => {
+          return item[1].numero_celula == dataUser.numero_celula;
+        });
+      setMembers(filterMembersCelula);
+    } else if (filterMembers) {
       setMembers(filterMembers);
       AsyncStorage.setItem(
         GetStorage.MEMBERS_FILTERED,
@@ -78,9 +82,8 @@ export function MembersReportScreen() {
       (member: any) =>
         member.status !== "visitante" && member.status !== "Visitante"
     );
-
   const newArrayMembers = membersIdentify ? membersIdentify : newMembersList;
-
+  const isLider = whatIsOffice === 'lider de celula' ? false : state.celulaSelect === "Selecione" 
   useEffect(() => {
     const memberFilter =
       newArrayMembers &&
@@ -137,43 +140,43 @@ export function MembersReportScreen() {
         <ScrollView>
           <S.Content>
             <S.ContentBox>
-            {whatIsOffice !== "lider" && (
-              <S.Heading>
-                <S.Title>Célula</S.Title>
-                <S.Subtitle>{state.celulaSelect}</S.Subtitle>
-              </S.Heading>
-            )}
+              {whatIsOffice !== "lider" && (
+                <S.Heading>
+                  <S.Title>Célula</S.Title>
+                  <S.Subtitle>{state.celulaSelect}</S.Subtitle>
+                </S.Heading>
+              )}
 
-            <HeadingPresentComponent />
+              <HeadingPresentComponent />
 
-            <ScrollView>
-              {newArrayMembers &&
-                newArrayMembers.map((data: any) => (
-                  <CardMembersComponent
-                    key={data}
-                    data={data}
-                    setSelectPerson={setSelectPerson}
-                  />
-                ))}
-            </ScrollView>
+              <ScrollView>
+                {newArrayMembers &&
+                  newArrayMembers.map((data: any) => (
+                    <CardMembersComponent
+                      key={data}
+                      data={data}
+                      setSelectPerson={setSelectPerson}
+                    />
+                  ))}
+              </ScrollView>
             </S.ContentBox>
             <S.ContentBox>
-            <FooterInfoComponent />
-
-            <S.Button>
-              <ButtonComponent
-                title={ButtonsText.REPORT}
-                onPress={handleOpenModal}
-                disabled={(
-                  state.celulaSelect === 'Selecione' ||
-                  state.textDate === 'Selecione uma data' ||
-                  state.offer === '' ||
-                  state.presencaCelula.length === 0 ||
-                  state.presencaCulto.length === 0
-                ) ? true : false
-                }
-              />
-            </S.Button>
+              <FooterInfoComponent />
+              <S.Button>
+                <ButtonComponent
+                  title={ButtonsText.REPORT}
+                  onPress={handleOpenModal}
+                  disabled={
+                    isLider ||
+                    state.textDate === "Selecione uma data" ||
+                    state.offer === "" ||
+                    state.presencaCelula.length === 0 ||
+                    state.presencaCulto.length === 0
+                      ? true
+                      : false
+                  }
+                />
+              </S.Button>
             </S.ContentBox>
           </S.Content>
         </ScrollView>
@@ -193,13 +196,11 @@ export function MembersReportScreen() {
       <ModalComponent
         isVisible={sendModal}
         onBackdropPress={() => {
-          setSendModal(false)
-          navigation.navigate("Home")
+          setSendModal(false);
+          navigation.navigate("Home");
         }}
       >
-        <DefaultContentModalComponent
-          type="sendReport"
-        />
+        <DefaultContentModalComponent type="sendReport" />
       </ModalComponent>
     </Fragment>
   );
