@@ -606,6 +606,7 @@ export function RegisterScreen() {
             </S.FooterFields>
           </S.Container>
         </ScrollView>
+        
       )}
 
       <ModalComponent
