@@ -91,6 +91,11 @@ console.log(identifyId, 'identifyId')
       return item[1].numero_celula === user[0][1].numero_celula;
     });
 
+
+    const identifyLider = celulas.filter((item: any) => {
+      return item[1].numero_celula === user[0][1].numero_celula;
+    });
+
     const ID_CELULAS = whatOffice === 'lider de celula' ? identifyLider[0][0] : identifyId[0][0];
 
     try {
@@ -323,6 +328,22 @@ console.log(filtrandoRedes, 'filtrandoRedes')
     }
   })
 
+  let validaRede: any
+  let validaDisc: any
+  if (user[0][1].cargo === 'discipulador') {
+    validaRede = user[0][1].rede
+    validaDisc = user[0][1].nome
+  }
+  else if (user[0][1].cargo === 'pastor') {
+
+    validaRede = user[0][1].rede
+    validaDisc = state.discipuladoSelect
+  }
+  else {
+    validaRede = state.redeSelect
+    validaDisc = state.discipuladoSelect
+  }
+
   const filtrandoDiscipulado = celulas.filter((item: any) => {
     return item[1].discipulador === isDisc && item[1].rede === isShepherd
   })
@@ -347,6 +368,7 @@ console.log(filtrandoRedes, 'filtrandoRedes')
             disabled={state.discipuladoSelect === '*Selecione' ? true : false}
           />
         </S.BoxSelect>
+
         );
 
       case "pastor":
@@ -584,16 +606,17 @@ console.log(filtrandoRedes, 'filtrandoRedes')
                 title="Cadastrar"
                 onPress={submitRegister}
                 width='170'
-                disabled={(
+                disabled={
                   state.celulaSelect === '*Selecione' ||
-                  state.textSelectCategory === '*Selecione' ||
-                  name === "" ||
-                  phone === "") ? true : false
+                    state.textSelectCategory === '*Selecione' ||
+                    name === "" ||
+                    phone === "" ? true : false
                 }
               />
             </S.FooterFields>
           </S.Container>
         </ScrollView>
+        
       )}
 
       <ModalComponent

@@ -70,11 +70,14 @@ export function HomeScreen() {
 
   const office = () => {
     switch (whatIsOffice) {
-      case "lider":
-        return <S.Office>Lider de Célula</S.Office>;
+      case "lider de celula":
+        return <TitleComponent title="Lider de célula" decoration red />;
 
       case "discipulador":
         return <TitleComponent title="Discipulador" decoration red />;
+
+      case "pastor":
+          return <TitleComponent title="Pastor" decoration red />;
     }
   };
 
