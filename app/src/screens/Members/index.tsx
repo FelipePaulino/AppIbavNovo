@@ -49,7 +49,7 @@ export function MembersScreen(this: any) {
   const serviceGet = new RequestService()
 
   const idCelula = members && members.length > 0 && Object?.entries(members[0])[0][1];
-
+  
   const clean = (value: string) => {
     navigation.navigate(value)
     dispatch({
@@ -99,7 +99,7 @@ export function MembersScreen(this: any) {
     getCelulas()
   }, [trigger]);
 
-  if (whatOffice === 'lider') {
+  if (whatOffice === 'lider de celula') {
     useEffect(() => {
       const filterMembers =
         celulas &&
@@ -107,8 +107,16 @@ export function MembersScreen(this: any) {
         celulas[1]?.filter((item: any) => {
           return item.numero_celula == identifyCelula;
         });
+      if (whatOffice === "lider de celula") {
+        const filterMembersCelula =
+          celulas &&
+          celulas.filter((item: any) => {
+            return item[1].numero_celula == userInfo.numero_celula;
+          });
 
-      if (filterMembers) {
+        setMembers(filterMembersCelula);
+      } else if (filterMembers) {
+
         setMembers(filterMembers);
         AsyncStorage.setItem(
           GetStorage.MEMBERS_FILTERED,
@@ -278,7 +286,7 @@ export function MembersScreen(this: any) {
 
   const office = () => {
     switch (whatOffice) {
-      case "lider":
+      case "lider de celula":
         return (
           <S.Grid>
             <TitleComponent title={`${FormFields.CELULA}:`} small primary />
@@ -411,7 +419,7 @@ export function MembersScreen(this: any) {
           ) : (
             <Fragment>
               {office()}
-              {state.celulaSelect !== "Selecione" &&
+              {state.celulaSelect !== "Selecione" || whatOffice === 'lider de celula' &&
                 <>
                   {newMembersList.length > 0 ? (
                     newMembersList?.map((item: any) => {
