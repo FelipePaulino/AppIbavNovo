@@ -86,6 +86,11 @@ export function RegisterScreen() {
     const identifyId = celulas.filter((item: any) => {
       return `${item[1].numero_celula} - ${item[1].lider}` === state.celulaSelect;
     });
+console.log(identifyId, 'identifyId')
+    const identifyLider = celulas.filter((item: any) => {
+      return item[1].numero_celula === user[0][1].numero_celula;
+    });
+
 
     const identifyLider = celulas.filter((item: any) => {
       return item[1].numero_celula === user[0][1].numero_celula;
@@ -301,14 +306,18 @@ export function RegisterScreen() {
     }
   })
 
-  const filtrandoRedes = celulas.filter((item: any) => {
-    return item[1].rede === state.redeSelect
-  })
 
+const isShepherd = whatOffice === 'pastor' ? userInfo.rede : whatOffice === 'discipulador' ? userInfo.rede : state.redeSelect
+const isDisc = whatOffice === 'discipulador' ? userInfo.nome : state.discipuladoSelect
+
+  const filtrandoRedes = celulas.filter((item: any) => {
+    return item[1].rede === isShepherd
+  })
+console.log(filtrandoRedes, 'filtrandoRedes')
   const discipulado = filtrandoRedes.map((item: any) => {
     return item[1].discipulador
   })
-
+  console.log(discipulado, 'discipulado')
   const discipuladossUnicos = discipulado.filter(function (este: any, i: any) {
     return discipulado.indexOf(este) === i;
   });
@@ -336,7 +345,7 @@ export function RegisterScreen() {
   }
 
   const filtrandoDiscipulado = celulas.filter((item: any) => {
-    return item[1].discipulador === validaDisc && item[1].rede === validaRede
+    return item[1].discipulador === isDisc && item[1].rede === isShepherd
   })
 
   const celulaAdm = filtrandoDiscipulado.map((item: any) => {
@@ -350,15 +359,16 @@ export function RegisterScreen() {
       case "discipulador":
         return (
           <S.BoxSelect>
-            <SelectComponent
-              label="Célula"
-              onChange={handleCelulaChange}
-              labelSelect={state.celulaSelect}
-              dataOptions={celulaAdm}
-              selectedOption={selectedOptionCelula}
-              disabled={state.discipuladoSelect === '*Selecione' ? true : false}
-            />
-          </S.BoxSelect>
+          <SelectComponent
+            label="Célula"
+            onChange={handleCelulaChange}
+            labelSelect={state.celulaSelect}
+            dataOptions={celulaAdm}
+            selectedOption={selectedOptionCelula}
+            disabled={state.discipuladoSelect === '*Selecione' ? true : false}
+          />
+        </S.BoxSelect>
+
         );
 
       case "pastor":
