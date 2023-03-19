@@ -86,11 +86,6 @@ export function RegisterScreen() {
     const identifyId = celulas.filter((item: any) => {
       return `${item[1].numero_celula} - ${item[1].lider}` === state.celulaSelect;
     });
-console.log(identifyId, 'identifyId')
-    const identifyLider = celulas.filter((item: any) => {
-      return item[1].numero_celula === user[0][1].numero_celula;
-    });
-
 
     const identifyLider = celulas.filter((item: any) => {
       return item[1].numero_celula === user[0][1].numero_celula;
@@ -313,11 +308,9 @@ const isDisc = whatOffice === 'discipulador' ? userInfo.nome : state.discipulado
   const filtrandoRedes = celulas.filter((item: any) => {
     return item[1].rede === isShepherd
   })
-console.log(filtrandoRedes, 'filtrandoRedes')
   const discipulado = filtrandoRedes.map((item: any) => {
     return item[1].discipulador
   })
-  console.log(discipulado, 'discipulado')
   const discipuladossUnicos = discipulado.filter(function (este: any, i: any) {
     return discipulado.indexOf(este) === i;
   });
