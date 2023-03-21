@@ -12,6 +12,7 @@ import { ComeBackComponent } from "../../components/ComeBack";
 import { PersonLabelComponent } from "../../components/PersonLabel";
 import { ApprovalRequest } from "../../components/Modal/ApprovalRequest";
 import { RequestContentModalComponent } from "../../components/Modal/Request";
+import { connectApi } from "../../common/services/ConnectApi";
 
 const loadingGif = require("../../assets/loader-two.gif");
 import { IPropsAppStack } from "../../routes/AppStack/types";
@@ -26,8 +27,11 @@ export function ListUsersScreen() {
   const [loading, setLoading] = useState(true);
   const [confirmModal, setConfirmModal] = useState(false);
   const [modalConcluded, setModalConcluded] = useState(false);
+  const [celulas, setCelulas] = useState<any>()
+  const [cargo, setCargo] = useState<any>()
 
   const service = new RequestService();
+
   const navigation = useNavigation<IPropsAppStack>();
   const { trigger, setTrigger } = useFormReport();
 
@@ -45,14 +49,34 @@ export function ListUsersScreen() {
 
   }, [trigger]);
 
+  useEffect(() => {
+    const getCelulas = async () => {
+      await service.getCelulas().then((response) => {
+        setCelulas(Object.values(response));
+      });
+    };
+
+    getCelulas();
+  }, []);
+
   const timeModal = () => {
     setModalConcluded(true);
 
   };
 
-  const deleteMember = async () => {
+  const deleteMember = async (name: any) => {
+    let filterCelulasOther: any
+
+    if (cargo === 'lider de celula') {
+      filterCelulasOther = celulas.filter((item: any) => {
+        return item.lider !== name
+      })
+    }
+
     try {
-      await service.deleteUser(id);
+      const conection1 = await connectApi.put(`/celulas.json`, filterCelulasOther);
+      const conection2 = await service.deleteUser(id);
+      Promise.all([conection1, conection2])
       setConfirmModal(false);
       setTimeout(timeModal, 300);
       setTrigger(!trigger);
@@ -104,6 +128,7 @@ export function ListUsersScreen() {
                 return (
                   <PersonLabelComponent
                     nome={user[1]?.nome}
+                    key={user[1]?.nome}
                     onPress={() =>
                       navigation.navigate("UsersInformation", {
                         nome: `${user[1].nome}`,
@@ -131,6 +156,7 @@ export function ListUsersScreen() {
                       setConfirmModal(true),
                         setName(user[1].nome),
                         setId(user[0]);
+                        setCargo(user[1].cargo)
                     }}
                   />
                 );
@@ -148,7 +174,7 @@ export function ListUsersScreen() {
           name={name}
           cancel={() => setConfirmModal(false)}
           confirm={() => {
-            deleteMember();
+            deleteMember(name);
           }}
         />
       </ModalComponent>
