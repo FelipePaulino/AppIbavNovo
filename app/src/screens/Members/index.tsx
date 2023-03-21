@@ -49,7 +49,7 @@ export function MembersScreen(this: any) {
   const serviceGet = new RequestService()
 
   const idCelula = members && members.length > 0 && Object?.entries(members[0])[0][1];
-
+  
   const clean = (value: string) => {
     navigation.navigate(value)
     dispatch({
@@ -99,7 +99,7 @@ export function MembersScreen(this: any) {
     getCelulas()
   }, [trigger]);
 
-  if (whatOffice === 'lider') {
+  if (whatOffice === 'lider de celula') {
     useEffect(() => {
       const filterMembers =
         celulas &&
@@ -107,8 +107,16 @@ export function MembersScreen(this: any) {
         celulas[1]?.filter((item: any) => {
           return item.numero_celula == identifyCelula;
         });
+      if (whatOffice === "lider de celula") {
+        const filterMembersCelula =
+          celulas &&
+          celulas.filter((item: any) => {
+            return item[1].numero_celula == userInfo.numero_celula;
+          });
 
-      if (filterMembers) {
+        setMembers(filterMembersCelula);
+      } else if (filterMembers) {
+
         setMembers(filterMembers);
         AsyncStorage.setItem(
           GetStorage.MEMBERS_FILTERED,
@@ -210,9 +218,9 @@ export function MembersScreen(this: any) {
       value: `${item[1].numero_celula} - ${item[1].lider}`
     }
   })
+  useEffect(() => {
+  if (whatOffice !== 'lider de celula') {
 
-  if (whatOffice === 'administrador') {
-    useEffect(() => {
       const idCelulaSelect = state.celulaSelect && state.celulaSelect.split(" -")[0];
 
       const filterMembers =
@@ -226,8 +234,9 @@ export function MembersScreen(this: any) {
       if (filterMembers) {
         setMembers(filterMembers);
       }
-    }, [celulas, state.celulaSelect, trigger])
+
   }
+}, [celulas, state.celulaSelect, trigger])
 
   const newMembersList =
     members &&
@@ -237,15 +246,14 @@ export function MembersScreen(this: any) {
           member.status !== "visitante"
       ) : [];
 
-
   // Tratativas para o usuário pastor
 
-  const filtrandoDiscipuladoPastor = celulas && celulas.length > 0 && celulas[1]?.filter((item: any) => {
-    return item.rede === user[0][1].rede
+  const filtrandoDiscipuladoPastor = celulas && celulas.length > 0 && celulas?.filter((item: any) => {
+    return item[1].rede === user[0][1].rede
   })
 
   const mapDiscipuladoPastor = filtrandoDiscipuladoPastor && filtrandoDiscipuladoPastor.map((item: any) => {
-    return item.discipulador
+    return item[1].discipulador
   })
 
   const discipuladossUnicosPastor = mapDiscipuladoPastor && mapDiscipuladoPastor.filter(function (este: any, i: any) {
@@ -258,13 +266,14 @@ export function MembersScreen(this: any) {
     }
   })
 
-  const filtrandoDiscipuladoPastorSelect = celulas && celulas.length > 0 && celulas[1]?.filter((item: any) => {
-    return item.discipulador === state.discipuladoSelect
+  const isDisc = user[0][1].cargo === 'discipulador' ? user[0][1].nome : state.discipuladoSelect
+  const filtrandoDiscipuladoPastorSelect = celulas && celulas.length > 0 && celulas?.filter((item: any) => {
+    return item[1].discipulador === isDisc
   })
 
   const celulaPastor = filtrandoDiscipuladoPastorSelect && filtrandoDiscipuladoPastorSelect.map((item: any) => {
     return {
-      value: `${item.numero_celula} - ${item.lider}`
+      value: `${item[1].numero_celula} - ${item[1].lider}`
     }
   })
 
@@ -278,7 +287,7 @@ export function MembersScreen(this: any) {
 
   const office = () => {
     switch (whatOffice) {
-      case "lider":
+      case "lider de celula":
         return (
           <S.Grid>
             <TitleComponent title={`${FormFields.CELULA}:`} small primary />
@@ -299,7 +308,7 @@ export function MembersScreen(this: any) {
               <SelectComponent
                 onChange={handleCelulaChange}
                 labelSelect={state.textSelectCelula}
-                dataOptions={optionsCelula && optionsCelula}
+                dataOptions={celulaPastor && celulaPastor}
                 selectedOption={selectedOptionCelula}
               />
             </S.ContentC>
@@ -411,7 +420,7 @@ export function MembersScreen(this: any) {
           ) : (
             <Fragment>
               {office()}
-              {state.celulaSelect !== "Selecione" &&
+              {(state.celulaSelect !== "Selecione" || whatOffice === 'lider de celula') &&
                 <>
                   {newMembersList.length > 0 ? (
                     newMembersList?.map((item: any) => {

@@ -87,7 +87,11 @@ export function RegisterScreen() {
       return `${item[1].numero_celula} - ${item[1].lider}` === state.celulaSelect;
     });
 
-    const ID_CELULAS = identifyId[0][0];
+    const identifyLider = celulas.filter((item: any) => {
+      return item[1].numero_celula === user[0][1].numero_celula;
+    });
+
+    const ID_CELULAS = whatOffice === 'lider de celula' ? identifyLider[0][0] : identifyId[0][0];
 
     try {
       connectApi
@@ -140,6 +144,10 @@ export function RegisterScreen() {
             type: FormReportActions.setCelulaSelect,
             payload: '*Selecione',
           });
+          dispatch({
+            type: FormReportActions.setDateRegister,
+            payload: new Date()
+          })
 
           setPhone("")
           setEmail("")
@@ -293,14 +301,16 @@ export function RegisterScreen() {
     }
   })
 
-  const filtrandoRedes = celulas.filter((item: any) => {
-    return item[1].rede === state.redeSelect
-  })
 
+const isShepherd = whatOffice === 'pastor' ? userInfo.rede : whatOffice === 'discipulador' ? userInfo.rede : state.redeSelect
+const isDisc = whatOffice === 'discipulador' ? userInfo.nome : state.discipuladoSelect
+
+  const filtrandoRedes = celulas.filter((item: any) => {
+    return item[1].rede === isShepherd
+  })
   const discipulado = filtrandoRedes.map((item: any) => {
     return item[1].discipulador
   })
-
   const discipuladossUnicos = discipulado.filter(function (este: any, i: any) {
     return discipulado.indexOf(este) === i;
   });
@@ -311,8 +321,24 @@ export function RegisterScreen() {
     }
   })
 
+  let validaRede: any
+  let validaDisc: any
+  if (user[0][1].cargo === 'discipulador') {
+    validaRede = user[0][1].rede
+    validaDisc = user[0][1].nome
+  }
+  else if (user[0][1].cargo === 'pastor') {
+
+    validaRede = user[0][1].rede
+    validaDisc = state.discipuladoSelect
+  }
+  else {
+    validaRede = state.redeSelect
+    validaDisc = state.discipuladoSelect
+  }
+
   const filtrandoDiscipulado = celulas.filter((item: any) => {
-    return item[1].discipulador === state.discipuladoSelect && item[1].rede === state.redeSelect
+    return item[1].discipulador === isDisc && item[1].rede === isShepherd
   })
 
   const celulaAdm = filtrandoDiscipulado.map((item: any) => {
@@ -326,14 +352,16 @@ export function RegisterScreen() {
       case "discipulador":
         return (
           <S.BoxSelect>
-            <SelectComponent
-              label="Estado Civil"
-              onChange={handleCivilStatusChange}
-              selectedOption={selectedOptionCivilStatus}
-              labelSelect={state.textSelectCivilStatus}
-              dataOptions={selectCivilStatus}
-            />
-          </S.BoxSelect>
+          <SelectComponent
+            label="Célula"
+            onChange={handleCelulaChange}
+            labelSelect={state.celulaSelect}
+            dataOptions={celulaAdm}
+            selectedOption={selectedOptionCelula}
+            disabled={state.discipuladoSelect === '*Selecione' ? true : false}
+          />
+        </S.BoxSelect>
+
         );
 
       case "pastor":
@@ -341,21 +369,23 @@ export function RegisterScreen() {
           <Fragment>
             <S.BoxSelect>
               <SelectComponent
-                label="Estado Civil"
-                onChange={handleCivilStatusChange}
-                selectedOption={selectedOptionCivilStatus}
-                labelSelect={state.textSelectCivilStatus}
-                dataOptions={selectCivilStatus}
+                label="Discipulado"
+                onChange={(handleDiscipuladoChange)}
+                labelSelect={state.discipuladoSelect}
+                dataOptions={state.redeSelect && mapDiscipuladosUnicos}
+                selectedOption={handleDiscipuladoChange}
+                disabled={state.redeSelect === '*Selecione' ? true : false}
               />
             </S.BoxSelect>
 
             <S.BoxSelect>
               <SelectComponent
-                label="Estado Civil"
-                onChange={handleCivilStatusChange}
-                selectedOption={selectedOptionCivilStatus}
-                labelSelect={state.textSelectCivilStatus}
-                dataOptions={selectCivilStatus}
+                label="Célula"
+                onChange={handleCelulaChange}
+                labelSelect={state.celulaSelect}
+                dataOptions={celulaAdm}
+                selectedOption={selectedOptionCelula}
+                disabled={state.discipuladoSelect === '*Selecione' ? true : false}
               />
             </S.BoxSelect>
           </Fragment>
@@ -465,14 +495,13 @@ export function RegisterScreen() {
                   <InputFieldComponent
                     primary
                     value={address.logradouro}
-                    placeholder={address.logradouro ?? FormFields.ADDRESS}
+                    placeholder={FormFields.ADDRESS}
                     onChangeText={(value) =>
                       setAddress((old) => ({
                         ...old,
                         logradouro: value,
                       }))
                     }
-                    editable={address.logradouro === ""}
                   />
                 </S.GridItemLarge>
 
@@ -491,14 +520,13 @@ export function RegisterScreen() {
                   <InputFieldComponent
                     primary
                     value={address.bairro}
-                    placeholder={address.bairro ?? FormFields.DISTRICT}
+                    placeholder={FormFields.DISTRICT}
                     onChangeText={(value) =>
                       setAddress((old) => ({
                         ...old,
                         bairro: value,
                       }))
                     }
-                    editable={address.bairro === ""}
                   />
                 </S.GridItem>
 
@@ -506,14 +534,13 @@ export function RegisterScreen() {
                   <InputFieldComponent
                     primary
                     value={address.localidade}
-                    placeholder={address.localidade ?? FormFields.CITY}
+                    placeholder={FormFields.CITY}
                     onChangeText={(value) =>
                       setAddress((old) => ({
                         ...old,
                         localidade: value,
                       }))
                     }
-                    editable={address.localidade === ""}
                   />
                 </S.GridItem>
               </S.GridForm>
@@ -572,16 +599,17 @@ export function RegisterScreen() {
                 title="Cadastrar"
                 onPress={submitRegister}
                 width='170'
-                disabled={(
+                disabled={
                   state.celulaSelect === '*Selecione' ||
-                  state.textSelectCategory === '*Selecione' ||
-                  name === "" ||
-                  phone === "") ? true : false
+                    state.textSelectCategory === '*Selecione' ||
+                    name === "" ||
+                    phone === "" ? true : false
                 }
               />
             </S.FooterFields>
           </S.Container>
         </ScrollView>
+        
       )}
 
       <ModalComponent

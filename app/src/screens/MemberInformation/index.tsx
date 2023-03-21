@@ -62,7 +62,6 @@ export function MembersInformationScreen(this: any, { route }: any) {
                 return item?.rede !== route.params?.rede
             })
             const RedeAlterados = celulas.filter((item: any) => {
-                console.log(celulas)
                 return item?.rede === route.params?.rede
             })
             const alteracaoesRede = RedeAlterados.map((item: any) => {

@@ -5,7 +5,7 @@ import theme from "../../styles/theme";
 import { ISizeProps, ISvgProps } from "./types";
 
 export const Content = styled.TouchableOpacity<ISizeProps>`
-  height: ${({ heigth }) => (heigth ? heigth : "48")};
+  height: ${({ heigth }) => (heigth ? heigth : "48px")};
   width: ${({ width }) => (width ? width : "100%")};
 
   background-color: ${({ disabled }) =>

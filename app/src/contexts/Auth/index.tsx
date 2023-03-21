@@ -43,8 +43,6 @@ export function AuthenticatedProvider({ children }: IAuthProviderProps) {
 
         if (code === "auth/user-not-found" || code === "auth/wrong-password") {
           return setErrorLogin(errorLogin);
-        } else {
-          return Alert.alert("Login", "Não foi possível realizar o login");
         }
       })
       .finally(() => setIsLogged(false));
