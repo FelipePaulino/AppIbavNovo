@@ -15,6 +15,7 @@ import { DefaultContentModalComponent } from "../../components/Modal/Default";
 
 import FormFields from "../../common/constants/form";
 import useUserFiltered from "../../hooks/useUserFiltered";
+import { useNavigation } from "@react-navigation/native";
 import { useFormReport } from "../../hooks/useFormReport";
 import { GetStorage } from "../../common/constants/storage";
 import { FormReportActions } from "../../contexts/FormReport";
@@ -49,6 +50,8 @@ export function RegisterScreen() {
 
   const { user } = useUserFiltered();
   const { state, dispatch } = useFormReport();
+  const navigation = useNavigation();
+
 
   const identifyCelula = user && user[0][1].numero_celula;
   const userInfo = user && user[0][1];
@@ -616,7 +619,8 @@ const isDisc = whatOffice === 'discipulador' ? userInfo.nome : state.discipulado
         isVisible={successModal}
         onBackdropPress={() => (
           setName(''),
-          setSuccessModal(false)
+          setSuccessModal(false),
+          navigation.goBack()
         )}
       >
         <DefaultContentModalComponent
