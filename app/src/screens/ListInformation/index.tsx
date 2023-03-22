@@ -169,6 +169,8 @@ export function UsersInformationScreen(this: any, { route }: any) {
 
        celulaMudada = {
         ...filterCelulas[0],
+        lider: name,
+        email: email,
         rede: selectNetwork.split(' -')[0].trim(), 
         pastor: selectNetwork.split('- ')[1].trim(), 
         discipulador: selectDisciples.trim(),
@@ -176,10 +178,11 @@ export function UsersInformationScreen(this: any, { route }: any) {
       }
     }
     if(filterUser[0].cargo === 'discipulador'){
-      const filterCelulasDoPasDisc = celulas.filter((item:any) =>{
+      const filterCelulasDoDisc = celulas.filter((item:any) =>{
         return item.discipulador === filterUser[0].nome
       })
-      filterCelulas = filterCelulasDoPasDisc.map((item:any) =>{
+      
+      filterCelulas = filterCelulasDoDisc.map((item:any) =>{
         return {...item, discipulador: name}
       })
 
@@ -187,11 +190,11 @@ export function UsersInformationScreen(this: any, { route }: any) {
         return item.discipulador?.trim() !== filterUser[0].nome?.trim()
       })
 
-      const filterUsersNaoDisc  = users.filter((item:any) =>{
+      const filterUsersNaoDisc = users.filter((item:any) =>{
           return item.discipulador?.trim() !== filterUser[0].nome?.trim() && filterUser[0].nome.trim() !== item.nome?.trim()
       })
       
-      const filterUsersDoDisc  = users.filter((item:any) =>{
+      const filterUsersDoDisc = users.filter((item:any) =>{
         return item.discipulador?.trim() === filterUser[0].nome?.trim()
       })
 
@@ -204,7 +207,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
       pastorSelect = selectNetwork.split('- ')[1].trim()
       celulaMudada = {
         ...filterCelulas[0],
-        discipulador:filterUser[0].nome , 
+        discipulador: name, 
       }
     }
     if(filterUser[0].cargo === 'pastor'){
@@ -250,14 +253,12 @@ export function UsersInformationScreen(this: any, { route }: any) {
       discipulador: selectDisciples.trim(),
       numero_celula: numberCelula.trim()
     }
-    
     const celulasDefinitivo = { ...filterOtherCelulas, celulaMudada}
     const usersDefinitivo = {...filterOtherUsers, userMudado}
 
     try {
     const putUsers = connectApi.put(`/users.json`, usersDefinitivo)
     const putCelulas = connectApi.put(`/celulas.json`, celulasDefinitivo) 
-    // const putCelulas =  filterUser[0].cargo === 'lider de celula' ? connectApi.put(`/celulas.json`, celulasDefinitivo) : []
     Promise.all([putUsers, putCelulas]).then((values) => {
       console.log(values);
     });
