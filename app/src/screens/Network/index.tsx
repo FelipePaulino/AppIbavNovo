@@ -204,7 +204,7 @@ export default function NetworkScreenList() {
                                 setId(items[0]);
                             }}
                             onPress={() =>
-                              navigation.navigate("MemberInformation", {
+                              navigation.navigate("RedeInformation", {
                                 nome: `${items[1].nome}`,
                                 cargo: `${items[1].cargo}`,
                                 pastor: `${items[1].nome}`,
@@ -232,7 +232,7 @@ export default function NetworkScreenList() {
                                     setId(item[0]);
                                 }}
                                 onPress={() =>
-                                  navigation.navigate("MemberInformation", {
+                                  navigation.navigate("RedeInformation", {
                                     nome: `${item[1].nome}`,
                                     cargo: `${item[1].cargo}`,
                                     pastor: `${item[1].pastor}`,
@@ -266,7 +266,7 @@ export default function NetworkScreenList() {
                                     setId(item[0]);
                                 }}
                                 onPress={() =>
-                                  navigation.navigate("MemberInformation", {
+                                  navigation.navigate("RedeInformation", {
                                     nome: `${item[1].nome}`,
                                     cargo: `${item[1].cargo}`,
                                     pastor: `${item[1].pastor}`,
