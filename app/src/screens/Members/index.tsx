@@ -393,7 +393,7 @@ export function MembersScreen(this: any) {
         );
     }
   };
-  console.log('oi')
+
   return (
     <Fragment>
       <HeaderComponent>
