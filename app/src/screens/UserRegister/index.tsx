@@ -276,6 +276,7 @@ export function UserRegisterScreen() {
               }).then(() => {
                 connectApi.post("/celulas.json", {
                   lider: formValues.name,
+                  email: formValues.email,
                   numero_celula: formValues.numberCelula,
                   discipulador: selectDisciples,
                   pastor: selectNetwork.split('- ')[1],
@@ -316,6 +317,7 @@ export function UserRegisterScreen() {
         }).then(() => {
           connectApi.post("/celulas.json", {
             lider: formValues.name,
+            email: formValues.email,
             numero_celula: formValues.numberCelula,
             discipulador: selectDisciples,
             pastor: selectNetwork.split('- ')[1],
