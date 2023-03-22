@@ -34,7 +34,6 @@ export function ListUsersScreen() {
 
   const navigation = useNavigation<IPropsAppStack>();
   const { trigger, setTrigger } = useFormReport();
-
   useEffect(() => {
     const getUsers = async () => {
       await service
@@ -96,6 +95,8 @@ export function ListUsersScreen() {
       return 1;
     }
   });
+
+  console.log(listUsers,'listUsers')
 
   return (
     <Fragment>

@@ -7,6 +7,7 @@ export function PersonLabelComponent({
   status,
   onPress,
   delMember,
+  noPencial
 }: IPersonProps) {
 
   return (
@@ -18,9 +19,11 @@ export function PersonLabelComponent({
         </S.BoxStatus>
       </S.ContainerPerson>
       <S.IconContent>
-        <S.SpacingIcon>
-          <S.IconEdit name="pencil" onPress={onPress} />
-        </S.SpacingIcon>
+        {!noPencial &&
+          <S.SpacingIcon>
+            <S.IconEdit name="pencil" onPress={onPress} />
+          </S.SpacingIcon>
+        }
         <S.SpacingIcon>
           <S.Icon name="trash" onPress={delMember} />
         </S.SpacingIcon>

@@ -74,40 +74,7 @@ export function RedeInformationScreen(this: any, { route }: any) {
                 ...alteracaoesRede
             ]
 
-            // const UsersNaoAlterados = users.filter((item: any) => {
-            //     return item?.rede !== route.params?.rede
-            // })
-            // const UsersAlterados = users.filter((item: any) => {
-            //     return item?.rede === route.params?.rede && item?.nome !== name
-            // })
-
-            // const UsersAlterados2 = users.filter((item: any) => {
-            //     return item?.nome === name
-            // })
-            // const alteracaoesUsers = UsersAlterados.map((item: any) => {
-            //     return {
-            //         ...item,
-            //         rede: redeEscolhida ? selectNetwork.split('-')[0] : selectNetwork,
-            //         pastor: name,
-            //     }
-            // })
-
-            // const alteracaoesUsers2 = UsersAlterados2.map((item: any) => {
-            //     return {
-            //         ...item,
-            //         rede: redeEscolhida ? selectNetwork.split('-')[0] : selectNetwork,
-            //         pastor: name,
-            //         nome: name
-            //     }
-            // })
-            // const payloadUsers = [
-            //     ...UsersNaoAlterados,
-            //     ...alteracaoesUsers,
-            //     ...alteracaoesUsers2
-            // ]
-
             connectApi.put(`/celulas.json`, payloadCelulas);
-            // connectApi.put(`/users.json`, payloadUsers);
         }
         else if (office === "discipulador") {
             const RedeNaoAlterados = celulas.filter((item: any) => {

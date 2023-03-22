@@ -24,7 +24,6 @@ export function SelectComponent({
       setIsModalVisible(prev);
     }
   };
-
   return (
     <S.Content>
       <S.LabelField>{label}</S.LabelField>

@@ -14,6 +14,7 @@ import { InputFieldComponent } from "../../components/InputField";
 import { DefaultContentModalComponent } from "../../components/Modal/Default";
 
 import FormFields from "../../common/constants/form";
+import { useNavigation } from "@react-navigation/native";
 import { firebaseConfig } from "../../config/firebase";
 import { useFormReport } from "../../hooks/useFormReport";
 import { connectApi } from "../../common/services/ConnectApi";
@@ -53,6 +54,7 @@ export function UserRegisterScreen() {
   const [errorEmailValidate, setErrorEmailValidate] = useState(false)
 
   const { state: stateReducer, dispatch } = useFormReport();
+  const navigation = useNavigation();
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
@@ -87,6 +89,10 @@ export function UserRegisterScreen() {
         value: disc.nome,
       };
     });
+  console.log(optionsDisciples, 'optionsDisciples')
+  console.log(disciplesFiltered, 'disciplesFiltered')
+  console.log(usersDisciples, 'usersDisciples')
+  console.log(getNetwork, 'getNetwork')
   const optionsNetwork =
     usersMinister &&
     usersMinister.map((pastor: IDataUser) => {
@@ -272,6 +278,7 @@ export function UserRegisterScreen() {
               }).then(() => {
                 connectApi.post("/celulas.json", {
                   lider: formValues.name,
+                  email: formValues.email,
                   numero_celula: formValues.numberCelula,
                   discipulador: selectDisciples,
                   pastor: selectNetwork.split('- ')[1],
@@ -301,6 +308,39 @@ export function UserRegisterScreen() {
           }
         }
       } else {
+        connectApi.post("/users.json", {
+          cargo: "lider de celula",
+          rede: selectNetwork.split(' -')[0],
+          pastor: selectNetwork.split(' - ')[1],
+          discipulador: selectDisciples,
+          numero_celula: formValues.numberCelula,
+          senha: formValues.password,
+          ...dataLider
+        }).then(() => {
+          connectApi.post("/celulas.json", {
+            lider: formValues.name,
+            email: formValues.email,
+            numero_celula: formValues.numberCelula,
+            discipulador: selectDisciples,
+            pastor: selectNetwork.split('- ')[1],
+            rede: selectNetwork.split(' -')[0],
+            membros: [dataLider]
+          }).then(() => {
+            setConfirmRegisterModal(true);
+            setFormValues(initialValueRegisterUser);
+            setAddress(initialValuesRequestCep);
+            setSelectNetwork("Selecionar");
+            setOffice("");
+
+            setSelectNetwork("Selecionar");
+            setSelectDisciples("Selecionar");
+
+            dispatch({
+              type: FormReportActions.setTextRegister,
+              payload: "",
+            });
+          });
+        });
         setErrorEmailValidate(true)
       }
     } catch (err) {
@@ -618,7 +658,10 @@ export function UserRegisterScreen() {
 
       <ModalComponent
         isVisible={confirmRegisterModal}
-        onBackdropPress={() => setConfirmRegisterModal(false)}
+        onBackdropPress={() => (
+          setConfirmRegisterModal(false),
+          navigation.goBack()
+          )}
       >
         <DefaultContentModalComponent
           type="register"
