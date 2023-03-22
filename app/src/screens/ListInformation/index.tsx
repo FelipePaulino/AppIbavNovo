@@ -68,7 +68,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
   useEffect(() => {
     const getCelulas = async () => {
       await serviceGet.getCelulas().then((response) => {
-        setCelulas(Object.entries(response));
+        setCelulas(Object.values(response));
       });
     };
 
@@ -88,7 +88,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
     const filterMembers =
       celulas &&
       celulas.filter((item: any) => {
-        return item[1].numero_celula == identifyCelula;
+        return item?.numero_celula == identifyCelula;
       });
 
     if (filterMembers) {
@@ -126,7 +126,10 @@ export function UsersInformationScreen(this: any, { route }: any) {
   };
 
   const submitRegister = () => {
-    let payload
+    const filterUser: any = users.filter((item:any) =>{
+      return item.email === email
+    })
+
     const payloadDefault = {
       senha: password,
       n_end: nEnd,
@@ -142,34 +145,123 @@ export function UsersInformationScreen(this: any, { route }: any) {
       estado_civil: civilStatus,
     }
 
-    if (office === 'lider de celula') {
-      payload = {
-        ...payloadDefault,
-        cargo: 'lider de celula',
-        discipulador: selectDisciples,
-        numero_celula: numberCelula,
-        rede: selectNetwork.split('-')[0],
-        pastor: selectNetwork.split('-')[1],
+    let filterCelulas
+    let filterOtherCelulas
+    let filterOtherUsers
+    let redeSelect
+    let pastorSelect
+    let celulaMudada
+
+    // LIDER //
+    if(filterUser[0].cargo === 'lider de celula'){
+      filterCelulas = celulas.filter((item:any) =>{
+        return item.email === email
+      })
+       filterOtherCelulas = celulas.filter((item:any) =>{
+        return item.email !== email
+      })
+  
+       filterOtherUsers = users.filter((item:any) =>{
+        return item.email !== email
+      })
+      redeSelect = selectNetwork.split(' -')[0].trim()
+      pastorSelect = selectNetwork.split('- ')[1].trim()
+
+       celulaMudada = {
+        ...filterCelulas[0],
+        lider: name,
+        email: email,
+        rede: selectNetwork.split(' -')[0].trim(), 
+        pastor: selectNetwork.split('- ')[1].trim(), 
+        discipulador: selectDisciples.trim(),
+        numero_celula: numberCelula.trim()
       }
     }
-    else if (office === 'discipulador') {
-      payload = {
-        ...payloadDefault,
-        cargo: 'discipulador',
-        rede: selectNetwork.split('-')[0],
-        pastor: selectNetwork.split('-')[1],
+    if(filterUser[0].cargo === 'discipulador'){
+      const filterCelulasDoDisc = celulas.filter((item:any) =>{
+        return item.discipulador === filterUser[0].nome
+      })
+      
+      filterCelulas = filterCelulasDoDisc.map((item:any) =>{
+        return {...item, discipulador: name}
+      })
+
+       filterOtherCelulas = celulas.filter((item:any) =>{
+        return item.discipulador?.trim() !== filterUser[0].nome?.trim()
+      })
+
+      const filterUsersNaoDisc = users.filter((item:any) =>{
+          return item.discipulador?.trim() !== filterUser[0].nome?.trim() && filterUser[0].nome.trim() !== item.nome?.trim()
+      })
+      
+      const filterUsersDoDisc = users.filter((item:any) =>{
+        return item.discipulador?.trim() === filterUser[0].nome?.trim()
+      })
+
+      const juncaoUserDisc = filterUsersDoDisc.map((item:any) =>{
+        return {...item, discipulador: name }
+      })
+
+      filterOtherUsers = [...filterUsersNaoDisc, ...juncaoUserDisc]
+      redeSelect = selectNetwork.split(' -')[0].trim()
+      pastorSelect = selectNetwork.split('- ')[1].trim()
+      celulaMudada = {
+        ...filterCelulas[0],
+        discipulador: name, 
       }
     }
-    else {
-      payload = {
-        ...payloadDefault,
-        rede: selectNetwork,
-        cargo: 'pastor',
+    if(filterUser[0].cargo === 'pastor'){
+    
+      const filterCelulasDoPastor = celulas.filter((item:any) =>{
+        return item.pastor === filterUser[0].nome
+      })
+      filterCelulas = filterCelulasDoPastor.map((item:any) =>{
+        return {...item, pastor: name, rede: selectNetwork}
+      })
+
+       filterOtherCelulas = celulas.filter((item:any) =>{
+        return item.pastor?.trim() !== filterUser[0].nome?.trim()
+      })
+
+      const filterUsersNaoPastor  = users.filter((item:any) =>{
+          return item.pastor?.trim() !== filterUser[0].nome?.trim() && filterUser[0].nome.trim() !== item.nome?.trim()
+      })
+      
+      const filterUsersDoPastor  = users.filter((item:any) =>{
+        return item.pastor?.trim() === filterUser[0].nome?.trim()
+      })
+
+      const juncaoUserPastor = filterUsersDoPastor.map((item:any) =>{
+        return {...item, pastor: name, rede: selectNetwork.split(' -')[0].trim() }
+      })
+
+      filterOtherUsers = [...filterUsersNaoPastor, ...juncaoUserPastor]
+      redeSelect = selectNetwork.split(' -')[0].trim()
+      pastorSelect = filterUser[0].nome
+      celulaMudada = {
+        ...filterCelulas[0],
+        rede: redeSelect, 
+        pastor: pastorSelect
       }
     }
 
+    const userMudado = {
+      ...payloadDefault,   
+      cargo: filterUser[0].cargo,
+      rede: redeSelect, 
+      pastor: pastorSelect, 
+      discipulador: selectDisciples.trim(),
+      numero_celula: numberCelula.trim()
+    }
+    const celulasDefinitivo = { ...filterOtherCelulas, celulaMudada}
+    const usersDefinitivo = {...filterOtherUsers, userMudado}
+
     try {
-      connectApi.put(`/users/${id}.json`, payload);
+    const putUsers = connectApi.put(`/users.json`, usersDefinitivo)
+    const putCelulas = connectApi.put(`/celulas.json`, celulasDefinitivo) 
+    Promise.all([putUsers, putCelulas]).then((values) => {
+      console.log(values);
+    });
       setTrigger(!trigger);
       handleOpenModal()
     } catch (err) {
@@ -274,7 +366,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
             <S.GridItemFull>
               <InputFieldComponent
                 primary
-                value={(selectNetwork !== "undefined" || !selectNetwork) && selectNetwork.split('-')[0]}
+                value={(selectNetwork !== "undefined" || !selectNetwork) && selectNetwork.split(' -')[0]}
                 placeholder={`* ${FormFields.NETWORK}`}
                 onChangeText={(value) => setSelectNetwork(value)}
                 label={`* ${FormFields.NETWORK}`}
@@ -317,6 +409,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
                 selectedOption={handleSelectOffice}
                 labelSelect={office}
                 dataOptions={officeMembers}
+                disabled
               />
             </S.GridItemFull>
             {renderSelectsOptions()}

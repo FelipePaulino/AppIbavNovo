@@ -3,4 +3,5 @@ export interface IPersonProps {
   status?: any;
   delMember?: () => void;
   onPress?: () => void;
+  noPencial?: boolean;
 }
