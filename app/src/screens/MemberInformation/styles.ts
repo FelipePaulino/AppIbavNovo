@@ -8,26 +8,6 @@ export const Container = styled.View`
   justify-content: space-between;
 `;
 
-export const Grid = styled.View`
-  margin-bottom: 32px;
-`;
-
-export const ContentC = styled.View`
-  flex-direction: row;
-  align-items: flex-end;
-  margin: 0;
-  padding: 0;
-  width: 310px;
-  height: 40px;
-`;
-
-export const IconC = styled(FontAwesome5)`
-  color: ${theme.colors.red};
-  font-size: ${theme.fonts.fontSize.medium}px;
-  margin-right: 20px;
-`;
-
-
 export const Division = styled.View`
   flex-direction: row;
   align-items: center;
