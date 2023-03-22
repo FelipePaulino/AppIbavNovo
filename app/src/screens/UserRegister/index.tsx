@@ -14,6 +14,7 @@ import { InputFieldComponent } from "../../components/InputField";
 import { DefaultContentModalComponent } from "../../components/Modal/Default";
 
 import FormFields from "../../common/constants/form";
+import { useNavigation } from "@react-navigation/native";
 import { firebaseConfig } from "../../config/firebase";
 import { useFormReport } from "../../hooks/useFormReport";
 import { connectApi } from "../../common/services/ConnectApi";
@@ -53,6 +54,7 @@ export function UserRegisterScreen() {
   const [errorEmailValidate, setErrorEmailValidate] = useState(false)
 
   const { state: stateReducer, dispatch } = useFormReport();
+  const navigation = useNavigation();
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
@@ -618,7 +620,10 @@ export function UserRegisterScreen() {
 
       <ModalComponent
         isVisible={confirmRegisterModal}
-        onBackdropPress={() => setConfirmRegisterModal(false)}
+        onBackdropPress={() => (
+          setConfirmRegisterModal(false),
+          navigation.goBack()
+          )}
       >
         <DefaultContentModalComponent
           type="register"
