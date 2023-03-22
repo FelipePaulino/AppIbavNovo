@@ -30,7 +30,6 @@ export function ListUsersScreen() {
   const service = new RequestService();
   const navigation = useNavigation<IPropsAppStack>();
   const { trigger, setTrigger } = useFormReport();
-
   useEffect(() => {
     const getUsers = async () => {
       await service
@@ -73,6 +72,8 @@ export function ListUsersScreen() {
     }
   });
 
+  console.log(listUsers,'listUsers')
+
   return (
     <Fragment>
       <HeaderComponent>
@@ -104,6 +105,7 @@ export function ListUsersScreen() {
                 return (
                   <PersonLabelComponent
                     nome={user[1]?.nome}
+                    key={user[1]?.nome}
                     onPress={() =>
                       navigation.navigate("UsersInformation", {
                         nome: `${user[1].nome}`,

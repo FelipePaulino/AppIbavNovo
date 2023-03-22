@@ -124,10 +124,9 @@ export function UsersInformationScreen(this: any, { route }: any) {
   const handleOpenModal = () => {
     setSuccessModal(true);
   };
-console.log(selectNetwork, 'selectNetwork')
+
   const submitRegister = () => {
-    console.log(selectNetwork, 'selectNetwork2')
-    const filterUser = users.filter(item =>{
+    const filterUser: any = users.filter((item:any) =>{
       return item.email === email
     })
 
@@ -155,16 +154,19 @@ console.log(selectNetwork, 'selectNetwork')
 
     // LIDER //
     if(filterUser[0].cargo === 'lider de celula'){
-      filterCelulas = celulas.filter(item =>{
+      filterCelulas = celulas.filter((item:any) =>{
         return item.email === email
       })
-       filterOtherCelulas = celulas.filter(item =>{
+       filterOtherCelulas = celulas.filter((item:any) =>{
         return item.email !== email
       })
   
-       filterOtherUsers = users.filter(item =>{
+       filterOtherUsers = users.filter((item:any) =>{
         return item.email !== email
       })
+      redeSelect = selectNetwork.split(' -')[0].trim()
+      pastorSelect = selectNetwork.split('- ')[1].trim()
+
        celulaMudada = {
         ...filterCelulas[0],
         rede: selectNetwork.split(' -')[0].trim(), 
@@ -174,30 +176,28 @@ console.log(selectNetwork, 'selectNetwork')
       }
     }
     if(filterUser[0].cargo === 'discipulador'){
-    
-      const filterCelulasDoPasDisc = celulas.filter(item =>{
+      const filterCelulasDoPasDisc = celulas.filter((item:any) =>{
         return item.discipulador === filterUser[0].nome
       })
-      filterCelulas = filterCelulasDoPasDisc.map(item =>{
+      filterCelulas = filterCelulasDoPasDisc.map((item:any) =>{
         return {...item, discipulador: name}
       })
 
-       filterOtherCelulas = celulas.filter(item =>{
+       filterOtherCelulas = celulas.filter((item:any) =>{
         return item.discipulador?.trim() !== filterUser[0].nome?.trim()
       })
 
-      const filterUsersNaoDisc  = users.filter(item =>{
+      const filterUsersNaoDisc  = users.filter((item:any) =>{
           return item.discipulador?.trim() !== filterUser[0].nome?.trim() && filterUser[0].nome.trim() !== item.nome?.trim()
       })
       
-      const filterUsersDoDisc  = users.filter(item =>{
+      const filterUsersDoDisc  = users.filter((item:any) =>{
         return item.discipulador?.trim() === filterUser[0].nome?.trim()
       })
 
-      const juncaoUserDisc = filterUsersDoDisc.map(item =>{
+      const juncaoUserDisc = filterUsersDoDisc.map((item:any) =>{
         return {...item, discipulador: name }
       })
-
 
       filterOtherUsers = [...filterUsersNaoDisc, ...juncaoUserDisc]
       redeSelect = selectNetwork.split(' -')[0].trim()
@@ -209,29 +209,28 @@ console.log(selectNetwork, 'selectNetwork')
     }
     if(filterUser[0].cargo === 'pastor'){
     
-      const filterCelulasDoPastor = celulas.filter(item =>{
+      const filterCelulasDoPastor = celulas.filter((item:any) =>{
         return item.pastor === filterUser[0].nome
       })
-      filterCelulas = filterCelulasDoPastor.map(item =>{
+      filterCelulas = filterCelulasDoPastor.map((item:any) =>{
         return {...item, pastor: name, rede: selectNetwork}
       })
 
-       filterOtherCelulas = celulas.filter(item =>{
+       filterOtherCelulas = celulas.filter((item:any) =>{
         return item.pastor?.trim() !== filterUser[0].nome?.trim()
       })
 
-      const filterUsersNaoPastor  = users.filter(item =>{
+      const filterUsersNaoPastor  = users.filter((item:any) =>{
           return item.pastor?.trim() !== filterUser[0].nome?.trim() && filterUser[0].nome.trim() !== item.nome?.trim()
       })
       
-      const filterUsersDoPastor  = users.filter(item =>{
+      const filterUsersDoPastor  = users.filter((item:any) =>{
         return item.pastor?.trim() === filterUser[0].nome?.trim()
       })
 
-      const juncaoUserPastor = filterUsersDoPastor.map(item =>{
+      const juncaoUserPastor = filterUsersDoPastor.map((item:any) =>{
         return {...item, pastor: name, rede: selectNetwork.split(' -')[0].trim() }
       })
-
 
       filterOtherUsers = [...filterUsersNaoPastor, ...juncaoUserPastor]
       redeSelect = selectNetwork.split(' -')[0].trim()
@@ -243,22 +242,17 @@ console.log(selectNetwork, 'selectNetwork')
       }
     }
 
-
     const userMudado = {
       ...payloadDefault,   
       cargo: filterUser[0].cargo,
       rede: redeSelect, 
-      pastor:pastorSelect, 
+      pastor: pastorSelect, 
       discipulador: selectDisciples.trim(),
       numero_celula: numberCelula.trim()
     }
-
-
     
-const celulasDefinitivo = { ...filterOtherCelulas, celulaMudada}
-const usersDefinitivo = {...filterOtherUsers, userMudado}
-console.log(celulasDefinitivo, 'celulasDefinitivo')
-
+    const celulasDefinitivo = { ...filterOtherCelulas, celulaMudada}
+    const usersDefinitivo = {...filterOtherUsers, userMudado}
 
     try {
     const putUsers = connectApi.put(`/users.json`, usersDefinitivo)
