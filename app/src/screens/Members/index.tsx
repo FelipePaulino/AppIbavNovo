@@ -424,8 +424,6 @@ export function MembersScreen(this: any) {
                 <>
                   {newMembersList.length > 0 ? (
                     newMembersList?.map((item: any) => {
-                      console.log()
-                      console.log(item, 'item')
                       return (
                         <Fragment>
                           <PersonLabelComponent
