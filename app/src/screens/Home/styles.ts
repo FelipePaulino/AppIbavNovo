@@ -81,7 +81,7 @@ export const InfoTextSubtitle = styled.Text`
 export const ContentOptions = styled.View`
   width: 100%;
   margin-top: 24px;
-
+padding: 0 5%;
   flex-direction: row;
   justify-content: space-around;
   flex-wrap: wrap;

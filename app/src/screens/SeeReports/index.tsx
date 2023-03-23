@@ -274,7 +274,7 @@ export function SeeReports() {
                     labelSelect={state.redeSelect}
                     dataOptions={mapRedesUnicas}
                     selectedOption={handleRedeChange}
-                    width="260"
+                    width="100%"
                   />
                 </S.ContentC>
               </S.Grid>
@@ -291,7 +291,7 @@ export function SeeReports() {
                     labelSelect={state.discipuladoSelect}
                     dataOptions={mapDiscipuladosUnicos}
                     selectedOption={handleDiscipuladoChange}
-                    width="260"
+                    width="100%"
                     disabled={state.redeSelect === "Selecione" ? true : false}
                   />
                 </S.ContentC>
@@ -305,7 +305,7 @@ export function SeeReports() {
                     labelSelect={state.celulaSelect}
                     dataOptions={mapCelulasUnicos}
                     selectedOption={handleCelulaChange}
-                    width="260"
+                    width="100%"
                     disabled={
                       state.discipuladoSelect === "Selecione" ? true : false
                     }
@@ -347,14 +347,14 @@ export function SeeReports() {
           <S.BoxButtons>
             <ButtonComponent
               title="FILTRAR"
-              width="130"
+              width="35%"
               icon="filter"
               color="white"
               onPress={() => setShowFilter(true)}
             />
             <ButtonComponent
               title="LIMPAR FILTROS"
-              width="200"
+              width="62%"
               icon="times"
               color="white"
               onPress={() => cleanFilter()}
