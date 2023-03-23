@@ -310,6 +310,7 @@ export function MembersScreen(this: any) {
                 labelSelect={state.textSelectCelula}
                 dataOptions={celulaPastor && celulaPastor}
                 selectedOption={selectedOptionCelula}
+                width="85%"
               />
             </S.ContentC>
           </S.Grid>
@@ -326,6 +327,7 @@ export function MembersScreen(this: any) {
                   labelSelect={state.discipuladoSelect}
                   dataOptions={mapDiscipuladossUnicosPastor}
                   selectedOption={handleDiscipuladoChange}
+                  width="85%"
                 />
               </S.ContentC>
             </S.Grid>
@@ -338,6 +340,7 @@ export function MembersScreen(this: any) {
                   labelSelect={state.celulaSelect}
                   dataOptions={celulaPastor}
                   selectedOption={selectedOptionCelula}
+                  width="85%"
                 />
 
               </S.ContentC>

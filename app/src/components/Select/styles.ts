@@ -7,6 +7,7 @@ import theme from "../../styles/theme";
 
 export const Content = styled.View`
   flex-direction: column;
+  width: 100%;
 `;
 
 export const Container = styled.TouchableOpacity<ISizeProps>`

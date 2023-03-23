@@ -4,6 +4,7 @@ import theme from "../../styles/theme";
 
 export const Date = styled.View`
   flex-direction: column;
+  width: 100%;
 `;
 
 export const Label = styled.Text`

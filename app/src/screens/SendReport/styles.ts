@@ -12,10 +12,10 @@ export const Navigation = styled.Text`
 `;
 
 export const Content = styled.View`
-  max-width: 350px;
+  max-width: 100%;
   width: 100%;
   height: 100%;
-
+padding: 0 5%;
   margin-top: 32px;
   margin-left: auto;
   margin-right: auto;

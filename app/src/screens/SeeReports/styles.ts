@@ -42,7 +42,7 @@ export const ContainerFilter = styled(Animated.View) <Props>`
   background-color: white;
   padding-top: 80px;
   padding-left: 25px;
-
+  padding-right: 25px;
   position: absolute;
   height: 100%;
   z-index: 1;
@@ -75,7 +75,7 @@ export const ContentC = styled.View`
   align-items: flex-end;
   margin: 0;
   padding: 0;
-  width: 900px;
+  width: 100%;
   height: 40px;
 `;
 

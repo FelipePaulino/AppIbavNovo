@@ -256,6 +256,7 @@ export function SendReportScreen() {
                 labelSelect={state.textSelectCelula}
                 dataOptions={optionsCelula && optionsCelula}
                 selectedOption={selectedOptionCelula}
+                width={"85%"}
               />
             </S.ContentC>
           </S.Grid>
@@ -276,6 +277,7 @@ export function SendReportScreen() {
                   labelSelect={state.discipuladoSelect}
                   dataOptions={mapDiscipuladossUnicosPastor}
                   selectedOption={handleDiscipuladoChange}
+                  width={"85%"}
                 />
               </S.ContentC>
             </S.Grid>
@@ -288,6 +290,7 @@ export function SendReportScreen() {
                   labelSelect={state.celulaSelect}
                   dataOptions={celulaPastor}
                   selectedOption={selectedOptionCelula}
+                  width={"85%"}
                 />
               </S.ContentC>
             </S.Grid>
@@ -306,7 +309,7 @@ export function SendReportScreen() {
                   labelSelect={state.redeSelect}
                   dataOptions={mapRedesUnicas}
                   selectedOption={handleRedeChange}
-                  width="300"
+                  width={"85%"}
                 />
               </S.ContentC>
             </S.Grid>
@@ -323,7 +326,7 @@ export function SendReportScreen() {
                   labelSelect={state.discipuladoSelect}
                   dataOptions={state.redeSelect && mapDiscipuladosUnicos}
                   selectedOption={handleDiscipuladoChange}
-                  width="300"
+                  width={"85%"}
                   disabled={state.redeSelect === "Selecione" ? true : false}
                 />
               </S.ContentC>
@@ -337,7 +340,7 @@ export function SendReportScreen() {
                   labelSelect={state.celulaSelect}
                   dataOptions={celulaAdm}
                   selectedOption={selectedOptionCelula}
-                  width="300"
+                  width={"85%"}
                   disabled={
                     state.discipuladoSelect === "Selecione" ? true : false
                   }
