@@ -89,10 +89,7 @@ export function UserRegisterScreen() {
         value: disc.nome,
       };
     });
-  console.log(optionsDisciples, 'optionsDisciples')
-  console.log(disciplesFiltered, 'disciplesFiltered')
-  console.log(usersDisciples, 'usersDisciples')
-  console.log(getNetwork, 'getNetwork')
+
   const optionsNetwork =
     usersMinister &&
     usersMinister.map((pastor: IDataUser) => {

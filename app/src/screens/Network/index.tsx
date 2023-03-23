@@ -98,7 +98,6 @@ export default function NetworkScreenList() {
         items[1]?.discipulador === state.discipuladoSelect
       );
     });
-  console.log(celulas, 'celulas')
   const discipuladossUnicos = discipulado.map((items: any) => items[1]?.nome);
 
   const mapDiscipuladosUnicos = discipuladossUnicos.map((item: any) => {
