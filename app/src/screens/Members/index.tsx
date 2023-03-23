@@ -95,8 +95,9 @@ export function MembersScreen(this: any) {
         setCelulas(Object.entries(response))
       })
     }
-
-    getCelulas()
+    setTimeout(() => {
+      getCelulas()
+    }, 200);
   }, [trigger]);
 
   if (whatOffice === 'lider de celula') {
