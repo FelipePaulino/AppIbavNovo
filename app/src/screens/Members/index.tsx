@@ -49,7 +49,7 @@ export function MembersScreen(this: any) {
   const serviceGet = new RequestService()
 
   const idCelula = members && members.length > 0 && Object?.entries(members[0])[0][1];
-  
+
   const clean = (value: string) => {
     navigation.navigate(value)
     dispatch({
@@ -95,8 +95,9 @@ export function MembersScreen(this: any) {
         setCelulas(Object.entries(response))
       })
     }
-
-    getCelulas()
+    setTimeout(() => {
+      getCelulas()
+    }, 200);
   }, [trigger]);
 
   if (whatOffice === 'lider de celula') {
@@ -219,7 +220,7 @@ export function MembersScreen(this: any) {
     }
   })
   useEffect(() => {
-  if (whatOffice !== 'lider de celula') {
+    if (whatOffice !== 'lider de celula') {
 
       const idCelulaSelect = state.celulaSelect && state.celulaSelect.split(" -")[0];
 
@@ -235,8 +236,8 @@ export function MembersScreen(this: any) {
         setMembers(filterMembers);
       }
 
-  }
-}, [celulas, state.celulaSelect, trigger])
+    }
+  }, [celulas, state.celulaSelect, trigger])
 
   const newMembersList =
     members &&
@@ -440,9 +441,8 @@ export function MembersScreen(this: any) {
                                 cidade: `${item[1].cidade}`,
                                 estado: `${item[1].estado}`,
                                 estado_civil: `${item[1].estado_civil}`,
-                                data_de_nascimento: `${format(new Date(item[1].data_de_nascimento), 'dd/MM/yyyy')}`,
+                                data_de_nascimento: !item[1].data_de_nascimento || item[1].data_de_nascimento.includes('/') ? item[1].data_de_nascimento : `${format(new Date(item[1].data_de_nascimento), 'dd/MM/yyyy')}`,
                                 status: `${item[1].status}`,
-                                numero_casa: `${item[1].numero_casa}`,
                                 id: `${item[0]}`,
                                 active: setTrigger
                               })

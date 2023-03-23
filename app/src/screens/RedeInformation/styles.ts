@@ -8,6 +8,7 @@ export const Container = styled.View`
   justify-content: space-between;
 `;
 
+
 export const Division = styled.View`
   flex-direction: row;
   align-items: center;
