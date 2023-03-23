@@ -259,9 +259,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
     try {
     const putUsers = connectApi.put(`/users.json`, usersDefinitivo)
     const putCelulas = connectApi.put(`/celulas.json`, celulasDefinitivo) 
-    Promise.all([putUsers, putCelulas]).then((values) => {
-      console.log(values);
-    });
+    Promise.all([putUsers, putCelulas])
       setTrigger(!trigger);
       handleOpenModal()
     } catch (err) {
