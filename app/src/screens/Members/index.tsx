@@ -424,13 +424,13 @@ export function MembersScreen(this: any) {
                 <>
                   {newMembersList.length > 0 ? (
                     newMembersList?.map((item: any) => {
+                      console.log()
                       console.log(item, 'item')
                       return (
                         <Fragment>
                           <PersonLabelComponent
                             nome={item[1].nome}
                             status={item[1].status}
-
                             onPress={() =>
                               navigation.navigate("MemberInformation", {
                                 nome: `${item[1].nome}`,
@@ -442,9 +442,8 @@ export function MembersScreen(this: any) {
                                 cidade: `${item[1].cidade}`,
                                 estado: `${item[1].estado}`,
                                 estado_civil: `${item[1].estado_civil}`,
-                                data_de_nascimento: item[1].data_de_nascimento ? `${format(new Date(item[1].data_de_nascimento), 'dd/MM/yyyy')}` : '',
+                                data_de_nascimento: !item[1].data_de_nascimento || item[1].data_de_nascimento.includes('/') ? item[1].data_de_nascimento : `${format(new Date(item[1].data_de_nascimento), 'dd/MM/yyyy')}`,
                                 status: `${item[1].status}`,
-                                n_end: `${item[1].n_end}`,
                                 id: `${item[0]}`,
                                 active: setTrigger
                               })
