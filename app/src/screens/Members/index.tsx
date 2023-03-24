@@ -97,7 +97,7 @@ export function MembersScreen(this: any) {
     }
     setTimeout(() => {
       getCelulas()
-    }, 200);
+    }, 500);
   }, [trigger]);
 
   if (whatOffice === 'lider de celula') {

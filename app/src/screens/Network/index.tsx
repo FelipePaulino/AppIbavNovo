@@ -29,6 +29,7 @@ export default function NetworkScreenList() {
   const [id, setId] = useState("");
   const [users, setUsers] = useState([]);
   const [celulas, setCelulas] = useState([]);
+  const [cargo, setCargo] = useState<string>();
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState<string>();
   const [confirmModal, setConfirmModal] = useState(false);
@@ -54,8 +55,10 @@ export default function NetworkScreenList() {
         })
         .finally(() => setLoading(false));
     };
-    getCelulas()
-    getUsers();
+    setTimeout(() => {
+      getCelulas()
+      getUsers();
+    }, 500);
   }, [trigger]);
 
   const handleRedeChange = (value: string) => {
@@ -128,15 +131,37 @@ export default function NetworkScreenList() {
   };
 
   const deleteMember = async () => {
-    const filterRemoveCelula = Object.values(celulas).filter((item:any) =>{
-      return item.rede !== name
-    })
-    const filterRemoveUser = Object.values(users).filter((item:any) =>{
-      return item.rede !== name
-    })
+
+    let filterRemoveCelula
+    let filterRemoveUser
+
+    if (cargo === 'pastor') {
+      filterRemoveCelula = Object.values(celulas).filter((item: any) => {
+        return item.rede !== name
+      })
+      filterRemoveUser = Object.values(users).filter((item: any) => {
+        return item.rede !== name
+      })
+    }
+    else if (cargo === 'discipulador') {
+      filterRemoveCelula = Object.values(celulas).filter((item: any) => {
+        return item.discipulador !== name 
+      })
+      filterRemoveUser = Object.values(users).filter((item: any) => {
+          return item.discipulador !== name && item.nome !== name
+      })
+    }
+    else if (cargo === 'lider') {
+      filterRemoveCelula = Object.values(celulas).filter((item: any) => {
+        return item.lider !== name
+      })
+      filterRemoveUser = Object.values(users).filter((item: any) => {
+        return item.nome !== name
+      })
+    }
     try {
-      const removeCelulas = connectApi.put(`/celulas.json`, {...filterRemoveCelula});
-      const removeUsers = connectApi.put(`/users.json`, {...filterRemoveUser});
+      const removeCelulas = connectApi.put(`/celulas.json`, { ...filterRemoveCelula });
+      const removeUsers = connectApi.put(`/users.json`, { ...filterRemoveUser });
       Promise.all([removeUsers, removeCelulas])
       setConfirmModal(false);
       setTimeout(timeModal, 300);
@@ -216,6 +241,7 @@ export default function NetworkScreenList() {
                               setConfirmModal(true),
                                 setName(items[1].rede),
                                 setId(items[0]);
+                              setCargo('pastor')
                             }}
                           // onPress={() =>
                           //   navigation.navigate("RedeInformation", {
@@ -245,6 +271,7 @@ export default function NetworkScreenList() {
                                   setConfirmModal(true),
                                     setName(item[1].nome),
                                     setId(item[0]);
+                                  setCargo('discipulador');
                                 }}
                               // onPress={() =>
                               //   navigation.navigate("RedeInformation", {
@@ -280,6 +307,7 @@ export default function NetworkScreenList() {
                                   setConfirmModal(true),
                                     setName(item[1].nome),
                                     setId(item[0]);
+                                  setCargo('lider')
                                 }}
                               // onPress={() =>
                               //   navigation.navigate("RedeInformation", {
