@@ -16,7 +16,7 @@ import { ApprovalRequest } from "../../components/Modal/ApprovalRequest";
 import { RequestContentModalComponent } from "../../components/Modal/Request";
 import { ComeBackComponent } from "../../components/ComeBack";
 import { PersonLabelComponent } from "../../components/PersonLabel";
-
+import { connectApi } from "../../common/services/ConnectApi";
 import { IPropsAppStack } from "../../routes/AppStack/types";
 import * as S from "./styles";
 import axios from "axios";
@@ -27,6 +27,7 @@ export default function NetworkScreenList() {
   const navigation = useNavigation<IPropsAppStack>();
 
   const [id, setId] = useState("");
+  const [users, setUsers] = useState([]);
   const [celulas, setCelulas] = useState([]);
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState<string>();
@@ -41,11 +42,19 @@ export default function NetworkScreenList() {
       await service
         .getUsers()
         .then((response) => {
+          setUsers(response);
+        })
+        .finally(() => setLoading(false));
+    };
+    const getCelulas = async () => {
+      await service
+        .getCelulas()
+        .then((response) => {
           setCelulas(response);
         })
         .finally(() => setLoading(false));
     };
-
+    getCelulas()
     getUsers();
   }, [trigger]);
 
@@ -76,14 +85,14 @@ export default function NetworkScreenList() {
   };
 
   const rede =
-    celulas &&
-    Object.entries(celulas).filter((items: any) => {
+    users &&
+    Object.entries(users).filter((items: any) => {
       return items[1]?.cargo === "pastor";
     });
 
   const discipulado =
-    celulas &&
-    Object.entries(celulas).filter((items: any) => {
+    users &&
+    Object.entries(users).filter((items: any) => {
       return (
         items[1]?.cargo === "discipulador" &&
         items[1]?.rede === state.redeSelect
@@ -91,8 +100,8 @@ export default function NetworkScreenList() {
     });
 
   const lider =
-    celulas &&
-    Object.entries(celulas).filter((items: any) => {
+    users &&
+    Object.entries(users).filter((items: any) => {
       return (
         items[1]?.cargo === "lider de celula" &&
         items[1]?.discipulador === state.discipuladoSelect
@@ -119,16 +128,21 @@ export default function NetworkScreenList() {
   };
 
   const deleteMember = async () => {
+    const filterRemoveCelula = Object.values(celulas).filter((item:any) =>{
+      return item.rede !== name
+    })
+    const filterRemoveUser = Object.values(users).filter((item:any) =>{
+      return item.rede !== name
+    })
     try {
-      await axios.delete(
-        `https://app-ibav-f06f4-default-rtdb.firebaseio.com/users/${id}.json`,
-        {}
-      );
+      const removeCelulas = connectApi.put(`/celulas.json`, {...filterRemoveCelula});
+      const removeUsers = connectApi.put(`/users.json`, {...filterRemoveUser});
+      Promise.all([removeUsers, removeCelulas])
       setConfirmModal(false);
       setTimeout(timeModal, 300);
       setTrigger(!trigger);
     } catch (err) {
-      alert("Houve algum problema ao excluir esse usuário");
+      alert("Houve algum problema ao excluir essa rede");
     }
   };
 
