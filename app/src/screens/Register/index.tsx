@@ -361,7 +361,6 @@ const isDisc = whatOffice === 'discipulador' ? userInfo.nome : state.discipulado
             labelSelect={state.celulaSelect}
             dataOptions={celulaAdm}
             selectedOption={selectedOptionCelula}
-            disabled={state.discipuladoSelect === '*Selecione' ? true : false}
           />
         </S.BoxSelect>
 
@@ -603,7 +602,7 @@ const isDisc = whatOffice === 'discipulador' ? userInfo.nome : state.discipulado
                 onPress={submitRegister}
                 width='170'
                 disabled={
-                  state.celulaSelect === '*Selecione' ||
+                 (whatOffice !== 'lider de celula' && state.celulaSelect === '*Selecione') ||
                     state.textSelectCategory === '*Selecione' ||
                     name === "" ||
                     phone === "" ? true : false
