@@ -2,7 +2,7 @@
   "expo": {
     "name": "IBAV RP",
     "slug": "aguavivarp",
-    "version": "24.0.0",
+    "version": "27.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -22,7 +22,7 @@
       "bundleIdentifier": "com.viniciusdevitalo.aguavivarp"
     },
     "android": {
-      "versionCode": 24,
+      "versionCode": 27,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
