@@ -29,6 +29,7 @@ import { DefaultContentModalComponent } from "../../components/Modal/Default";
 
 import { IPropsAppStack } from "../../routes/AppStack/types";
 import * as S from "./styles";
+import { getAuth, signInWithEmailAndPassword, updatePassword } from "firebase/auth";
 
 export function UsersInformationScreen(this: any, { route }: any) {
   const [users, setUsers] = useState([]);
@@ -52,6 +53,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
   const [office, setOffice] = useState(route.params?.cargo === 'pastor' ? 'pastor de rede' : route.params?.cargo || '');
   const [selectDisciples, setSelectDisciples] = useState(route.params?.discipulador || "");
   const [selectNetwork, setSelectNetwork] = useState(`${route.params?.rede} - ${route.params?.pastor}` || "");
+  const [userFirebase, setUserFirebase] = useState<any>();
   const [birthday, setBirthday] = useState(
     route.params?.data_de_nascimento || ""
   );
@@ -64,6 +66,16 @@ export function UsersInformationScreen(this: any, { route }: any) {
   const identifyCelula = user && user[0][1].numero_celula;
   const serviceGet = new RequestService();
   const navigation = useNavigation<IPropsAppStack>();
+  const auth = getAuth();
+  useEffect(()  => {
+    setTimeout(() => {
+      signInWithEmailAndPassword(auth, route.params?.email, route.params?.senha).then((userCredential) => {
+        const user = userCredential.user;
+        setUserFirebase(user)
+    })
+  }, 500);
+
+}, []);
 
   useEffect(() => {
     const getCelulas = async () => {
@@ -259,7 +271,8 @@ export function UsersInformationScreen(this: any, { route }: any) {
     try {
     const putUsers = connectApi.put(`/users.json`, usersDefinitivo)
     const putCelulas = connectApi.put(`/celulas.json`, celulasDefinitivo) 
-    Promise.all([putUsers, putCelulas])
+    const firebasePassowrd = updatePassword(userFirebase, password)
+    Promise.all([putUsers, putCelulas, firebasePassowrd])
       setTrigger(!trigger);
       handleOpenModal()
     } catch (err) {
