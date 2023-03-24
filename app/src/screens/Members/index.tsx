@@ -446,6 +446,7 @@ export function MembersScreen(this: any) {
                                 estado_civil: `${item[1].estado_civil}`,
                                 data_de_nascimento: !item[1].data_de_nascimento || item[1].data_de_nascimento.includes('/') ? item[1].data_de_nascimento : `${format(new Date(item[1].data_de_nascimento), 'dd/MM/yyyy')}`,
                                 status: `${item[1].status}`,
+                                n_end: `${item[1].n_end}`,
                                 id: `${item[0]}`,
                                 active: setTrigger
                               })

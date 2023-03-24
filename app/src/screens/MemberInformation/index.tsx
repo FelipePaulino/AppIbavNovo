@@ -40,6 +40,7 @@ export function MembersInformationScreen(this: any, { route }: any) {
     const [district, setDistrict] = useState(route.params?.bairro || "");
     const [birthday, setBirthday] = useState(route.params?.data_de_nascimento || "");
     const [civilStatus, setCivilStatus] = useState(route.params?.estado_civil || "");
+    const [numberHouse, setNumberHouse] = useState(route.params?.n_end);
     const [id, setId] = useState(route.params?.id)
 
     const [date, setDate] = useState(new Date())
@@ -119,7 +120,8 @@ export function MembersInformationScreen(this: any, { route }: any) {
                 cidade: city,
                 estado: state,
                 data_de_nascimento: birthday,
-                estado_civil: civilStatus
+                estado_civil: civilStatus,
+                n_end: numberHouse
             })
             setTrigger(!trigger)
             setTimeout(timeModal, 300);
@@ -170,7 +172,16 @@ export function MembersInformationScreen(this: any, { route }: any) {
                                 label="*Email"
                             />
                         </S.GridItemFull>
-
+                        <S.GridItemFull>
+                            <InputFieldComponent
+                                primary
+                                value={cep === "undefined" ? FormFields.CEP : cep}
+                                maxLength={9}
+                                placeholder={FormFields.CEP}
+                                onChangeText={(value) => setCep(maskCep(value))}
+                                label="Cep"
+                            />
+                        </S.GridItemFull>
                         <S.GridForm>
                             <S.GridItem>
                                 <InputFieldComponent
@@ -185,12 +196,11 @@ export function MembersInformationScreen(this: any, { route }: any) {
                             <S.GridItem>
                                 <InputFieldComponent
                                     primary
-                                    value={cep === "undefined" ? FormFields.CEP : cep}
-                                    maxLength={9}
-                                    placeholder={FormFields.CEP}
-                                    onChangeText={(value) => setCep(maskCep(value))}
-                                    label="Cep"
+                                    value={numberHouse}
+                                    placeholder={FormFields.NUMBER}
+                                    onChangeText={setNumberHouse}
                                 />
+
                             </S.GridItem>
                         </S.GridForm>
 
