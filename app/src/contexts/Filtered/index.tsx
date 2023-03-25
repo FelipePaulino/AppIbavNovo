@@ -34,7 +34,8 @@ export const FilteredProvider = ({ children }: IProviderProps) => {
       );
     }
   }, [listUsers, loading, userAuth]);
-
+  console.log(userAuth, 'userAuth')
+console.log(user, 'userAuth')
   return (
     <FilteredContext.Provider value={{ user, loading, updateUsers, setUpdateUsers }}>
       {children}
