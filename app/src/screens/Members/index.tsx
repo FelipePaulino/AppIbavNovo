@@ -286,6 +286,12 @@ export function MembersScreen(this: any) {
       };
     });
 
+    function compared(a: any, b: any) {
+      if (a[1].nome > b[1].nome) return -1;
+      if (a[1].nome < b[1].nome) return 1;
+      return 0;
+    }
+
   const office = () => {
     switch (whatOffice) {
       case "lider de celula":
@@ -427,12 +433,12 @@ export function MembersScreen(this: any) {
               {(state.celulaSelect !== "Selecione" || whatOffice === 'lider de celula') &&
                 <>
                   {newMembersList.length > 0 ? (
-                    newMembersList?.map((item: any) => {
+                    newMembersList.sort(compared)?.map((item: any) => {
                       return (
                         <Fragment>
                           <PersonLabelComponent
                             nome={item[1].nome}
-                            status={item[1].status}
+                            status={state?.celulaSelect?.split('- ')[1] === item[1].nome ? 'lider' :item[1].status}
                             onPress={() =>
                               navigation.navigate("MemberInformation", {
                                 nome: `${item[1].nome}`,

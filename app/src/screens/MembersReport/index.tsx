@@ -119,8 +119,8 @@ export function MembersReportScreen() {
   }, [selectPerson]);
 
   function compared(a: IDataUserProps, b: IDataUserProps) {
-    if (a.nome < b.nome) return -1;
-    if (a.nome > b.nome) return 1;
+    if (a.nome > b.nome) return -1;
+    if (a.nome < b.nome) return 1;
     return 0;
   }
 
@@ -151,7 +151,7 @@ export function MembersReportScreen() {
 
               <ScrollView>
                 {newArrayMembers &&
-                  newArrayMembers.map((data: any) => (
+                  newArrayMembers.sort(compared).map((data: any) => (
                     <CardMembersComponent
                       key={data}
                       data={data}

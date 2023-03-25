@@ -179,8 +179,17 @@ export function UsersInformationScreen(this: any, { route }: any) {
       redeSelect = selectNetwork.split(' -')[0].trim()
       pastorSelect = selectNetwork.split('- ')[1].trim()
 
+      const todosMenosLider = Object.values(filterCelulas[0]?.membros).filter((item:any) =>{
+        return item.nome !== route.params?.nome
+      })
+      const Lider:any = Object.values(filterCelulas[0]?.membros).filter((item:any) =>{
+        return item.nome === route.params?.nome
+      })
+
+       const newNameLiderCelula = {...filterCelulas[0], membros: [...todosMenosLider, {...Lider[0], nome: name}]}
+      
        celulaMudada = {
-        ...filterCelulas[0],
+        ...newNameLiderCelula,
         lider: name,
         email: email,
         rede: selectNetwork.split(' -')[0].trim(), 
