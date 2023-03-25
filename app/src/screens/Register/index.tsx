@@ -108,7 +108,7 @@ export function RegisterScreen() {
           cep,
           bairro,
           cidade: localidade,
-          estado: uf,
+          estado: state.textSelectState,
           data_de_nascimento: state.dateRegister,
           estado_civil: state.civilStatusSelect,
         })

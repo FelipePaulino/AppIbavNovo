@@ -165,10 +165,14 @@ export function UserRegisterScreen() {
 
   const registerUser = () => {
     const { email, password } = formValues;
-
-    createUserWithEmailAndPassword(auth, email, password);
-    credentialsPost();
-    setUpdateList(!updateList)
+    if (maskEmail(formValues.email)) {
+      createUserWithEmailAndPassword(auth, email, password);
+      credentialsPost();
+      setUpdateList(!updateList)
+    }
+    else{
+      setErrorEmailValidate(true)
+    }
   };
 
   const validateCell: any = celulas.length && celulas.filter((item: any) => {
@@ -195,7 +199,7 @@ export function UserRegisterScreen() {
       telefone: formValues.phone,
     }
     try {
-      if (maskEmail.test(formValues.email)) {
+      if (maskEmail(formValues.email)) {
         if (office === "pastor de rede") {
           connectApi
             .post("/users.json", {
@@ -217,7 +221,6 @@ export function UserRegisterScreen() {
             .then(() => {
               setConfirmRegisterModal(true);
               setConfirmRegisterModal(true);
-              setFormValues(initialValueRegisterUser);
               setAddress(initialValuesRequestCep);
               setOffice("");
               setSelectNetwork("Selecionar");
@@ -250,7 +253,6 @@ export function UserRegisterScreen() {
             .then(() => {
               setConfirmRegisterModal(true);
               setConfirmRegisterModal(true);
-              setFormValues(initialValueRegisterUser);
               setAddress(initialValuesRequestCep);
               setOffice("");
               setSelectNetwork("Selecionar");
@@ -283,7 +285,6 @@ export function UserRegisterScreen() {
                   membros: [dataLider]
                 }).then(() => {
                   setConfirmRegisterModal(true);
-                  setFormValues(initialValueRegisterUser);
                   setAddress(initialValuesRequestCep);
                   setSelectNetwork("Selecionar");
                   setOffice("");
@@ -297,9 +298,7 @@ export function UserRegisterScreen() {
                   });
                 });
               });
-            } else {
-              setErrorEmailValidate(true)
-            }
+            } 
           } else {
             setErrorNumberCelula(true)
           }
@@ -324,7 +323,6 @@ export function UserRegisterScreen() {
             membros: [dataLider]
           }).then(() => {
             setConfirmRegisterModal(true);
-            setFormValues(initialValueRegisterUser);
             setAddress(initialValuesRequestCep);
             setSelectNetwork("Selecionar");
             setOffice("");
@@ -360,17 +358,21 @@ export function UserRegisterScreen() {
         formValues.email === "" ||
         FormFields.PASSWORD === "" ||
         formValues.name === "" ||
-        formValues.phone === ""
+        formValues.phone === "" ||
+        selectDisciples === "Selecionar" ||
+        selectNetwork === "Selecionar"
+
       );
     } else if (office === "discipulador") {
       setDiseble(
         formValues.email === "" ||
         FormFields.PASSWORD === "" ||
         formValues.name === "" ||
-        formValues.phone === ""
+        formValues.phone === "" ||
+        selectNetwork === "Selecionar"
       );
     }
-  }, [formValues, FormFields, office]);
+  }, [formValues, FormFields, office, selectNetwork, selectDisciples]);
 
   const renderSelectsOptions = () => {
     switch (office) {
@@ -657,6 +659,7 @@ export function UserRegisterScreen() {
         isVisible={confirmRegisterModal}
         onBackdropPress={() => (
           setConfirmRegisterModal(false),
+          setFormValues(initialValueRegisterUser),
           navigation.goBack()
           )}
       >

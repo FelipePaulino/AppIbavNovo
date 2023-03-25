@@ -231,6 +231,12 @@ export function SendReportScreen() {
 
   const isLider = whatOffice === 'lider de celula' ? false : state.celulaSelect === "Selecione" 
 
+  function compared(a: any, b: any) {
+    if (a.value < b.value) return -1;
+    if (a.value > b.value) return 1;
+    return 0;
+  }
+
   const office = () => {
     switch (whatOffice) {
       case "lider":
@@ -338,7 +344,7 @@ export function SendReportScreen() {
                 <SelectComponent
                   onChange={handleCelulaChange}
                   labelSelect={state.celulaSelect}
-                  dataOptions={celulaAdm}
+                  dataOptions={celulaAdm.sort(compared)}
                   selectedOption={selectedOptionCelula}
                   width={"85%"}
                   disabled={

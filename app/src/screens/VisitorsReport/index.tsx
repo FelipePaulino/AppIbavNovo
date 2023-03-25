@@ -131,8 +131,8 @@ export function VisitorsReportScreen() {
   // };
 
   function compared(a: IDataUserProps, b: IDataUserProps) {
-    if (a.nome < b.nome) return -1;
-    if (a.nome > b.nome) return 1;
+    if (a.nome < b.nome) return 1;
+    if (a.nome > b.nome) return -1;
     return 0;
   }
 
