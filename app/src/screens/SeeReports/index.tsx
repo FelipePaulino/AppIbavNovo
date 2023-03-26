@@ -236,6 +236,13 @@ export function SeeReports() {
     setFilter(reports);
   };
 
+
+  function compared(a: any, b: any) {
+    if (a[1].data > b[1].data) return -1;
+    if (a[1].data < b[1].data) return 1;
+    return 0;
+  }
+
   return (
     <Fragment>
       {showFilter && (
@@ -364,7 +371,7 @@ export function SeeReports() {
             <S.Loading source={loadingGif}></S.Loading>
           ) : (
             <S.ListContainer>
-              {filter?.map((item: any, index: any) => {
+              {filter?.sort(compared).map((item: any, index: any) => {
                 return (
                   <S.List key={index}>
                     <Text>
