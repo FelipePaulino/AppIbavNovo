@@ -10,6 +10,7 @@ import {
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 
+
 import { Routes } from "./src/routes";
 import { FormProvider } from "./src/contexts/FormReport";
 import { FilteredProvider } from "./src/contexts/Filtered";
