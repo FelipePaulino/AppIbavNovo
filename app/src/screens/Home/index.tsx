@@ -23,7 +23,6 @@ export function HomeScreen() {
   const { signOut } = useAuth();
   const { loading, user, updateUsers, setUpdateUsers } = useUserFiltered();
   const navigation = useNavigation<IPropsAppStack>();
-console.log(user, 'user')
   const dataUser = user && user[0] && user[0][1];
   const whatIsOffice = dataUser && dataUser.cargo;
 

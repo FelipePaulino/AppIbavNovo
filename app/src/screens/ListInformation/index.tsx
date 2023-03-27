@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { IDataUser } from "../UserRegister/types";
@@ -29,7 +29,11 @@ import { DefaultContentModalComponent } from "../../components/Modal/Default";
 
 import { IPropsAppStack } from "../../routes/AppStack/types";
 import * as S from "./styles";
-import { getAuth, signInWithEmailAndPassword, updatePassword } from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  updatePassword,
+} from "firebase/auth";
 
 export function UsersInformationScreen(this: any, { route }: any) {
   const [users, setUsers] = useState([]);
@@ -49,10 +53,20 @@ export function UsersInformationScreen(this: any, { route }: any) {
   const [address, setAddress] = useState(route.params?.endereco || "");
   const [district, setDistrict] = useState(route.params?.bairro || "");
   const [password, setPassword] = useState(route.params?.senha || "");
-  const [numberCelula, setNumberCelular] = useState(route.params?.numero_celula || "");
-  const [office, setOffice] = useState(route.params?.cargo === 'pastor' ? 'pastor de rede' : route.params?.cargo || '');
-  const [selectDisciples, setSelectDisciples] = useState(route.params?.discipulador || "");
-  const [selectNetwork, setSelectNetwork] = useState(`${route.params?.rede} - ${route.params?.pastor}` || "");
+  const [numberCelula, setNumberCelular] = useState(
+    route.params?.numero_celula || ""
+  );
+  const [office, setOffice] = useState(
+    route.params?.cargo === "pastor"
+      ? "pastor de rede"
+      : route.params?.cargo || ""
+  );
+  const [selectDisciples, setSelectDisciples] = useState(
+    route.params?.discipulador || ""
+  );
+  const [selectNetwork, setSelectNetwork] = useState(
+    `${route.params?.rede} - ${route.params?.pastor}` || ""
+  );
   const [userFirebase, setUserFirebase] = useState<any>();
   const [birthday, setBirthday] = useState(
     route.params?.data_de_nascimento || ""
@@ -62,19 +76,22 @@ export function UsersInformationScreen(this: any, { route }: any) {
   );
   const { user } = useUserFiltered();
   const { trigger, setTrigger } = useFormReport();
-
+  const [filterCelulas, setFilterCelulas] = useState([]);
   const identifyCelula = user && user[0][1].numero_celula;
   const serviceGet = new RequestService();
   const navigation = useNavigation<IPropsAppStack>();
   const auth = getAuth();
   useEffect(() => {
     setTimeout(() => {
-      signInWithEmailAndPassword(auth, route.params?.email, route.params?.senha).then((userCredential) => {
+      signInWithEmailAndPassword(
+        auth,
+        route.params?.email,
+        route.params?.senha
+      ).then((userCredential) => {
         const user = userCredential.user;
-        setUserFirebase(user)
-      })
+        setUserFirebase(user);
+      });
     }, 500);
-
   }, []);
 
   useEffect(() => {
@@ -138,15 +155,14 @@ export function UsersInformationScreen(this: any, { route }: any) {
   };
 
   const submitRegister = () => {
-
     const filterUser: any = users.filter((item: any) => {
-      return item.email.toLowerCase() === email.toLowerCase()
-    })
+      return item.email.toLowerCase() === email.toLowerCase();
+    });
 
     const payloadDefault = {
       senha: password,
       n_end: nEnd,
-      nome: name,
+      nome: name?.trim(),
       telefone: phone,
       email: email.toLowerCase(),
       endereco: address,
@@ -156,29 +172,29 @@ export function UsersInformationScreen(this: any, { route }: any) {
       estado: state,
       data_de_nascimento: birthday,
       estado_civil: civilStatus,
-    }
+    };
 
-    let filterCelulas
-    let filterOtherCelulas
-    let filterOtherUsers
-    let redeSelect
-    let pastorSelect
-    let celulaMudada: any
+    let filterCelulas;
+    let filterOtherCelulas;
+    let filterOtherUsers;
+    let redeSelect: any;
+    let pastorSelect: any;
+    let celulaMudada: any;
 
     // LIDER //
-    if (filterUser[0].cargo === 'lider de celula') {
+    if (filterUser[0].cargo === "lider de celula") {
       filterCelulas = celulas.filter((item: any) => {
-        return item.email?.toLowerCase() === email?.toLowerCase()
-      })
+        return item.email?.toLowerCase() === email?.toLowerCase();
+      });
       filterOtherCelulas = celulas.filter((item: any) => {
-        return item.email?.toLowerCase() !== email?.toLowerCase()
-      })
+        return item.email?.toLowerCase() !== email?.toLowerCase();
+      });
 
       filterOtherUsers = users.filter((item: any) => {
-        return item.email?.toLowerCase() !== email?.toLowerCase()
-      })
-      redeSelect = selectNetwork.split(' -')[0].trim()
-      pastorSelect = selectNetwork.split('- ')[1].trim()
+        return item.email?.toLowerCase() !== email?.toLowerCase();
+      });
+      redeSelect = selectNetwork.split(" -")[0].trim();
+      pastorSelect = selectNetwork.split("- ")[1].trim();
 
       // const todosMenosLider = Object.values(filterCelulas[0]?.membros).filter((item:any) =>{
       //   return item.nome !== route.params?.nome
@@ -191,76 +207,84 @@ export function UsersInformationScreen(this: any, { route }: any) {
 
       celulaMudada = {
         ...filterCelulas[0],
-        lider: name,
+        lider: name?.trim(),
         email: email?.toLowerCase(),
-        rede: selectNetwork.split(' -')[0].trim(),
-        pastor: selectNetwork.split('- ')[1].trim(),
+        rede: selectNetwork.split(" -")[0].trim(),
+        pastor: selectNetwork.split("- ")[1].trim(),
         discipulador: selectDisciples.trim(),
-        numero_celula: numberCelula.trim()
-      }
+        numero_celula: numberCelula.trim(),
+      };
     }
-    if (filterUser[0].cargo === 'discipulador') {
+    if (filterUser[0].cargo === "discipulador") {
       const filterCelulasDoDisc = celulas.filter((item: any) => {
-        return item.discipulador === filterUser[0].nome
-      })
+        return item.discipulador === filterUser[0].nome;
+      });
       filterCelulas = filterCelulasDoDisc.map((item: any) => {
-        return { ...item, discipulador: name }
-      })
+        return { ...item, discipulador: name?.trim() };
+      });
       filterOtherCelulas = celulas.filter((item: any) => {
-        return item.discipulador?.trim() !== filterUser[0].nome?.trim()
-      })
+        return item.discipulador?.trim() !== filterUser[0].nome?.trim();
+      });
       const filterUsersNaoDisc = users.filter((item: any) => {
-        return item.discipulador?.trim() !== filterUser[0].nome?.trim() && filterUser[0].nome.trim() !== item.nome?.trim()
-      })
+        return (
+          item.discipulador?.trim() !== filterUser[0].nome?.trim() &&
+          filterUser[0].nome.trim() !== item.nome?.trim()
+        );
+      });
 
       const filterUsersDoDisc = users.filter((item: any) => {
-        return item.discipulador?.trim() === filterUser[0].nome?.trim()
-      })
+        return item.discipulador?.trim() === filterUser[0].nome?.trim();
+      });
 
       const juncaoUserDisc = filterUsersDoDisc.map((item: any) => {
-        return { ...item, discipulador: name }
-      })
+        return { ...item, discipulador: name?.trim() };
+      });
 
-      filterOtherUsers = [...filterUsersNaoDisc, ...juncaoUserDisc]
-      redeSelect = selectNetwork.split(' -')[0].trim()
-      pastorSelect = selectNetwork.split('- ')[1].trim()
+      filterOtherUsers = [...filterUsersNaoDisc, ...juncaoUserDisc];
+      redeSelect = selectNetwork.split(" -")[0].trim();
+      pastorSelect = selectNetwork.split("- ")[1].trim();
       celulaMudada = filterCelulas.map((item: any) => {
-        return { ...item, discipulador: name }
-      })
+        return { ...item, discipulador: name?.trim() };
+      });
     }
-    if (filterUser[0].cargo === 'pastor') {
-
+    if (filterUser[0].cargo === "pastor") {
       const filterCelulasDoPastor = celulas.filter((item: any) => {
-        return item.pastor === filterUser[0].nome
-      })
+        return item.pastor === filterUser[0].nome?.trim();
+      });
       filterCelulas = filterCelulasDoPastor.map((item: any) => {
-        return { ...item, pastor: name, rede: selectNetwork }
-      })
+        return { ...item, pastor: name?.trim(), rede: selectNetwork };
+      });
 
       filterOtherCelulas = celulas.filter((item: any) => {
-        return item.pastor?.trim() !== filterUser[0].nome?.trim()
-      })
+        return item.pastor?.trim() !== filterUser[0].nome?.trim();
+      });
 
       const filterUsersNaoPastor = users.filter((item: any) => {
-        return item.pastor?.trim() !== filterUser[0].nome?.trim() && filterUser[0].nome.trim() !== item.nome?.trim()
-      })
+        return (
+          item.pastor?.trim() !== filterUser[0].nome?.trim() &&
+          filterUser[0].nome.trim() !== item.nome?.trim()
+        );
+      });
 
       const filterUsersDoPastor = users.filter((item: any) => {
-        return item.pastor?.trim() === filterUser[0].nome?.trim()
-      })
+        return item.pastor?.trim() === filterUser[0].nome?.trim();
+      });
 
       const juncaoUserPastor = filterUsersDoPastor.map((item: any) => {
-        return { ...item, pastor: name, rede: selectNetwork.split(' -')[0].trim() }
-      })
+        return {
+          ...item,
+          pastor: name?.trim(),
+          rede: selectNetwork.split(" -")[0].trim(),
+        };
+      });
 
-      filterOtherUsers = [...filterUsersNaoPastor, ...juncaoUserPastor]
-      redeSelect = selectNetwork.split(' -')[0].trim()
-      pastorSelect = filterUser[0].nome
-      celulaMudada = {
-        ...filterCelulas[0],
-        rede: redeSelect,
-        pastor: pastorSelect
-      }
+      filterOtherUsers = [...filterUsersNaoPastor, ...juncaoUserPastor];
+      redeSelect = selectNetwork.split(" -")[0].trim();
+      pastorSelect = filterUser[0].nome;
+
+      celulaMudada = filterCelulas.map((item: any) => {
+        return { ...item, rede: redeSelect, pastor: name?.trim() };
+      });
     }
 
     const userMudado = {
@@ -269,26 +293,27 @@ export function UsersInformationScreen(this: any, { route }: any) {
       rede: redeSelect,
       pastor: pastorSelect,
       discipulador: selectDisciples.trim(),
-      numero_celula: numberCelula.trim()
-    }
-    let celulasDefinitivo
-    if (filterUser[0].cargo === 'lider de celula') {
-      celulasDefinitivo = { ...filterOtherCelulas, celulaMudada }
-    }
-    else {
-      celulasDefinitivo = { ...filterOtherCelulas, ...celulaMudada }
+      numero_celula: numberCelula.trim(),
+    };
+
+    let celulasDefinitivo: any;
+    if (filterUser[0].cargo === "lider de celula") {
+      celulasDefinitivo = [...filterOtherCelulas, celulaMudada];
+    } else {
+      celulasDefinitivo = [...filterOtherCelulas, ...celulaMudada];
     }
 
-
-    const usersDefinitivo = { ...filterOtherUsers, userMudado }
+    const usersDefinitivo = { ...filterOtherUsers, userMudado };
 
     try {
-      const putUsers = connectApi.put(`/users.json`, usersDefinitivo)
-      const putCelulas = connectApi.put(`/celulas.json`, celulasDefinitivo)
-      const firebasePassowrd = updatePassword(userFirebase, password)
-      Promise.all([putUsers, putCelulas, firebasePassowrd])
+      const putUsers = connectApi.put(`/users.json`, usersDefinitivo);
+      const putCelulas = connectApi.put(`/celulas.json`, {
+        ...celulasDefinitivo,
+      });
+      const firebasePassowrd = updatePassword(userFirebase, password);
+      Promise.all([putUsers, putCelulas, firebasePassowrd]);
       setTrigger(!trigger);
-      handleOpenModal()
+      handleOpenModal();
     } catch (err) {
       alert(err);
     }
@@ -296,8 +321,8 @@ export function UsersInformationScreen(this: any, { route }: any) {
 
   const handleSelectOffice = (value: string) => {
     setOffice(value);
-    setSelectNetwork('')
-    setSelectDisciples("")
+    setSelectNetwork("");
+    setSelectDisciples("");
   };
   const handleNetworkChange = (value: string) => {
     setSelectNetwork(value);
@@ -326,7 +351,9 @@ export function UsersInformationScreen(this: any, { route }: any) {
 
   const disciplesFiltered =
     usersDisciples &&
-    usersDisciples.filter((user: IDataUser) => user.rede === selectNetwork.split(" -")[0]);
+    usersDisciples.filter(
+      (user: IDataUser) => user.rede === selectNetwork.split(" -")[0]
+    );
 
   const optionsDisciples =
     disciplesFiltered &&
@@ -345,7 +372,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
                 label="Rede"
                 onChange={handleNetworkChange}
                 selectedOption={handleNetworkChange}
-                labelSelect={selectNetwork ? selectNetwork : 'Selecione'}
+                labelSelect={selectNetwork ? selectNetwork : "Selecione"}
                 dataOptions={optionsNetwork && optionsNetwork}
               />
             </S.GridItemFull>
@@ -354,14 +381,18 @@ export function UsersInformationScreen(this: any, { route }: any) {
                 label="Discipulado"
                 onChange={handleDisciplesChange}
                 selectedOption={handleDisciplesChange}
-                labelSelect={selectDisciples ? selectDisciples : 'Selecione'}
+                labelSelect={selectDisciples ? selectDisciples : "Selecione"}
                 dataOptions={optionsDisciples && optionsDisciples}
               />
             </S.GridItemFull>
             <S.GridItemFull>
               <InputFieldComponent
                 primary
-                value={numberCelula === "undefined" ? FormFields.NUMBER_CELULA : numberCelula}
+                value={
+                  numberCelula === "undefined"
+                    ? FormFields.NUMBER_CELULA
+                    : numberCelula
+                }
                 placeholder={`* ${FormFields.NUMBER_CELULA}`}
                 onChangeText={(value) => setNumberCelular(value)}
                 label={`* ${FormFields.NUMBER_CELULA}`}
@@ -377,11 +408,10 @@ export function UsersInformationScreen(this: any, { route }: any) {
                 label="Rede"
                 onChange={handleNetworkChange}
                 selectedOption={handleNetworkChange}
-                labelSelect={selectNetwork ? selectNetwork : 'Selecione'}
+                labelSelect={selectNetwork ? selectNetwork : "Selecione"}
                 dataOptions={optionsNetwork && optionsNetwork}
               />
             </S.GridItemFull>
-
           </>
         );
 
@@ -391,7 +421,10 @@ export function UsersInformationScreen(this: any, { route }: any) {
             <S.GridItemFull>
               <InputFieldComponent
                 primary
-                value={(selectNetwork !== "undefined" || !selectNetwork) && selectNetwork.split(' -')[0]}
+                value={
+                  (selectNetwork !== "undefined" || !selectNetwork) &&
+                  selectNetwork.split(" -")[0]
+                }
                 placeholder={`* ${FormFields.NETWORK}`}
                 onChangeText={(value) => setSelectNetwork(value)}
                 label={`* ${FormFields.NETWORK}`}
@@ -405,16 +438,20 @@ export function UsersInformationScreen(this: any, { route }: any) {
   };
 
   const disabledSubmit = () => {
-    if (office === 'lider de celula') {
-      if (!selectNetwork || !selectDisciples || numberCelula === 'undefined') {
-        return true
-      } else { return false }
+    if (office === "lider de celula") {
+      if (!selectNetwork || !selectDisciples || numberCelula === "undefined") {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       if (!selectNetwork) {
-        return true
-      } else { return false }
+        return true;
+      } else {
+        return false;
+      }
     }
-  }
+  };
 
   return (
     <>
@@ -439,42 +476,54 @@ export function UsersInformationScreen(this: any, { route }: any) {
             </S.GridItemFull>
             {renderSelectsOptions()}
             <S.GridItemFull>
-              <InputFieldComponent
-                primary
-                value={email !== "undefined" && email}
-                placeholder={FormFields.EMAIL}
-                onChangeText={(value) => setEmail(value)}
-                label="*Usuário"
-                disabled
-              />
-            </S.GridItemFull>
-            <S.GridItemFull>
-              <InputFieldComponent
-                primary
-                value={password === "undefined" ? FormFields.PASSWORD : password}
-                placeholder={FormFields.PASSWORD}
-                onChangeText={(value) => setPassword(value)}
-                label="*Senha"
-              />
-            </S.GridItemFull>
-            <S.GridItemFull>
-              <InputFieldComponent
-                primary
-                value={name !== "undefined" && name}
-                placeholder={`* ${FormFields.FULL_NAME}`}
-                onChangeText={(value) => setName(value)}
-                label="*Nome Completo"
-              />
+              <TouchableOpacity disabled={true}>
+                <InputFieldComponent
+                  primary
+                  value={email !== "undefined" && email}
+                  placeholder={FormFields.EMAIL}
+                  onChangeText={(value) => setEmail(value)}
+                  label="*Usuário"
+                  disabled={true}
+                />
+              </TouchableOpacity>
             </S.GridItemFull>
 
             <S.GridItemFull>
-              <InputFieldComponent
-                primary
-                value={phone !== "undefined" && phone}
-                placeholder={`* ${FormFields.PHONE}`}
-                onChangeText={(value) => setPhone(value)}
-                label="*Telefone"
-              />
+              <TouchableOpacity disabled={true}>
+                <InputFieldComponent
+                  primary
+                  value={
+                    password === "undefined" ? FormFields.PASSWORD : password
+                  }
+                  placeholder={FormFields.PASSWORD}
+                  onChangeText={(value) => setPassword(value)}
+                  label="*Senha"
+                />
+              </TouchableOpacity>
+            </S.GridItemFull>
+
+            <S.GridItemFull>
+              <TouchableOpacity disabled={true}>
+                <InputFieldComponent
+                  primary
+                  value={name?.trim() !== "undefined" && name?.trim()}
+                  placeholder={`* ${FormFields.FULL_NAME}`}
+                  onChangeText={(value) => setName(value)}
+                  label="*Nome Completo"
+                />
+              </TouchableOpacity>
+            </S.GridItemFull>
+
+            <S.GridItemFull>
+              <TouchableOpacity disabled={true}>
+                <InputFieldComponent
+                  primary
+                  value={phone !== "undefined" && phone}
+                  placeholder={`* ${FormFields.PHONE}`}
+                  onChangeText={(value) => setPhone(value)}
+                  label="*Telefone"
+                />
+              </TouchableOpacity>
             </S.GridItemFull>
             <S.GridItemFull>
               <InputFieldComponent
@@ -485,7 +534,6 @@ export function UsersInformationScreen(this: any, { route }: any) {
                 label="Cep"
               />
             </S.GridItemFull>
-
 
             <S.GridForm>
               <S.GridItem>
@@ -513,8 +561,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
               <S.GridItem>
                 <InputFieldComponent
                   primary
-                  value={
-                    district !== "undefined" && district}
+                  value={district !== "undefined" && district}
                   placeholder={FormFields.DISTRICT}
                   onChangeText={(value) => setDistrict(value)}
                   label="Bairro"
@@ -548,8 +595,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
                   label="Estado Civil"
                   onChange={(labelSelect) => setCivilStatus(labelSelect)}
                   selectedOption={(labelSelect) => setCivilStatus(labelSelect)}
-                  labelSelect={
-                    civilStatus !== "undefined" && civilStatus}
+                  labelSelect={civilStatus !== "undefined" && civilStatus}
                   dataOptions={selectCivilStatus}
                 />
               </S.GridItem>
@@ -566,8 +612,6 @@ export function UsersInformationScreen(this: any, { route }: any) {
                   label="Data de Nascimento"
                 />
               </S.GridItem>
-
-
             </S.GridForm>
           </S.Form>
 
@@ -588,14 +632,11 @@ export function UsersInformationScreen(this: any, { route }: any) {
       <ModalComponent
         isVisible={successModal}
         onBackdropPress={() => {
-          setSuccessModal(false)
-          navigation.navigate("ListUsers")
+          setSuccessModal(false);
+          navigation.navigate("ListUsers");
         }}
       >
-        <DefaultContentModalComponent
-          data={name}
-          type="edited"
-        />
+        <DefaultContentModalComponent data={name} type="edited" />
       </ModalComponent>
     </>
   );

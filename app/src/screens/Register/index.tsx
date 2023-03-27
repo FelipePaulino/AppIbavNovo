@@ -51,8 +51,6 @@ export function RegisterScreen() {
   const { user } = useUserFiltered();
   const { state, dispatch } = useFormReport();
   const navigation = useNavigation();
-
-
   const identifyCelula = user && user[0][1].numero_celula;
   const userInfo = user && user[0][1];
   const whatOffice = userInfo && userInfo.cargo;
@@ -63,7 +61,7 @@ export function RegisterScreen() {
         const response = await connectApi.get("/celulas.json");
 
         setCelulas(Object.entries(response.data));
-        setLoading(false)
+        setLoading(false);
       };
       getCelulas();
     }
@@ -87,14 +85,17 @@ export function RegisterScreen() {
   const submitRegister = () => {
     const { cep, bairro, localidade, logradouro, uf } = address;
     const identifyId = celulas.filter((item: any) => {
-      return `${item[1].numero_celula} - ${item[1].lider}` === state.celulaSelect;
+      return (
+        `${item[1].numero_celula} - ${item[1].lider}` === state.celulaSelect
+      );
     });
 
     const identifyLider = celulas.filter((item: any) => {
       return item[1].numero_celula === user[0][1].numero_celula;
     });
 
-    const ID_CELULAS = whatOffice === 'lider de celula' ? identifyLider[0][0] : identifyId[0][0];
+    const ID_CELULAS =
+      whatOffice === "lider de celula" ? identifyLider[0][0] : identifyId[0][0];
 
     try {
       connectApi
@@ -118,12 +119,12 @@ export function RegisterScreen() {
 
           dispatch({
             type: FormReportActions.setTextSelectCivilStatus,
-            payload: "Selecione",
+            payload: "*Selecione",
           });
 
           dispatch({
             type: FormReportActions.setTextSelectState,
-            payload: "Selecione",
+            payload: "*Selecione",
           });
 
           dispatch({
@@ -137,28 +138,27 @@ export function RegisterScreen() {
           });
           dispatch({
             type: FormReportActions.setRedeSelect,
-            payload: '*Selecione',
+            payload: "Selecione",
           });
           dispatch({
             type: FormReportActions.setDiscipuladoSelect,
-            payload: '*Selecione',
+            payload: "Selecione",
           });
           dispatch({
             type: FormReportActions.setCelulaSelect,
-            payload: '*Selecione',
+            payload: "Selecione",
           });
           dispatch({
             type: FormReportActions.setDateRegister,
-            payload: new Date()
-          })
+            payload: new Date(),
+          });
 
-          setPhone("")
-          setEmail("")
-          setNumberHouse("")
-          setAddress(initialValuesRequestCep)
-
+          setPhone("");
+          setEmail("");
+          setNumberHouse("");
+          setAddress(initialValuesRequestCep);
         });
-    } catch (err) { }
+    } catch (err) {}
   };
 
   const handleDateChange = (event: Event, selectedDate: any) => {
@@ -230,7 +230,6 @@ export function RegisterScreen() {
     });
   };
 
-
   const getAddressFromApi = useCallback(() => {
     axios
       .get(`https://viacep.com.br/ws/${address.cep}/json/`)
@@ -274,7 +273,7 @@ export function RegisterScreen() {
     });
     dispatch({
       type: FormReportActions.setCelulaSelect,
-      payload: '*Selecione',
+      payload: "Selecione",
     });
   };
 
@@ -285,85 +284,86 @@ export function RegisterScreen() {
     });
     dispatch({
       type: FormReportActions.setDiscipuladoSelect,
-      payload: '*Selecione',
+      payload: "Selecione",
     });
     dispatch({
       type: FormReportActions.setCelulaSelect,
-      payload: '*Selecione',
+      payload: "Selecione",
     });
   };
 
-  const redes = celulas.map((item: any) => (item[1].rede))
+  const redes = celulas.map((item: any) => item[1].rede);
   const redesUnicas = redes.filter(function (este: any, i: any) {
-    return redes.indexOf(este) === i && este
+    return redes.indexOf(este) === i && este;
   });
 
   const mapRedesUnicas = redesUnicas.map((item: any) => {
     return {
-      value: item
-    }
-  })
+      value: item,
+    };
+  });
 
-
-const isShepherd = whatOffice === 'pastor' ? userInfo.rede : whatOffice === 'discipulador' ? userInfo.rede : state.redeSelect
-const isDisc = whatOffice === 'discipulador' ? userInfo.nome : state.discipuladoSelect
+  const isShepherd =
+    whatOffice === "pastor"
+      ? userInfo.rede
+      : whatOffice === "discipulador"
+      ? userInfo.rede
+      : state.redeSelect;
+  const isDisc =
+    whatOffice === "discipulador" ? userInfo.nome : state.discipuladoSelect;
 
   const filtrandoRedes = celulas.filter((item: any) => {
-    return item[1].rede === isShepherd
-  })
+    return item[1].rede === isShepherd;
+  });
   const discipulado = filtrandoRedes.map((item: any) => {
-    return item[1].discipulador
-  })
+    return item[1].discipulador;
+  });
   const discipuladossUnicos = discipulado.filter(function (este: any, i: any) {
     return discipulado.indexOf(este) === i;
   });
 
   const mapDiscipuladosUnicos = discipuladossUnicos.map((item: any) => {
     return {
-      value: item
-    }
-  })
+      value: item,
+    };
+  });
 
-  let validaRede: any
-  let validaDisc: any
-  if (user[0][1].cargo === 'discipulador') {
-    validaRede = user[0][1].rede
-    validaDisc = user[0][1].nome
-  }
-  else if (user[0][1].cargo === 'pastor') {
-
-    validaRede = user[0][1].rede
-    validaDisc = state.discipuladoSelect
-  }
-  else {
-    validaRede = state.redeSelect
-    validaDisc = state.discipuladoSelect
+  let validaRede: any;
+  let validaDisc: any;
+  if (user[0][1].cargo === "discipulador") {
+    validaRede = user[0][1].rede;
+    validaDisc = user[0][1].nome;
+  } else if (user[0][1].cargo === "pastor") {
+    validaRede = user[0][1].rede;
+    validaDisc = state.discipuladoSelect;
+  } else {
+    validaRede = state.redeSelect;
+    validaDisc = state.discipuladoSelect;
   }
 
   const filtrandoDiscipulado = celulas.filter((item: any) => {
-    return item[1].discipulador === isDisc && item[1].rede === isShepherd
-  })
+    return item[1].discipulador === isDisc && item[1].rede === isShepherd;
+  });
 
   const celulaAdm = filtrandoDiscipulado.map((item: any) => {
     return {
-      value: `${item[1].numero_celula} - ${item[1].lider}`
-    }
-  })
+      value: `${item[1].numero_celula} - ${item[1].lider}`,
+    };
+  });
 
   const office = () => {
     switch (whatOffice) {
       case "discipulador":
         return (
           <S.BoxSelect>
-          <SelectComponent
-            label="Célula"
-            onChange={handleCelulaChange}
-            labelSelect={state.celulaSelect}
-            dataOptions={celulaAdm}
-            selectedOption={selectedOptionCelula}
-          />
-        </S.BoxSelect>
-
+            <SelectComponent
+              label="Célula"
+              onChange={handleCelulaChange}
+              labelSelect={state.celulaSelect}
+              dataOptions={celulaAdm}
+              selectedOption={selectedOptionCelula}
+            />
+          </S.BoxSelect>
         );
 
       case "pastor":
@@ -372,11 +372,11 @@ const isDisc = whatOffice === 'discipulador' ? userInfo.nome : state.discipulado
             <S.BoxSelect>
               <SelectComponent
                 label="Discipulado"
-                onChange={(handleDiscipuladoChange)}
+                onChange={handleDiscipuladoChange}
                 labelSelect={state.discipuladoSelect}
                 dataOptions={state.redeSelect && mapDiscipuladosUnicos}
                 selectedOption={handleDiscipuladoChange}
-                disabled={state.redeSelect === '*Selecione' ? true : false}
+                disabled={state.redeSelect === "*Selecione" ? true : false}
               />
             </S.BoxSelect>
 
@@ -387,16 +387,18 @@ const isDisc = whatOffice === 'discipulador' ? userInfo.nome : state.discipulado
                 labelSelect={state.celulaSelect}
                 dataOptions={celulaAdm}
                 selectedOption={selectedOptionCelula}
-                disabled={state.discipuladoSelect === '*Selecione' ? true : false}
+                disabled={
+                  state.discipuladoSelect === "*Selecione" ? true : false
+                }
               />
             </S.BoxSelect>
           </Fragment>
         );
 
-
       case "administrador":
         return (
           <Fragment>
+
             <S.BoxSelect>
               <SelectComponent
                 label="Rede"
@@ -410,11 +412,11 @@ const isDisc = whatOffice === 'discipulador' ? userInfo.nome : state.discipulado
             <S.BoxSelect>
               <SelectComponent
                 label="Discipulado"
-                onChange={(handleDiscipuladoChange)}
+                onChange={handleDiscipuladoChange}
                 labelSelect={state.discipuladoSelect}
                 dataOptions={state.redeSelect && mapDiscipuladosUnicos}
                 selectedOption={handleDiscipuladoChange}
-                disabled={state.redeSelect === '*Selecione' ? true : false}
+                disabled={state.redeSelect === "*Selecione" ? true : false}
               />
             </S.BoxSelect>
 
@@ -425,14 +427,47 @@ const isDisc = whatOffice === 'discipulador' ? userInfo.nome : state.discipulado
                 labelSelect={state.celulaSelect}
                 dataOptions={celulaAdm}
                 selectedOption={selectedOptionCelula}
-                disabled={state.discipuladoSelect === '*Selecione' ? true : false}
+                disabled={
+                  state.discipuladoSelect === "*Selecione" ? true : false
+                }
               />
             </S.BoxSelect>
           </Fragment>
         );
     }
   };
-
+  const validacao = (cargo:string) => {
+    if (cargo === "administrador") {
+      if (
+        state.redeSelect === "Selecione" ||
+        state.celulaSelect === "Selecione" ||
+        state.discipuladoSelect === "Selecione"
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    if (cargo === "pastor") {
+      if (
+        state.celulaSelect === "Selecione" ||
+        state.discipuladoSelect === "Selecione"
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    if (cargo === "discipulador") {
+      if (
+        state.celulaSelect === "Selecione" 
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
   return (
     <Fragment>
       <HeaderComponent>
@@ -480,15 +515,19 @@ const isDisc = whatOffice === 'discipulador' ? userInfo.nome : state.discipulado
                 mask="cep"
                 maxLength={9}
                 placeholder={FormFields.CEP}
-                inputMaskChange={(value: string) => setAddress((old) => ({
-                  ...old,
-                  cep: value,
-                }))}
+                inputMaskChange={(value: string) =>
+                  setAddress((old) => ({
+                    ...old,
+                    cep: value,
+                  }))
+                }
                 onEndEditing={() => getAddressFromApi()}
-                onChangeText={(value) => setAddress((old) => ({
-                  ...old,
-                  cep: maskCep(value),
-                }))}
+                onChangeText={(value) =>
+                  setAddress((old) => ({
+                    ...old,
+                    cep: maskCep(value),
+                  }))
+                }
                 primary
               />
 
@@ -600,32 +639,31 @@ const isDisc = whatOffice === 'discipulador' ? userInfo.nome : state.discipulado
               <ButtonComponent
                 title="Cadastrar"
                 onPress={submitRegister}
-                width='170'
+                width="170"
                 disabled={
-                 (whatOffice !== 'lider de celula' && state.celulaSelect === '*Selecione') ||
-                    state.textSelectCategory === '*Selecione' ||
-                    name === "" ||
-                    phone === "" ? true : false
+                  validacao(whatOffice) ||
+                  //   (whatOffice === 'discipulador' && state.celulaSelect !== 'Selecione') ||
+                  //  (whatOffice === 'pastor' && state.celulaSelect !== 'Selecione' && state.discipuladoSelect !== 'Selecione') ||
+
+                  state.textSelectCategory === "Selecione" ||
+                  name === "" ||
+                  phone === ""
+                    ? true
+                    : false
                 }
               />
             </S.FooterFields>
           </S.Container>
         </ScrollView>
-        
       )}
 
       <ModalComponent
         isVisible={successModal}
         onBackdropPress={() => (
-          setName(''),
-          setSuccessModal(false),
-          navigation.goBack()
+          setName(""), setSuccessModal(false), navigation.goBack()
         )}
       >
-        <DefaultContentModalComponent
-          data={name}
-          type="register"
-        />
+        <DefaultContentModalComponent data={name} type="register" />
       </ModalComponent>
     </Fragment>
   );
