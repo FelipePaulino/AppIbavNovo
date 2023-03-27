@@ -4,7 +4,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import theme from "../../styles/theme";
 
 interface Props {
-  open?: boolean
+  open?: boolean;
 }
 
 export const ComeBack = styled.View`
@@ -37,7 +37,13 @@ export const List = styled.View`
   padding-bottom: 5px;
 `;
 
-export const ContainerFilter = styled(Animated.View) <Props>`
+export const ContText = styled.Text`
+  justify-content: space-between;
+  display: flex;
+  width: 100%;
+`;
+
+export const ContainerFilter = styled(Animated.View)<Props>`
   width: 80%;
   background-color: white;
   padding-top: 80px;
@@ -50,7 +56,7 @@ export const ContainerFilter = styled(Animated.View) <Props>`
 
 export const BgDark = styled.View<Props>`
   width: 100%;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
   height: 100%;
   z-index: 1;
@@ -89,9 +95,3 @@ export const BoxButtons = styled.View`
 `;
 
 export const Loading = styled(Image)``;
-
-
-
-
-
-

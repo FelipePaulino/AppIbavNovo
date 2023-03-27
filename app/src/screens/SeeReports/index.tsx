@@ -374,10 +374,12 @@ export function SeeReports() {
               {filter?.sort(compared).map((item: any, index: any) => {
                 return (
                   <S.List key={index}>
-                    <Text>
+                    <S.ContText onPress={() => actionReportId(item[0])}>
+                    <Text >
                       {item[1].celula} - {item[1].data}
                     </Text>
-                    <FontAwesome5 name="eye" color="#000A3E" onPress={() => actionReportId(item[0])}/>
+                    <FontAwesome5 name="eye" color="#000A3E" />
+                    </S.ContText>
                   </S.List>
                 );
               })}
