@@ -87,7 +87,7 @@ export function SingleReport() {
             <HeadingPresentComponent cat width="50%" />
             {report?.presencas.map((person: any) => {
               return (
-                <S.ContentPresent>
+                <S.ContentPresent key={person.nome}>
                   <S.ContentName>
                     <S.InfoName>{person.nome}</S.InfoName>
                   </S.ContentName>

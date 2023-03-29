@@ -19,7 +19,7 @@ export default function NotificationContentModalComponent({
           <Fragment>
             {data.map((item: any) => {
               return (
-                <S.ContentInfo>
+                <S.ContentInfo key={item.name}>
                   <S.Line />
                   <S.Info>
                     <S.InfoText>
