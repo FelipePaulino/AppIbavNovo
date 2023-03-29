@@ -235,6 +235,7 @@ export default function NetworkScreenList() {
                       {rede.map((items: any) => {
                         return (
                           <PersonLabelComponent
+                            key={items[0]}
                             noPencial={true}
                             nome={items[1].rede}
                             delMember={() => {

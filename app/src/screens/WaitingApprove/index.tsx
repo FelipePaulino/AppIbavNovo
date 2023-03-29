@@ -89,7 +89,7 @@ export function WaitingApproveScreen() {
       ) : (
         <S.Container>
           {mock.map((user) => (
-            <S.Row>
+            <S.Row key={user.nome}>
               <S.RowText>
                 Usário <S.Decoration>{user.nome}</S.Decoration> adicinou membro
               </S.RowText>

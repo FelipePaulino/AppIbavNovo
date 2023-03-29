@@ -129,7 +129,7 @@ export function ListUsersScreen() {
                 return (
                   <PersonLabelComponent
                     nome={user[1]?.nome}
-                    key={user[1]?.nome}
+                    key={user[0]}
                     onPress={() =>
                       navigation.navigate("UsersInformation", {
                         nome: `${user[1].nome}`,

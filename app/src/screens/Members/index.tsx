@@ -435,7 +435,7 @@ export function MembersScreen(this: any) {
                   {newMembersList.length > 0 ? (
                     newMembersList.sort(compared)?.map((item: any) => {
                       return (
-                        <Fragment>
+                        <Fragment key={item[1].nome}>
                           <PersonLabelComponent
                             nome={item[1].nome}
                             status={state?.celulaSelect?.split('- ')[1] === item[1].nome ? 'lider' :item[1].status}
