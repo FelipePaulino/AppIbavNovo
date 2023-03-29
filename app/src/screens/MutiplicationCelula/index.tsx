@@ -33,6 +33,7 @@ export function MultiplicationCelula() {
   const [leaderCelula, setLeaderCelula] = useState<any>([])
   const [successModal, setSuccessModal] = useState(false);
   const [newLeaderSelected, setNewLeaderSelected] = useState<any>()
+  const [shepherd, setShepherd] = useState<any>()
 
   const { state, dispatch } = useFormReport();
   const { user } = useUserFiltered();
@@ -147,8 +148,10 @@ export function MultiplicationCelula() {
       return celulasSelected === `${item?.numero_celula} - ${item?.lider}`;
     });
     setListCelula(listMembers[0]?.membros);
-  }, [celulasSelected]);
+    setShepherd(listMembers[0]?.pastor)
 
+  }, [celulasSelected]);
+  
   useEffect(() => {
     const newArraytoSelectCelula =
       listCelula &&
@@ -197,26 +200,43 @@ export function MultiplicationCelula() {
     str = memberSelected.replace(/[ÈÉÊË]/g, "E");
     str = memberSelected.replace(/\s/g, '');
     memberSelected.replace(/[^a-z0-9]/gi, '');
-    const email = `${str}@aguaviva.com.br`
-    const password = `${str}123456`
-    createUserWithEmailAndPassword(auth, email, password);
-    credentialsPost(objectNewLider, email, password);
-    newCelulaMultiplied();
-    removeMembersNewCelula();
+    const email = `${str.toLowerCase()}@aguaviva.com.br`
+    const password = `${str.toLowerCase()}123456`
+    createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
+      credentialsPost(objectNewLider, email, password);
+      newCelulaMultiplied(objectNewLider);
+      removeMembersNewCelula();
+    })
+    .catch((error) => {
+      alert('erro ao criar novo usuário')
+    });
+
   };
 
 
   const credentialsPost = (objectNewLider: any, email: any, password: any) => {
+    const dataReplace = objectNewLider[0]?.data_de_nascimento?.split('T')[0]
     try {
       connectApi
         .post("/users.json", {
-          ...objectNewLider[0],
-          cargo: "lider",
-          discipulado: state.discipuladoSelect,
+          bairro: objectNewLider[0].bairro ?? '',
+          cargo: "lider de celula",
+          cep: objectNewLider[0].cep ?? '',
+          cidade: objectNewLider[0].cidade ?? '',
+          discipulador: state.discipuladoSelect,
           email,
           numero_celula: newCelula,
           rede: state.redeSelect,
+          pastor: shepherd,
           senha: password,
+          data_de_nascimento: dataReplace,
+          endereco: objectNewLider[0].endereco ?? '',
+          estado: objectNewLider[0].estado !== "Selecione" ? objectNewLider[0].estado : '',
+          estado_civil: objectNewLider[0].estado_civil !== "Selecione" ? objectNewLider[0].estado_civil : '',
+          n_end: objectNewLider[0].n_end ?? '',
+          nome: objectNewLider[0].nome ?? '',
+          status: objectNewLider[0].status ?? '',
+          telefone: objectNewLider[0].telefone ?? ''
         })
     }
     catch (err) {
@@ -232,14 +252,16 @@ export function MultiplicationCelula() {
   const renderLeader = leaderCelula.filter((item: any) => item[1]?.lider === celulaFilter)
   const idCelula = renderLeader && renderLeader.length && renderLeader[0][0]
 
-  const newCelulaMultiplied = () => {
+  const newCelulaMultiplied = (newLider:any) => {
     try {
       connectApi.post("/celulas.json", {
         lider: memberSelected,
         numero_celula: newCelula,
         discipulador: state.discipuladoSelect,
         membros: membersChecked,
-        rede: state.redeSelect
+        rede: state.redeSelect,
+        pastor: pastorCelula,
+        email: newLider[0].email,
       })
         .then(() => setSuccessModal(true));
     } catch (err) {
@@ -269,19 +291,19 @@ export function MultiplicationCelula() {
   useEffect(() => {
     const memberDisabled = listMembersCelula && listMembersCelula.map((member: any) => {
       if (member.checked && memberSelected === member.nome) {
-        return {...member, checked: member.checked}
-      } return {...member, checked: false}
+        return { ...member, checked: member.checked }
+      } return { ...member, checked: false }
     })
     setListMembersCelula(memberDisabled && memberDisabled)
     setNewLeaderSelected(listMembersCelula && listMembersCelula.filter((item: any) => item.nome === memberSelected))
   }, [memberSelected])
-  
+
   useEffect(() => {
     if (newLeaderSelected && newLeaderSelected.length > 0) {
-        if(!newLeaderSelected[0].checked){
-          return memberMultiply(newLeaderSelected[0])
-        }
+      if (!newLeaderSelected[0].checked) {
+        return memberMultiply(newLeaderSelected[0])
       }
+    }
   }, [newLeaderSelected])
 
   return (

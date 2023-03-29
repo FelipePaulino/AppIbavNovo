@@ -159,11 +159,11 @@ export function HomeScreen() {
                     title="Ver Relatórios Entregues"
                     onPress={() => clean("SeeReports")}
                   />
-                  {/* <SelectedMenuComponent
+                  <SelectedMenuComponent
                     icon={<S.MultiplicationIcon name="multiplication" />}
                     title="Multiplicação"
                     onPress={() => navigation.navigate("Multiplication")}
-                  /> */}
+                  />
                 </S.ContentOptions>
               )}
             </Fragment>
