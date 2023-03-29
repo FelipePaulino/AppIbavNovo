@@ -1,6 +1,5 @@
 import styled from "styled-components/native";
 import { Image, Animated } from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
 import theme from "../../styles/theme";
 
 interface Props {
@@ -28,20 +27,27 @@ export const ListContainer = styled.View`
 `;
 
 export const List = styled.View`
-  margin-top: 15px;
+  display: flex;
   justify-content: space-between;
+  margin-top: 15px;
   align-items: center;
-  flex-direction: row;
   border-bottom-color: #666;
   border-bottom-width: 1px;
   padding-bottom: 5px;
 `;
 
-export const ContText = styled.Text`
-  justify-content: space-between;
+export const ContText = styled.TouchableOpacity`
   display: flex;
+  justify-content: space-between;
+  flex-direction: row;
   width: 100%;
 `;
+
+export const Icon = styled.View`
+  display: flex;
+  justify-content: center;
+  margin-right: 5px;
+`
 
 export const ContainerFilter = styled(Animated.View)<Props>`
   width: 80%;

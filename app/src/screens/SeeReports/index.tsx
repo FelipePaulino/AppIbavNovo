@@ -236,7 +236,6 @@ export function SeeReports() {
     setFilter(reports);
   };
 
-
   function compared(a: any, b: any) {
     if (a[1].data > b[1].data) return -1;
     if (a[1].data < b[1].data) return 1;
@@ -375,10 +374,12 @@ export function SeeReports() {
                 return (
                   <S.List key={index}>
                     <S.ContText onPress={() => actionReportId(item[0])}>
-                    <Text >
-                      {item[1].celula} - {item[1].data}
-                    </Text>
-                    <FontAwesome5 name="eye" color="#000A3E" />
+                      <Text>
+                        {item[1].celula} - {item[1].data}
+                      </Text>
+                      <S.Icon>
+                        <FontAwesome5 name="eye" color="#000A3E" />
+                      </S.Icon>
                     </S.ContText>
                   </S.List>
                 );
