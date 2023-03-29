@@ -476,20 +476,17 @@ export function UsersInformationScreen(this: any, { route }: any) {
             </S.GridItemFull>
             {renderSelectsOptions()}
             <S.GridItemFull>
-              <TouchableOpacity disabled={true}>
                 <InputFieldComponent
                   primary
                   value={email !== "undefined" && email}
                   placeholder={FormFields.EMAIL}
-                  onChangeText={(value) => setEmail(value)}
+                  // onChangeText={(value) => setEmail(value)}
                   label="*Usuário"
                   disabled={true}
                 />
-              </TouchableOpacity>
             </S.GridItemFull>
 
             <S.GridItemFull>
-              <TouchableOpacity disabled={true}>
                 <InputFieldComponent
                   primary
                   value={
@@ -499,11 +496,9 @@ export function UsersInformationScreen(this: any, { route }: any) {
                   onChangeText={(value) => setPassword(value)}
                   label="*Senha"
                 />
-              </TouchableOpacity>
             </S.GridItemFull>
 
             <S.GridItemFull>
-              <TouchableOpacity disabled={true}>
                 <InputFieldComponent
                   primary
                   value={name?.trim() !== "undefined" && name?.trim()}
@@ -511,11 +506,9 @@ export function UsersInformationScreen(this: any, { route }: any) {
                   onChangeText={(value) => setName(value)}
                   label="*Nome Completo"
                 />
-              </TouchableOpacity>
             </S.GridItemFull>
 
             <S.GridItemFull>
-              <TouchableOpacity disabled={true}>
                 <InputFieldComponent
                   primary
                   value={phone !== "undefined" && phone}
@@ -523,7 +516,6 @@ export function UsersInformationScreen(this: any, { route }: any) {
                   onChangeText={(value) => setPhone(value)}
                   label="*Telefone"
                 />
-              </TouchableOpacity>
             </S.GridItemFull>
             <S.GridItemFull>
               <InputFieldComponent

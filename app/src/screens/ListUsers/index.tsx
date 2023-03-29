@@ -75,7 +75,7 @@ export function ListUsersScreen() {
     }
 
     try {
-      const conection1 = await connectApi.put(`/celulas.json`, filterCelulasOther);
+      const conection1 = cargo === 'lider de celula' ? await connectApi.put(`/celulas.json`, filterCelulasOther): []
       const conection2 = await service.deleteUser(id);
       Promise.all([conection1, conection2])
       setConfirmModal(false);

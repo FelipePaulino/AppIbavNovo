@@ -8,6 +8,7 @@ import { useFormReport } from "../../hooks/useFormReport";
 import { HeadingPresentComponent } from "../../components/HeadingPresent";
 
 import * as S from "../SingleReport/styles";
+import { FooterInfoComponent } from "../../components/FooterInfo";
 
 const loadingGif = require("../../assets/loader-two.gif");
 
@@ -98,6 +99,7 @@ export function SingleReport() {
                 </S.ContentPresent>
               );
             })}
+            <FooterInfoComponent />
           </S.Container>
         )}
       </ScrollView>

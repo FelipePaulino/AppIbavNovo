@@ -38,6 +38,8 @@ import * as S from "./styles";
 import { maskCep, maskEmail } from "../../common/utils/masks";
 import { ErrorModalComponent } from "../../components/Modal/Error";
 
+import { dictionary } from "../../common/utils/dictionary";
+
 export function UserRegisterScreen() {
   const [users, setUsers] = useState([]);
   const [celulas, setCelulas] = useState([])
@@ -57,6 +59,7 @@ export function UserRegisterScreen() {
   const navigation = useNavigation();
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const [messageError, setMessageError] = useState<string>('')
 
   useEffect(() => {
     const getCelulas = async () => {
@@ -166,9 +169,16 @@ export function UserRegisterScreen() {
   const registerUser = () => {
     const { email, password } = formValues;
     if (maskEmail(formValues.email)) {
-      createUserWithEmailAndPassword(auth, email, password);
-      credentialsPost();
-      setUpdateList(!updateList)
+      createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
+        credentialsPost();
+        setUpdateList(!updateList)
+      })
+      .catch((error) => {
+        setMessageError(error.message)
+        setErrorEmailValidate(true)
+        // ..
+      });
+  
     }
     else{
       setErrorEmailValidate(true)
@@ -683,7 +693,7 @@ export function UserRegisterScreen() {
         onBackdropPress={() => setErrorEmailValidate(false)}
       >
         <ErrorModalComponent
-          text="Email inválido ou já existente"
+          text={dictionary(messageError)}
         />
       </ModalComponent>
     </Fragment>
