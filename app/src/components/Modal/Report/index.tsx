@@ -62,6 +62,7 @@ export function ReportContentModalComponent({
       const numero_celula = user && user[0][1].numero_celula;
       const oferta = state.offer;
       const data = state.textDate;
+      const week = state.week;
 
       let presencas = [...state.members, ...state.visitors];
 
@@ -76,6 +77,7 @@ export function ReportContentModalComponent({
           observacoes,
           oferta,
           presencas,
+          semana: week,
         })
         .then(() => {
           setSendModal(true);
@@ -166,6 +168,7 @@ export function ReportContentModalComponent({
             decoration
             primary
           />
+          <TitleComponent title={`Semana: ${state.week}`} decoration primary />
           <TitleComponent title="Presença:" decoration primary />
           <TitleComponent
             title={`- ${

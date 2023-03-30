@@ -75,6 +75,12 @@ export function SingleReport() {
               <S.TextBold>Data:</S.TextBold>
               <Text> {report?.data}</Text>
             </S.BoxText>
+            {report?.semana && (
+              <S.BoxText>
+                <S.TextBold>Semana:</S.TextBold>
+                <Text> {report?.semana}</Text>
+              </S.BoxText>
+            )}
             <S.BoxText>
               <S.TextBold>Oferta:</S.TextBold>
               <Text> R${report?.oferta}</Text>

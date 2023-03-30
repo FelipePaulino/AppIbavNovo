@@ -36,7 +36,7 @@ export const Field = styled.View``;
 
 export const Label = styled.Text`
   padding-left: 15px;
-  max-width: 135px; /* Tamanho */
+  max-width: 235px; /* Tamanho */
   overflow: hidden;
   text-overflow: ellipsis;
 

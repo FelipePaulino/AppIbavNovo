@@ -24,6 +24,7 @@ export interface IState {
   presencaCelula: any;
   presencaCulto: any;
   reportsId: string;
+  week: string;
 }
 
 interface IContentMembers {
