@@ -17,13 +17,7 @@ export const Navigation = styled.Text`
 `;
 
 export const Content = styled.View`
-  max-width: 350px;
-  width: 100%;
-  height: 100%;
-
-  margin-top: 32px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 20px;
 `;
 
 export const Form = styled.KeyboardAvoidingView`

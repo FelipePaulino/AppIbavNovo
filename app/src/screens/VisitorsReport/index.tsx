@@ -203,6 +203,7 @@ export function VisitorsReportScreen() {
                   isLider ||
                   state.textDate === 'Selecione uma data' ||
                   state.offer === '' ||
+                  state.week === "Selecione uma semana" ||
                   state.presencaCelula.length === 0 ||
                   state.presencaCulto.length === 0
                 ? true : false

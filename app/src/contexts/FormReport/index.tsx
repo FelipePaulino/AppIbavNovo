@@ -25,6 +25,7 @@ const initialData: IState = {
   presencaCelula: [],
   presencaCulto: [],
   reportsId: '',
+  week: "Selecione uma semana"
 };
 
 export const FormReportContext = createContext<IContextType | undefined>(
@@ -55,7 +56,8 @@ export enum FormReportActions {
   setDiscipuladoSelect,
   setPresencaCelula,
   setPresencaCulto,
-  setReportsId
+  setReportsId,
+  setWeek
 }
 
 const formReportReducer = (state: IState, action: IActions) => {
@@ -128,6 +130,9 @@ const formReportReducer = (state: IState, action: IActions) => {
 
     case FormReportActions.setReportsId:
       return { ...state, reportsId: action.payload };
+
+    case FormReportActions.setWeek:
+      return { ...state, week: action.payload };
 
     default:
       return state;

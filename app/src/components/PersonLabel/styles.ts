@@ -37,6 +37,7 @@ export const Box = styled.View`
   flex-direction: row;
   padding: 2px 5px;
   margin: 10px 0;
+  width: 320px;
 
   border-bottom-color: ${theme.colors.grey};
   border-bottom-width: 0.5px;
@@ -45,6 +46,7 @@ export const Box = styled.View`
 export const ContainerPerson = styled.View`
   flex-direction: column;
   align-items: flex-start;
+  width: 70%;
 `;
 
 export const TextName = styled.Text`
@@ -52,7 +54,6 @@ export const TextName = styled.Text`
   font-size: 14px;
   line-height: 16px;
   color: #666666;
-  max-width: 240px;
 `;
 
 export const BoxStatus = styled.View<props>`
