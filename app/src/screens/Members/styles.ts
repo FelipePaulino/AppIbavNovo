@@ -63,15 +63,8 @@ export const RegisterIcon = styled(FontAwesome5)`
   font-size: ${theme.fonts.fontSize.small}px;
 `;
 
-export const Content = styled.View`
-  max-width: 100%;
-  width: 100%;
-  height: 100%;
-  padding: 0 5%;
-
-  margin-top: 32px;
-  margin-left: auto;
-  margin-right: auto;
+export const Container = styled.View`
+  margin: 20px;
 `;
 
 
@@ -84,8 +77,11 @@ export const Grid = styled.View`
 export const ContentC = styled.View`
   flex-direction: row;
   align-items: flex-end;
+
   margin: 0;
   padding: 0;
+
+  width: 310px;
   height: 40px;
 `;
 
