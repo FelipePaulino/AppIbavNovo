@@ -48,7 +48,7 @@ export const Names = styled.View`
   justify-content: center;
   width: 100%;
   padding-bottom: 12px;
-  display: 'flex';
+  display: flex;
   border-bottom-color: ${theme.colors.grey};
   border-bottom-width: 1px;
 `;
