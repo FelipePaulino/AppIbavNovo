@@ -65,6 +65,10 @@ export function HomeScreen() {
       type: FormReportActions.setDate,
       payload: new Date(),
     });
+    dispatch({
+      type: FormReportActions.setWeek,
+      payload: "Selecione uma semana",
+    });
   };
 
   const office = () => {

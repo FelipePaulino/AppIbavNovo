@@ -39,6 +39,15 @@ export function SendReportScreen() {
   const { state, dispatch } = useFormReport();
   const { user, loading } = useUserFiltered();
   const navigation = useNavigation<IPropsAppStack>();
+
+  const weeks = [
+    {value: '1° Semana'},
+    {value: '2° Semana'},
+    {value: '3° Semana'},
+    {value: '4° Semana'},
+    {value: '5° Semana'}
+  ]
+
   const handleOpenModal = () => {
     setModalVisible(true);
   };
@@ -94,6 +103,13 @@ export function SendReportScreen() {
   const handleCelulaChange = (value: string) => {
     dispatch({
       type: FormReportActions.setCelulaSelect,
+      payload: value,
+    });
+  };
+
+  const handleWeekChange = (value: string) => {
+    dispatch({
+      type: FormReportActions.setWeek,
       payload: value,
     });
   };
@@ -156,7 +172,7 @@ export function SendReportScreen() {
 
   const mapRedesUnicas = redesUnicas.map((item: any, index: any) => {
     return {
-      value: item, 
+      value: item,
     };
   });
 
@@ -220,7 +236,7 @@ export function SendReportScreen() {
       value: `${item.numero_celula} - ${item.lider}`,
     };
   });
-  //
+
   const optionsCelula =
     celulaFiltered &&
     celulaFiltered.map((celulaIdentify: IContentProps) => {
@@ -229,7 +245,10 @@ export function SendReportScreen() {
       };
     });
 
-  const isLider = whatOffice === 'lider de celula' ? false : state.celulaSelect === "Selecione" 
+  const isLider =
+    whatOffice === "lider de celula"
+      ? false
+      : state.celulaSelect === "Selecione";
 
   function compared(a: any, b: any) {
     if (a.value < b.value) return -1;
@@ -245,8 +264,9 @@ export function SendReportScreen() {
             <TitleComponent title={`${FormFields.CELULA}*:`} small primary />
             <S.ContentC>
               <S.IconC name="user-friends" />
-              <S.DescriptionC>{`${userInfo && userInfo.numero_celula} - ${userInfo && userInfo.rede
-                }`}</S.DescriptionC>
+              <S.DescriptionC>{`${userInfo && userInfo.numero_celula} - ${
+                userInfo && userInfo.rede
+              }`}</S.DescriptionC>
             </S.ContentC>
           </S.Grid>
         );
@@ -397,7 +417,11 @@ export function SendReportScreen() {
                 </S.Grid>
 
                 <S.Grid>
-                  <TitleComponent title={`${FormFields.DATE}*:`} small primary />
+                  <TitleComponent
+                    title={`${FormFields.DATE}*:`}
+                    small
+                    primary
+                  />
                   <S.ContentC>
                     <DateComponent
                       text={state.textDate}
@@ -405,6 +429,19 @@ export function SendReportScreen() {
                       showCalender={showCalender}
                       dataDados={state.date}
                       onChange={handleDateChange}
+                    />
+                  </S.ContentC>
+                </S.Grid>
+
+                <S.Grid>
+                  <TitleComponent title="Semana*:" small primary />
+                  <S.ContentC>
+                    <SelectComponent
+                      onChange={handleWeekChange}
+                      labelSelect={state.week}
+                      dataOptions={weeks}
+                      selectedOption={handleWeekChange}
+                      width="100%"
                     />
                   </S.ContentC>
                 </S.Grid>
@@ -428,10 +465,11 @@ export function SendReportScreen() {
                     onPress={handleOpenModal}
                     disabled={
                       isLider ||
-                        state.textDate === "Selecione uma data" ||
-                        state.offer === "" ||
-                        state.presencaCelula.length === 0 ||
-                        state.presencaCulto.length === 0
+                      state.textDate === "Selecione uma data" ||
+                      state.week === "Selecione uma semana" ||
+                      state.offer === "" ||
+                      state.presencaCelula.length === 0 ||
+                      state.presencaCulto.length === 0
                         ? true
                         : false
                     }
