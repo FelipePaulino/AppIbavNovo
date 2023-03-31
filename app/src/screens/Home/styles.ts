@@ -44,6 +44,7 @@ export const Office = styled.Text`
 
 export const Names = styled.View`
   align-items: center;
+  justify-content: center;
   width: 100%;
 
   padding-bottom: 12px;

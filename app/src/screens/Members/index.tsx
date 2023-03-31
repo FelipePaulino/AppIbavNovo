@@ -349,7 +349,6 @@ export function MembersScreen(this: any) {
                   selectedOption={selectedOptionCelula}
                   width="85%"
                 />
-
               </S.ContentC>
             </S.Grid>
           </>
@@ -367,7 +366,7 @@ export function MembersScreen(this: any) {
                   labelSelect={state.redeSelect}
                   dataOptions={mapRedesUnicas}
                   selectedOption={handleRedeChange}
-                  width='300'
+                  width='85%'
                 />
               </S.ContentC>
             </S.Grid>
@@ -380,8 +379,8 @@ export function MembersScreen(this: any) {
                   labelSelect={state.discipuladoSelect}
                   dataOptions={state.redeSelect && mapDiscipuladosUnicos}
                   selectedOption={handleDiscipuladoChange}
-                  width='300'
                   disabled={state.redeSelect === "Selecione" ? true : false}
+                  width='85%'
                 />
               </S.ContentC>
             </S.Grid>
@@ -394,8 +393,8 @@ export function MembersScreen(this: any) {
                   labelSelect={state.celulaSelect}
                   dataOptions={celulaAdm}
                   selectedOption={selectedOptionCelula}
-                  width='300'
                   disabled={state.discipuladoSelect === "Selecione" ? true : false}
+                  width='85%'
                 />
               </S.ContentC>
             </S.Grid>
@@ -424,7 +423,7 @@ export function MembersScreen(this: any) {
         </S.ContentHeader>
       </HeaderComponent>
       <ScrollView>
-        <S.Content>
+        <S.Container>
           {loading ? (
             <S.Loading source={loadingGif} />
           ) : (
@@ -472,7 +471,7 @@ export function MembersScreen(this: any) {
               }
             </Fragment>
           )}
-        </S.Content>
+        </S.Container>
       </ScrollView>
       <ModalComponent
         isVisible={sendModal}
