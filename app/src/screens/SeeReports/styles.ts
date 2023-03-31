@@ -42,11 +42,19 @@ export const ContText = styled.TouchableOpacity`
   flex-direction: row;
   width: 100%;
 `;
+export const ContainerIcons = styled.View`
+  flex-direction: row;
+`
 
-export const Icon = styled.View`
+
+export const Icon = styled.View<any>`
   display: flex;
   justify-content: center;
-  margin-right: 5px;
+  margin: 0 10px;
+
+ & div{
+    font-size: 20px;
+  }
 `
 
 export const ContainerFilter = styled(Animated.View)<Props>`

@@ -34,6 +34,7 @@ export const Name = styled.Text`
   font-family: ${theme.fonts.fontFamily.bold};
   font-size: ${theme.fonts.fontSize.medium}px;
   text-transform: uppercase;
+  text-align: center;
 `;
 
 export const Office = styled.Text`
@@ -46,24 +47,20 @@ export const Names = styled.View`
   align-items: center;
   justify-content: center;
   width: 100%;
-
   padding-bottom: 12px;
-
+  display: 'flex';
   border-bottom-color: ${theme.colors.grey};
   border-bottom-width: 1px;
 `;
 
 export const Info = styled.View`
   width: 100%;
-
   align-items: center;
-
   margin-top: 24px;
 `;
 
 export const InfoTextTitle = styled.Text`
   color: ${theme.colors.blue};
-
   font-size: 16px;
   font-family: ${theme.fonts.fontFamily.bold};
   text-transform: uppercase;
