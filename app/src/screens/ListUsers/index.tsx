@@ -173,6 +173,7 @@ export function ListUsersScreen() {
       >
         <RequestContentModalComponent
           name={name}
+          type="cadastro"
           cancel={() => setConfirmModal(false)}
           confirm={() => {
             deleteMember(name);

@@ -9,13 +9,14 @@ export function RequestContentModalComponent({
   name,
   cancel,
   confirm,
+  type
 }: RequestModalProps) {
   return (
     <S.Container>
       <S.Box>
         <S.ContainerText>
           <S.TextDelete>Você realmente deseja<S.BoldDeleteText> EXCLUIR</S.BoldDeleteText></S.TextDelete>
-          <S.TextDelete>o cadastro de</S.TextDelete>
+          <S.TextDelete>o {type} de</S.TextDelete>
           <S.BoldTextBlue>{name}?</S.BoldTextBlue>
           <S.TextDelete>essa ação não tem volta.</S.TextDelete>
         </S.ContainerText>

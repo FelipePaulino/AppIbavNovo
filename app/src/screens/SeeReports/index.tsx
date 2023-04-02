@@ -16,6 +16,11 @@ import { SelectComponent } from "../../components/Select";
 import FormFields from "../../common/constants/form";
 
 import * as S from "./styles";
+import { ModalComponent } from "../../components/Modal";
+import { RequestContentModalComponent } from "../../components/Modal/Request";
+import { connectApi } from "../../common/services/ConnectApi";
+import { ApprovalRequest } from "../../components/Modal/ApprovalRequest";
+import useUserFiltered from "../../hooks/useUserFiltered";
 
 const loadingGif = require("../../assets/loader-two.gif");
 
@@ -25,23 +30,37 @@ export function SeeReports() {
   const [showFilter, setShowFilter] = useState<boolean>(false);
   const [showCalender, setShowCalender] = useState(false);
   const [filter, setFilter] = useState<any>();
+  const [isVisible, setIsVisible] = useState<any>(false)
+  const [modalConcluded, setModalConcluded] = useState<any>(false)
+  const [idSelected, setIdSelected] = useState<any>()
 
   const { state, dispatch } = useFormReport();
   const navigation = useNavigation<IPropsAppStack>();
   const serviceGet = new RequestService();
+  const { user } = useUserFiltered();
+
+  const getReports = async () => {
+    await serviceGet.getReports().then((response) => {
+      setLoading(false);
+      setReports(Object.entries(response));
+      setFilter(Object.entries(response));
+    });
+  };
 
   useEffect(() => {
     setLoading(true);
-    const getReports = async () => {
-      await serviceGet.getReports().then((response) => {
-        setLoading(false);
-        setReports(Object.entries(response));
-        setFilter(Object.entries(response));
-      });
-    };
-
-    getReports();
+    setTimeout(() => {
+      getReports();
+    }, 500);
   }, []);
+  
+  useEffect(() => {
+    if(!modalConcluded){
+      setTimeout(() => {
+        getReports();
+      }, 500);
+    }
+  }, [modalConcluded]);
 
   const actionReportId = (id: string) => {
     dispatch({
@@ -51,6 +70,8 @@ export function SeeReports() {
     navigation.navigate("SingleReport");
   };
 
+
+const whatOffice =  user && user[0] && user[0][1]?.cargo
   const redes = reports?.map((item: any) => item[1].rede);
   const redesUnicas = redes?.filter(function (este: any, i: any) {
     return redes.indexOf(este) === i && este;
@@ -242,6 +263,23 @@ export function SeeReports() {
     return 0;
   }
 
+  const deleteReport = (id:any) =>{
+    try{
+      connectApi.delete(`/relatorios/${id}.json`)
+      setModalConcluded(true)
+      setIsVisible(false)
+    }
+    catch (err) {
+      alert("Houve algum problema ao excluir esse relátorio");
+    }
+     
+  }
+
+  
+
+
+
+  
   return (
     <Fragment>
       {showFilter && (
@@ -373,13 +411,20 @@ export function SeeReports() {
               {filter?.sort(compared).map((item: any, index: any) => {
                 return (
                   <S.List key={index}>
-                    <S.ContText onPress={() => actionReportId(item[0])}>
-                      <Text>
+                    <S.ContText >
+                      <Text style={{maxWidth:'72%'}} onPress={() => actionReportId(item[0])}>
                         {item[1].celula} - {item[1].data}
                       </Text>
-                      <S.Icon>
-                        <FontAwesome5 name="eye" color="#000A3E" />
-                      </S.Icon>
+                      <S.ContainerIcons>
+                        <S.Icon onPress={() => actionReportId(item[0])}>
+                          <FontAwesome5 size={18} name="eye" color="#000A3E" />
+                        </S.Icon>
+                        {whatOffice === 'administrador' && 
+                          <S.Icon >
+                            <FontAwesome5 size={18} name="trash" color="#000A3E" onPress={() => {setIdSelected(item[0]), setIsVisible(true)}} />
+                          </S.Icon>
+                        }
+                      </S.ContainerIcons>
                     </S.ContText>
                   </S.List>
                 );
@@ -388,6 +433,25 @@ export function SeeReports() {
           )}
         </S.Container>
       </ScrollView>
+      <ModalComponent
+          isVisible={isVisible}
+         onBackdropPress={() => setIsVisible(false)}
+      >
+        <RequestContentModalComponent
+               type="relatório"
+          name="célula"
+          cancel={() => setIsVisible(false)}
+          confirm={() => {
+            deleteReport(idSelected);
+          }}
+        />
+      </ModalComponent>
+      <ModalComponent
+        isVisible={modalConcluded}
+        onBackdropPress={() => setModalConcluded(false)}
+      >
+        <ApprovalRequest name='CÉLULA' type="relátorio" />
+      </ModalComponent>
     </Fragment>
   );
 }
