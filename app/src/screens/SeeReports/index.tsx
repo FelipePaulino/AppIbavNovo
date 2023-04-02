@@ -417,11 +417,11 @@ const whatOffice =  user && user[0] && user[0][1]?.cargo
                       </Text>
                       <S.ContainerIcons>
                         <S.Icon onPress={() => actionReportId(item[0])}>
-                          <FontAwesome5 name="eye" color="#000A3E" />
+                          <FontAwesome5 size={18} name="eye" color="#000A3E" />
                         </S.Icon>
                         {whatOffice === 'administrador' && 
                           <S.Icon >
-                            <FontAwesome5 name="trash" color="#000A3E" onPress={() => {setIdSelected(item[0]), setIsVisible(true)}} />
+                            <FontAwesome5 size={18} name="trash" color="#000A3E" onPress={() => {setIdSelected(item[0]), setIsVisible(true)}} />
                           </S.Icon>
                         }
                       </S.ContainerIcons>
