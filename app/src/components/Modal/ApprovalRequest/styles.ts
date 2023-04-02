@@ -49,6 +49,7 @@ export const TextRed = styled.Text`
 
 export const IconBox = styled.View`
     margin-top: 20px;
+    width: 100%;
 `
 
 export const Icon = styled(AntDesign)`

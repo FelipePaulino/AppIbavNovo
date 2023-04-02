@@ -412,7 +412,7 @@ const whatOffice =  user && user[0] && user[0][1]?.cargo
                 return (
                   <S.List key={index}>
                     <S.ContText >
-                      <Text style={{maxWidth:'85%'}} onPress={() => actionReportId(item[0])}>
+                      <Text style={{maxWidth:'72%'}} onPress={() => actionReportId(item[0])}>
                         {item[1].celula} - {item[1].data}
                       </Text>
                       <S.ContainerIcons>
