@@ -179,7 +179,7 @@ export function SendReportScreen() {
   const filtrandoRedes = celulas.filter((item: any) => {
     return item.rede === state.redeSelect;
   });
-  const discipulado = filtrandoRedes.map((item: any) => item.discipulador);
+  const discipulado = filtrandoRedes.map((item: any) => item.discipulador?.trim());
 
   const discipuladossUnicos = discipulado.filter(function (este: any, i: any) {
     return discipulado.indexOf(este) === i;
@@ -193,7 +193,7 @@ export function SendReportScreen() {
 
   const filtrandoDiscipulado = celulas.filter((item: any) => {
     return (
-      item.discipulador === state.discipuladoSelect &&
+      item.discipulador?.trim() === state.discipuladoSelect?.trim() &&
       item.rede === state.redeSelect
     );
   });

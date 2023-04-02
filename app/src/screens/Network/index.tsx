@@ -341,6 +341,7 @@ export default function NetworkScreenList() {
             >
               <RequestContentModalComponent
                 name={name}
+                type="cadastro"
                 cancel={() => setConfirmModal(false)}
                 confirm={() => {
                   deleteMember();

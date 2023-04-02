@@ -479,6 +479,7 @@ export function MembersScreen(this: any) {
       >
         <RequestContentModalComponent
           name={name}
+          type="cadastro"
           cancel={() => setSendModal(false)}
           confirm={() => {
             deleteMember();
