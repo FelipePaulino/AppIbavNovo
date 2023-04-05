@@ -30,6 +30,7 @@ export function SeeReports() {
   const [showFilter, setShowFilter] = useState<boolean>(false);
   const [showCalender, setShowCalender] = useState(false);
   const [filter, setFilter] = useState<any>();
+  const [relator, setRelator] = useState<any>();
   const [isVisible, setIsVisible] = useState<any>(false)
   const [modalConcluded, setModalConcluded] = useState<any>(false)
   const [idSelected, setIdSelected] = useState<any>()
@@ -39,13 +40,43 @@ export function SeeReports() {
   const serviceGet = new RequestService();
   const { user } = useUserFiltered();
 
+  const dataUser = user && user[0] && user[0][1];
+  const whatIsOffice = dataUser && dataUser.cargo;
+  const rede = user && user[0] && user[0][1]?.rede
+  const discipulador = user && user[0] && user[0][1]?.nome
+  const lider = user && user[0] && user[0][1]?.numero_celula
+
   const getReports = async () => {
     await serviceGet.getReports().then((response) => {
       setLoading(false);
       setReports(Object.entries(response));
-      setFilter(Object.entries(response));
     });
   };
+
+  const relatorPastor = reports?.filter((item: any) => {
+    return item[1].rede === rede
+  })
+
+  const relatorDiscipulador = reports?.filter((item: any) => {
+    return item[1].discipulado.trim() === discipulador.trim()
+  })
+
+  const relatorLider = reports?.filter((item: any) => {
+    return item[1].celula.includes(lider)
+  })
+
+  useEffect(() => {
+    if (whatIsOffice === 'administrador') {
+      setFilter(reports)
+    } else if (whatIsOffice === 'pastor') {
+      return setFilter(relatorPastor)
+    } else if (whatIsOffice === 'discipulador') {
+      return setFilter(relatorDiscipulador)
+    } else setFilter(relatorLider)
+
+  }, [reports]);
+
+
 
   useEffect(() => {
     setLoading(true);
@@ -53,9 +84,9 @@ export function SeeReports() {
       getReports();
     }, 500);
   }, []);
-  
+
   useEffect(() => {
-    if(!modalConcluded){
+    if (!modalConcluded) {
       setTimeout(() => {
         getReports();
       }, 500);
@@ -70,9 +101,54 @@ export function SeeReports() {
     navigation.navigate("SingleReport");
   };
 
+  //pastor
 
-const whatOffice =  user && user[0] && user[0][1]?.cargo
+  const discipuladoPastor = relatorPastor?.map((item: any) => item[1].discipulado);
+
+  const discipuladoPastorUnicos = discipuladoPastor?.filter(function (este: any, i: any) {
+    return discipuladoPastor.indexOf(este) === i && este;
+  });
+
+  const mapDiscipuladoPastorUnicos = discipuladoPastorUnicos?.map((item: any) => {
+    return {
+      value: item,
+    };
+  });
+
+  const celulasPastor = relatorPastor?.filter((item: any) => {
+    return item[1].discipulado === state.discipuladoSelect
+  })
+
+  const celulasPastorMap = celulasPastor?.map((item: any) => item[1].celula);
+
+  const celulasUnicosPastor = celulasPastorMap?.filter(function (este: any, i: any) {
+    return celulasPastorMap.indexOf(este) === i;
+  });
+
+  const celulasUnicosPastorMap = celulasUnicosPastor?.map((item: any) => {
+    return {
+      value: item,
+    };
+  });
+  //
+
+  //discipulador
+  const celulaDiscipulador = relatorDiscipulador?.map((item: any) => item[1].celula);
+
+  const celulaDiscipuladorUnicos = celulaDiscipulador?.filter(function (este: any, i: any) {
+    return celulaDiscipulador.indexOf(este) === i && este;
+  });
+
+  const mapCelulaDiscipuladorUnicos = celulaDiscipuladorUnicos?.map((item: any) => {
+    return {
+      value: item,
+    };
+  });
+  //
+
+  const whatOffice = user && user[0] && user[0][1]?.cargo
   const redes = reports?.map((item: any) => item[1].rede);
+
   const redesUnicas = redes?.filter(function (este: any, i: any) {
     return redes.indexOf(este) === i && este;
   });
@@ -115,6 +191,7 @@ const whatOffice =  user && user[0] && user[0][1]?.cargo
       value: item,
     };
   });
+
 
   const handleRedeChange = (value: string) => {
     dispatch({
@@ -204,10 +281,35 @@ const whatOffice =  user && user[0] && user[0][1]?.cargo
         });
         setFilter(filterCelula);
       } else {
-        const filterDate = reports.filter((item: any) => {
-          return item[1].data === state.textDate;
-        });
-        setFilter(filterDate);
+
+        // if (whatIsOffice === 'administrador') {
+        //   setFilter(reports)
+        // } else if (whatIsOffice === 'pastor') {
+        //   return setFilter(relatorPastor)
+        // } else if (whatIsOffice === 'discipulador') {
+        //   return setFilter(relatorDiscipulador)
+        // } else setFilter(relatorLider)
+        if (whatIsOffice === 'pastor') {
+          const filterDatePastor = relatorPastor.filter((item: any) => {
+            return item[1].data === state.textDate;
+          });
+          setFilter(filterDatePastor);
+        } else if (whatIsOffice === 'discipulador') {
+          const filterDateDiscipulador = relatorDiscipulador.filter((item: any) => {
+            return item[1].data === state.textDate;
+          });
+          setFilter(filterDateDiscipulador);
+        } else if (whatIsOffice === 'lider de celula') {
+          const filterDateLider = relatorLider.filter((item: any) => {
+            return item[1].data === state.textDate;
+          });
+          setFilter(filterDateLider);
+        } else {
+          const filterDate = reports.filter((item: any) => {
+            return item[1].data === state.textDate;
+          });
+          setFilter(filterDate);
+        }
       }
     } else {
       if (
@@ -254,7 +356,13 @@ const whatOffice =  user && user[0] && user[0][1]?.cargo
       type: FormReportActions.setDate,
       payload: new Date(),
     });
-    setFilter(reports);
+    if (whatIsOffice === 'administrador') {
+      setFilter(reports)
+    } else if (whatIsOffice === 'pastor') {
+      return setFilter(relatorPastor)
+    } else if (whatIsOffice === 'discipulador') {
+      return setFilter(relatorDiscipulador)
+    } else setFilter(relatorLider)
   };
 
   function compared(a: any, b: any) {
@@ -263,8 +371,8 @@ const whatOffice =  user && user[0] && user[0][1]?.cargo
     return 0;
   }
 
-  const deleteReport = (id:any) =>{
-    try{
+  const deleteReport = (id: any) => {
+    try {
       connectApi.delete(`/relatorios/${id}.json`)
       setModalConcluded(true)
       setIsVisible(false)
@@ -272,14 +380,119 @@ const whatOffice =  user && user[0] && user[0][1]?.cargo
     catch (err) {
       alert("Houve algum problema ao excluir esse relátorio");
     }
-     
+
   }
 
-  
+  const siderBarFilter = () => {
+    if (whatOffice === 'administrador') {
+      return (
+        <>
+          <S.Grid>
+            <TitleComponent
+              title={`${FormFields.NETWORK}:`}
+              small
+              primary
+            />
+            <S.ContentC>
+              <SelectComponent
+                onChange={handleRedeChange}
+                labelSelect={state.redeSelect}
+                dataOptions={mapRedesUnicas}
+                selectedOption={handleRedeChange}
+                width="100%"
+              />
+            </S.ContentC>
+          </S.Grid>
 
+          <S.Grid>
+            <TitleComponent
+              title={`${FormFields.DISCIPLESHIP}:`}
+              small
+              primary
+            />
+            <S.ContentC>
+              <SelectComponent
+                onChange={handleDiscipuladoChange}
+                labelSelect={state.discipuladoSelect}
+                dataOptions={mapDiscipuladosUnicos}
+                selectedOption={handleDiscipuladoChange}
+                width="100%"
+              />
+            </S.ContentC>
+          </S.Grid>
 
+          <S.Grid>
+            <TitleComponent title={`${FormFields.CELULA}:`} small primary />
+            <S.ContentC>
+              <SelectComponent
+                onChange={handleCelulaChange}
+                labelSelect={state.celulaSelect}
+                dataOptions={mapCelulasUnicos}
+                selectedOption={handleCelulaChange}
+                width="100%"
+                disabled={
+                  state.discipuladoSelect === "Selecione" ? true : false
+                }
+              />
+            </S.ContentC>
+          </S.Grid>
+        </>
+      )
+    } else if (whatOffice === 'pastor') {
+      return (
+        <>
+          <S.Grid>
+            <TitleComponent
+              title={`${FormFields.DISCIPLESHIP}:`}
+              small
+              primary
+            />
+            <S.ContentC>
+              <SelectComponent
+                onChange={handleDiscipuladoChange}
+                labelSelect={state.discipuladoSelect}
+                dataOptions={mapDiscipuladoPastorUnicos}
+                selectedOption={handleDiscipuladoChange}
+                width="100%"
+              />
+            </S.ContentC>
+          </S.Grid>
 
-  
+          <S.Grid>
+            <TitleComponent title={`${FormFields.CELULA}:`} small primary />
+            <S.ContentC>
+              <SelectComponent
+                onChange={handleCelulaChange}
+                labelSelect={state.celulaSelect}
+                dataOptions={celulasUnicosPastorMap}
+                selectedOption={handleCelulaChange}
+                width="100%"
+                disabled={
+                  state.discipuladoSelect === "Selecione" ? true : false
+                }
+              />
+            </S.ContentC>
+          </S.Grid>
+        </>
+      )
+    } else if (whatOffice === 'discipulador') {
+      return (
+        <S.Grid>
+          <TitleComponent title={`${FormFields.CELULA}:`} small primary />
+          <S.ContentC>
+            <SelectComponent
+              onChange={handleCelulaChange}
+              labelSelect={state.celulaSelect}
+              dataOptions={mapCelulaDiscipuladorUnicos}
+              selectedOption={handleCelulaChange}
+              width="100%"
+            />
+          </S.ContentC>
+        </S.Grid>
+      )
+    }
+  }
+
   return (
     <Fragment>
       {showFilter && (
@@ -306,57 +519,7 @@ const whatOffice =  user && user[0] && user[0][1]?.cargo
                 Filtro
               </S.Title>
 
-              <S.Grid>
-                <TitleComponent
-                  title={`${FormFields.NETWORK}:`}
-                  small
-                  primary
-                />
-                <S.ContentC>
-                  <SelectComponent
-                    onChange={handleRedeChange}
-                    labelSelect={state.redeSelect}
-                    dataOptions={mapRedesUnicas}
-                    selectedOption={handleRedeChange}
-                    width="100%"
-                  />
-                </S.ContentC>
-              </S.Grid>
-
-              <S.Grid>
-                <TitleComponent
-                  title={`${FormFields.DISCIPLESHIP}:`}
-                  small
-                  primary
-                />
-                <S.ContentC>
-                  <SelectComponent
-                    onChange={handleDiscipuladoChange}
-                    labelSelect={state.discipuladoSelect}
-                    dataOptions={mapDiscipuladosUnicos}
-                    selectedOption={handleDiscipuladoChange}
-                    width="100%"
-                    disabled={state.redeSelect === "Selecione" ? true : false}
-                  />
-                </S.ContentC>
-              </S.Grid>
-
-              <S.Grid>
-                <TitleComponent title={`${FormFields.CELULA}:`} small primary />
-                <S.ContentC>
-                  <SelectComponent
-                    onChange={handleCelulaChange}
-                    labelSelect={state.celulaSelect}
-                    dataOptions={mapCelulasUnicos}
-                    selectedOption={handleCelulaChange}
-                    width="100%"
-                    disabled={
-                      state.discipuladoSelect === "Selecione" ? true : false
-                    }
-                  />
-                </S.ContentC>
-              </S.Grid>
-
+              {siderBarFilter()}
               <S.Grid>
                 <TitleComponent title="Data:" small primary />
                 <S.ContentC>
@@ -412,16 +575,16 @@ const whatOffice =  user && user[0] && user[0][1]?.cargo
                 return (
                   <S.List key={index}>
                     <S.ContText >
-                      <Text style={{maxWidth:'72%'}} onPress={() => actionReportId(item[0])}>
+                      <Text style={{ maxWidth: '72%' }} onPress={() => actionReportId(item[0])}>
                         {item[1].celula} - {item[1].data}
                       </Text>
                       <S.ContainerIcons>
                         <S.Icon onPress={() => actionReportId(item[0])}>
                           <FontAwesome5 size={18} name="eye" color="#000A3E" />
                         </S.Icon>
-                        {whatOffice === 'administrador' && 
+                        {whatOffice === 'administrador' &&
                           <S.Icon >
-                            <FontAwesome5 size={18} name="trash" color="#000A3E" onPress={() => {setIdSelected(item[0]), setIsVisible(true)}} />
+                            <FontAwesome5 size={18} name="trash" color="#000A3E" onPress={() => { setIdSelected(item[0]), setIsVisible(true) }} />
                           </S.Icon>
                         }
                       </S.ContainerIcons>
@@ -434,11 +597,11 @@ const whatOffice =  user && user[0] && user[0][1]?.cargo
         </S.Container>
       </ScrollView>
       <ModalComponent
-          isVisible={isVisible}
-         onBackdropPress={() => setIsVisible(false)}
+        isVisible={isVisible}
+        onBackdropPress={() => setIsVisible(false)}
       >
         <RequestContentModalComponent
-               type="relatório"
+          type="relatório"
           name="célula"
           cancel={() => setIsVisible(false)}
           confirm={() => {
