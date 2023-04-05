@@ -281,10 +281,35 @@ export function SeeReports() {
         });
         setFilter(filterCelula);
       } else {
-        const filterDate = reports.filter((item: any) => {
-          return item[1].data === state.textDate;
-        });
-        setFilter(filterDate);
+
+        // if (whatIsOffice === 'administrador') {
+        //   setFilter(reports)
+        // } else if (whatIsOffice === 'pastor') {
+        //   return setFilter(relatorPastor)
+        // } else if (whatIsOffice === 'discipulador') {
+        //   return setFilter(relatorDiscipulador)
+        // } else setFilter(relatorLider)
+        if (whatIsOffice === 'pastor') {
+          const filterDatePastor = relatorPastor.filter((item: any) => {
+            return item[1].data === state.textDate;
+          });
+          setFilter(filterDatePastor);
+        } else if (whatIsOffice === 'discipulador') {
+          const filterDateDiscipulador = relatorDiscipulador.filter((item: any) => {
+            return item[1].data === state.textDate;
+          });
+          setFilter(filterDateDiscipulador);
+        } else if (whatIsOffice === 'lider de celula') {
+          const filterDateLider = relatorLider.filter((item: any) => {
+            return item[1].data === state.textDate;
+          });
+          setFilter(filterDateLider);
+        } else {
+          const filterDate = reports.filter((item: any) => {
+            return item[1].data === state.textDate;
+          });
+          setFilter(filterDate);
+        }
       }
     } else {
       if (
@@ -331,7 +356,13 @@ export function SeeReports() {
       type: FormReportActions.setDate,
       payload: new Date(),
     });
-    setFilter(reports);
+    if (whatIsOffice === 'administrador') {
+      setFilter(reports)
+    } else if (whatIsOffice === 'pastor') {
+      return setFilter(relatorPastor)
+    } else if (whatIsOffice === 'discipulador') {
+      return setFilter(relatorDiscipulador)
+    } else setFilter(relatorLider)
   };
 
   function compared(a: any, b: any) {
