@@ -80,7 +80,7 @@ export function HomeScreen() {
         return <TitleComponent title="Discipulador" decoration red />;
 
       case "pastor":
-          return <TitleComponent title="Pastor" decoration red />;
+        return <TitleComponent title="Pastor" decoration red />;
     }
   };
 
@@ -156,20 +156,19 @@ export function HomeScreen() {
                 )}
               </S.ContentOptions>
 
-              {whatIsOffice === "administrador" && (
-                <S.ContentOptions>
-                  <SelectedMenuComponent
-                    icon={<S.ReportView name="copy" />}
-                    title="Ver Relatórios Entregues"
-                    onPress={() => clean("SeeReports")}
-                  />
+              <S.ContentOptions>
+                <SelectedMenuComponent
+                  icon={<S.ReportView name="copy" />}
+                  title="Ver Relatórios Entregues"
+                  onPress={() => clean("SeeReports")}
+                />
+                {whatIsOffice === "administrador" && (
                   <SelectedMenuComponent
                     icon={<S.MultiplicationIcon name="multiplication" />}
                     title="Multiplicação"
                     onPress={() => navigation.navigate("Multiplication")}
-                  />
-                </S.ContentOptions>
-              )}
+                  />)}
+              </S.ContentOptions>
             </Fragment>
           )}
         </S.Content>
