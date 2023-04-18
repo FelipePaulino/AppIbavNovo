@@ -33,6 +33,7 @@ export const Content = styled.View`
 
 export const Heading = styled.View`
   align-items: center;
+  margin-top: 40px;
 `;
 
 export const Heading2 = styled.View`
@@ -40,14 +41,15 @@ export const Heading2 = styled.View`
   margin-top:20px;
 `;
 
-export const Adress = styled.View`
+export const Adress = styled.Text`
   align-items: center;
-  margin-top: 30px;
+  margin-top: 10px;
   padding: 0 20px;
   font-family: arial;
   color: #fff
   text-align:center;
   line-height:20px;
+  margin-bottom:20px;
 `;
 
 
@@ -79,7 +81,7 @@ export const Chamada = styled(TouchableOpacity)`
   font-weight: 500;
   color: #ffffff;
   text-align: center;
-  font-family: Arial;
+  font-family: arial;
 `;
 
 export const ShowPassWord = styled(FontAwesome5)`

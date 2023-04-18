@@ -71,7 +71,7 @@ export function SignInScreen() {
               <S.ErrorLogin>{validError && errorr}</S.ErrorLogin>
             </S.Content>
             <S.Chamada onPress={() => navigation.navigate("Live")}>
-              Não tem login? veja nosso último culto
+              <S.TextChamada>Não tem login? veja nosso último culto</S.TextChamada>
             </S.Chamada>
           </S.Form>
 

@@ -41,6 +41,11 @@ export const Buttons = styled.View`
   margin-top: 48px;
 `;
 
+export const TextChamada = styled.Text`
+color: #ffff;
+text-align:center;
+`;
+
 export const ErrorLogin = styled.Text`
   margin-top: 15px;
   font-size: 14px;
@@ -55,7 +60,7 @@ export const Chamada = styled(TouchableOpacity)`
   font-weight: 500;
   color: #ffffff;
   text-align: center;
-  font-family: Arial;
+  font-family: arial;
 `;
 
 export const ShowPassWord = styled(FontAwesome5)`
