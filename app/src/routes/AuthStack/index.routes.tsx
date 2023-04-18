@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { SignInScreen } from "../../screens/SignIn";
 import { PreloadScreen } from "../../screens/PreLoad";
+import { LiveScreen } from "../../screens/Live";
 
 import { INavigationAuthStackProps } from "./types";
 
@@ -16,6 +17,7 @@ export function AuthRouter() {
     >
       <Screen name="SignIn" component={SignInScreen} />
       <Screen name="Preload" component={PreloadScreen} />
+      <Screen name="Live" component={LiveScreen} />
     </Navigator>
   );
 }

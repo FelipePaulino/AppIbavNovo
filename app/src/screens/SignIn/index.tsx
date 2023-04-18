@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Keyboard, ScrollView, TouchableWithoutFeedback } from "react-native";
+import { Keyboard, ScrollView, TouchableWithoutFeedback, Text } from "react-native";
 
 import { LogoComponent } from "../../components/Logo";
 import { TitleComponent } from "../../components/Title";
@@ -8,8 +8,10 @@ import { InputFieldComponent } from "../../components/InputField";
 
 import { useAuth } from "../../hooks/useAuth";
 import ButtonsText from "../../common/constants/buttons";
+import { useNavigation } from "@react-navigation/native";
 
 import * as S from "./styles";
+import { IPropsAppStack } from "../../routes/AppStack/types";
 
 export function SignInScreen() {
   const { signIn, errorLogin, isLogged, validError } = useAuth();
@@ -17,12 +19,13 @@ export function SignInScreen() {
   const [password, setPassword] = useState("");
   const [errorr, setErrorr] = useState("");
   const [show, setShow] = useState(true);
+  const navigation = useNavigation<IPropsAppStack>();
 
   function handleSignIn() {
     signIn(email, password);
-      if (isLogged === false) {
-        setErrorr(errorLogin);
-      }
+    if (isLogged === false) {
+      setErrorr(errorLogin);
+    }
   }
 
   return (
@@ -67,7 +70,11 @@ export function SignInScreen() {
               </S.Buttons>
               <S.ErrorLogin>{validError && errorr}</S.ErrorLogin>
             </S.Content>
+            <S.Chamada onPress={() => navigation.navigate("Live")}>
+              Não tem login? veja nosso último culto
+            </S.Chamada>
           </S.Form>
+
         </TouchableWithoutFeedback>
       </ScrollView>
     </S.Container>

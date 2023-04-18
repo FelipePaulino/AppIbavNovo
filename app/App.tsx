@@ -29,6 +29,7 @@ export default function App() {
     return <AppLoading />;
   }
 
+
   return (
     <ThemeProvider theme={theme}>
       <AuthenticatedProvider>
@@ -37,7 +38,9 @@ export default function App() {
             <Routes />
           </FormProvider>
         </FilteredProvider>
+      
       </AuthenticatedProvider>
+
       <StatusBar style="light" backgroundColor="#000A3E" translucent />
     </ThemeProvider>
   );

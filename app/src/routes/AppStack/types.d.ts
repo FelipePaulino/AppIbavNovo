@@ -22,7 +22,7 @@ export type INavigationAppStackProps = {
   MemberInformation: undefined;
   SeeReports: undefined;
   SingleReport: undefined;
-  RedeInformation: undefined
+  RedeInformation: undefined;
 }
 
 export type IPropsAppStack = NativeStackScreenProps<INavigationAppStackProps>;
