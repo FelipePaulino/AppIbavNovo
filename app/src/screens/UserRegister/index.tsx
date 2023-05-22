@@ -43,7 +43,7 @@ import { dictionary } from "../../common/utils/dictionary";
 export function UserRegisterScreen() {
   const [users, setUsers] = useState([]);
   const [celulas, setCelulas] = useState([])
-  const [diseble, setDiseble] = useState<any>();
+  const [disable, setDisable] = useState<any>();
   const [office, setOffice] = useState("Selecionar");
   const [showCalender, setShowCalender] = useState(false);
   const [address, setAddress] = useState<any>(initialValuesRequestCep);
@@ -185,6 +185,12 @@ export function UserRegisterScreen() {
     }
   };
 
+  const handleInputChange = (text: string) => {
+    const trimmedText = text.split(' ').join('');
+    // Faça o que precisar com a string sem espaços
+    console.log(trimmedText);
+  };
+
   const validateCell: any = celulas.length && celulas.filter((item: any) => {
     return item.numero_celula === formValues.numberCelula
   })
@@ -204,7 +210,7 @@ export function UserRegisterScreen() {
       estado: address.uf ? address.uf : formValues.state,
       estado_civil: formValues.stateCivil,
       n_end: formValues.numberHouse,
-      nome: formValues.name,
+      nome: formValues.name.trim(),
       status: "membro",
       telefone: formValues.phone,
     }
@@ -215,7 +221,7 @@ export function UserRegisterScreen() {
             .post("/users.json", {
               cargo: "pastor",
               cep: address.cep,
-              nome: formValues.name,
+              nome: formValues.name.trim(),
               bairro: address.bairro,
               email: formValues.email.toLowerCase(),
               estado: formValues.state ? formValues.state : '',
@@ -248,7 +254,7 @@ export function UserRegisterScreen() {
               rede: selectNetwork.split(' -')[0],
               pastor: selectNetwork.split(' -')[1],
               cep: address.cep,
-              nome: formValues.name,
+              nome: formValues.name.trim(),
               bairro: address.bairro,
               email: formValues.email.toLowerCase(),
               estado: address.uf ? address.uf : formValues.state,
@@ -286,7 +292,7 @@ export function UserRegisterScreen() {
                 ...dataLider
               }).then(() => {
                 connectApi.post("/celulas.json", {
-                  lider: formValues.name,
+                  lider: formValues.name.trim(),
                   email: formValues.email,
                   numero_celula: formValues.numberCelula,
                   discipulador: selectDisciples,
@@ -324,7 +330,7 @@ export function UserRegisterScreen() {
           ...dataLider
         }).then(() => {
           connectApi.post("/celulas.json", {
-            lider: formValues.name,
+            lider: formValues.name.trim(),
             email: formValues.email.toLowerCase(),
             numero_celula: formValues.numberCelula,
             discipulador: selectDisciples,
@@ -355,31 +361,36 @@ export function UserRegisterScreen() {
 
   useEffect(() => {
     if (office === "pastor de rede") {
-      setDiseble(
+      setDisable(
         formValues.network === "" ||
         formValues.email === "" ||
         FormFields.PASSWORD === "" ||
         formValues.name === "" ||
-        formValues.phone === ""
+        formValues.phone === "" ||
+        formValues.stateCivil === "" ||
+        stateReducer.textRegister === "Selecione uma data"
       );
     } else if (office === "lider de celula") {
-      setDiseble(
+      setDisable(
         formValues.numberCelula === "" ||
         formValues.email === "" ||
         FormFields.PASSWORD === "" ||
         formValues.name === "" ||
         formValues.phone === "" ||
         selectDisciples === "Selecionar" ||
-        selectNetwork === "Selecionar"
-
+        selectNetwork === "Selecionar"  ||
+        formValues.stateCivil === "" ||
+        stateReducer.textRegister === "Selecione uma data"
       );
     } else if (office === "discipulador") {
-      setDiseble(
+      setDisable(
         formValues.email === "" ||
         FormFields.PASSWORD === "" ||
         formValues.name === "" ||
         formValues.phone === "" ||
-        selectNetwork === "Selecionar"
+        selectNetwork === "Selecionar" ||
+        formValues.stateCivil === "" ||
+        stateReducer.textRegister === "Selecione uma data"
       );
     }
   }, [formValues, FormFields, office, selectNetwork, selectDisciples]);
@@ -449,7 +460,7 @@ export function UserRegisterScreen() {
             value={formValues.numberCelula}
             placeholder={`* ${FormFields.NUMBER_CELULA}`}
             onChangeText={(value) =>
-              setFormValues({ ...formValues, numberCelula: value })
+              setFormValues({ ...formValues, numberCelula: value.split(' ').join('') })
             }
           />
         );
@@ -490,7 +501,7 @@ export function UserRegisterScreen() {
               value={formValues.email}
               placeholder={`* ${FormFields.EMAIL}`}
               onChangeText={(value) =>
-                setFormValues({ ...formValues, email: value })
+                setFormValues({ ...formValues, email: value.trim() })
               }
             />
 
@@ -499,7 +510,7 @@ export function UserRegisterScreen() {
               value={formValues.password}
               placeholder={`* ${FormFields.PASSWORD}`}
               onChangeText={(value) =>
-                setFormValues({ ...formValues, password: value })
+                setFormValues({ ...formValues, password: value.trim() })
               }
             />
 
@@ -624,7 +635,7 @@ export function UserRegisterScreen() {
 
               <S.GridItem>
                 <SelectComponent
-                  label="Estado Civil"
+                  label="* Estado Civil"
                   onChange={(value) =>
                     setFormValues({ ...formValues, stateCivil: value })
                   }
@@ -647,7 +658,7 @@ export function UserRegisterScreen() {
                   showCalender={showCalender}
                   dataDados={stateReducer.dateRegister}
                   onChange={handleDateChange}
-                  label="Data de Nascimento"
+                  label="* Data de Nascimento"
                 />
               </S.GridItem>
             </S.GridForm>
@@ -658,7 +669,7 @@ export function UserRegisterScreen() {
                 title="Cadastrar"
                 onPress={registerUser}
                 width="170"
-                disabled={diseble}
+                disabled={disable}
               />
             </S.FooterFields>
           </Fragment>

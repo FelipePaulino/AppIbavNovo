@@ -506,7 +506,7 @@ export function RegisterScreen() {
               <InputFieldComponent
                 primary
                 value={email}
-                placeholder={FormFields.EMAIL}
+                placeholder={`* ${FormFields.EMAIL}`}
                 onChangeText={setEmail}
               />
 
@@ -602,7 +602,7 @@ export function RegisterScreen() {
 
                 <S.GridItem>
                   <SelectComponent
-                    label="Estado Civil"
+                    label="* Estado Civil"
                     onChange={handleCivilStatusChange}
                     selectedOption={selectedOptionCivilStatus}
                     labelSelect={state.textSelectCivilStatus}
@@ -619,7 +619,7 @@ export function RegisterScreen() {
                     showCalender={showCalender}
                     dataDados={state.dateRegister}
                     onChange={handleDateChange}
-                    label="Data de Nascimento"
+                    label="* Data de Nascimento"
                   />
                 </S.GridItem>
 
