@@ -63,7 +63,7 @@ export function MembersReportScreen() {
       const filterMembersCelula =
         celulas &&
         celulas.filter((item: any) => {
-          return item[1].numero_celula == dataUser.numero_celula;
+          return item[1].numero_celula.trim() == dataUser.numero_celula.trim();
         });
       setMembers(filterMembersCelula);
     } else if (filterMembers) {
@@ -82,6 +82,7 @@ export function MembersReportScreen() {
       (member: any) =>
         member.status !== "visitante" && member.status !== "Visitante"
     );
+
   const newArrayMembers = membersIdentify ? membersIdentify : newMembersList;
   const isLider = whatIsOffice === 'lider de celula' ? false : state.celulaSelect === "Selecione" 
   useEffect(() => {
@@ -125,7 +126,7 @@ export function MembersReportScreen() {
   }
 
   newArrayMembers && newArrayMembers.sort(compared);
-
+console.log(newArrayMembers, 'newArrayMembers')
   return (
     <Fragment>
       <HeaderComponent>
