@@ -126,7 +126,7 @@ export function MembersReportScreen() {
   }
 
   newArrayMembers && newArrayMembers.sort(compared);
-console.log(newArrayMembers, 'newArrayMembers')
+
   return (
     <Fragment>
       <HeaderComponent>
