@@ -185,12 +185,6 @@ export function UserRegisterScreen() {
     }
   };
 
-  const handleInputChange = (text: string) => {
-    const trimmedText = text.split(' ').join('');
-    // Faça o que precisar com a string sem espaços
-    console.log(trimmedText);
-  };
-
   const validateCell: any = celulas.length && celulas.filter((item: any) => {
     return item.numero_celula === formValues.numberCelula
   })
