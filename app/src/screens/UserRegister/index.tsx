@@ -287,14 +287,14 @@ export function UserRegisterScreen() {
                 rede: selectNetwork.split(' -')[0],
                 pastor: selectNetwork.split(' -')[1],
                 discipulador: selectDisciples,
-                numero_celula: formValues.numberCelula.trim(),
+                numero_celula: formValues.numberCelula.replace(/\s/g, ''),
                 senha: formValues.password,
                 ...dataLider
               }).then(() => {
                 connectApi.post("/celulas.json", {
                   lider: formValues.name.trim(),
                   email: formValues.email,
-                  numero_celula: formValues.numberCelula.trim(),
+                  numero_celula: formValues.numberCelula.replace(/\s/g, ''),
                   discipulador: selectDisciples,
                   pastor: selectNetwork.split('- ')[1],
                   rede: selectNetwork.split(' -')[0],
@@ -325,14 +325,14 @@ export function UserRegisterScreen() {
           rede: selectNetwork.split(' -')[0],
           pastor: selectNetwork.split(' - ')[1],
           discipulador: selectDisciples,
-          numero_celula: formValues.numberCelula.trim(),
+          numero_celula: formValues.numberCelula.replace(/\s/g, ''),
           senha: formValues.password,
           ...dataLider
         }).then(() => {
           connectApi.post("/celulas.json", {
             lider: formValues.name.trim(),
             email: formValues.email.toLowerCase(),
-            numero_celula: formValues.numberCelula.trim(),
+            numero_celula: formValues.numberCelula.replace(/\s/g, ''),
             discipulador: selectDisciples,
             pastor: selectNetwork.split('- ')[1],
             rede: selectNetwork.split(' -')[0],
@@ -460,7 +460,7 @@ export function UserRegisterScreen() {
             value={formValues.numberCelula}
             placeholder={`* ${FormFields.NUMBER_CELULA}`}
             onChangeText={(value) =>
-              setFormValues({ ...formValues, numberCelula: value.split(' ').join('') })
+              setFormValues({ ...formValues, numberCelula: value })
             }
           />
         );
