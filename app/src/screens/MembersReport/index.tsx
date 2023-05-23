@@ -185,6 +185,7 @@ export function MembersReportScreen() {
 
       <ModalComponent
         isVisible={isModalVisible}
+        teste="enviar (membros)"
         onBackdropPress={() => setModalVisible(false)}
       >
         <ReportContentModalComponent
@@ -196,12 +197,14 @@ export function MembersReportScreen() {
 
       <ModalComponent
         isVisible={sendModal}
+        teste="feedback (membros)"
         onBackdropPress={() => {
           setSendModal(false);
           navigation.navigate("Home");
         }}
       >
-        <DefaultContentModalComponent type="sendReport" />
+        {/* <DefaultContentModalComponent type="sendReport" /> */}
+        <>oi</>
       </ModalComponent>
     </Fragment>
   );

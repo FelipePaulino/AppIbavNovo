@@ -463,16 +463,16 @@ export function SendReportScreen() {
                   <ButtonComponent
                     title={ButtonsText.REPORT}
                     onPress={handleOpenModal}
-                    disabled={
-                      isLider ||
-                      state.textDate === "Selecione uma data" ||
-                      state.week === "Selecione uma semana" ||
-                      state.offer === "" ||
-                      state.presencaCelula.length === 0 ||
-                      state.presencaCulto.length === 0
-                        ? true
-                        : false
-                    }
+                    // disabled={
+                    //   isLider ||
+                    //   state.textDate === "Selecione uma data" ||
+                    //   state.week === "Selecione uma semana" ||
+                    //   state.offer === "" ||
+                    //   state.presencaCelula.length === 0 ||
+                    //   state.presencaCulto.length === 0
+                    //     ? true
+                    //     : false
+                    // }
                   />
                 </S.ContentButton>
               </S.Form>
@@ -483,6 +483,7 @@ export function SendReportScreen() {
       <ModalComponent
         isVisible={isModalVisible}
         onBackdropPress={() => setModalVisible(false)}
+        teste="enviar (dados)"
       >
         <ReportContentModalComponent
           handleCloseModal={setModalVisible}
@@ -493,13 +494,21 @@ export function SendReportScreen() {
 
       <ModalComponent
         isVisible={sendModal}
+        teste="feedback dados"
         onBackdropPress={() => {
           setSendModal(false);
           navigation.navigate("Home");
         }}
       >
-        <DefaultContentModalComponent type="sendReport" />
+        {/* <DefaultContentModalComponent type="sendReport" /> */}
       </ModalComponent>
+      {/* {sendModal &&
+        <TitleComponent
+          title={`feedback`}
+          small
+          primary
+        />
+      } */}
     </Fragment>
   );
 }

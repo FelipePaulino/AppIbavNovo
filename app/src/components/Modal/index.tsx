@@ -7,7 +7,9 @@ export function ModalComponent({
   isVisible,
   onBackdropPress,
   children,
+  teste
 }: IContentProps) {
+  isVisible && console.log(teste ? teste : "não")
   return (
     <Modal isVisible={isVisible} onBackdropPress={onBackdropPress}>
       {children}
