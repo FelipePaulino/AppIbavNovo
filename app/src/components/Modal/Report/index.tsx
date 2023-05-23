@@ -15,6 +15,7 @@ import * as S from "./styles";
 export function ReportContentModalComponent({
   handleCloseModal,
   setSendModal,
+  setTeste
 }: IContentModal) {
   const { state } = useFormReport();
   const { user } = useUserFiltered();
@@ -80,7 +81,7 @@ export function ReportContentModalComponent({
           semana: week,
         })
         .then(() => {
-          setSendModal(true);
+          setTeste(true);
           handleCloseModal(false);
         });
     } catch (err) {

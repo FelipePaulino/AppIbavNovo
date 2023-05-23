@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Fragment } from "react";
-import { ScrollView, Text } from "react-native";
+import { Image, ScrollView, Text } from "react-native";
 import { DateComponent } from "../../components/Date";
 import { TitleComponent } from "../../components/Title";
 import { ModalComponent } from "../../components/Modal";
@@ -15,6 +15,7 @@ import { DefaultContentModalComponent } from "../../components/Modal/Default";
 import { InputMaskComponent } from "../../components/InputMask";
 import { IPropsAppStack } from "../../routes/AppStack/types";
 import { useNavigation } from "@react-navigation/native";
+import Modal from "react-native-modal";
 
 const loadingGif = require("../../assets/loader-two.gif");
 
@@ -28,6 +29,7 @@ import { FormReportActions } from "../../contexts/FormReport";
 import { IContentProps } from "./types";
 
 import * as S from "./styles";
+import { usePlatform } from "../../contexts/Platform";
 
 export function SendReportScreen() {
   const [celulas, setCelulas] = useState<any>([]);
@@ -36,17 +38,20 @@ export function SendReportScreen() {
   const [sendModal, setSendModal] = useState(false);
   const [celulaFiltered, setCelulaFiltered] = useState<any>([]);
 
+  const [teste, setTeste] = useState<boolean>(false);
+  console.log(teste, "teste");
+
   const { state, dispatch } = useFormReport();
   const { user, loading } = useUserFiltered();
   const navigation = useNavigation<IPropsAppStack>();
 
   const weeks = [
-    {value: '1° Semana'},
-    {value: '2° Semana'},
-    {value: '3° Semana'},
-    {value: '4° Semana'},
-    {value: '5° Semana'}
-  ]
+    { value: "1° Semana" },
+    { value: "2° Semana" },
+    { value: "3° Semana" },
+    { value: "4° Semana" },
+    { value: "5° Semana" },
+  ];
 
   const handleOpenModal = () => {
     setModalVisible(true);
@@ -179,7 +184,9 @@ export function SendReportScreen() {
   const filtrandoRedes = celulas.filter((item: any) => {
     return item.rede === state.redeSelect;
   });
-  const discipulado = filtrandoRedes.map((item: any) => item.discipulador?.trim());
+  const discipulado = filtrandoRedes.map((item: any) =>
+    item.discipulador?.trim()
+  );
 
   const discipuladossUnicos = discipulado.filter(function (este: any, i: any) {
     return discipulado.indexOf(este) === i;
@@ -378,6 +385,9 @@ export function SendReportScreen() {
     }
   };
 
+  const { android } = usePlatform();
+  const Logo = require("../../assets/logo.png");
+
   return (
     <Fragment>
       <HeaderComponent>
@@ -489,26 +499,55 @@ export function SendReportScreen() {
           handleCloseModal={setModalVisible}
           data={user}
           setSendModal={setSendModal}
+          setTeste={setTeste}
         />
       </ModalComponent>
 
-      <ModalComponent
-        isVisible={sendModal}
-        teste="feedback dados"
-        onBackdropPress={() => {
-          setSendModal(false);
-          navigation.navigate("Home");
-        }}
-      >
-        {/* <DefaultContentModalComponent type="sendReport" /> */}
-      </ModalComponent>
-      {/* {sendModal &&
-        <TitleComponent
-          title={`feedback`}
-          small
-          primary
-        />
-      } */}
+      {/* {android ? (
+        <ModalComponent
+          isVisible={teste}
+          teste="feedback dados"
+          onBackdropPress={() => {
+            setTeste(false);
+            // navigation.navigate("Home");
+          }}
+        >
+          <DefaultContentModalComponent type="sendReport" />
+        </ModalComponent>
+      ) : (
+        <Modal
+          isVisible={teste}
+          onBackdropPress={() => {
+            setTeste(false);
+          }}
+        >
+          <Text style={{ color: "red" }}>oi iOS</Text>
+        </Modal>
+      )} */}
+      {/* {android && (
+        <ModalComponent
+          isVisible={teste}
+          teste="feedback dados"
+          onBackdropPress={() => {
+            setTeste(false);
+            // navigation.navigate("Home");
+          }}
+        >
+          <DefaultContentModalComponent type="sendReport" />
+        </ModalComponent>
+      )} */}
+      {teste && (
+        <Modal
+          isVisible
+          onBackdropPress={() => {
+            setTeste(false);
+          }}
+        >
+          <Text style={{ color: "red" }}>oi iOS</Text>
+        </Modal>
+        // <Image source={Logo} />
+        // <DefaultContentModalComponent type="sendReport" noModalComponent />
+      )}
     </Fragment>
   );
 }

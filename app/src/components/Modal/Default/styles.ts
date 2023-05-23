@@ -2,9 +2,12 @@ import styled from "styled-components/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import theme from "../../../styles/theme";
 
-export const ContentModal = styled.View`
+interface IProps {
+  noModalComponent?: boolean;
+}
+
+export const ContentModal = styled.View<IProps>`
   background-color: ${theme.colors.light};
-  width: 100%;
 
   padding-left: 20px;
   padding-right: 20px;
@@ -12,6 +15,15 @@ export const ContentModal = styled.View`
   padding-top: 20px;
 
   border-radius: 5px;
+  ${({ noModalComponent }) => {
+    return noModalComponent ? {
+      position: "absolute",
+      top: "42%",
+      left: "12.5%",
+    } : {
+      width: "100%",
+    }
+  }}
 `;
 
 export const Description = styled.Text`

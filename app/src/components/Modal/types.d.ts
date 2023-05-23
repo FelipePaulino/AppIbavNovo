@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 export interface IContentProps {
-  onBackdropPress: () => void;
+  onBackdropPress?: () => void;
   isVisible?: boolean;
   children: ReactNode;
   teste?: any

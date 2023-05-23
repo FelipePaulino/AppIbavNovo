@@ -10,13 +10,13 @@ import {
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 
-
 import { Routes } from "./src/routes";
 import { FormProvider } from "./src/contexts/FormReport";
 import { FilteredProvider } from "./src/contexts/Filtered";
 
 import theme from "./src/styles/theme";
 import { AuthenticatedProvider } from "./src/contexts/Auth";
+import { PlatformProvider } from "./src/contexts/Platform";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -31,13 +31,15 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AuthenticatedProvider>
-        <FilteredProvider>
-          <FormProvider>
-            <Routes />
-          </FormProvider>
-        </FilteredProvider>
-      </AuthenticatedProvider>
+      <PlatformProvider>
+        <AuthenticatedProvider>
+          <FilteredProvider>
+            <FormProvider>
+              <Routes />
+            </FormProvider>
+          </FilteredProvider>
+        </AuthenticatedProvider>
+      </PlatformProvider>
       <StatusBar style="light" backgroundColor="#000A3E" translucent />
     </ThemeProvider>
   );

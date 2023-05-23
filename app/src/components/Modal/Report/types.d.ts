@@ -8,6 +8,7 @@ export interface IContentModal {
   handleCancelForm?: any;
   titCelulaAdm?: any;
   titRedeAdm?: any;
+  setTeste?: any;
 }
 
 export type IMemberOrVisitor = {

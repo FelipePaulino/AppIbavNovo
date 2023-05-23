@@ -8,11 +8,12 @@ import * as S from "./styles";
 export function DefaultContentModalComponent({
   type,
   data,
+  noModalComponent
 }: IModalInfosProps) {
   const { state } = useFormReport();
 
   return (
-    <S.ContentModal>
+    <S.ContentModal noModalComponent={noModalComponent}>
       {type === "addVisitor" && (
         <S.Description>
           Visitante <S.Name>{data}</S.Name> adicionado com sucesso!
