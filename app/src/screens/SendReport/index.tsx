@@ -493,61 +493,23 @@ export function SendReportScreen() {
       <ModalComponent
         isVisible={isModalVisible}
         onBackdropPress={() => setModalVisible(false)}
-        teste="enviar (dados)"
       >
         <ReportContentModalComponent
           handleCloseModal={setModalVisible}
           data={user}
           setSendModal={setSendModal}
-          setTeste={setTeste}
         />
       </ModalComponent>
 
-      {/* {android ? (
-        <ModalComponent
-          isVisible={teste}
-          teste="feedback dados"
-          onBackdropPress={() => {
-            setTeste(false);
-            // navigation.navigate("Home");
-          }}
-        >
-          <DefaultContentModalComponent type="sendReport" />
-        </ModalComponent>
-      ) : (
-        <Modal
-          isVisible={teste}
-          onBackdropPress={() => {
-            setTeste(false);
-          }}
-        >
-          <Text style={{ color: "red" }}>oi iOS</Text>
-        </Modal>
-      )} */}
-      {/* {android && (
-        <ModalComponent
-          isVisible={teste}
-          teste="feedback dados"
-          onBackdropPress={() => {
-            setTeste(false);
-            // navigation.navigate("Home");
-          }}
-        >
-          <DefaultContentModalComponent type="sendReport" />
-        </ModalComponent>
-      )} */}
-      {teste && (
-        <Modal
-          isVisible
-          onBackdropPress={() => {
-            setTeste(false);
-          }}
-        >
-          <Text style={{ color: "red" }}>oi iOS</Text>
-        </Modal>
-        // <Image source={Logo} />
-        // <DefaultContentModalComponent type="sendReport" noModalComponent />
-      )}
+      <ModalComponent
+        isVisible={sendModal}
+        onBackdropPress={() => {
+          setSendModal(false);
+          navigation.navigate("Home");
+        }}
+      >
+        <DefaultContentModalComponent type="sendReport" />
+      </ModalComponent>
     </Fragment>
   );
 }

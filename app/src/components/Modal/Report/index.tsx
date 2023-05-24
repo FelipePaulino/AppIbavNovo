@@ -69,21 +69,23 @@ export function ReportContentModalComponent({
 
       const observacoes = state.observations;
 
-      connectApi
-        .post("/relatorios.json", {
-          data,
-          celula: isLider,
-          rede: isSheperd,
-          discipulado: isDisc,
-          observacoes,
-          oferta,
-          presencas,
-          semana: week,
-        })
-        .then(() => {
-          setTeste(true);
-          handleCloseModal(false);
-        });
+      // connectApi
+      //   .post("/relatorios.json", {
+      //     data,
+      //     celula: isLider,
+      //     rede: isSheperd,
+      //     discipulado: isDisc,
+      //     observacoes,
+      //     oferta,
+      //     presencas,
+      //     semana: week,
+      //   })
+      //   .then(() => {
+        handleCloseModal(false);
+        setTimeout(() => {
+          setSendModal(true);
+        }, 500)
+        // });
     } catch (err) {
       if (err) {
         Alert.alert("Ops algo deu errado ao enviar o seu formulário!");
