@@ -322,10 +322,12 @@ export function RegisterScreen() {
     return discipulado.indexOf(este) === i;
   });
 
-  const mapDiscipuladosUnicos = discipuladossUnicos.map((item: any) => {
+  const mapDiscipuladosUnicos = discipuladossUnicos && discipuladossUnicos.map((item: any) => {
     return {
-      value: item,
-    };
+      value: item.trim()
+    }
+  }).filter(function (este: any, i: any, array: any[]) {
+    return array.findIndex((item: any) => item.value === este.value) === i;
   });
 
   let validaRede: any;
@@ -506,7 +508,7 @@ export function RegisterScreen() {
               <InputFieldComponent
                 primary
                 value={email}
-                placeholder={FormFields.EMAIL}
+                placeholder={`* ${FormFields.EMAIL}`}
                 onChangeText={setEmail}
               />
 
@@ -602,7 +604,7 @@ export function RegisterScreen() {
 
                 <S.GridItem>
                   <SelectComponent
-                    label="Estado Civil"
+                    label="* Estado Civil"
                     onChange={handleCivilStatusChange}
                     selectedOption={selectedOptionCivilStatus}
                     labelSelect={state.textSelectCivilStatus}
@@ -619,7 +621,7 @@ export function RegisterScreen() {
                     showCalender={showCalender}
                     dataDados={state.dateRegister}
                     onChange={handleDateChange}
-                    label="Data de Nascimento"
+                    label="* Data de Nascimento"
                   />
                 </S.GridItem>
 

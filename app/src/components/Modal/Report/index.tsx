@@ -80,8 +80,10 @@ export function ReportContentModalComponent({
           semana: week,
         })
         .then(() => {
-          setSendModal(true);
           handleCloseModal(false);
+          setTimeout(() => {
+            setSendModal(true);
+          }, 500);
         });
     } catch (err) {
       if (err) {

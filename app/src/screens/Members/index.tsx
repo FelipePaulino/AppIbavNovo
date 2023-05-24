@@ -203,12 +203,14 @@ export function MembersScreen(this: any) {
   const discipuladossUnicos = discipulado && discipulado.filter(function (este: any, i: any) {
     return discipulado.indexOf(este) === i;
   });
-
+  
   const mapDiscipuladosUnicos = discipuladossUnicos && discipuladossUnicos.map((item: any) => {
     return {
-      value: item
+      value: item.trim()
     }
-  })
+  }).filter(function (este: any, i: any, array: any[]) {
+    return array.findIndex((item: any) => item.value === este.value) === i;
+  });
 
   const filtrandoDiscipulado = celulas && celulas.length > 0 && celulas?.filter((item: any) => {
     return item[1].discipulador === state.discipuladoSelect && item[1].rede === state.redeSelect
