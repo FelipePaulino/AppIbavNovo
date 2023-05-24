@@ -23,7 +23,7 @@ export const FilteredProvider = ({ children }: IProviderProps) => {
     const filterUser =
       listUsers &&
       listUsers.filter((item: any) => {
-        return item[1].email.trim() === emailAuth;
+        return item[1].email?.trim() === emailAuth;
       });
 
     if (filterUser && filterUser.length !== 0) {
