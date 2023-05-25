@@ -39,7 +39,6 @@ export function RegisterScreen() {
   const [address, setAddress] = useState(initialValuesRequestCep);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  console.log(phone.length, "phone")
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(true);
   const [members, setMembers] = useState<any>();
