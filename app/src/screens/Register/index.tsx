@@ -109,7 +109,7 @@ export function RegisterScreen() {
           cep,
           bairro,
           cidade: localidade,
-          estado: state.textSelectState,
+          estado: address.uf || state.textSelectState,
           data_de_nascimento: state.dateRegister,
           estado_civil: state.civilStatusSelect,
         })
@@ -644,9 +644,6 @@ export function RegisterScreen() {
                 width="170"
                 disabled={
                   validacao(whatOffice) ||
-                  //   (whatOffice === 'discipulador' && state.celulaSelect !== 'Selecione') ||
-                  //  (whatOffice === 'pastor' && state.celulaSelect !== 'Selecione' && state.discipuladoSelect !== 'Selecione') ||
-
                   state.textSelectCategory === "Selecione" ||
                   name === "" ||
                   phone === ""
