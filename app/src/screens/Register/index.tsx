@@ -39,6 +39,7 @@ export function RegisterScreen() {
   const [address, setAddress] = useState(initialValuesRequestCep);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  console.log(phone.length, "phone")
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(true);
   const [members, setMembers] = useState<any>();
@@ -501,7 +502,13 @@ export function RegisterScreen() {
                 mask="phone"
                 maxLength={14}
                 placeholder={`* ${FormFields.PHONE}`}
-                inputMaskChange={(value: string) => setPhone(value)}
+                inputMaskChange={(value: string) => {
+                  if (value.length <= 14) {
+                    setPhone(value);
+                  } else {
+                    setPhone(value.substring(0, 14));
+                  }
+                }}
                 primary
               />
 
