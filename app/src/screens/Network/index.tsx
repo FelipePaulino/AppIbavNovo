@@ -24,8 +24,6 @@ import axios from "axios";
 const loadingGif = require("../../assets/loader-two.gif");
 
 export default function NetworkScreenList() {
-  const navigation = useNavigation<IPropsAppStack>();
-
   const [id, setId] = useState("");
   const [users, setUsers] = useState([]);
   const [celulas, setCelulas] = useState([]);
@@ -102,21 +100,20 @@ export default function NetworkScreenList() {
       );
     });
 
-  const lider =
-    users &&
-    Object.entries(users).filter((items: any) => {
-      return (
-        items[1]?.cargo === "lider de celula" &&
-        items[1]?.discipulador === state.discipuladoSelect
-      );
-    });
+  const lider = users && Object.entries(users).filter(([_key, value]: [string, any]) => {
+    const isLider: boolean = value.cargo === "lider de celula";
+    const isDiscipuladorMatch: boolean = value.discipulador === state.discipuladoSelect ||
+    value.discipulador && value.discipulador.concat(" ") === state.discipuladoSelect;
+    return isLider && isDiscipuladorMatch;
+  });
+
   const discipuladossUnicos = discipulado.map((items: any) => items[1]?.nome);
 
   const mapDiscipuladosUnicos = discipuladossUnicos.map((item: any) => {
     return {
       value: item,
     };
-  });
+  })
 
   const redesUnicas = rede.map((items: any) => items[1]?.rede);
 
@@ -244,15 +241,6 @@ export default function NetworkScreenList() {
                                 setId(items[0]);
                               setCargo('pastor')
                             }}
-                          // onPress={() =>
-                          //   navigation.navigate("RedeInformation", {
-                          //     nome: `${items[1].nome}`,
-                          //     cargo: `${items[1].cargo}`,
-                          //     pastor: `${items[1].nome}`,
-                          //     rede: `${items[1].rede}`,
-                          //     active: setTrigger
-                          //   })
-                          // }
                           />
                         );
                       })}
@@ -274,17 +262,6 @@ export default function NetworkScreenList() {
                                     setId(item[0]);
                                   setCargo('discipulador');
                                 }}
-                              // onPress={() =>
-                              //   navigation.navigate("RedeInformation", {
-                              //     nome: `${item[1].nome}`,
-                              //     cargo: `${item[1].cargo}`,
-                              //     pastor: `${item[1].pastor}`,
-                              //     rede: `${item[1].rede}`,
-                              //     discipulador: `${item[1].nome}`,
-                              //     id: `${item[0]}`,
-                              //     active: setTrigger
-                              //   })
-                              // }
                               />
                             );
                           })}
@@ -306,23 +283,10 @@ export default function NetworkScreenList() {
                                 nome={item[1].nome}
                                 delMember={() => {
                                   setConfirmModal(true),
-                                    setName(item[1].nome),
-                                    setId(item[0]);
+                                  setName(item[1].nome),
+                                  setId(item[0]);
                                   setCargo('lider')
                                 }}
-                              // onPress={() =>
-                              //   navigation.navigate("RedeInformation", {
-                              //     nome: `${item[1].nome}`,
-                              //     cargo: `${item[1].cargo}`,
-                              //     pastor: `${item[1].pastor}`,
-                              //     rede: `${item[1].rede}`,
-                              //     discipulador: `${item[1].discipulador}`,
-                              //     lider: `${item[1].nome}`,
-                              //     n_celula: `${item[1].n_celula}`,
-                              //     id: `${item[0]}`,
-                              //     active: setTrigger
-                              //   })
-                              // }
                               />
                             );
                           })}
