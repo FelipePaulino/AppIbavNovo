@@ -353,8 +353,6 @@ export function RegisterScreen() {
     };
   });
 
-  console.log(celulas, "celulas")
-
   const office = () => {
     switch (whatOffice) {
       case "discipulador":
