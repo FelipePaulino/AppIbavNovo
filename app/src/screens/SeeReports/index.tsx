@@ -515,7 +515,7 @@ export function SeeReports() {
                   solid
                   size={20}
                   onPress={() => setShowFilter(false)}
-                />{" "}
+                />
                 Filtro
               </S.Title>
 
@@ -574,17 +574,32 @@ export function SeeReports() {
               {filter?.sort(compared).map((item: any, index: any) => {
                 return (
                   <S.List key={index}>
-                    <S.ContText >
+                    <S.ContText>
                       <Text style={{ maxWidth: '72%' }} onPress={() => actionReportId(item[0])}>
                         {item[1].celula} - {item[1].data}
                       </Text>
                       <S.ContainerIcons>
-                        <S.Icon onPress={() => actionReportId(item[0])}>
-                          <FontAwesome5 size={18} name="eye" color="#000A3E" />
+                        <S.Icon>
+                          <FontAwesome5
+                            size={18}
+                            name="eye"
+                            color="#000A3E"
+                            style={{ padding: 5 }}
+                            onPress={() => actionReportId(item[0])}
+                          />
                         </S.Icon>
                         {whatOffice === 'administrador' &&
-                          <S.Icon >
-                            <FontAwesome5 size={18} name="trash" color="#000A3E" onPress={() => { setIdSelected(item[0]), setIsVisible(true) }} />
+                          <S.Icon>
+                            <FontAwesome5
+                              size={18}
+                              name="trash"
+                              color="#000A3E"
+                              style={{ padding: 5 }}
+                              onPress={() => {
+                                setIdSelected(item[0]),
+                                setIsVisible(true)
+                              }}
+                            />
                           </S.Icon>
                         }
                       </S.ContainerIcons>
