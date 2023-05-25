@@ -344,7 +344,7 @@ export function RegisterScreen() {
   }
 
   const filtrandoDiscipulado = celulas.filter((item: any) => {
-    return item[1].discipulador === isDisc && item[1].rede === isShepherd;
+    return item[1].discipulador?.trim() === isDisc && item[1].rede === isShepherd;
   });
 
   const celulaAdm = filtrandoDiscipulado.map((item: any) => {
@@ -352,6 +352,8 @@ export function RegisterScreen() {
       value: `${item[1].numero_celula} - ${item[1].lider}`,
     };
   });
+
+  console.log(celulas, "celulas")
 
   const office = () => {
     switch (whatOffice) {
