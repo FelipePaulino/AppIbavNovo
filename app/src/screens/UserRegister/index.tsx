@@ -218,7 +218,7 @@ export function UserRegisterScreen() {
               nome: formValues.name.trim(),
               bairro: address.bairro,
               email: formValues.email.toLowerCase(),
-              estado: formValues.state ? formValues.state : '',
+              estado: address.uf || formValues.state || '',
               rede: formValues.network,
               cidade: address.localidade,
               senha: formValues.password,
