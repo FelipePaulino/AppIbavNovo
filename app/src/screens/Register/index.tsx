@@ -501,7 +501,13 @@ export function RegisterScreen() {
                 mask="phone"
                 maxLength={14}
                 placeholder={`* ${FormFields.PHONE}`}
-                inputMaskChange={(value: string) => setPhone(value)}
+                inputMaskChange={(value: string) => {
+                  if (value.length <= 14) {
+                    setPhone(value);
+                  } else {
+                    setPhone(value.substring(0, 14));
+                  }
+                }}
                 primary
               />
 
