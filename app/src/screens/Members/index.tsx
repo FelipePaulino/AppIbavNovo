@@ -206,21 +206,24 @@ export function MembersScreen(this: any) {
   
   const mapDiscipuladosUnicos = discipuladossUnicos && discipuladossUnicos.map((item: any) => {
     return {
-      value: item.trim()
+      value: item
     }
-  }).filter(function (este: any, i: any, array: any[]) {
-    return array.findIndex((item: any) => item.value === este.value) === i;
   });
 
   const filtrandoDiscipulado = celulas && celulas.length > 0 && celulas?.filter((item: any) => {
     return item[1].discipulador === state.discipuladoSelect && item[1].rede === state.redeSelect
   })
+  
+  if (filtrandoDiscipulado && filtrandoDiscipulado.length === 0) {
+    state.discipuladoSelect = state.discipuladoSelect.trim();
+  }
 
   const celulaAdm = filtrandoDiscipulado && filtrandoDiscipulado.map((item: any) => {
     return {
       value: `${item[1].numero_celula} - ${item[1].lider}`
     }
   })
+
   useEffect(() => {
     if (whatOffice !== 'lider de celula') {
 
