@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, Text } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 
@@ -42,6 +42,8 @@ export function MembersReportScreen() {
   const { user } = useUserFiltered();
   const { state, dispatch } = useFormReport();
 
+
+
   const handleOpenModal = () => {
     setModalVisible(true);
   };
@@ -56,13 +58,13 @@ export function MembersReportScreen() {
   useEffect(() => {
     const filterMembers =
       celulas &&
-      celulas.filter((item: any) => {
+      celulas?.filter((item: any) => {
         return item[1].numero_celula == idCelulaSelect;
       });
     if (dataUser.cargo === "lider de celula") {
       const filterMembersCelula =
         celulas &&
-        celulas.filter((item: any) => {
+        celulas?.filter((item: any) => {
           return item[1].numero_celula.trim() == dataUser.numero_celula.trim();
         });
       setMembers(filterMembersCelula);
@@ -76,19 +78,24 @@ export function MembersReportScreen() {
   }, [idCelulaSelect, celulas]);
 
   const newMembersList =
-    members &&
-    members.length > 0 &&
-    Object.values(members[0][1].membros).filter(
-      (member: any) =>
-        member.status !== "visitante" && member.status !== "Visitante"
-    );
+    members[0] && (
+      members?.length > 0 && (
+        members[0][1]?.membros && (
+          Object.values(members[0][1]?.membros).filter(
+            (member: any) =>
+                member.status !== "visitante" && member.status !== "Visitante"
+          )
+        )
+      )
+    )
 
   const newArrayMembers = membersIdentify ? membersIdentify : newMembersList;
-  const isLider = whatIsOffice === 'lider de celula' ? false : state.celulaSelect === "Selecione" 
+  const isLider = whatIsOffice === 'lider de celula' ? false : state.celulaSelect === "Selecione"
+
   useEffect(() => {
     const memberFilter =
       newArrayMembers &&
-      newArrayMembers.filter((item: IDataUserProps) => {
+      newArrayMembers?.filter((item: IDataUserProps) => {
         if (item.nome !== selectPerson?.nome) {
           return item;
         }
@@ -125,14 +132,13 @@ export function MembersReportScreen() {
     return 0;
   }
 
-  newArrayMembers && newArrayMembers.sort(compared);
+  newArrayMembers && newArrayMembers?.sort(compared);
 
   return (
     <Fragment>
       <HeaderComponent>
         <ComeBackComponent />
         <NavigationComponent members />
-        {/* <NotificationComponent /> */}
       </HeaderComponent>
 
       {loading ? (
@@ -149,20 +155,24 @@ export function MembersReportScreen() {
               )}
 
               <HeadingPresentComponent />
-
-              <ScrollView>
-                {newArrayMembers &&
-                  newArrayMembers.sort(compared).map((data: any) => (
+              {newArrayMembers ? (
+                <ScrollView>
+                  {newArrayMembers.sort(compared).map((data: any) => (
                     <CardMembersComponent
                       key={data}
                       data={data}
                       setSelectPerson={setSelectPerson}
                     />
                   ))}
-              </ScrollView>
+                </ScrollView>
+              ) : (
+                <S.TextAlert>
+                  Não existe membros nessa célula.
+                </S.TextAlert>
+              )}
+              <FooterInfoComponent />
             </S.ContentBox>
             <S.ContentBox>
-              <FooterInfoComponent />
               <S.Button>
                 <ButtonComponent
                   title={ButtonsText.REPORT}

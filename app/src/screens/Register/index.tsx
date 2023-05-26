@@ -109,7 +109,7 @@ export function RegisterScreen() {
           cep,
           bairro,
           cidade: localidade,
-          estado: state.textSelectState,
+          estado: address.uf || state.textSelectState,
           data_de_nascimento: state.dateRegister,
           estado_civil: state.civilStatusSelect,
         })
@@ -344,7 +344,7 @@ export function RegisterScreen() {
   }
 
   const filtrandoDiscipulado = celulas.filter((item: any) => {
-    return item[1].discipulador === isDisc && item[1].rede === isShepherd;
+    return item[1].discipulador?.trim() === isDisc && item[1].rede === isShepherd;
   });
 
   const celulaAdm = filtrandoDiscipulado.map((item: any) => {
@@ -501,7 +501,13 @@ export function RegisterScreen() {
                 mask="phone"
                 maxLength={14}
                 placeholder={`* ${FormFields.PHONE}`}
-                inputMaskChange={(value: string) => setPhone(value)}
+                inputMaskChange={(value: string) => {
+                  if (value.length <= 14) {
+                    setPhone(value);
+                  } else {
+                    setPhone(value.substring(0, 14));
+                  }
+                }}
                 primary
               />
 
@@ -644,9 +650,6 @@ export function RegisterScreen() {
                 width="170"
                 disabled={
                   validacao(whatOffice) ||
-                  //   (whatOffice === 'discipulador' && state.celulaSelect !== 'Selecione') ||
-                  //  (whatOffice === 'pastor' && state.celulaSelect !== 'Selecione' && state.discipuladoSelect !== 'Selecione') ||
-
                   state.textSelectCategory === "Selecione" ||
                   name === "" ||
                   phone === ""

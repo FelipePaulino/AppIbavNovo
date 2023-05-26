@@ -14,14 +14,13 @@ export const Content = styled.View`
   justify-content: space-between;
   max-width: 350px;
   width: 100%;
+  height: 97%;
   margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
 `;
 
-export const ContentBox = styled.View`
-
-`
+export const ContentBox = styled.View``;
 
 export const Heading = styled.View`
   align-items: center;
@@ -49,6 +48,13 @@ export const Subtitle = styled.Text`
 export const Button = styled.View`
   justify-content: flex-end;
   margin-bottom: 20px;
+`;
+
+export const TextAlert= styled.Text`
+  font-size: ${theme.fonts.fontSize.medium}px;
+  font-family: ${theme.fonts.fontFamily.medium};
+
+  margin: 8px auto;
 `;
 
 export const Loading = styled(Image)``;
