@@ -145,8 +145,8 @@ android {
         applicationId 'com.viniciusdevitalo.aguavivarp'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 42
-        versionName "42.0.0"
+        versionCode 45
+        versionName "45.0.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
         if (isNewArchitectureEnabled()) {

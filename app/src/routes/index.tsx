@@ -10,7 +10,7 @@ import { useAuth } from "../hooks/useAuth";
 export const Routes = () => {
   const { user } = useAuth();
 
-  const universal = Linking.createURL('http://www.aguavivaribeiraopires.com.br')
+  const universal = Linking.createURL('http://aguavivaribeiraopires.com.br/acampa2023/')
 
   const linking = {
     prefixes: [universal],
