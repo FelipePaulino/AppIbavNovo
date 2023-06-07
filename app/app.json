@@ -3,6 +3,7 @@
     "name": "IBAV RP",
     "slug": "aguavivarp",
     "version": "46.0.0",
+    "scheme": "myapp",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -20,7 +21,13 @@
     "ios": {
       "buildNumber": 46,
       "supportsTablet": true,
-      "bundleIdentifier": "com.viniciusdevitalo.aguavivarp"
+      "bundleIdentifier": "com.viniciusdevitalo.aguavivarp",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "REVERSED_CLIENT_ID"
+        }
+      },
+      "associatedDomains": ["applinks:myapp"]
     },
     "android": {
       "versionCode": 46,
@@ -28,8 +35,23 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.viniciusdevitalo.aguavivarp"
-    },
+      "package": "com.viniciusdevitalo.aguavivarp",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "myapp",
+              "host": "*"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
+    }, 
     "web": {
       "favicon": "./assets/favicon.png"
     },
