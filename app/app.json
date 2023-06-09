@@ -3,7 +3,7 @@
     "name": "IBAV RP",
     "slug": "aguavivarp",
     "scheme":"ibavnovo",
-    "version": "45.0.0",
+    "version": "48.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -19,12 +19,12 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": 45,
+      "buildNumber": 48,
       "supportsTablet": true,
       "bundleIdentifier": "com.viniciusdevitalo.aguavivarp"
     },
     "android": {
-      "versionCode": 45,
+      "versionCode": 48,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
