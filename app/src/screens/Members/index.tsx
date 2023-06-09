@@ -447,7 +447,7 @@ export function MembersScreen(this: any) {
                               navigation.navigate("MemberInformation", {
                                 nome: `${item[1].nome}`,
                                 telefone: `${item[1].telefone}`,
-                                email: `${item[1].email}`,
+                                email: `${item[1]?.email}`,
                                 endereco: `${item[1].endereco}`,
                                 bairro: `${item[1].bairro}`,
                                 cep: `${item[1].cep}`,

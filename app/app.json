@@ -2,7 +2,7 @@
   "expo": {
     "name": "IBAV RP",
     "slug": "aguavivarp",
-    "scheme":"http",
+    "scheme":"ibavnovo",
     "version": "45.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

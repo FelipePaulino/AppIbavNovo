@@ -10,18 +10,30 @@ import { useAuth } from "../hooks/useAuth";
 export const Routes = () => {
   const { user } = useAuth();
 
-  const universal = Linking.createURL('http://aguavivaribeiraopires.com.br/acampa2023/')
+  const universal = Linking.createURL('/')
 
   const linking = {
     prefixes: [universal],
     config: {
       screens: {
-        SendReport: {
-          path: 'SendReport',
-        },
+        Home:'Home'
       },
     },
   };
+
+  const handleLinking = async ({ url }:any) => {
+    const { path, queryParams } = Linking.parse(url);
+
+    if (path === "Home") {
+      return;
+    }
+  };
+
+  // Adicionar o ouvinte de link personalizado
+  React.useEffect(() => {
+    Linking.addEventListener("url", handleLinking);
+
+  }, []);
 
   return (
     <NavigationContainer linking={linking}>
