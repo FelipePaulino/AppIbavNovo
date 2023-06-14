@@ -198,7 +198,7 @@ export function MembersScreen(this: any) {
   })
 
   const discipulado = filtrandoRedes && filtrandoRedes.map((item: any) =>
-    (item[1].discipulador))
+    (item[1].discipulador?.trim()))
 
   const discipuladossUnicos = discipulado && discipulado.filter(function (este: any, i: any) {
     return discipulado.indexOf(este) === i;
