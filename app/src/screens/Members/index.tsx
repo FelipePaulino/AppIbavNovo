@@ -298,8 +298,6 @@ export function MembersScreen(this: any) {
     }
 
   const office = () => {
-    console.log(state.discipuladoSelect, 'state.discipuladoSelect')
-    console.log(celulaPastor, 'celulaPastor')
     switch (whatOffice) {
       case "lider de celula":
         return (
