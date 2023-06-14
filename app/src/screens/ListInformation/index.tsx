@@ -155,8 +155,10 @@ export function UsersInformationScreen(this: any, { route }: any) {
   };
 
   const submitRegister = () => {
-    const filterUser: any = users.filter((item: any) => {
-      return item.email.toLowerCase() === email.toLowerCase();
+    const filterUser: any = users?.filter((item: any) => {
+      if (item) {
+        return item?.email === email;
+      }
     });
 
     const payloadDefault = {
@@ -164,7 +166,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
       n_end: nEnd,
       nome: name?.trim(),
       telefone: phone,
-      email: email.toLowerCase(),
+      email: email?.toLowerCase(),
       endereco: address,
       cep: cep,
       bairro: district,
@@ -173,7 +175,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
       data_de_nascimento: birthday,
       estado_civil: civilStatus,
     };
-
+    console.log(payloadDefault, 'toLowerCase')
     let filterCelulas;
     let filterOtherCelulas;
     let filterOtherUsers;
@@ -182,16 +184,22 @@ export function UsersInformationScreen(this: any, { route }: any) {
     let celulaMudada: any;
 
     // LIDER //
-    if (filterUser[0].cargo === "lider de celula") {
-      filterCelulas = celulas.filter((item: any) => {
-        return item.email?.toLowerCase() === email?.toLowerCase();
+    if (filterUser[0]?.cargo === "lider de celula") {
+      filterCelulas = celulas?.filter((item: any) => {
+        if (item) {
+          return item.email?.toLowerCase() === email?.toLowerCase();
+        }
       });
-      filterOtherCelulas = celulas.filter((item: any) => {
-        return item.email?.toLowerCase() !== email?.toLowerCase();
+      filterOtherCelulas = celulas?.filter((item: any) => {
+        if (item) {
+          return item.email?.toLowerCase() !== email?.toLowerCase();
+        }
       });
 
       filterOtherUsers = users.filter((item: any) => {
-        return item.email?.toLowerCase() !== email?.toLowerCase();
+        if (item) {
+          return item.email?.toLowerCase() !== email?.toLowerCase();
+        }
       });
       redeSelect = selectNetwork.split(" -")[0].trim();
       pastorSelect = selectNetwork.split("- ")[1].trim();
@@ -215,7 +223,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
         numero_celula: numberCelula.trim(),
       };
     }
-    if (filterUser[0].cargo === "discipulador") {
+    if (filterUser[0]?.cargo === "discipulador") {
       const filterCelulasDoDisc = celulas.filter((item: any) => {
         return item.discipulador === filterUser[0].nome;
       });
@@ -247,7 +255,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
         return { ...item, discipulador: name?.trim() };
       });
     }
-    if (filterUser[0].cargo === "pastor") {
+    if (filterUser[0]?.cargo === "pastor") {
       const filterCelulasDoPastor = celulas.filter((item: any) => {
         return item.pastor === filterUser[0].nome?.trim();
       });
@@ -289,7 +297,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
 
     const userMudado = {
       ...payloadDefault,
-      cargo: filterUser[0].cargo,
+      cargo: filterUser[0]?.cargo,
       rede: redeSelect,
       pastor: pastorSelect,
       discipulador: selectDisciples.trim(),
@@ -297,7 +305,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
     };
 
     let celulasDefinitivo: any;
-    if (filterUser[0].cargo === "lider de celula") {
+    if (filterUser[0]?.cargo === "lider de celula") {
       celulasDefinitivo = [...filterOtherCelulas, celulaMudada];
     } else {
       celulasDefinitivo = [...filterOtherCelulas, ...celulaMudada];
@@ -331,7 +339,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
   };
 
   const usersMinister =
-    users && users.filter((minister: IDataUser) => minister.cargo === "pastor");
+    users && users.filter((minister: IDataUser) => minister?.cargo === "pastor");
 
   const optionsNetwork =
     usersMinister &&
@@ -347,7 +355,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
 
   const usersDisciples =
     users &&
-    users.filter((discipler: IDataUser) => discipler.cargo === "discipulador");
+    users.filter((discipler: IDataUser) => discipler?.cargo === "discipulador");
 
   const disciplesFiltered =
     usersDisciples &&
@@ -476,46 +484,46 @@ export function UsersInformationScreen(this: any, { route }: any) {
             </S.GridItemFull>
             {renderSelectsOptions()}
             <S.GridItemFull>
-                <InputFieldComponent
-                  primary
-                  value={email !== "undefined" && email}
-                  placeholder={FormFields.EMAIL}
-                  // onChangeText={(value) => setEmail(value)}
-                  label="*Usuário"
-                  disabled={true}
-                />
+              <InputFieldComponent
+                primary
+                value={email !== "undefined" && email}
+                placeholder={FormFields.EMAIL}
+                // onChangeText={(value) => setEmail(value)}
+                label="*Usuário"
+                disabled={true}
+              />
             </S.GridItemFull>
 
             <S.GridItemFull>
-                <InputFieldComponent
-                  primary
-                  value={
-                    password === "undefined" ? FormFields.PASSWORD : password
-                  }
-                  placeholder={FormFields.PASSWORD}
-                  onChangeText={(value) => setPassword(value)}
-                  label="*Senha"
-                />
+              <InputFieldComponent
+                primary
+                value={
+                  password === "undefined" ? FormFields.PASSWORD : password
+                }
+                placeholder={FormFields.PASSWORD}
+                onChangeText={(value) => setPassword(value)}
+                label="*Senha"
+              />
             </S.GridItemFull>
 
             <S.GridItemFull>
-                <InputFieldComponent
-                  primary
-                  value={name?.trim() !== "undefined" && name?.trim()}
-                  placeholder={`* ${FormFields.FULL_NAME}`}
-                  onChangeText={(value) => setName(value)}
-                  label="*Nome Completo"
-                />
+              <InputFieldComponent
+                primary
+                value={name?.trim() !== "undefined" && name?.trim()}
+                placeholder={`* ${FormFields.FULL_NAME}`}
+                onChangeText={(value) => setName(value)}
+                label="*Nome Completo"
+              />
             </S.GridItemFull>
 
             <S.GridItemFull>
-                <InputFieldComponent
-                  primary
-                  value={phone !== "undefined" && phone}
-                  placeholder={`* ${FormFields.PHONE}`}
-                  onChangeText={(value) => setPhone(value)}
-                  label="*Telefone"
-                />
+              <InputFieldComponent
+                primary
+                value={phone !== "undefined" && phone}
+                placeholder={`* ${FormFields.PHONE}`}
+                onChangeText={(value) => setPhone(value)}
+                label="*Telefone"
+              />
             </S.GridItemFull>
             <S.GridItemFull>
               <InputFieldComponent

@@ -87,7 +87,9 @@ export function ListUsersScreen() {
   };
 
   const disabledUsersAdmin = users && Object.entries(users).filter((item: any) => {
-    return item[1].cargo != 'administrador'
+    if(item[1]){
+      return item[1]?.cargo != 'administrador'
+    }
   })
 
   const listUsers = users && disabledUsersAdmin?.sort(function (a: any, b: any) {
