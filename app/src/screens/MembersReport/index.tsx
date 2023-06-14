@@ -42,8 +42,6 @@ export function MembersReportScreen() {
   const { user } = useUserFiltered();
   const { state, dispatch } = useFormReport();
 
-
-
   const handleOpenModal = () => {
     setModalVisible(true);
   };
@@ -65,7 +63,7 @@ export function MembersReportScreen() {
       const filterMembersCelula =
         celulas &&
         celulas?.filter((item: any) => {
-          return item[1].numero_celula.trim() == dataUser.numero_celula.trim();
+          return item[1]?.numero_celula?.trim() == dataUser?.numero_celula.trim();
         });
       setMembers(filterMembersCelula);
     } else if (filterMembers) {
@@ -77,7 +75,7 @@ export function MembersReportScreen() {
     }
   }, [idCelulaSelect, celulas]);
 
-  const newMembersList =
+  const newMembersList = members ?
     members[0] && (
       members?.length > 0 && (
         members[0][1]?.membros && (
@@ -87,7 +85,7 @@ export function MembersReportScreen() {
           )
         )
       )
-    )
+    ) : []
 
   const newArrayMembers = membersIdentify ? membersIdentify : newMembersList;
   const isLider = whatIsOffice === 'lider de celula' ? false : state.celulaSelect === "Selecione"
@@ -131,7 +129,6 @@ export function MembersReportScreen() {
     if (a.nome < b.nome) return 1;
     return 0;
   }
-
   newArrayMembers && newArrayMembers?.sort(compared);
 
   return (
