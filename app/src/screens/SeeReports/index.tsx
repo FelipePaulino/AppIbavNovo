@@ -374,13 +374,14 @@ export function SeeReports() {
   const deleteReport = (id: any) => {
     try {
       connectApi.delete(`/relatorios/${id}.json`)
-      setModalConcluded(true)
       setIsVisible(false)
+      setTimeout(() => {
+        setModalConcluded(true)
+      }, 500);
     }
     catch (err) {
       alert("Houve algum problema ao excluir esse relátorio");
     }
-
   }
 
   const siderBarFilter = () => {
