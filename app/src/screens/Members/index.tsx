@@ -274,7 +274,7 @@ export function MembersScreen(this: any) {
 
   const isDisc = user[0][1].cargo === 'discipulador' ? user[0][1].nome : state.discipuladoSelect
   const filtrandoDiscipuladoPastorSelect = celulas && celulas.length > 0 && celulas?.filter((item: any) => {
-    return item[1].discipulador === isDisc
+    return item[1].discipulador?.trim() === isDisc?.trim()
   })
 
   const celulaPastor = filtrandoDiscipuladoPastorSelect && filtrandoDiscipuladoPastorSelect.map((item: any) => {
@@ -298,6 +298,8 @@ export function MembersScreen(this: any) {
     }
 
   const office = () => {
+    console.log(state.discipuladoSelect, 'state.discipuladoSelect')
+    console.log(celulaPastor, 'celulaPastor')
     switch (whatOffice) {
       case "lider de celula":
         return (
