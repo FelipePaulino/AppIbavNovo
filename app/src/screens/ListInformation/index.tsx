@@ -398,8 +398,8 @@ export function UsersInformationScreen(this: any, { route }: any) {
                 primary
                 value={
                   numberCelula === "undefined"
-                    ? FormFields.NUMBER_CELULA
-                    : numberCelula
+                    ? FormFields.NUMBER_CELULA.replaceAll(' ', '')
+                    : numberCelula.replaceAll(' ', '')
                 }
                 placeholder={`* ${FormFields.NUMBER_CELULA}`}
                 onChangeText={(value) => setNumberCelular(value)}
@@ -509,7 +509,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
             <S.GridItemFull>
               <InputFieldComponent
                 primary
-                value={name?.trim() !== "undefined" && name?.trim()}
+                value={name}
                 placeholder={`* ${FormFields.FULL_NAME}`}
                 onChangeText={(value) => setName(value)}
                 label="*Nome Completo"
