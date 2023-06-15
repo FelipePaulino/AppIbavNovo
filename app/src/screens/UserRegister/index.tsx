@@ -451,7 +451,7 @@ export function UserRegisterScreen() {
         return (
           <InputFieldComponent
             primary
-            value={formValues.numberCelula.replaceAll(' ', '')}
+            value={formValues.numberCelula?.replace(' ', '')}
             placeholder={`* ${FormFields.NUMBER_CELULA}`}
             onChangeText={(value) =>
               setFormValues({ ...formValues, numberCelula: value })

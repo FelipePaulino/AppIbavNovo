@@ -370,7 +370,9 @@ export function UsersInformationScreen(this: any, { route }: any) {
         value: disc.nome,
       };
     });
+
   const renderSelectsOptions = () => {
+    {console.log(numberCelula, 'numberCelula')}
     switch (office) {
       case "lider de celula":
         return (
@@ -394,12 +396,13 @@ export function UsersInformationScreen(this: any, { route }: any) {
               />
             </S.GridItemFull>
             <S.GridItemFull>
+       
               <InputFieldComponent
                 primary
                 value={
                   numberCelula === "undefined"
-                    ? FormFields.NUMBER_CELULA.replaceAll(' ', '')
-                    : numberCelula.replaceAll(' ', '')
+                    ? FormFields.NUMBER_CELULA && FormFields.NUMBER_CELULA?.replace(' ', '')
+                    : numberCelula && numberCelula?.replace(' ', '')
                 }
                 placeholder={`* ${FormFields.NUMBER_CELULA}`}
                 onChangeText={(value) => setNumberCelular(value)}
