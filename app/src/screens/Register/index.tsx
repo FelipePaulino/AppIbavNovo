@@ -297,7 +297,6 @@ export function RegisterScreen() {
       return item[1].rede
     }
   });
-  console.log(celulas, "celulas")
   const redesUnicas = redes.filter(function (este: any, i: any) {
     return redes.indexOf(este) === i && este;
   });

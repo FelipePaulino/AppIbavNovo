@@ -73,7 +73,6 @@ export function UserRegisterScreen() {
   }, [updateList]);
 
   const getNetwork = selectNetwork.split(" -")[0];
-console.log(users, "users")
   const usersMinister =
     users &&
     users.filter((minister: IDataUser) => {

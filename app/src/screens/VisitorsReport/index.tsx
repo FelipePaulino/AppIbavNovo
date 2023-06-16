@@ -186,7 +186,6 @@ export function VisitorsReportScreen() {
                 onPress={handleOpenModalAdd}
               />
             </S.FinishForm> */}
-{console.log(newArrayVisitors, 'newArrayVisitors')}
             <HeadingPresentComponent />
             {newArrayVisitors &&
               newArrayVisitors?.map((data: any) => {
