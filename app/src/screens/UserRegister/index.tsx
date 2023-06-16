@@ -42,7 +42,7 @@ import { dictionary } from "../../common/utils/dictionary";
 
 export function UserRegisterScreen() {
   const [users, setUsers] = useState([]);
-  const [celulas, setCelulas] = useState([])
+  const [celulas, setCelulas] = useState([]);
   const [disable, setDisable] = useState<any>();
   const [office, setOffice] = useState("Selecionar");
   const [showCalender, setShowCalender] = useState(false);
@@ -51,15 +51,15 @@ export function UserRegisterScreen() {
   const [selectDisciples, setSelectDisciples] = useState("Selecionar");
   const [formValues, setFormValues] = useState<any>(initialValueRegisterUser);
   const [confirmRegisterModal, setConfirmRegisterModal] = useState(false);
-  const [updateList, setUpdateList] = useState(false)
-  const [errorNumberCelula, setErrorNumberCelula] = useState(false)
-  const [errorEmailValidate, setErrorEmailValidate] = useState(false)
+  const [updateList, setUpdateList] = useState(false);
+  const [errorNumberCelula, setErrorNumberCelula] = useState(false);
+  const [errorEmailValidate, setErrorEmailValidate] = useState(false);
 
   const { state: stateReducer, dispatch } = useFormReport();
   const navigation = useNavigation();
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-  const [messageError, setMessageError] = useState<string>('')
+  const [messageError, setMessageError] = useState<string>("");
 
   useEffect(() => {
     const getCelulas = async () => {
@@ -67,19 +67,29 @@ export function UserRegisterScreen() {
       const dataCelulas = await connectApi.get("/celulas.json");
 
       setUsers(Object.values(response.data));
-      setCelulas(Object.values(dataCelulas.data))
+      setCelulas(Object.values(dataCelulas.data));
     };
     getCelulas();
   }, [updateList]);
 
   const getNetwork = selectNetwork.split(" -")[0];
-
   const usersMinister =
-    users && users.filter((minister: IDataUser) => minister.cargo === "pastor");
+    users &&
+    users.filter((minister: IDataUser) => {
+      if (minister) {
+        return minister.cargo === "pastor";
+      }
+    });
 
   const usersDisciples =
     users &&
-    users.filter((discipler: IDataUser) => discipler.cargo === "discipulador");
+    users.filter((discipler: IDataUser) => {
+      if (discipler) {
+        return (
+          discipler.cargo === "discipulador"
+        )
+      }
+    })
 
   const disciplesFiltered =
     usersDisciples &&
@@ -169,29 +179,36 @@ export function UserRegisterScreen() {
   const registerUser = () => {
     const { email, password } = formValues;
     if (maskEmail(formValues.email)) {
-      createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
-        credentialsPost();
-        setUpdateList(!updateList)
-      })
-      .catch((error) => {
-        setMessageError(error.message)
-        setErrorEmailValidate(true)
-        // ..
-      });
-  
-    }
-    else{
-      setErrorEmailValidate(true)
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          credentialsPost();
+          setUpdateList(!updateList);
+        })
+        .catch((error) => {
+          setMessageError(error.message);
+          setErrorEmailValidate(true);
+          // ..
+        });
+    } else {
+      setErrorEmailValidate(true);
     }
   };
 
-  const validateCell: any = celulas.length && celulas.filter((item: any) => {
-    return item.numero_celula === formValues.numberCelula
-  })
+  const validateCell: any =
+    celulas.length &&
+    celulas.filter((item: any) => {
+      if(item){
+      return item.numero_celula === formValues.numberCelula;
+      }
+    });
 
-  const validateExistingEmail: any = users.length && users.filter((item: any) => {
-    return item.email === formValues.email
-  })
+  const validateExistingEmail: any =
+    users.length &&
+    users.filter((item: any) => {
+      if(item){
+      return item.email === formValues.email;
+      }
+    });
 
   const credentialsPost = () => {
     const dataLider = {
@@ -207,7 +224,7 @@ export function UserRegisterScreen() {
       nome: formValues.name.trim(),
       status: "membro",
       telefone: formValues.phone,
-    }
+    };
     try {
       if (maskEmail(formValues.email)) {
         if (office === "pastor de rede") {
@@ -218,7 +235,7 @@ export function UserRegisterScreen() {
               nome: formValues.name.trim(),
               bairro: address.bairro,
               email: formValues.email.toLowerCase(),
-              estado: address.uf || formValues.state || '',
+              estado: address.uf || formValues.state || "",
               rede: formValues.network,
               cidade: address.localidade,
               senha: formValues.password,
@@ -245,8 +262,8 @@ export function UserRegisterScreen() {
           connectApi
             .post("/users.json", {
               cargo: "discipulador",
-              rede: selectNetwork.split(' -')[0],
-              pastor: selectNetwork.split(' -')[1],
+              rede: selectNetwork.split(" -")[0],
+              pastor: selectNetwork.split(" -")[1],
               cep: address.cep,
               nome: formValues.name.trim(),
               bairro: address.bairro,
@@ -276,77 +293,85 @@ export function UserRegisterScreen() {
         } else {
           if (validateCell.length === 0) {
             if (validateExistingEmail.length === 0) {
-              connectApi.post("/users.json", {
-                cargo: "lider de celula",
-                rede: selectNetwork.split(' -')[0],
-                pastor: selectNetwork.split(' -')[1],
-                discipulador: selectDisciples,
-                numero_celula: formValues.numberCelula.replace(/\s/g, ''),
-                senha: formValues.password,
-                ...dataLider
-              }).then(() => {
-                connectApi.post("/celulas.json", {
-                  lider: formValues.name.trim(),
-                  email: formValues.email,
-                  numero_celula: formValues.numberCelula.replace(/\s/g, ''),
+              connectApi
+                .post("/users.json", {
+                  cargo: "lider de celula",
+                  rede: selectNetwork.split(" -")[0],
+                  pastor: selectNetwork.split(" -")[1],
                   discipulador: selectDisciples,
-                  pastor: selectNetwork.split('- ')[1],
-                  rede: selectNetwork.split(' -')[0],
-                  membros: [dataLider]
-                }).then(() => {
-                  setConfirmRegisterModal(true);
-                  setAddress(initialValuesRequestCep);
-                  setSelectNetwork("Selecionar");
-                  setOffice("");
+                  numero_celula: formValues.numberCelula.replace(/\s/g, ""),
+                  senha: formValues.password,
+                  ...dataLider,
+                })
+                .then(() => {
+                  connectApi
+                    .post("/celulas.json", {
+                      lider: formValues.name.trim(),
+                      email: formValues.email,
+                      numero_celula: formValues.numberCelula.replace(/\s/g, ""),
+                      discipulador: selectDisciples,
+                      pastor: selectNetwork.split("- ")[1],
+                      rede: selectNetwork.split(" -")[0],
+                      membros: [dataLider],
+                    })
+                    .then(() => {
+                      setConfirmRegisterModal(true);
+                      setAddress(initialValuesRequestCep);
+                      setSelectNetwork("Selecionar");
+                      setOffice("");
 
-                  setSelectNetwork("Selecionar");
-                  setSelectDisciples("Selecionar");
+                      setSelectNetwork("Selecionar");
+                      setSelectDisciples("Selecionar");
 
-                  dispatch({
-                    type: FormReportActions.setTextRegister,
-                    payload: "",
-                  });
+                      dispatch({
+                        type: FormReportActions.setTextRegister,
+                        payload: "",
+                      });
+                    });
                 });
-              });
-            } 
+            }
           } else {
-            setErrorNumberCelula(true)
+            setErrorNumberCelula(true);
           }
         }
       } else {
-        connectApi.post("/users.json", {
-          cargo: "lider de celula",
-          rede: selectNetwork.split(' -')[0],
-          pastor: selectNetwork.split(' - ')[1],
-          discipulador: selectDisciples,
-          numero_celula: formValues.numberCelula.replace(/\s/g, ''),
-          senha: formValues.password,
-          ...dataLider
-        }).then(() => {
-          connectApi.post("/celulas.json", {
-            lider: formValues.name.trim(),
-            email: formValues.email.toLowerCase(),
-            numero_celula: formValues.numberCelula.replace(/\s/g, ''),
+        connectApi
+          .post("/users.json", {
+            cargo: "lider de celula",
+            rede: selectNetwork.split(" -")[0],
+            pastor: selectNetwork.split(" - ")[1],
             discipulador: selectDisciples,
-            pastor: selectNetwork.split('- ')[1],
-            rede: selectNetwork.split(' -')[0],
-            membros: [dataLider]
-          }).then(() => {
-            setConfirmRegisterModal(true);
-            setAddress(initialValuesRequestCep);
-            setSelectNetwork("Selecionar");
-            setOffice("");
+            numero_celula: formValues.numberCelula.replace(/\s/g, ""),
+            senha: formValues.password,
+            ...dataLider,
+          })
+          .then(() => {
+            connectApi
+              .post("/celulas.json", {
+                lider: formValues.name.trim(),
+                email: formValues.email.toLowerCase(),
+                numero_celula: formValues.numberCelula.replace(/\s/g, ""),
+                discipulador: selectDisciples,
+                pastor: selectNetwork.split("- ")[1],
+                rede: selectNetwork.split(" -")[0],
+                membros: [dataLider],
+              })
+              .then(() => {
+                setConfirmRegisterModal(true);
+                setAddress(initialValuesRequestCep);
+                setSelectNetwork("Selecionar");
+                setOffice("");
 
-            setSelectNetwork("Selecionar");
-            setSelectDisciples("Selecionar");
+                setSelectNetwork("Selecionar");
+                setSelectDisciples("Selecionar");
 
-            dispatch({
-              type: FormReportActions.setTextRegister,
-              payload: "",
-            });
+                dispatch({
+                  type: FormReportActions.setTextRegister,
+                  payload: "",
+                });
+              });
           });
-        });
-        setErrorEmailValidate(true)
+        setErrorEmailValidate(true);
       }
     } catch (err) {
       throw new Error("Ops, algo deu errado!");
@@ -372,7 +397,7 @@ export function UserRegisterScreen() {
         formValues.name === "" ||
         formValues.phone === "" ||
         selectDisciples === "Selecionar" ||
-        selectNetwork === "Selecionar"  ||
+        selectNetwork === "Selecionar" ||
         formValues.stateCivil === "" ||
         stateReducer.textRegister === "Selecione uma data"
       );
@@ -423,7 +448,7 @@ export function UserRegisterScreen() {
                 selectedOption={handleDisciplesChange}
                 labelSelect={selectDisciples}
                 dataOptions={optionsDisciples && optionsDisciples}
-                disabled={selectNetwork === 'Selecionar'}
+                disabled={selectNetwork === "Selecionar"}
               />
             </S.GridSelect>
           </Fragment>
@@ -451,7 +476,7 @@ export function UserRegisterScreen() {
         return (
           <InputFieldComponent
             primary
-            value={formValues.numberCelula?.replace(' ', '')}
+            value={formValues.numberCelula?.replace(" ", "")}
             placeholder={`* ${FormFields.NUMBER_CELULA}`}
             onChangeText={(value) =>
               setFormValues({ ...formValues, numberCelula: value })
@@ -676,30 +701,23 @@ export function UserRegisterScreen() {
           setConfirmRegisterModal(false),
           setFormValues(initialValueRegisterUser),
           navigation.goBack()
-          )}
+        )}
       >
-        <DefaultContentModalComponent
-          type="register"
-          data={formValues.name}
-        />
+        <DefaultContentModalComponent type="register" data={formValues.name} />
       </ModalComponent>
 
       <ModalComponent
         isVisible={errorNumberCelula}
         onBackdropPress={() => setErrorNumberCelula(false)}
       >
-        <ErrorModalComponent
-          text="Número da celula ja está sendo utilizado"
-        />
+        <ErrorModalComponent text="Número da celula ja está sendo utilizado" />
       </ModalComponent>
 
       <ModalComponent
         isVisible={errorEmailValidate}
         onBackdropPress={() => setErrorEmailValidate(false)}
       >
-        <ErrorModalComponent
-          text={dictionary(messageError)}
-        />
+        <ErrorModalComponent text={dictionary(messageError)} />
       </ModalComponent>
     </Fragment>
   );

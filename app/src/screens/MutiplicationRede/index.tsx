@@ -95,7 +95,7 @@ export function MultiplicationRede() {
       
       
         // tratativas para o usuário administrador
-        const redes = celulas.map((item: any) => item?.rede);
+        const redes = celulas && celulas.map((item: any) => item?.rede);
         const redesUnicas = redes.filter(function (este: any, i: any) {
           return redes.indexOf(este) === i && este;
         });
