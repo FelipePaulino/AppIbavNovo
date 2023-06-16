@@ -101,10 +101,12 @@ export default function NetworkScreenList() {
     });
 
   const lider = users && Object.entries(users).filter(([_key, value]: [string, any]) => {
+    if(value){
     const isLider: boolean = value.cargo === "lider de celula";
     const isDiscipuladorMatch: boolean = value.discipulador === state.discipuladoSelect ||
     value.discipulador && value.discipulador.concat(" ") === state.discipuladoSelect;
     return isLider && isDiscipuladorMatch;
+    }
   });
 
   const discipuladossUnicos = discipulado.map((items: any) => items[1]?.nome);

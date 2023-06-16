@@ -175,7 +175,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
       data_de_nascimento: birthday,
       estado_civil: civilStatus,
     };
-    console.log(payloadDefault, 'toLowerCase')
+
     let filterCelulas;
     let filterOtherCelulas;
     let filterOtherUsers;
@@ -372,7 +372,6 @@ export function UsersInformationScreen(this: any, { route }: any) {
     });
 
   const renderSelectsOptions = () => {
-    {console.log(numberCelula, 'numberCelula')}
     switch (office) {
       case "lider de celula":
         return (

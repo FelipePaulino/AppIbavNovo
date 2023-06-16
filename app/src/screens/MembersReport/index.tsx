@@ -57,7 +57,9 @@ export function MembersReportScreen() {
     const filterMembers =
       celulas &&
       celulas?.filter((item: any) => {
+        if(item[1]){
         return item[1].numero_celula == idCelulaSelect;
+        }
       });
     if (dataUser.cargo === "lider de celula") {
       const filterMembersCelula =

@@ -158,14 +158,16 @@ export function SendReportScreen() {
     const filterCelulas =
       celulas &&
       celulas.filter((celula: any) => {
+        if(celula){
         return celula.discipulador === userInfo.nome;
+        }
       });
 
     setCelulaFiltered(filterCelulas);
   }, [celulas]);
 
   // tratativas para o usuário administrador
-  const redes = celulas.map((item: any) => item.rede);
+  const redes = celulas.map((item: any) => item && item?.rede);
   const redesUnicas = redes.filter(function (este: any, i: any) {
     return redes.indexOf(este) === i && este;
   });
@@ -177,7 +179,9 @@ export function SendReportScreen() {
   });
 
   const filtrandoRedes = celulas.filter((item: any) => {
-    return item.rede === state.redeSelect;
+    if(item){
+    return item?.rede === state.redeSelect;
+    }
   });
   const discipulado = filtrandoRedes.map((item: any) => item.discipulador?.trim());
 
@@ -192,10 +196,12 @@ export function SendReportScreen() {
   });
 
   const filtrandoDiscipulado = celulas.filter((item: any) => {
+    if(item){
     return (
       item.discipulador?.trim() === state.discipuladoSelect?.trim() &&
       item.rede === state.redeSelect
     );
+    }
   });
   const celulaAdm = filtrandoDiscipulado.map((item: any) => {
     return {
@@ -206,11 +212,13 @@ export function SendReportScreen() {
 
   // tratativas para o usuário pastor
   const filtrandoDiscipuladoPastor = celulas.filter((item: any) => {
+    if(item){
     return item.rede === user[0][1].rede;
+    }
   });
 
   const mapDiscipuladoPastor = filtrandoDiscipuladoPastor.map((item: any) => {
-    return item.discipulador;
+    return item?.discipulador;
   });
 
   const discipuladossUnicosPastor = mapDiscipuladoPastor.filter(function (
@@ -228,7 +236,9 @@ export function SendReportScreen() {
     }
   );
   const filtrandoDiscipuladoPastorSelect = celulas.filter((item: any) => {
+    if(item){
     return item.discipulador === state.discipuladoSelect;
+    }
   });
 
   const celulaPastor = filtrandoDiscipuladoPastorSelect.map((item: any) => {
