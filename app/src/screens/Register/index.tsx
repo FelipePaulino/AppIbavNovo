@@ -158,7 +158,7 @@ export function RegisterScreen() {
           setNumberHouse("");
           setAddress(initialValuesRequestCep);
         });
-    } catch (err) {}
+    } catch (err) { }
   };
 
   const handleDateChange = (event: Event, selectedDate: any) => {
@@ -292,7 +292,12 @@ export function RegisterScreen() {
     });
   };
 
-  const redes = celulas.map((item: any) => item[1].rede);
+  const redes = celulas.map((item: any) => {
+    if (item[1]) {
+      return item[1].rede
+    }
+  });
+  console.log(celulas, "celulas")
   const redesUnicas = redes.filter(function (este: any, i: any) {
     return redes.indexOf(este) === i && este;
   });
@@ -305,15 +310,17 @@ export function RegisterScreen() {
 
   const isShepherd =
     whatOffice === "pastor"
-      ? userInfo.rede
+      ? userInfo?.rede
       : whatOffice === "discipulador"
-      ? userInfo.rede
-      : state.redeSelect;
+        ? userInfo?.rede
+        : state.redeSelect;
   const isDisc =
     whatOffice === "discipulador" ? userInfo.nome : state.discipuladoSelect;
 
   const filtrandoRedes = celulas.filter((item: any) => {
-    return item[1].rede === isShepherd;
+    if (item[1]) {
+      return item[1].rede === isShepherd;
+    }
   });
   const discipulado = filtrandoRedes.map((item: any) => {
     return item[1].discipulador;
@@ -344,7 +351,9 @@ export function RegisterScreen() {
   }
 
   const filtrandoDiscipulado = celulas.filter((item: any) => {
-    return item[1].discipulador?.trim() === isDisc && item[1].rede === isShepherd;
+    if (item[1]) {
+      return item[1].discipulador?.trim() === isDisc.trim() && item[1].rede === isShepherd;
+    }
   });
 
   const celulaAdm = filtrandoDiscipulado.map((item: any) => {
@@ -438,7 +447,7 @@ export function RegisterScreen() {
         );
     }
   };
-  const validacao = (cargo:string) => {
+  const validacao = (cargo: string) => {
     if (cargo === "administrador") {
       if (
         state.redeSelect === "Selecione" ||
@@ -462,7 +471,7 @@ export function RegisterScreen() {
     }
     if (cargo === "discipulador") {
       if (
-        state.celulaSelect === "Selecione" 
+        state.celulaSelect === "Selecione"
       ) {
         return true;
       } else {
@@ -650,9 +659,9 @@ export function RegisterScreen() {
                 width="170"
                 disabled={
                   validacao(whatOffice) ||
-                  state.textSelectCategory === "Selecione" ||
-                  name === "" ||
-                  phone === ""
+                    state.textSelectCategory === "Selecione" ||
+                    name === "" ||
+                    phone === ""
                     ? true
                     : false
                 }

@@ -60,16 +60,20 @@ export function VisitorsReportScreen() {
 
   if(userCelula[0][1].cargo === 'lider de celula'){
     y = celulas && celulas.filter((item: any) => {
+      if(item[1]){
         return (
           item[1].numero_celula == userCelula[0][1].numero_celula
         );
+      }
       });
     }
   else{
     y = celulas && celulas.filter((item: any) => {
+      if(item[1]){
         return (
           item[1].numero_celula == idCelulaSelect
         );
+        }
       });
     }
 
@@ -182,7 +186,7 @@ export function VisitorsReportScreen() {
                 onPress={handleOpenModalAdd}
               />
             </S.FinishForm> */}
-
+{console.log(newArrayVisitors, 'newArrayVisitors')}
             <HeadingPresentComponent />
             {newArrayVisitors &&
               newArrayVisitors?.map((data: any) => {
