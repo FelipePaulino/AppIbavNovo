@@ -6,7 +6,7 @@ import { ButtonComponent } from "../../Button";
 
 import useUserFiltered from "../../../hooks/useUserFiltered";
 import { useFormReport } from "../../../hooks/useFormReport";
-import { connectApi } from "../../../common/services/ConnectApi";
+import { connectApi, connectApiRelatorios } from "../../../common/services/ConnectApi";
 
 import { IContentModal } from "./types";
 
@@ -56,7 +56,7 @@ export function ReportContentModalComponent({
     user[0][1]?.cargo === "pastor"
       ? user[0][1]?.rede
       : state.redeSelect;
-
+console.log(state, "state")
   const handleSubmitForm = () => {
     try {
       const numero_celula = user && user[0][1].numero_celula;
@@ -64,20 +64,29 @@ export function ReportContentModalComponent({
       const data = state.textDate;
       const week = state.week;
 
-      let presencas = [...state.members, ...state.visitors];
+      const changeNamesMembers = state.members.map(item =>{
+        return {
+          cell: item.celula,
+          worship: item.culto,
+          name: item.nome,
+          status: item.status
+        }
+      })
+
+      let presencas = [...changeNamesMembers, ...state.visitors];
 
       const observacoes = state.observations;
 
-      connectApi
-        .post("/relatorios.json", {
-          data,
-          celula: isLider,
-          rede: isSheperd,
-          discipulado: isDisc,
-          observacoes,
-          oferta,
-          presencas,
-          semana: week,
+      connectApiRelatorios
+        .post("/reports", {
+          date: data,
+          cell: isLider,
+          network: isSheperd,
+          discipleship: isDisc,
+          observation: observacoes,
+          offer: oferta,
+          attendance: presencas,
+          week,
         })
         .then(() => {
           handleCloseModal(false);

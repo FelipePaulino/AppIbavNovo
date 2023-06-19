@@ -475,7 +475,7 @@ export function SendReportScreen() {
                     onPress={handleOpenModal}
                     disabled={
                       isLider ||
-                      state.textDate === "Selecione uma data" ||
+                      // state.textDate === "Selecione uma data" ||
                       state.week === "Selecione uma semana" ||
                       state.offer === "" ||
                       state.presencaCelula.length === 0 ||
