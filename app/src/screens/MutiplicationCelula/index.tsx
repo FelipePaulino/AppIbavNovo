@@ -362,7 +362,7 @@ export function MultiplicationCelula() {
               <TitleComponent title={`Célula nova*:`} small primary />
               <InputFieldComponent
                 primary
-                value={newCelula ?? ""}
+                value={newCelula?.replace(" ", "") ?? ""}
                 placeholder=""
                 onChangeText={(value) => setNewCelula(value)}
 
