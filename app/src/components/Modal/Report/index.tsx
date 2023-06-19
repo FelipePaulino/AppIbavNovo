@@ -47,7 +47,7 @@ export function ReportContentModalComponent({
   const isDisc =
     user[0][1]?.cargo === "discipulador" ||
     user[0][1]?.cargo === "lider de celula"
-      ? user[0][1]?.discipulador
+      ? user[0][1]?.nome
       : state.discipuladoSelect;
 
   const isSheperd =
