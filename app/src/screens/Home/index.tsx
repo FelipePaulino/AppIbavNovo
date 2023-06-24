@@ -1,13 +1,12 @@
-import React, { Fragment } from "react";
-import { TouchableOpacity } from "react-native";
+import React, { Fragment, useState } from "react";
+import { TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
+import axios from "axios";
 import { useFormReport } from "../../hooks/useFormReport";
 import { FormReportActions } from "../../contexts/FormReport";
 import { LogoComponent } from "../../components/Logo";
 import { TitleComponent } from "../../components/Title";
 import { HeaderComponent } from "../../components/Header";
-// import { NotificationComponent } from "../../components/Notification";
 import { SelectedMenuComponent } from "../../components/SelectedMenu";
 
 const loadingGif = require("../../assets/loader-two.gif");
@@ -89,7 +88,38 @@ export function HomeScreen() {
     signOut()
   }
 
-  return (
+  const [teste, setTeste] = useState()
+const click = () =>{
+  axios.get('https://api-ibav-development.onrender.com/upload',{}).then((res:any) => {
+    downloadPDF(res)
+  });
+
+}
+
+console.log(teste, 'teste')
+function downloadPDF(pdf) {
+  console.log(pdf, 'pdf')
+  const linkSource = `data:application/pdf;base64,${pdf.data[0].base64}`;
+  const downloadLink = document.createElement("a");
+  const fileName = "abc.doc";
+  downloadLink.href = linkSource;
+  downloadLink.download = fileName;
+  downloadLink.click();}
+
+// simple
+// const bin = atob(base64);
+
+// const downloadPDF = (pdf:any) => {
+//   console.log('oi')
+//   const linkSource = `data:application/pdf;base64,${base64}`;
+//   const downloadLink = document.createElement("a");
+//   const fileName = "abc.pdf";
+//   downloadLink.href = linkSource;
+//   downloadLink.download = fileName;
+//   downloadLink.click();
+// }
+
+return (
     <Fragment>
       <HeaderComponent>
         <LogoComponent full />
@@ -99,6 +129,7 @@ export function HomeScreen() {
           </TouchableOpacity>
         </S.Buttons>
       </HeaderComponent>
+      <S.Felipe onPress={click}>Click Aqui</S.Felipe>
 
       {loading ? (
         <S.Loading source={loadingGif} />

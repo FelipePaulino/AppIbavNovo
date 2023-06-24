@@ -1,6 +1,6 @@
 import styled from "styled-components/native";
 
-import { Image } from "react-native";
+import { Image, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -116,3 +116,5 @@ export const MultiplicationIcon = styled(MaterialCommunityIcons)`
 `;
 
 export const Loading = styled(Image)``;
+
+export const Felipe = styled.TouchableOpacity``;

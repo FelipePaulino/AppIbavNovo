@@ -79,7 +79,7 @@ console.log(state, "state")
 
       connectApiRelatorios
         .post("/reports", {
-          date: data,
+          date: new Date(),
           cell: isLider,
           network: isSheperd,
           discipleship: isDisc,
