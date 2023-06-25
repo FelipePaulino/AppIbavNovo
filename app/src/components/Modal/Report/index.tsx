@@ -45,10 +45,9 @@ export function ReportContentModalComponent({
       : state.celulaSelect;
 
   const isDisc =
-    user[0][1]?.cargo === "discipulador" ||
-    user[0][1]?.cargo === "lider de celula"
-      ? user[0][1]?.nome
-      : state.discipuladoSelect;
+    (user[0][1]?.cargo === "discipulador" && user[0][1]?.nome) ||
+    (user[0][1]?.cargo === "lider de celula" && user[0][1]?.discipulador) ||
+    state.discipuladoSelect;
 
   const isSheperd =
     user[0][1]?.cargo === "discipulador" ||
