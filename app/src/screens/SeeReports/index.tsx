@@ -320,7 +320,7 @@ export function SeeReports() {
           return item[1].rede === state.redeSelect;
         });
         setFilter(filterRede);
-      } else if (state.discipuladoSelect !== "Selecione") {
+      } else if (state.discipuladoSelect !== "Selecione" &&  state.celulaSelect === "Selecione") {
         const filterDiscipulado = reports.filter((item: any) => {
           return item[1].discipulado === state.discipuladoSelect;
         });
