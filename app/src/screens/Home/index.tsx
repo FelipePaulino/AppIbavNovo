@@ -87,16 +87,28 @@ export function HomeScreen() {
     setUpdateUsers(!updateUsers)
     signOut()
   }
-
+  const [text, setText] = useState()
   const [teste, setTeste] = useState()
 const click = () =>{
-  axios.get('https://api-ibav-development.onrender.com/upload',{}).then((res:any) => {
+  axios.get('https://api-ibav-development.onrender.com/upload/',{}).then((res:any) => {
     downloadPDF(res)
   });
 
 }
 
-console.log(teste, 'teste')
+const subir = () =>{
+  let data = new FormData()
+  data.append('name', 'image')
+  data.append('file', text)
+
+axios({
+  method: 'post',
+  url: 'https://api-ibav-development.onrender.com/upload',
+  data: data,
+  headers: { "Content-Type": "multipart/form-data" },
+})
+}
+
 function downloadPDF(pdf) {
   console.log(pdf, 'pdf')
   const linkSource = `data:application/pdf;base64,${pdf.data[0].base64}`;
@@ -119,6 +131,8 @@ function downloadPDF(pdf) {
 //   downloadLink.click();
 // }
 
+
+console.log(text, 'text')
 return (
     <Fragment>
       <HeaderComponent>
@@ -129,8 +143,9 @@ return (
           </TouchableOpacity>
         </S.Buttons>
       </HeaderComponent>
-      <S.Felipe onPress={click}>Click Aqui</S.Felipe>
-
+      <S.Felipe onPress={click}>Baixar</S.Felipe>
+      <S.Felipe onPress={subir}>Subir</S.Felipe>
+      <input type="file" onChange={(e) => setText(e.target.files[0])} />
       {loading ? (
         <S.Loading source={loadingGif} />
       ) : (
