@@ -117,4 +117,4 @@ export const MultiplicationIcon = styled(MaterialCommunityIcons)`
 
 export const Loading = styled(Image)``;
 
-export const Felipe = styled.TouchableOpacity``;
+export const Felipe = styled.Text``;
