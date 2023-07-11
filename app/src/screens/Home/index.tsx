@@ -121,7 +121,7 @@ export function HomeScreen() {
   async function pickFile() {
     try {
       const file = await DocumentPicker.getDocumentAsync();
-      setText(file);
+      setText(file.file);
       console.log("Arquivo selecionado:", file);
       // Lógica adicional para manipular o arquivo selecionado
     } catch (error) {
@@ -179,7 +179,7 @@ export function HomeScreen() {
       <S.Felipe onPress={subir}>Subir</S.Felipe>
 
        <Button title="Selecionar arquivo" onPress={pickFile} /> 
-      <input type="file" onChange={(e) => setText(e.target.files[0])} />
+      {/* <input type="file" onChange={(e) => setText(e.target.files[0])} /> */}
       {loading ? (
         <S.Loading source={loadingGif} />
       ) : (
