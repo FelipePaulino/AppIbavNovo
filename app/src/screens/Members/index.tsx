@@ -29,6 +29,7 @@ import { ApprovalRequest } from "../../components/Modal/ApprovalRequest";
 import RequestService from "../../common/services/RequestService";
 import { useFormReport } from "../../hooks/useFormReport";
 import { IContentProps } from "../SendReport/types";
+import { comparedNamesIndex, comparedValues } from "../../common/utils/order";
 
 export function MembersScreen(this: any) {
   const [members, setMembers] = useState<any>([]);
@@ -207,7 +208,7 @@ export function MembersScreen(this: any) {
         value: item,
       };
     });
-
+    {console.log(mapRedesUnicas, "mapRedesUnicas")}
   const filtrandoRedes =
     celulas &&
     celulas.filter((item: any) => {
@@ -427,7 +428,7 @@ export function MembersScreen(this: any) {
                 <SelectComponent
                   onChange={handleRedeChange}
                   labelSelect={state.redeSelect}
-                  dataOptions={mapRedesUnicas}
+                  dataOptions={mapRedesUnicas && mapRedesUnicas?.sort(comparedValues)}
                   selectedOption={handleRedeChange}
                   width="85%"
                 />
@@ -444,7 +445,7 @@ export function MembersScreen(this: any) {
                 <SelectComponent
                   onChange={handleDiscipuladoChange}
                   labelSelect={state.discipuladoSelect}
-                  dataOptions={state.redeSelect && mapDiscipuladosUnicos}
+                  dataOptions={state.redeSelect && mapDiscipuladosUnicos?.sort(comparedValues)}
                   selectedOption={handleDiscipuladoChange}
                   disabled={state.redeSelect === "Selecione" ? true : false}
                   width="85%"
@@ -458,7 +459,7 @@ export function MembersScreen(this: any) {
                 <SelectComponent
                   onChange={handleCelulaChange}
                   labelSelect={state.celulaSelect}
-                  dataOptions={celulaAdm}
+                  dataOptions={celulaAdm?.sort(comparedValues)}
                   selectedOption={selectedOptionCelula}
                   disabled={
                     state.discipuladoSelect === "Selecione" ? true : false
@@ -502,7 +503,7 @@ export function MembersScreen(this: any) {
                 whatOffice === "lider de celula") && (
                 <>
                   {newMembersList.length > 0 ? (
-                    newMembersList.sort(compared)?.map((item: any) => {
+                    newMembersList.sort(comparedNamesIndex)?.map((item: any) => {
                       return (
                         <Fragment key={item[1].nome}>
                           <PersonLabelComponent

@@ -30,7 +30,7 @@ import { FormReportActions } from "../../contexts/FormReport";
 import { IDataUserProps, ISelectedUserProps } from "../MembersReport/types";
 import useUserFiltered from "../../hooks/useUserFiltered";
 import * as S from "./styles";
-
+import {comparedNames} from "../../common/utils/order"
 
 export function VisitorsReportScreen() {
   // const [error, setError] = useState("");
@@ -188,7 +188,7 @@ export function VisitorsReportScreen() {
             </S.FinishForm> */}
             <HeadingPresentComponent />
             {newArrayVisitors &&
-              newArrayVisitors?.map((data: any) => {
+              newArrayVisitors?.sort(comparedNames)?.map((data: any) => {
                 return (
                   <CardMembersComponent
                     key={data}

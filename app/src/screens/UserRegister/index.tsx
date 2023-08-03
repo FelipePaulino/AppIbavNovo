@@ -39,6 +39,7 @@ import { maskCep, maskEmail } from "../../common/utils/masks";
 import { ErrorModalComponent } from "../../components/Modal/Error";
 
 import { dictionary } from "../../common/utils/dictionary";
+import { comparedValues } from "../../common/utils/order";
 
 export function UserRegisterScreen() {
   const [users, setUsers] = useState([]);
@@ -424,7 +425,7 @@ export function UserRegisterScreen() {
               onChange={handleNetworkChange}
               selectedOption={handleNetworkChange}
               labelSelect={selectNetwork}
-              dataOptions={optionsNetwork && optionsNetwork}
+              dataOptions={optionsNetwork && optionsNetwork.sort(comparedValues)}
             />
           </S.GridSelect>
         );
@@ -438,7 +439,7 @@ export function UserRegisterScreen() {
                 onChange={handleNetworkChange}
                 selectedOption={handleNetworkChange}
                 labelSelect={selectNetwork}
-                dataOptions={optionsNetwork && optionsNetwork}
+                dataOptions={optionsNetwork && optionsNetwork.sort(comparedValues)}
               />
             </S.GridSelect>
             <S.GridSelect>
@@ -447,7 +448,7 @@ export function UserRegisterScreen() {
                 onChange={handleDisciplesChange}
                 selectedOption={handleDisciplesChange}
                 labelSelect={selectDisciples}
-                dataOptions={optionsDisciples && optionsDisciples}
+                dataOptions={optionsDisciples && optionsDisciples.sort(comparedValues)}
                 disabled={selectNetwork === "Selecionar"}
               />
             </S.GridSelect>

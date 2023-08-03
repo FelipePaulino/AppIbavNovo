@@ -21,6 +21,7 @@ import { RequestContentModalComponent } from "../../components/Modal/Request";
 import { connectApi } from "../../common/services/ConnectApi";
 import { ApprovalRequest } from "../../components/Modal/ApprovalRequest";
 import useUserFiltered from "../../hooks/useUserFiltered";
+import { comparedValues } from "../../common/utils/order";
 
 const loadingGif = require("../../assets/loader-two.gif");
 
@@ -428,7 +429,7 @@ export function SeeReports() {
               <SelectComponent
                 onChange={handleRedeChange}
                 labelSelect={state.redeSelect}
-                dataOptions={mapRedesUnicas}
+                dataOptions={mapRedesUnicas?.sort(comparedValues)}
                 selectedOption={handleRedeChange}
                 width="100%"
               />
@@ -445,7 +446,7 @@ export function SeeReports() {
               <SelectComponent
                 onChange={handleDiscipuladoChange}
                 labelSelect={state.discipuladoSelect}
-                dataOptions={mapDiscipuladosUnicos}
+                dataOptions={mapDiscipuladosUnicos?.sort(comparedValues)}
                 selectedOption={handleDiscipuladoChange}
                 width="100%"
               />
@@ -458,7 +459,7 @@ export function SeeReports() {
               <SelectComponent
                 onChange={handleCelulaChange}
                 labelSelect={state.celulaSelect}
-                dataOptions={mapCelulasUnicos}
+                dataOptions={mapCelulasUnicos?.sort(comparedValues)}
                 selectedOption={handleCelulaChange}
                 width="100%"
                 disabled={
@@ -482,7 +483,7 @@ export function SeeReports() {
               <SelectComponent
                 onChange={handleDiscipuladoChange}
                 labelSelect={state.discipuladoSelect}
-                dataOptions={mapDiscipuladoPastorUnicos}
+                dataOptions={mapDiscipuladoPastorUnicos?.sort(comparedValues)}
                 selectedOption={handleDiscipuladoChange}
                 width="100%"
               />
@@ -495,7 +496,7 @@ export function SeeReports() {
               <SelectComponent
                 onChange={handleCelulaChange}
                 labelSelect={state.celulaSelect}
-                dataOptions={celulasUnicosPastorMap}
+                dataOptions={celulasUnicosPastorMap?.sort(comparedValues)}
                 selectedOption={handleCelulaChange}
                 width="100%"
                 disabled={
@@ -514,7 +515,7 @@ export function SeeReports() {
             <SelectComponent
               onChange={handleCelulaChange}
               labelSelect={state.celulaSelect}
-              dataOptions={mapCelulaDiscipuladorUnicos}
+              dataOptions={mapCelulaDiscipuladorUnicos?.sort(comparedValues)}
               selectedOption={handleCelulaChange}
               width="100%"
             />

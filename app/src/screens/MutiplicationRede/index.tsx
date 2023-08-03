@@ -20,6 +20,7 @@ import { DefaultContentModalComponent } from "../../components/Modal/Default";
 import { useNavigation } from "@react-navigation/native";
 import { IPropsAppStack } from "../../routes/AppStack/types";
 import { InputFieldComponent } from "../../components/InputField";
+import { comparedDisc, comparedNames, comparedValues } from "../../common/utils/order";
 
 export function MultiplicationRede() {
 
@@ -274,7 +275,7 @@ export function MultiplicationRede() {
                     <SelectComponent
                       onChange={handleRedeChange}
                       labelSelect={state.redeSelect}
-                      dataOptions={mapRedesUnicas}
+                      dataOptions={mapRedesUnicas?.sort(comparedValues)}
                       selectedOption={handleRedeChange}
                       width="300"
                     />
@@ -311,7 +312,7 @@ export function MultiplicationRede() {
                     <SelectComponent
                       onChange={handlePastorNovoChange}
                       labelSelect={state.celulaSelect}
-                      dataOptions={state.redeSelect && mapDiscipuladosUnicos}
+                      dataOptions={state.redeSelect && mapDiscipuladosUnicos?.sort(comparedValues)}
                       selectedOption={handlePastorNovoChange}
                       width="300"
                       disabled={state.redeSelect === "Selecione" ? true : false}
@@ -324,8 +325,9 @@ export function MultiplicationRede() {
                     Selecione os discipulados que vão para a nova rede
                   </S.Paragraph>
                 </S.labelParagraph>
+
                 <S.Grid>
-                  {state.redeSelect && unicoDiscipulador.sort(compared).map((item: any) => {
+                  {state.redeSelect && unicoDiscipulador?.sort(comparedDisc).map((item: any) => {
                     if(item){
                     return (
                       <Checkbox.Item
