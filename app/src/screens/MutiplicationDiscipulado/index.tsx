@@ -19,6 +19,7 @@ import { ModalComponent } from "../../components/Modal";
 import { DefaultContentModalComponent } from "../../components/Modal/Default";
 import { useNavigation } from "@react-navigation/native";
 import { IPropsAppStack } from "../../routes/AppStack/types";
+import { comparedValues } from "../../common/utils/order";
 
 export function MultiplicationDiscipulado() {
   const [celulas, setCelulas] = useState<any>([]);
@@ -240,7 +241,7 @@ export function MultiplicationDiscipulado() {
               <SelectComponent
                 onChange={handleRedeChange}
                 labelSelect={state.redeSelect}
-                dataOptions={mapRedesUnicas}
+                dataOptions={mapRedesUnicas?.sort(comparedValues)}
                 selectedOption={handleRedeChange}
                 width="300"
               />
@@ -253,7 +254,7 @@ export function MultiplicationDiscipulado() {
               <SelectComponent
                 onChange={handleDiscipuladoChange}
                 labelSelect={state.discipuladoSelect}
-                dataOptions={state.redeSelect && mapDiscipuladosUnicos}
+                dataOptions={state.redeSelect && mapDiscipuladosUnicos?.sort(comparedValues)}
                 selectedOption={handleDiscipuladoChange}
                 width="300"
                 disabled={state.redeSelect === "Selecione" ? true : false}
@@ -267,7 +268,7 @@ export function MultiplicationDiscipulado() {
               <SelectComponent
                 onChange={handleCelulaChange}
                 labelSelect={state.celulaSelect}
-                dataOptions={celulaAdm}
+                dataOptions={celulaAdm?.sort(comparedValues)}
                 selectedOption={handleCelulaChange}
                 width="300"
                 disabled={state.discipuladoSelect === "Selecione" ? true : false}

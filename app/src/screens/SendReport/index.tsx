@@ -25,6 +25,8 @@ import { useFormReport } from "../../hooks/useFormReport";
 import { connectApi } from "../../common/services/ConnectApi";
 import { FormReportActions } from "../../contexts/FormReport";
 
+import {comparedValues} from "../../common/utils/order"
+
 import { IContentProps } from "./types";
 
 import * as S from "./styles";
@@ -290,7 +292,7 @@ export function SendReportScreen() {
               <SelectComponent
                 onChange={handleCelulaChange}
                 labelSelect={state.textSelectCelula}
-                dataOptions={optionsCelula && optionsCelula}
+                dataOptions={optionsCelula && optionsCelula?.sort(comparedValues)}
                 selectedOption={selectedOptionCelula}
                 width={"85%"}
               />
@@ -311,7 +313,7 @@ export function SendReportScreen() {
                 <SelectComponent
                   onChange={handleDiscipuladoChange}
                   labelSelect={state.discipuladoSelect}
-                  dataOptions={mapDiscipuladossUnicosPastor}
+                  dataOptions={mapDiscipuladossUnicosPastor?.sort(comparedValues)}
                   selectedOption={handleDiscipuladoChange}
                   width={"85%"}
                 />
@@ -324,7 +326,7 @@ export function SendReportScreen() {
                 <SelectComponent
                   onChange={handleCelulaChange}
                   labelSelect={state.celulaSelect}
-                  dataOptions={celulaPastor}
+                  dataOptions={celulaPastor?.sort(comparedValues)}
                   selectedOption={selectedOptionCelula}
                   width={"85%"}
                 />
@@ -343,7 +345,7 @@ export function SendReportScreen() {
                 <SelectComponent
                   onChange={handleRedeChange}
                   labelSelect={state.redeSelect}
-                  dataOptions={mapRedesUnicas}
+                  dataOptions={mapRedesUnicas.sort(comparedValues)}
                   selectedOption={handleRedeChange}
                   width={"85%"}
                 />
@@ -360,7 +362,7 @@ export function SendReportScreen() {
                 <SelectComponent
                   onChange={handleDiscipuladoChange}
                   labelSelect={state.discipuladoSelect}
-                  dataOptions={state.redeSelect && mapDiscipuladosUnicos}
+                  dataOptions={state.redeSelect && mapDiscipuladosUnicos.sort(comparedValues)}
                   selectedOption={handleDiscipuladoChange}
                   width={"85%"}
                   disabled={state.redeSelect === "Selecione" ? true : false}
