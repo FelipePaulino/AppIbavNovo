@@ -208,7 +208,6 @@ export function MembersScreen(this: any) {
         value: item,
       };
     });
-    {console.log(mapRedesUnicas, "mapRedesUnicas")}
   const filtrandoRedes =
     celulas &&
     celulas.filter((item: any) => {
