@@ -35,6 +35,8 @@ import IAddress from "../../types/initialValues";
 import * as S from "./styles";
 import { maskCep } from "../../common/utils/masks";
 
+import {comparedValues} from "../../common/utils/order"
+
 export function RegisterScreen() {
   const [address, setAddress] = useState(initialValuesRequestCep);
   const [name, setName] = useState("");
@@ -370,7 +372,7 @@ export function RegisterScreen() {
               label="Célula"
               onChange={handleCelulaChange}
               labelSelect={state.celulaSelect}
-              dataOptions={celulaAdm}
+              dataOptions={celulaAdm.sort(comparedValues)}
               selectedOption={selectedOptionCelula}
             />
           </S.BoxSelect>
@@ -384,7 +386,7 @@ export function RegisterScreen() {
                 label="Discipulado"
                 onChange={handleDiscipuladoChange}
                 labelSelect={state.discipuladoSelect}
-                dataOptions={state.redeSelect && mapDiscipuladosUnicos}
+                dataOptions={state.redeSelect && mapDiscipuladosUnicos.sort(comparedValues)}
                 selectedOption={handleDiscipuladoChange}
                 disabled={state.redeSelect === "*Selecione" ? true : false}
               />
@@ -395,7 +397,7 @@ export function RegisterScreen() {
                 label="Célula"
                 onChange={handleCelulaChange}
                 labelSelect={state.celulaSelect}
-                dataOptions={celulaAdm}
+                dataOptions={celulaAdm.sort(comparedValues)}
                 selectedOption={selectedOptionCelula}
                 disabled={
                   state.discipuladoSelect === "*Selecione" ? true : false
@@ -414,7 +416,7 @@ export function RegisterScreen() {
                 label="Rede"
                 onChange={handleRedeChange}
                 labelSelect={state.redeSelect}
-                dataOptions={mapRedesUnicas}
+                dataOptions={mapRedesUnicas.sort(comparedValues)}
                 selectedOption={handleRedeChange}
               />
             </S.BoxSelect>
@@ -424,7 +426,7 @@ export function RegisterScreen() {
                 label="Discipulado"
                 onChange={handleDiscipuladoChange}
                 labelSelect={state.discipuladoSelect}
-                dataOptions={state.redeSelect && mapDiscipuladosUnicos}
+                dataOptions={state.redeSelect && mapDiscipuladosUnicos.sort(comparedValues)}
                 selectedOption={handleDiscipuladoChange}
                 disabled={state.redeSelect === "*Selecione" ? true : false}
               />
@@ -435,7 +437,7 @@ export function RegisterScreen() {
                 label="Célula"
                 onChange={handleCelulaChange}
                 labelSelect={state.celulaSelect}
-                dataOptions={celulaAdm}
+                dataOptions={celulaAdm.sort(comparedValues)}
                 selectedOption={selectedOptionCelula}
                 disabled={
                   state.discipuladoSelect === "*Selecione" ? true : false

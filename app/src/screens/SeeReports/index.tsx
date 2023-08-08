@@ -21,6 +21,7 @@ import { RequestContentModalComponent } from "../../components/Modal/Request";
 import { connectApi } from "../../common/services/ConnectApi";
 import { ApprovalRequest } from "../../components/Modal/ApprovalRequest";
 import useUserFiltered from "../../hooks/useUserFiltered";
+import { comparedValues } from "../../common/utils/order";
 
 const loadingGif = require("../../assets/loader-two.gif");
 
@@ -31,9 +32,9 @@ export function SeeReports() {
   const [showCalender, setShowCalender] = useState(false);
   const [filter, setFilter] = useState<any>();
   const [relator, setRelator] = useState<any>();
-  const [isVisible, setIsVisible] = useState<any>(false)
-  const [modalConcluded, setModalConcluded] = useState<any>(false)
-  const [idSelected, setIdSelected] = useState<any>()
+  const [isVisible, setIsVisible] = useState<any>(false);
+  const [modalConcluded, setModalConcluded] = useState<any>(false);
+  const [idSelected, setIdSelected] = useState<any>();
 
   const { state, dispatch } = useFormReport();
   const navigation = useNavigation<IPropsAppStack>();
@@ -42,9 +43,9 @@ export function SeeReports() {
 
   const dataUser = user && user[0] && user[0][1];
   const whatIsOffice = dataUser && dataUser.cargo;
-  const rede = user && user[0] && user[0][1]?.rede
-  const discipulador = user && user[0] && user[0][1]?.nome
-  const lider = user && user[0] && user[0][1]?.numero_celula
+  const rede = user && user[0] && user[0][1]?.rede;
+  const discipulador = user && user[0] && user[0][1]?.nome;
+  const lider = user && user[0] && user[0][1]?.numero_celula;
 
   const getReports = async () => {
     await serviceGet.getReports().then((response) => {
@@ -54,29 +55,26 @@ export function SeeReports() {
   };
 
   const relatorPastor = reports?.filter((item: any) => {
-    return item[1].rede === rede
-  })
+    return item[1].rede === rede;
+  });
 
   const relatorDiscipulador = reports?.filter((item: any) => {
-    return item[1].discipulado.trim() === discipulador.trim()
-  })
+    return item[1].discipulado.trim() === discipulador.trim();
+  });
 
   const relatorLider = reports?.filter((item: any) => {
-    return item[1].celula.includes(lider)
-  })
+    return item[1].celula.includes(lider);
+  });
 
   useEffect(() => {
-    if (whatIsOffice === 'administrador') {
-      setFilter(reports)
-    } else if (whatIsOffice === 'pastor') {
-      return setFilter(relatorPastor)
-    } else if (whatIsOffice === 'discipulador') {
-      return setFilter(relatorDiscipulador)
-    } else setFilter(relatorLider)
-
+    if (whatIsOffice === "administrador") {
+      setFilter(reports);
+    } else if (whatIsOffice === "pastor") {
+      return setFilter(relatorPastor);
+    } else if (whatIsOffice === "discipulador") {
+      return setFilter(relatorDiscipulador);
+    } else setFilter(relatorLider);
   }, [reports]);
-
-
 
   useEffect(() => {
     setLoading(true);
@@ -103,25 +101,35 @@ export function SeeReports() {
 
   //pastor
 
-  const discipuladoPastor = relatorPastor?.map((item: any) => item[1].discipulado);
+  const discipuladoPastor = relatorPastor?.map(
+    (item: any) => item[1].discipulado
+  );
 
-  const discipuladoPastorUnicos = discipuladoPastor?.filter(function (este: any, i: any) {
+  const discipuladoPastorUnicos = discipuladoPastor?.filter(function (
+    este: any,
+    i: any
+  ) {
     return discipuladoPastor.indexOf(este) === i && este;
   });
 
-  const mapDiscipuladoPastorUnicos = discipuladoPastorUnicos?.map((item: any) => {
-    return {
-      value: item,
-    };
-  });
+  const mapDiscipuladoPastorUnicos = discipuladoPastorUnicos?.map(
+    (item: any) => {
+      return {
+        value: item,
+      };
+    }
+  );
 
   const celulasPastor = relatorPastor?.filter((item: any) => {
-    return item[1].discipulado === state.discipuladoSelect
-  })
+    return item[1].discipulado === state.discipuladoSelect;
+  });
 
   const celulasPastorMap = celulasPastor?.map((item: any) => item[1].celula);
 
-  const celulasUnicosPastor = celulasPastorMap?.filter(function (este: any, i: any) {
+  const celulasUnicosPastor = celulasPastorMap?.filter(function (
+    este: any,
+    i: any
+  ) {
     return celulasPastorMap.indexOf(este) === i;
   });
 
@@ -133,20 +141,27 @@ export function SeeReports() {
   //
 
   //discipulador
-  const celulaDiscipulador = relatorDiscipulador?.map((item: any) => item[1].celula);
+  const celulaDiscipulador = relatorDiscipulador?.map(
+    (item: any) => item[1].celula
+  );
 
-  const celulaDiscipuladorUnicos = celulaDiscipulador?.filter(function (este: any, i: any) {
+  const celulaDiscipuladorUnicos = celulaDiscipulador?.filter(function (
+    este: any,
+    i: any
+  ) {
     return celulaDiscipulador.indexOf(este) === i && este;
   });
 
-  const mapCelulaDiscipuladorUnicos = celulaDiscipuladorUnicos?.map((item: any) => {
-    return {
-      value: item,
-    };
-  });
+  const mapCelulaDiscipuladorUnicos = celulaDiscipuladorUnicos?.map(
+    (item: any) => {
+      return {
+        value: item,
+      };
+    }
+  );
   //
 
-  const whatOffice = user && user[0] && user[0][1]?.cargo
+  const whatOffice = user && user[0] && user[0][1]?.cargo;
   const redes = reports?.map((item: any) => item[1].rede);
 
   const redesUnicas = redes?.filter(function (este: any, i: any) {
@@ -191,7 +206,6 @@ export function SeeReports() {
       value: item,
     };
   });
-
 
   const handleRedeChange = (value: string) => {
     dispatch({
@@ -281,7 +295,6 @@ export function SeeReports() {
         });
         setFilter(filterCelula);
       } else {
-
         // if (whatIsOffice === 'administrador') {
         //   setFilter(reports)
         // } else if (whatIsOffice === 'pastor') {
@@ -289,17 +302,19 @@ export function SeeReports() {
         // } else if (whatIsOffice === 'discipulador') {
         //   return setFilter(relatorDiscipulador)
         // } else setFilter(relatorLider)
-        if (whatIsOffice === 'pastor') {
+        if (whatIsOffice === "pastor") {
           const filterDatePastor = relatorPastor.filter((item: any) => {
             return item[1].data === state.textDate;
           });
           setFilter(filterDatePastor);
-        } else if (whatIsOffice === 'discipulador') {
-          const filterDateDiscipulador = relatorDiscipulador.filter((item: any) => {
-            return item[1].data === state.textDate;
-          });
+        } else if (whatIsOffice === "discipulador") {
+          const filterDateDiscipulador = relatorDiscipulador.filter(
+            (item: any) => {
+              return item[1].data === state.textDate;
+            }
+          );
           setFilter(filterDateDiscipulador);
-        } else if (whatIsOffice === 'lider de celula') {
+        } else if (whatIsOffice === "lider de celula") {
           const filterDateLider = relatorLider.filter((item: any) => {
             return item[1].data === state.textDate;
           });
@@ -320,7 +335,10 @@ export function SeeReports() {
           return item[1].rede === state.redeSelect;
         });
         setFilter(filterRede);
-      } else if (state.discipuladoSelect !== "Selecione" &&  state.celulaSelect === "Selecione") {
+      } else if (
+        state.discipuladoSelect !== "Selecione" &&
+        state.celulaSelect === "Selecione"
+      ) {
         const filterDiscipulado = reports.filter((item: any) => {
           return item[1].discipulado === state.discipuladoSelect;
         });
@@ -356,13 +374,13 @@ export function SeeReports() {
       type: FormReportActions.setDate,
       payload: new Date(),
     });
-    if (whatIsOffice === 'administrador') {
-      setFilter(reports)
-    } else if (whatIsOffice === 'pastor') {
-      return setFilter(relatorPastor)
-    } else if (whatIsOffice === 'discipulador') {
-      return setFilter(relatorDiscipulador)
-    } else setFilter(relatorLider)
+    if (whatIsOffice === "administrador") {
+      setFilter(reports);
+    } else if (whatIsOffice === "pastor") {
+      return setFilter(relatorPastor);
+    } else if (whatIsOffice === "discipulador") {
+      return setFilter(relatorDiscipulador);
+    } else setFilter(relatorLider);
   };
 
   function compared(a: any, b: any) {
@@ -373,32 +391,45 @@ export function SeeReports() {
 
   const deleteReport = (id: any) => {
     try {
-      connectApi.delete(`/relatorios/${id}.json`)
-      setIsVisible(false)
+      connectApi.delete(`/relatorios/${id}.json`);
+      setIsVisible(false);
       setTimeout(() => {
-        setModalConcluded(true)
+        setModalConcluded(true);
       }, 500);
-    }
-    catch (err) {
+    } catch (err) {
       alert("Houve algum problema ao excluir esse relátorio");
     }
+  };
+
+  function compareDatesDescending(a, b) {
+    const partesDaDataA = a[1].data.split("/");
+    const partesDaDataB = b[1].data.split("/");
+    const dataA = new Date(
+      partesDaDataA[2],
+      partesDaDataA[1] - 1,
+      partesDaDataA[0]
+    );
+    const dataB = new Date(
+      partesDaDataB[2],
+      partesDaDataB[1] - 1,
+      partesDaDataB[0]
+    );
+    const dateA: any = new Date(dataA);
+    const dateB: any = new Date(dataB);
+    return dateB - dateA;
   }
 
   const siderBarFilter = () => {
-    if (whatOffice === 'administrador') {
+    if (whatOffice === "administrador") {
       return (
         <>
           <S.Grid>
-            <TitleComponent
-              title={`${FormFields.NETWORK}:`}
-              small
-              primary
-            />
+            <TitleComponent title={`${FormFields.NETWORK}:`} small primary />
             <S.ContentC>
               <SelectComponent
                 onChange={handleRedeChange}
                 labelSelect={state.redeSelect}
-                dataOptions={mapRedesUnicas}
+                dataOptions={mapRedesUnicas?.sort(comparedValues)}
                 selectedOption={handleRedeChange}
                 width="100%"
               />
@@ -415,7 +446,7 @@ export function SeeReports() {
               <SelectComponent
                 onChange={handleDiscipuladoChange}
                 labelSelect={state.discipuladoSelect}
-                dataOptions={mapDiscipuladosUnicos}
+                dataOptions={mapDiscipuladosUnicos?.sort(comparedValues)}
                 selectedOption={handleDiscipuladoChange}
                 width="100%"
               />
@@ -428,7 +459,7 @@ export function SeeReports() {
               <SelectComponent
                 onChange={handleCelulaChange}
                 labelSelect={state.celulaSelect}
-                dataOptions={mapCelulasUnicos}
+                dataOptions={mapCelulasUnicos?.sort(comparedValues)}
                 selectedOption={handleCelulaChange}
                 width="100%"
                 disabled={
@@ -438,8 +469,8 @@ export function SeeReports() {
             </S.ContentC>
           </S.Grid>
         </>
-      )
-    } else if (whatOffice === 'pastor') {
+      );
+    } else if (whatOffice === "pastor") {
       return (
         <>
           <S.Grid>
@@ -452,7 +483,7 @@ export function SeeReports() {
               <SelectComponent
                 onChange={handleDiscipuladoChange}
                 labelSelect={state.discipuladoSelect}
-                dataOptions={mapDiscipuladoPastorUnicos}
+                dataOptions={mapDiscipuladoPastorUnicos?.sort(comparedValues)}
                 selectedOption={handleDiscipuladoChange}
                 width="100%"
               />
@@ -465,7 +496,7 @@ export function SeeReports() {
               <SelectComponent
                 onChange={handleCelulaChange}
                 labelSelect={state.celulaSelect}
-                dataOptions={celulasUnicosPastorMap}
+                dataOptions={celulasUnicosPastorMap?.sort(comparedValues)}
                 selectedOption={handleCelulaChange}
                 width="100%"
                 disabled={
@@ -475,8 +506,8 @@ export function SeeReports() {
             </S.ContentC>
           </S.Grid>
         </>
-      )
-    } else if (whatOffice === 'discipulador') {
+      );
+    } else if (whatOffice === "discipulador") {
       return (
         <S.Grid>
           <TitleComponent title={`${FormFields.CELULA}:`} small primary />
@@ -484,15 +515,15 @@ export function SeeReports() {
             <SelectComponent
               onChange={handleCelulaChange}
               labelSelect={state.celulaSelect}
-              dataOptions={mapCelulaDiscipuladorUnicos}
+              dataOptions={mapCelulaDiscipuladorUnicos?.sort(comparedValues)}
               selectedOption={handleCelulaChange}
               width="100%"
             />
           </S.ContentC>
         </S.Grid>
-      )
+      );
     }
-  }
+  };
 
   return (
     <Fragment>
@@ -572,42 +603,46 @@ export function SeeReports() {
             <S.Loading source={loadingGif}></S.Loading>
           ) : (
             <S.ListContainer>
-              {filter?.sort(compared).map((item: any, index: any) => {
-                return (
-                  <S.List key={index}>
-                    <S.ContText>
-                      <Text style={{ maxWidth: '72%' }} onPress={() => actionReportId(item[0])}>
-                        {item[1].celula} - {item[1].data}
-                      </Text>
-                      <S.ContainerIcons>
-                        <S.Icon>
-                          <FontAwesome5
-                            size={18}
-                            name="eye"
-                            color="#000A3E"
-                            style={{ padding: 5 }}
-                            onPress={() => actionReportId(item[0])}
-                          />
-                        </S.Icon>
-                        {whatOffice === 'administrador' &&
+              {filter
+                ?.sort(compareDatesDescending)
+                .map((item: any, index: any) => {
+                  return (
+                    <S.List key={index}>
+                      <S.ContText>
+                        <Text
+                          style={{ maxWidth: "72%" }}
+                          onPress={() => actionReportId(item[0])}
+                        >
+                          {item[1].celula} - {item[1].data}
+                        </Text>
+                        <S.ContainerIcons>
                           <S.Icon>
                             <FontAwesome5
                               size={18}
-                              name="trash"
+                              name="eye"
                               color="#000A3E"
                               style={{ padding: 5 }}
-                              onPress={() => {
-                                setIdSelected(item[0]),
-                                setIsVisible(true)
-                              }}
+                              onPress={() => actionReportId(item[0])}
                             />
                           </S.Icon>
-                        }
-                      </S.ContainerIcons>
-                    </S.ContText>
-                  </S.List>
-                );
-              })}
+                          {whatOffice === "administrador" && (
+                            <S.Icon>
+                              <FontAwesome5
+                                size={18}
+                                name="trash"
+                                color="#000A3E"
+                                style={{ padding: 5 }}
+                                onPress={() => {
+                                  setIdSelected(item[0]), setIsVisible(true);
+                                }}
+                              />
+                            </S.Icon>
+                          )}
+                        </S.ContainerIcons>
+                      </S.ContText>
+                    </S.List>
+                  );
+                })}
             </S.ListContainer>
           )}
         </S.Container>
@@ -629,7 +664,7 @@ export function SeeReports() {
         isVisible={modalConcluded}
         onBackdropPress={() => setModalConcluded(false)}
       >
-        <ApprovalRequest name='CÉLULA' type="relátorio" />
+        <ApprovalRequest name="CÉLULA" type="relátorio" />
       </ModalComponent>
     </Fragment>
   );

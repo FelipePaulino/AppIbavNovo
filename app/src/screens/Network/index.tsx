@@ -20,6 +20,7 @@ import { connectApi } from "../../common/services/ConnectApi";
 import { IPropsAppStack } from "../../routes/AppStack/types";
 import * as S from "./styles";
 import axios from "axios";
+import { comparedNamesIndex, comparedValues } from "../../common/utils/order";
 
 const loadingGif = require("../../assets/loader-two.gif");
 
@@ -197,7 +198,7 @@ export default function NetworkScreenList() {
                     allOptions
                     onChange={handleRedeChange}
                     labelSelect={state.redeSelect}
-                    dataOptions={mapRedesUnicas}
+                    dataOptions={mapRedesUnicas.sort(comparedValues)}
                     selectedOption={handleRedeChange}
                     width="85%"
                   />
@@ -278,7 +279,7 @@ export default function NetworkScreenList() {
                       {lider.length > 0 ? (
                         <>
                           <Text>Célula</Text>
-                          {lider.map((item: any) => {
+                          {lider?.sort(comparedNamesIndex).map((item: any) => {
                             return (
                               <PersonLabelComponent
                                 noPencial={true}

@@ -20,6 +20,7 @@ import { useNavigation } from "@react-navigation/native";
 import { IPropsAppStack } from "../../routes/AppStack/types";
 import { ModalComponent } from "../../components/Modal";
 import { DefaultContentModalComponent } from "../../components/Modal/Default";
+import { comparedValues } from "../../common/utils/order";
 
 export function MultiplicationCelula() {
   const [celulas, setCelulas] = useState<any>([]);
@@ -323,7 +324,7 @@ export function MultiplicationCelula() {
               <SelectComponent
                 onChange={handleRedeChange}
                 labelSelect={state.redeSelect}
-                dataOptions={mapRedesUnicas}
+                dataOptions={mapRedesUnicas?.sort(comparedValues)}
                 selectedOption={handleRedeChange}
                 width="300"
               />
@@ -336,7 +337,7 @@ export function MultiplicationCelula() {
               <SelectComponent
                 onChange={handleDiscipuladoChange}
                 labelSelect={state.discipuladoSelect}
-                dataOptions={state.redeSelect && mapDiscipuladosUnicos}
+                dataOptions={state.redeSelect && mapDiscipuladosUnicos?.sort(comparedValues)}
                 selectedOption={handleDiscipuladoChange}
                 width="300"
                 disabled={state.redeSelect === "Selecione" ? true : false}
@@ -350,7 +351,7 @@ export function MultiplicationCelula() {
               <SelectComponent
                 onChange={handleCelulaChange}
                 labelSelect={state.celulaSelect}
-                dataOptions={celulaAdm}
+                dataOptions={celulaAdm?.sort(comparedValues)}
                 selectedOption={selectedOptionCelula}
                 width="300"
                 disabled={state.discipuladoSelect === "Selecione" ? true : false}
@@ -373,7 +374,7 @@ export function MultiplicationCelula() {
               <SelectComponent
                 onChange={handleMember}
                 labelSelect={memberSelected ?? "Selecione*"}
-                dataOptions={renderOptionsLeader ?? []}
+                dataOptions={renderOptionsLeader ? renderOptionsLeader?.sort(comparedValues) : []}
                 selectedOption={handleMember}
                 disabled={state.celulaSelect === "Selecione" ? true : false}
               />

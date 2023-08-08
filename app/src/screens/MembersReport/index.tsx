@@ -17,6 +17,8 @@ import { DefaultContentModalComponent } from "../../components/Modal/Default";
 import { FormReportActions } from "../../contexts/FormReport";
 import { IPropsAppStack } from "../../routes/AppStack/types";
 
+import {comparedNames} from "../../common/utils/order"
+
 const loadingGif = require("../../assets/loader-two.gif");
 
 import { useFetch } from "../../hooks/useFetch";
@@ -156,7 +158,7 @@ export function MembersReportScreen() {
               <HeadingPresentComponent />
               {newArrayMembers ? (
                 <ScrollView>
-                  {newArrayMembers.sort(compared).map((data: any) => (
+                  {newArrayMembers.sort(comparedNames).map((data: any) => (
                     <CardMembersComponent
                       key={data}
                       data={data}
