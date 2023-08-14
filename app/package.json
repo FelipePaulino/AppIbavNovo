@@ -50,6 +50,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
+    "@firebase/storage-types": "^0.8.0",
     "@types/react": "17.0.21",
     "@types/react-native": "~0.70.6",
     "@types/react-native-version-check": "^3.4.5",

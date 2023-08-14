@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -18,6 +18,15 @@ import useUserFiltered from "../../hooks/useUserFiltered";
 import { IPropsAppStack } from "../../routes/AppStack/types";
 
 import * as S from "./styles";
+import { storage } from "../../config/firebase";
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  getStorage,
+} from "firebase/storage";
+import firebase from "firebase/app";
+import "firebase/storage";
 
 export function HomeScreen() {
   const { signOut } = useAuth();
@@ -85,9 +94,48 @@ export function HomeScreen() {
   };
 
   const logout = () => {
-    setUpdateUsers(!updateUsers)
-    signOut()
-  }
+    setUpdateUsers(!updateUsers);
+    signOut();
+  };
+
+  const [progress, setProgress] = useState<any>();
+  const [imgUrl, setImgUrl] = useState<any>();
+
+  const handleUpload = (e: any) => {
+    e.preventDefault();
+    const file = e.target[0]?.files[0];
+    if (!file) return;
+    const storageRef = ref(storage, `images/felipe.doc`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress2 =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setProgress(progress2);
+      },
+      (error) => {
+        alert(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          setImgUrl(url);
+        });
+      }
+    );
+  };
+
+  console.log(imgUrl, "imgUrl");
+
+  const ola = () => {
+    const gsReference = ref(
+      storage,
+      `gs://app-ibav-f06f4.appspot.com/images/felipe.doc`
+    );
+    getDownloadURL(gsReference).then((url) => {
+      console.log(url, "url");
+    });
+  };
 
   return (
     <Fragment>
@@ -99,7 +147,14 @@ export function HomeScreen() {
           </TouchableOpacity>
         </S.Buttons>
       </HeaderComponent>
-
+      <form onSubmit={handleUpload}>
+        <input type="file" />
+        <button>Enviar</button>
+      </form>
+      <br />
+      <button onClick={() => ola()}>Download do arquivo</button>
+      {!imgUrl && <progress value={progress} max="100" />}
+      {/* {imgUrl && <img src={imgUrl} />} */}
       {loading ? (
         <S.Loading source={loadingGif} />
       ) : (
@@ -167,7 +222,8 @@ export function HomeScreen() {
                     icon={<S.MultiplicationIcon name="multiplication" />}
                     title="Multiplicação"
                     onPress={() => navigation.navigate("Multiplication")}
-                  />)}
+                  />
+                )}
               </S.ContentOptions>
             </Fragment>
           )}
