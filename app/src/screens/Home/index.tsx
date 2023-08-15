@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity,Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { useFormReport } from "../../hooks/useFormReport";
@@ -7,6 +7,7 @@ import { FormReportActions } from "../../contexts/FormReport";
 import { LogoComponent } from "../../components/Logo";
 import { TitleComponent } from "../../components/Title";
 import { HeaderComponent } from "../../components/Header";
+import * as DocumentPicker from 'expo-document-picker';
 // import { NotificationComponent } from "../../components/Notification";
 import { SelectedMenuComponent } from "../../components/SelectedMenu";
 
@@ -101,28 +102,40 @@ export function HomeScreen() {
   const [progress, setProgress] = useState<any>();
   const [imgUrl, setImgUrl] = useState<any>();
 
-  const handleUpload = (e: any) => {
-    e.preventDefault();
-    const file = e.target[0]?.files[0];
-    if (!file) return;
-    const storageRef = ref(storage, `images/felipe.doc`);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress2 =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setProgress(progress2);
-      },
-      (error) => {
-        alert(error);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          setImgUrl(url);
-        });
+  
+// NA WEB ELE MONTA UM ARRAY PRA 'URI' NO EXPO NAO
+  const handleUpload = async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        type: '*/*',
+      });
+      console.log(result,'result')
+  
+      if (result) {
+        const response = await fetch(result?.uri);
+        const blob = await response.blob();
+  
+        const storageRef = ref(storage, `images/felipe.doc`);
+        const uploadTask = uploadBytesResumable(storageRef, blob);
+  
+        uploadTask.on(
+          'state_changed',
+          (snapshot) => {
+            const progress2 = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setProgress(progress2);
+          },
+          (error) => {
+            alert(error);
+          },
+          async () => {
+            const url = await getDownloadURL(uploadTask.snapshot.ref);
+            setImgUrl(url);
+          }
+        );
       }
-    );
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   console.log(imgUrl, "imgUrl");
@@ -147,13 +160,19 @@ export function HomeScreen() {
           </TouchableOpacity>
         </S.Buttons>
       </HeaderComponent>
-      <form onSubmit={handleUpload}>
+      {/* <form onSubmit={handleUpload}>
         <input type="file" />
         <button>Enviar</button>
       </form>
       <br />
       <button onClick={() => ola()}>Download do arquivo</button>
-      {!imgUrl && <progress value={progress} max="100" />}
+      {!imgUrl && <progress value={progress} max="100" />} */}
+      <TouchableOpacity onPress={handleUpload}>
+  <Text>Selecionar e Enviar Arquivo</Text>
+</TouchableOpacity>
+<TouchableOpacity onPress={() => ola()}>
+  <Text>Selecionar e Enviar Arquivo</Text>
+</TouchableOpacity>
       {/* {imgUrl && <img src={imgUrl} />} */}
       {loading ? (
         <S.Loading source={loadingGif} />
