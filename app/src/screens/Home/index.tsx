@@ -147,7 +147,7 @@ export function HomeScreen() {
   const downloadFromUrl = async () => {
     const filename = "small.mp4";
     const result = await FileSystem.downloadAsync(
-      'https://firebasestorage.googleapis.com/v0/b/app-ibav-f06f4.appspot.com/o/images%2Ffelipe3.png?alt=media&token=32ce636e-0846-4108-8983-1029450d18b4',
+      'http://techslides.com/demos/sample-videos/small.mp4',
       FileSystem.documentDirectory + filename
     );
     console.log(result);
