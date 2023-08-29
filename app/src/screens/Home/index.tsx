@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { TouchableOpacity,Text, Platform } from "react-native";
+import { TouchableOpacity,Text, Platform, Linking } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { useFormReport } from "../../hooks/useFormReport";
@@ -10,10 +10,6 @@ import { HeaderComponent } from "../../components/Header";
 import * as DocumentPicker from 'expo-document-picker';
 // import { NotificationComponent } from "../../components/Notification";
 import { SelectedMenuComponent } from "../../components/SelectedMenu";
-import * as FileSystem from 'expo-file-system';
-
-import FileViewer from "react-native-file-viewer"
-
 
 const loadingGif = require("../../assets/loader-two.gif");
 
@@ -30,12 +26,7 @@ import {
   getDownloadURL,
   getStorage,
 } from "firebase/storage";
-import firebase from "firebase/app";
-import "firebase/storage";
-import * as Permissions from 'expo-permissions';
-import { shareAsync } from 'expo-sharing';
-import { firebaseConfig } from "../../config/firebase";
-import * as Sharing from 'expo-sharing';
+
 
 export function HomeScreen() {
   const { signOut } = useAuth();
@@ -43,7 +34,6 @@ export function HomeScreen() {
   const navigation = useNavigation<IPropsAppStack>();
   const dataUser = user && user[0] && user[0][1];
   const whatIsOffice = dataUser && dataUser.cargo;
-  const [downloadProgress, setDownloadProgress] = useState(0);
 
   const { dispatch } = useFormReport();
   const clean = (page: string) => {
@@ -108,9 +98,6 @@ export function HomeScreen() {
     signOut();
   };
 
-  const [progress, setProgress] = useState<any>();
-  const [imgUrl, setImgUrl] = useState<any>();
-
   
 // NA WEB ELE MONTA UM ARRAY PRA 'URI' NO EXPO NAO
   const handleUpload = async () => {
@@ -118,7 +105,6 @@ export function HomeScreen() {
       const result = await DocumentPicker.getDocumentAsync({
         type: '*/*',
       });
-      console.log(result,'result')
   
       if (result) {
         const response = await fetch(result?.uri);
@@ -131,14 +117,12 @@ export function HomeScreen() {
           'state_changed',
           (snapshot) => {
             const progress2 = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            setProgress(progress2);
           },
           (error) => {
             alert(error);
           },
           async () => {
             const url = await getDownloadURL(uploadTask.snapshot.ref);
-            setImgUrl(url);
           }
         );
       }
@@ -146,29 +130,21 @@ export function HomeScreen() {
       console.error(error);
     }
   };
-  const [downloaded, setDownloaded] = useState(false);
 
 
+//BAIXAR ARQUIVO//
   const downloadFile = async () => {
-    const fileUri = FileSystem.documentDirectory + 'abc.doc'; // Onde salvar o arquivo
-console.log(FileSystem.documentDirectory, "FileSystem")
     try {
-      const downloadObject = FileSystem.createDownloadResumable(
-        'https://firebasestorage.googleapis.com/v0/b/app-ibav-f06f4.appspot.com/o/abc.doc?alt=media&token=07c93a3e-3abb-4542-ac7d-39986de99915', // Substitua pela URL real do documento DOC
-        fileUri
-      );
-      
+      const fileUri = "https://firebasestorage.googleapis.com/v0/b/app-ibav-f06f4.appspot.com/o/abc.doc?alt=media&token=7ac3310e-3087-418e-84f1-4aa371fb3641"
+      const supported = await Linking.canOpenURL(fileUri);
 
-      const { uri } = await downloadObject.downloadAsync();
-      console.log(uri, "uri")
-      setDownloaded(true);
-      //await FileViewer.open(uri).then(()=>{})
-      // Compartilhe o arquivo usando a função shareAsync do Expo
-       await Sharing.shareAsync(uri, { mimeType: 'application/msword' });
-      
+      if (supported) {
+        await Linking.openURL(fileUri);
+      } else {
+        console.log('Não é possível abrir o URL:', fileUri);
+      }
     } catch (error) {
-      // Alert.alert('Erro', 'Ocorreu um erro ao baixar o documento.');
-      console.error(error);
+      console.error('Erro ao abrir o arquivo:', error);
     }
   };
   return (
