@@ -11,7 +11,9 @@ import * as DocumentPicker from 'expo-document-picker';
 // import { NotificationComponent } from "../../components/Notification";
 import { SelectedMenuComponent } from "../../components/SelectedMenu";
 import * as FileSystem from 'expo-file-system';
-import * as MediaLibrary from 'expo-media-library';
+
+import FileViewer from "react-native-file-viewer"
+
 
 const loadingGif = require("../../assets/loader-two.gif");
 
@@ -32,6 +34,8 @@ import firebase from "firebase/app";
 import "firebase/storage";
 import * as Permissions from 'expo-permissions';
 import { shareAsync } from 'expo-sharing';
+import { firebaseConfig } from "../../config/firebase";
+import * as Sharing from 'expo-sharing';
 
 export function HomeScreen() {
   const { signOut } = useAuth();
@@ -120,7 +124,7 @@ export function HomeScreen() {
         const response = await fetch(result?.uri);
         const blob = await response.blob();
   
-        const storageRef = ref(storage, `images/felipe3.png`);
+        const storageRef = ref(storage, `abc.doc`);
         const uploadTask = uploadBytesResumable(storageRef, blob);
   
         uploadTask.on(
@@ -142,61 +146,29 @@ export function HomeScreen() {
       console.error(error);
     }
   };
+  const [downloaded, setDownloaded] = useState(false);
 
-  //FAZ DOWNLOAD DO ARQUIVO
-  const downloadFromUrl = async () => {
-    const filename = "small.mp4";
-    const result = await FileSystem.downloadAsync(
-      'http://techslides.com/demos/sample-videos/small.mp4',
-      FileSystem.documentDirectory + filename
-    );
-    console.log(result);
 
-    save(result.uri, filename, result.headers["Content-Type"]);
-  };
-
-  const save = async (uri, filename, mimetype) => {
-    if (Platform.OS === "android") {
-      const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
-      if (permissions.granted) {
-        const base64 = await FileSystem.readAsStringAsync(uri, { encoding: FileSystem.EncodingType.Base64 });
-        await FileSystem.StorageAccessFramework.createFileAsync(permissions.directoryUri, filename, mimetype)
-          .then(async (uri) => {
-            await FileSystem.writeAsStringAsync(uri, base64, { encoding: FileSystem.EncodingType.Base64 });
-          })
-          .catch(e => console.log(e));
-      } else {
-        shareAsync(uri);
-      }
-    } else {
-      shareAsync(uri);
-    }
-  };
-
-  const ola = async () => {
+  const downloadFile = async () => {
+    const fileUri = FileSystem.documentDirectory + 'abc.doc'; // Onde salvar o arquivo
+console.log(FileSystem.documentDirectory, "FileSystem")
     try {
-      const gsReference = ref(
-        storage,
-        `gs://app-ibav-f06f4.appspot.com/images/felipe.doc`
+      const downloadObject = FileSystem.createDownloadResumable(
+        'https://firebasestorage.googleapis.com/v0/b/app-ibav-f06f4.appspot.com/o/abc.doc?alt=media&token=07c93a3e-3abb-4542-ac7d-39986de99915', // Substitua pela URL real do documento DOC
+        fileUri
       );
-      const url = await getDownloadURL(gsReference);
-  
-      const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
-  
-      if (status !== 'granted') {
-        console.error('Permissão para acesso à biblioteca de mídia negada');
-        return;
-      }
-  
-      const downloadResumable = FileSystem.createDownloadResumable(
-        url,
-        FileSystem.documentDirectory + 'felipe.doc'
-      );
-  
-      const { uri } = await downloadResumable.downloadAsync();
-      console.log('Arquivo baixado com sucesso:', uri);
+      
+
+      const { uri } = await downloadObject.downloadAsync();
+      console.log(uri, "uri")
+      setDownloaded(true);
+      //await FileViewer.open(uri).then(()=>{})
+      // Compartilhe o arquivo usando a função shareAsync do Expo
+       await Sharing.shareAsync(uri, { mimeType: 'application/msword' });
+      
     } catch (error) {
-      console.error("Erro ao baixar o arquivo:", error);
+      // Alert.alert('Erro', 'Ocorreu um erro ao baixar o documento.');
+      console.error(error);
     }
   };
   return (
@@ -209,6 +181,7 @@ export function HomeScreen() {
           </TouchableOpacity>
         </S.Buttons>
       </HeaderComponent>
+      
       {/* <form onSubmit={handleUpload}>
         <input type="file" />
         <button>Enviar</button>
@@ -219,10 +192,10 @@ export function HomeScreen() {
       <TouchableOpacity onPress={handleUpload}>
   <Text>Selecionar e Enviar Arquivo</Text>
 </TouchableOpacity>
-<TouchableOpacity onPress={() => ola() }>
+{/* <TouchableOpacity onPress={() => ola() }>
   <Text>Fazer download do arquivo</Text>
-</TouchableOpacity>
-<TouchableOpacity onPress={() => downloadFromUrl()}>
+</TouchableOpacity> */}
+<TouchableOpacity onPress={() => downloadFile()}>
   <Text>Fazer download do arquivo teeeeeste</Text>
 </TouchableOpacity>
       {/* {imgUrl && <img src={imgUrl} />} */}
