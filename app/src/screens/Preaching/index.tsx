@@ -38,14 +38,14 @@ export function Preaching() {
       case "Juvenis":
         return "juvenis.doc";
       default:
-        return "familia-jovens.pdf";
+        return "familia-jovens.doc";
     }
   };
 
   const linkSelected = (type: string) => {
     switch (type) {
       case "Kids":
-        return "https://firebasestorage.googleapis.com/v0/b/app-ibav-f06f4.appspot.com/o/familia-jovens.pdf?alt=media&token=292d0911-9acb-49e2-93af-f612ad9294c1";
+        return "https://firebasestorage.googleapis.com/v0/b/app-ibav-f06f4.appspot.com/o/kids.doc?alt=media&token=942ad150-de4b-433c-bc9e-fb72d08edd61";
       case "Juvenis":
         return "https://firebasestorage.googleapis.com/v0/b/app-ibav-f06f4.appspot.com/o/juvenis.doc?alt=media&token=baab03e9-f877-4ef3-a307-873c727e3b8c";
       default:
@@ -157,6 +157,11 @@ export function Preaching() {
         <TouchableOpacity onPress={() => downloadFile("Kids")}>
           <TitleComponent title={`Kids`} small primary uppercase blue weight />
           <Text>kids.doc  <S.IconC name="upload" /></Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => downloadFile("familia-jovens")}>
+          <TitleComponent title={`Familia / Jovens`} small primary uppercase blue weight />
+          <Text>familia-jovens.doc  <S.IconC name="upload" /></Text>
         </TouchableOpacity>
 
         {/* <TouchableOpacity onPress={handleUpload}>
