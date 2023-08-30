@@ -8,6 +8,7 @@ const ButtonsText = {
   SAVE_INFORMATION: "SALVAR INFORMAÇÃO",
   APPROVE: "APROVAR",
   REJECT: "REJEITAR",
+  UPLOAD: "UPLOAD DA PALAVRA",
 };
 
 export default ButtonsText;

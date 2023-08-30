@@ -1,5 +1,5 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { TouchableOpacity,Text, Platform, Linking } from "react-native";
+import React, { Fragment } from "react";
+import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { useFormReport } from "../../hooks/useFormReport";
@@ -7,8 +7,6 @@ import { FormReportActions } from "../../contexts/FormReport";
 import { LogoComponent } from "../../components/Logo";
 import { TitleComponent } from "../../components/Title";
 import { HeaderComponent } from "../../components/Header";
-import * as DocumentPicker from 'expo-document-picker';
-// import { NotificationComponent } from "../../components/Notification";
 import { SelectedMenuComponent } from "../../components/SelectedMenu";
 
 const loadingGif = require("../../assets/loader-two.gif");
@@ -19,14 +17,6 @@ import useUserFiltered from "../../hooks/useUserFiltered";
 import { IPropsAppStack } from "../../routes/AppStack/types";
 
 import * as S from "./styles";
-import { storage } from "../../config/firebase";
-import {
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-  getStorage,
-} from "firebase/storage";
-
 
 export function HomeScreen() {
   const { signOut } = useAuth();
@@ -99,54 +89,7 @@ export function HomeScreen() {
   };
 
   
-// NA WEB ELE MONTA UM ARRAY PRA 'URI' NO EXPO NAO
-  const handleUpload = async () => {
-    try {
-      const result = await DocumentPicker.getDocumentAsync({
-        type: '*/*',
-      });
-  
-      if (result) {
-        const response = await fetch(result?.uri);
-        const blob = await response.blob();
-  
-        const storageRef = ref(storage, `abc.doc`);
-        const uploadTask = uploadBytesResumable(storageRef, blob);
-  
-        uploadTask.on(
-          'state_changed',
-          (snapshot) => {
-            const progress2 = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          },
-          (error) => {
-            alert(error);
-          },
-          async () => {
-            const url = await getDownloadURL(uploadTask.snapshot.ref);
-          }
-        );
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
-
-//BAIXAR ARQUIVO//
-  const downloadFile = async () => {
-    try {
-      const fileUri = "https://firebasestorage.googleapis.com/v0/b/app-ibav-f06f4.appspot.com/o/abc.doc?alt=media&token=7ac3310e-3087-418e-84f1-4aa371fb3641"
-      const supported = await Linking.canOpenURL(fileUri);
-
-      if (supported) {
-        await Linking.openURL(fileUri);
-      } else {
-        console.log('Não é possível abrir o URL:', fileUri);
-      }
-    } catch (error) {
-      console.error('Erro ao abrir o arquivo:', error);
-    }
-  };
   return (
     <Fragment>
       <HeaderComponent>
@@ -158,23 +101,7 @@ export function HomeScreen() {
         </S.Buttons>
       </HeaderComponent>
       
-      {/* <form onSubmit={handleUpload}>
-        <input type="file" />
-        <button>Enviar</button>
-      </form>
-      <br />
-      <button onClick={() => ola()}>Download do arquivo</button>
-      {!imgUrl && <progress value={progress} max="100" />} */}
-      <TouchableOpacity onPress={handleUpload}>
-  <Text>Selecionar e Enviar Arquivo</Text>
-</TouchableOpacity>
-{/* <TouchableOpacity onPress={() => ola() }>
-  <Text>Fazer download do arquivo</Text>
-</TouchableOpacity> */}
-<TouchableOpacity onPress={() => downloadFile()}>
-  <Text>Fazer download do arquivo teeeeeste</Text>
-</TouchableOpacity>
-      {/* {imgUrl && <img src={imgUrl} />} */}
+
       {loading ? (
         <S.Loading source={loadingGif} />
       ) : (
@@ -238,13 +165,22 @@ export function HomeScreen() {
                   onPress={() => clean("SeeReports")}
                 />
                 {whatIsOffice === "administrador" && (
+                  <>
                   <SelectedMenuComponent
                     icon={<S.MultiplicationIcon name="multiplication" />}
                     title="Multiplicação"
                     onPress={() => navigation.navigate("Multiplication")}
                   />
+                  <SelectedMenuComponent
+                  icon={<S.PreachingIcon name="upload" />}
+                  title="Palavra"
+                  onPress={() => navigation.navigate("Preaching")}
+                />
+                </>
                 )}
               </S.ContentOptions>
+
+
             </Fragment>
           )}
         </S.Content>
