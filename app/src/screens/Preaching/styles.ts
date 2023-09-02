@@ -25,14 +25,11 @@ export const Buttons = styled.View`
 
 export const Content = styled.View`
   flex: 1;
-  align-items: center;
-
-  max-width: 350px;
   width: 100%;
-
   margin-top: 32px;
   margin-left: auto;
   margin-right: auto;
+  padding: 0 5%;
 `;
 
 export const Names = styled.View`
@@ -59,6 +56,14 @@ export const ContentOptions = styled.View`
   justify-content: space-around;
 `;
 
+export const Subtitulo = styled.Text`
+  color: #666666;
+  border-bottom-color: #666;
+  border-bottom-width: 0.5px;
+  width: 100%;
+  padding-bottom: 5px;
+`;
+
 export const SendReportIcon = styled(Ionicons)`
   color: ${theme.colors.light};
 
@@ -78,9 +83,42 @@ export const RegisterIcon = styled(FontAwesome5)`
 `;
 
 export const IconC = styled(FontAwesome5)`
-  color: blue;
+  color: #000a3e;
 
-  font-size: ${theme.fonts.fontSize.large}px;
+  font-size: ${theme.fonts.fontSize.medium}px;
+`;
+
+export const BoxButtonComponent = styled.View`
+  margin: 40px 0;
+  max-height: auto;
+  width: 100%;
+`;
+
+export const BoxTitleComponent = styled.View`
+  margin-bottom: 30px;
+`;
+
+export const BoxWords = styled.TouchableOpacity`
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom-color: #666;
+  border-bottom-width: 0.5px;
+  padding-bottom: 5px;
+  align-items: flex-end;
+  margin-bottom: 20px;
+`;
+
+export const TextDownloads = styled.View``;
+
+export const TextSmall = styled.Text`
+  color: #999999;
+`;
+
+export const TitleSmall = styled.Text`
+  font-family: Poppins_700Bold;
+  text-transform: uppercase;
+  font-size: 16px;
+  color: #000a3e;
 `;
 
 export const Loading = styled(Image)``;

@@ -21,8 +21,10 @@ import { PersonLabelComponent } from "../../components/PersonLabel";
 
 export function Preaching() {
   const { signOut } = useAuth();
-  const { updateUsers, setUpdateUsers } = useUserFiltered();
-
+  const { updateUsers, user, setUpdateUsers } = useUserFiltered();
+  const dataUser = user && user[0] && user[0][1];
+  const whatIsOffice = dataUser && dataUser.cargo;
+ 
   const logout = () => {
     setUpdateUsers(!updateUsers);
     signOut();
@@ -34,22 +36,22 @@ export function Preaching() {
   const wordSelected = () => {
     switch (kindWordSelected) {
       case "Kids":
-        return "kids.doc";
+        return "kids.docx";
       case "Juvenis":
-        return "juvenis.doc";
+        return "juvenis.docx";
       default:
-        return "familia-jovens.doc";
+        return "familia-jovens.docx";
     }
   };
 
   const linkSelected = (type: string) => {
     switch (type) {
       case "Kids":
-        return "https://firebasestorage.googleapis.com/v0/b/app-ibav-f06f4.appspot.com/o/kids.doc?alt=media&token=942ad150-de4b-433c-bc9e-fb72d08edd61";
+        return "https://firebasestorage.googleapis.com/v0/b/app-ibav-f06f4.appspot.com/o/kids.docx?alt=media&token=8a874f22-d5c4-4c02-b328-96018b89309c";
       case "Juvenis":
-        return "https://firebasestorage.googleapis.com/v0/b/app-ibav-f06f4.appspot.com/o/juvenis.doc?alt=media&token=baab03e9-f877-4ef3-a307-873c727e3b8c";
+        return "https://firebasestorage.googleapis.com/v0/b/app-ibav-f06f4.appspot.com/o/juvenis.docx?alt=media&token=ac9a6be2-8426-4e6e-a630-9beaec275e82";
       default:
-        return "https://firebasestorage.googleapis.com/v0/b/app-ibav-f06f4.appspot.com/o/familia-jovens.doc?alt=media&token=9e64b575-2e4d-44c6-a7b5-d0e5f455af75";
+        return "https://firebasestorage.googleapis.com/v0/b/app-ibav-f06f4.appspot.com/o/familia-jovens.docx?alt=media&token=b1e41b44-6d00-4838-8167-a18f62717ed8";
     }
   };
 
@@ -65,7 +67,6 @@ export function Preaching() {
         const blob = await response.blob();
 
         const storageRef = ref(storage, wordSelected());
-        console.log(storageRef, "storageRef");
         const uploadTask = uploadBytesResumable(storageRef, blob);
 
         uploadTask.on(
@@ -87,11 +88,10 @@ export function Preaching() {
     }
   };
 
-  
   //BAIXAR ARQUIVO//
   const downloadFile = async (type: string) => {
     try {
-      const fileUri = linkSelected(type)
+      const fileUri = linkSelected(type);
       const supported = await Linking.canOpenURL(fileUri);
 
       if (supported) {
@@ -126,51 +126,62 @@ export function Preaching() {
       </HeaderComponent>
 
       <S.Content>
-        <TitleComponent title={"Tipo da palavra:"} small primary />
+        {whatIsOffice === "administrador" && (
+          <>
+            <TitleComponent title={"Tipo da palavra:"} small primary />
 
-        <SelectComponent
-          onChange={(e) => setKindWordSelected(e)}
-          labelSelect={kindWordSelected}
-          dataOptions={listKindWords}
-          selectedOption={() => {}}
-          width={"100%"}
-        />
+            <SelectComponent
+              onChange={(e) => setKindWordSelected(e)}
+              labelSelect={kindWordSelected}
+              dataOptions={listKindWords}
+              selectedOption={() => {}}
+              width={"100%"}
+            />
 
-        <ButtonComponent
-          title={ButtonsText.UPLOAD}
-          onPress={handleUpload}
-          icon="upload"
-          color="#FFFFFF"
-        />
-        <View>
-          <TitleComponent
-            title={`Palavras:`}
-            small
-            primary
-            uppercase
-            blue
-            weight
-          />
-          <Text>Faça o download da palavra da semana</Text>
-        </View>
+            <S.BoxButtonComponent>
+              <ButtonComponent
+                title={ButtonsText.UPLOAD}
+                onPress={handleUpload}
+                icon="upload"
+                color="#FFFFFF"
+              />
+            </S.BoxButtonComponent>
+          </>
+        )}
+        <S.BoxTitleComponent>
+          <TitleComponent title={`Palavras:`} small primary uppercase weight />
+          <S.Subtitulo>Faça o download da palavra da semana</S.Subtitulo>
+        </S.BoxTitleComponent>
+  
+        {dataUser && (dataUser?.rede?.includes("Kids") || whatIsOffice === "administrador")  && (
+          <>
+            <S.BoxWords onPress={() => downloadFile("Kids")}>
+              <S.TextDownloads>
+                <S.TitleSmall>Kids</S.TitleSmall>
+                <S.TextSmall>palavra-dos-kids.docx</S.TextSmall>
+              </S.TextDownloads>
+              <S.IconC name="upload" />
+            </S.BoxWords>
 
-        <TouchableOpacity onPress={() => downloadFile("Kids")}>
-          <TitleComponent title={`Kids`} small primary uppercase blue weight />
-          <Text>kids.doc  <S.IconC name="upload" /></Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => downloadFile("familia-jovens")}>
-          <TitleComponent title={`Familia / Jovens`} small primary uppercase blue weight />
-          <Text>familia-jovens.doc  <S.IconC name="upload" /></Text>
-        </TouchableOpacity>
-
-        {/* <TouchableOpacity onPress={handleUpload}>
-          <Text>Selecionar e Enviar Arquivo</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => downloadFile()}>
-          <Text>Fazer download do arquivo teeeeeste</Text>
-        </TouchableOpacity> */}
+            <S.BoxWords onPress={() => downloadFile("Juvenis")}>
+              <S.TextDownloads>
+                <S.TitleSmall>Juvenis</S.TitleSmall>
+                <S.TextSmall>palavra-dos-juvenis.docx</S.TextSmall>
+              </S.TextDownloads>
+              <S.IconC name="upload" />
+            </S.BoxWords>
+          </>
+        ) }
+        {dataUser && (!dataUser?.rede?.includes("Kids") || whatIsOffice === "administrador") && (
+        
+          <S.BoxWords onPress={() => downloadFile("Familia-Jovens")}>
+            <S.TextDownloads>
+              <S.TitleSmall>Jovens / Familia</S.TitleSmall>
+              <S.TextSmall>palavra-dos-jovens-familia.docx</S.TextSmall>
+            </S.TextDownloads>
+            <S.IconC name="upload" />
+          </S.BoxWords>
+        )}
       </S.Content>
     </Fragment>
   );

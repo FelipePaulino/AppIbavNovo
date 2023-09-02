@@ -171,13 +171,14 @@ export function HomeScreen() {
                     title="Multiplicação"
                     onPress={() => navigation.navigate("Multiplication")}
                   />
-                  <SelectedMenuComponent
+       
+                </>
+                )}
+                           <SelectedMenuComponent
                   icon={<S.PreachingIcon name="upload" />}
                   title="Palavra"
                   onPress={() => navigation.navigate("Preaching")}
                 />
-                </>
-                )}
               </S.ContentOptions>
 
 
