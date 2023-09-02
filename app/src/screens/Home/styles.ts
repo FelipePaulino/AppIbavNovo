@@ -115,4 +115,10 @@ export const MultiplicationIcon = styled(MaterialCommunityIcons)`
   font-size: ${theme.fonts.fontSize.large}px;
 `;
 
+export const PreachingIcon = styled(MaterialCommunityIcons)`
+  color: ${theme.colors.light};
+
+  font-size: ${theme.fonts.fontSize.large}px;
+`;
+
 export const Loading = styled(Image)``;

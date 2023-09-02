@@ -7,7 +7,6 @@ import { FormReportActions } from "../../contexts/FormReport";
 import { LogoComponent } from "../../components/Logo";
 import { TitleComponent } from "../../components/Title";
 import { HeaderComponent } from "../../components/Header";
-// import { NotificationComponent } from "../../components/Notification";
 import { SelectedMenuComponent } from "../../components/SelectedMenu";
 
 const loadingGif = require("../../assets/loader-two.gif");
@@ -85,9 +84,11 @@ export function HomeScreen() {
   };
 
   const logout = () => {
-    setUpdateUsers(!updateUsers)
-    signOut()
-  }
+    setUpdateUsers(!updateUsers);
+    signOut();
+  };
+
+  
 
   return (
     <Fragment>
@@ -99,6 +100,7 @@ export function HomeScreen() {
           </TouchableOpacity>
         </S.Buttons>
       </HeaderComponent>
+      
 
       {loading ? (
         <S.Loading source={loadingGif} />
@@ -163,12 +165,23 @@ export function HomeScreen() {
                   onPress={() => clean("SeeReports")}
                 />
                 {whatIsOffice === "administrador" && (
+                  <>
                   <SelectedMenuComponent
                     icon={<S.MultiplicationIcon name="multiplication" />}
                     title="Multiplicação"
                     onPress={() => navigation.navigate("Multiplication")}
-                  />)}
+                  />
+       
+                </>
+                )}
+                           <SelectedMenuComponent
+                  icon={<S.PreachingIcon name="upload" />}
+                  title="Palavra"
+                  onPress={() => navigation.navigate("Preaching")}
+                />
               </S.ContentOptions>
+
+
             </Fragment>
           )}
         </S.Content>
