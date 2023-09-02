@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { TouchableOpacity, Text, Linking, View } from "react-native";
+import { TouchableOpacity, Linking } from "react-native";
 
 import { LogoComponent } from "../../components/Logo";
 import { HeaderComponent } from "../../components/Header";
@@ -17,7 +17,6 @@ import { TitleComponent } from "../../components/Title";
 import { SelectComponent } from "../../components/Select";
 import ButtonsText from "../../common/constants/buttons";
 import { ButtonComponent } from "../../components/Button";
-import { PersonLabelComponent } from "../../components/PersonLabel";
 
 export function Preaching() {
   const { signOut } = useAuth();
