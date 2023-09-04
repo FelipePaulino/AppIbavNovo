@@ -3,10 +3,10 @@ import { initializeApp } from 'firebase/app';
 import { getStorage } from 'firebase/storage';
 
 //HOMOLOGAÇÃO
-//const api = 'https://app-homologacao-a6b59-default-rtdb.firebaseio.com'
+const api = 'https://app-homologacao-a6b59-default-rtdb.firebaseio.com'
 
 //PROD
-const api = 'https://app-ibav-f06f4-default-rtdb.firebaseio.com'
+//const api = 'https://app-ibav-f06f4-default-rtdb.firebaseio.com'
 
  const firebaseConfig2 = {
   apiKey: "AIzaSyDtmBnzDYs3MPshWh65eH-8XuUue2Mtk7Y",
