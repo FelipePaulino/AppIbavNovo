@@ -36,26 +36,27 @@ export default function App() {
 async function sendPushNotification(expoPushToken:any) {
   console.log(expoPushToken, "expoPushToken")
   console.log("gdsjhsgdadj")
-  // const message = 
-  // {
-  //   to: expoPushToken,
-  //   sound: 'default',
-  //   title: 'Original Title',
-  //   body: 'And here is the body!',
-  //   data: { someData: 'goes here' },
-  // };
-
-  const message = 
+  const message = [
   {
-    "appId": "11515",
-    "title": "fsdfsd",
-    "body": "fsd",
-    "dateSent": "9-11-2023 9:18AM",
-    "pushData": "",
-    "bigPictureURL": ""
-}
-  //await fetch('https://exp.host/--/api/v2/push/send', {
-    await fetch('https://app.nativenotify.com/api/notification', {
+    to: expoPushToken.data,
+    sound: 'default',
+    title: 'Original Title',
+    body: 'And here is the body!',
+ data: { someData: 'goes here' },
+  }]
+
+//   const message = 
+//   {
+//     "appId": "11515",
+//     "title": "fsdfsd",
+//     "body": "fsd",
+//     "dateSent": "9-11-2023 9:18AM",
+//     "pushData": "",
+//     "bigPictureURL": ""
+// }
+//await fetch('https://exp.host/--/api/v2/push/send', {
+  await fetch('https://api.expo.dev/v2/push/send', {
+   // await fetch('https://app.nativenotify.com/api/notification', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -82,6 +83,7 @@ async function registerForPushNotificationsAsync() {
     token = await Notifications.getExpoPushTokenAsync({
     projectId: Constants.expoConfig.extra.eas.projectId,
     });
+    console.log(token, "token")
   } else {
     alert('Must use physical device for Push Notifications');
   }
