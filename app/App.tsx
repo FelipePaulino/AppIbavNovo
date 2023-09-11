@@ -19,7 +19,6 @@ import theme from "./src/styles/theme";
 import { AuthenticatedProvider } from "./src/contexts/Auth";
 
 export default function App() {
-
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
@@ -29,13 +28,13 @@ export default function App() {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
+
   return (
     <ThemeProvider theme={theme}>
       <AuthenticatedProvider>
         <FilteredProvider>
           <FormProvider>
             <Routes />
-
           </FormProvider>
         </FilteredProvider>
       </AuthenticatedProvider>
