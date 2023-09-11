@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { TouchableOpacity, Linking } from "react-native";
 
 import { LogoComponent } from "../../components/Logo";
@@ -17,6 +17,7 @@ import { TitleComponent } from "../../components/Title";
 import { SelectComponent } from "../../components/Select";
 import ButtonsText from "../../common/constants/buttons";
 import { ButtonComponent } from "../../components/Button";
+import { registerForPushNotificationsAsync, sendPushNotification } from "../../components/PushNotification";
 
 export function Preaching() {
   const { signOut } = useAuth();
@@ -24,6 +25,14 @@ export function Preaching() {
   const dataUser = user && user[0] && user[0][1];
   const whatIsOffice = dataUser && dataUser.cargo;
  
+  const [expoPushToken, setExpoPushToken] = useState<any>("");
+  
+  useEffect(() => {
+    registerForPushNotificationsAsync().then((token) =>
+      setExpoPushToken(token)
+    );
+  }, []);
+
   const logout = () => {
     setUpdateUsers(!updateUsers);
     signOut();
@@ -78,6 +87,7 @@ export function Preaching() {
             alert(error);
           },
           async () => {
+            sendPushNotification(expoPushToken, 'Palavra Disponivel', `Faça o download da palavra dos ${kindWordSelected}`);
             const url = await getDownloadURL(uploadTask.snapshot.ref);
           }
         );
