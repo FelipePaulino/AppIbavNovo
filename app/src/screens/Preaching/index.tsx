@@ -71,9 +71,8 @@ export function Preaching() {
       });
 
       if (result) {
-        const response = await fetch(result?.uri);
+        const response = await fetch(result?.assets[0]?.uri);
         const blob = await response.blob();
-
         const storageRef = ref(storage, wordSelected());
         const uploadTask = uploadBytesResumable(storageRef, blob);
 
@@ -87,7 +86,7 @@ export function Preaching() {
             alert(error);
           },
           async () => {
-            sendPushNotification(expoPushToken, 'Palavra Disponivel', `Faça o download da palavra dos ${kindWordSelected}`);
+            sendPushNotification(expoPushToken, 'Palavra Disponível', `Faça o download da palavra dos ${kindWordSelected}`);
             const url = await getDownloadURL(uploadTask.snapshot.ref);
           }
         );
