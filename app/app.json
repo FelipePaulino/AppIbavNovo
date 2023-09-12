@@ -2,7 +2,7 @@
   "expo": {
     "name": "IBAV RP",
     "slug": "aguavivarp",
-    "version": "61.0.0",
+    "version": "65.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -12,18 +12,19 @@
       "backgroundColor": "#000a3e"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/54ed5342-5a48-4bea-b73c-0bf9348ab33a"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "versionCode": 61,
+      "versionCode": 65,
       "supportsTablet": true,
       "bundleIdentifier": "com.viniciusdevitalo.aguavivarp"
     },
     "android": {
-      "versionCode": 61,
+      "versionCode": 65,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
@@ -37,6 +38,9 @@
       "eas": {
         "projectId": "54ed5342-5a48-4bea-b73c-0bf9348ab33a"
       }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
     }
   }
 }
