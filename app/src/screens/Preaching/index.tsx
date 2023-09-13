@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { TouchableOpacity, Linking, Alert, Button } from "react-native";
+import { TouchableOpacity, Linking, Alert, Button, Text } from "react-native";
 
 import { LogoComponent } from "../../components/Logo";
 import { HeaderComponent } from "../../components/Header";
@@ -45,8 +45,13 @@ export function Preaching() {
 
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) =>
-      setExpoPushToken(token)
+      setExpoPushToken(token?.data)
     );
+  }, []);
+
+  useEffect(async () => {
+    const token = await Notifications.getExpoPushTokenAsync();
+    setExpoPushToken(token?.data);
   }, []);
 
   const logout = () => {
@@ -75,7 +80,7 @@ export function Preaching() {
       Alert.alert("Voce he doido");
       return;
     }
-    
+
     await Notifications.scheduleNotificationAsync({
       content: {
         title: titulo,
@@ -234,15 +239,18 @@ export function Preaching() {
             </S.BoxWords>
           )}
         {whatIsOffice === "administrador" && (
-          <Button
-            title="Testar notificacao"
-            onPress={() =>
-              PushNot(
-                "Nova Palavra",
-                `Faça o download da palavra dos ${kindWordSelected}`
-              )
-            }
-          />
+          <>
+            <Button
+              title="Testar notificacao"
+              onPress={() =>
+                PushNot(
+                  "Nova Palavra",
+                  `Faça o download da palavra dos ${kindWordSelected}`
+                )
+              }
+            />
+            <Text>Token:{JSON.stringify(expoPushToken)}</Text>
+          </>
         )}
       </S.Content>
     </Fragment>
