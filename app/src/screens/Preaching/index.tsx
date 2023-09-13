@@ -75,6 +75,7 @@ export function Preaching() {
       Alert.alert("Voce he doido");
       return;
     }
+    
     await Notifications.scheduleNotificationAsync({
       content: {
         title: titulo,
@@ -116,7 +117,10 @@ export function Preaching() {
             const progress2 =
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             if (progress2 === 100) {
-              PushNot('Palavra Disponível', `Faça o download da palavra dos ${kindWordSelected}`);
+              PushNot(
+                "Palavra Disponível",
+                `Faça o download da palavra dos ${kindWordSelected}`
+              );
             }
           },
           (error) => {
@@ -229,7 +233,17 @@ export function Preaching() {
               <S.IconC name="upload" />
             </S.BoxWords>
           )}
-        <Button title="Testar notificacao" onPress={ () =>  PushNot('Palavra Disponível', `Faça o download da palavra dos ${kindWordSelected}`)} />
+        {whatIsOffice === "administrador" && (
+          <Button
+            title="Testar notificacao"
+            onPress={() =>
+              PushNot(
+                "Nova Palavra",
+                `Faça o download da palavra dos ${kindWordSelected}`
+              )
+            }
+          />
+        )}
       </S.Content>
     </Fragment>
   );
