@@ -53,9 +53,7 @@ export function Preaching() {
 
   const [expoPushToken, setExpoPushToken] = useState<any>("");
   const [token1, setToken1] = useState<any>("");
-  const [token2, setToken2] = useState<any>("");
-  const [statusState, setsStatusState] = useState<any>("");
-  const [resState, setResState] = useState<any>("");
+
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) =>
       setExpoPushToken(token)
@@ -95,11 +93,6 @@ export function Preaching() {
       Alert.alert("Voce he doido");
       return;
     }
-    setsStatusState(status);
-    await Notifications.getExpoPushTokenAsync().then((res) => setResState(res));
-    const token2 = await Notifications.getExpoPushTokenAsync();
-    setToken2(token2);
-
 
     await Notifications.scheduleNotificationAsync({
       content: {
@@ -182,7 +175,7 @@ export function Preaching() {
     { value: "Juvenis" },
     { value: "Familia / Jovens" },
   ];
-  console.log(token1, "token1")
+
   return (
     <Fragment>
       <HeaderComponent>
@@ -277,9 +270,7 @@ export function Preaching() {
               />
               <Text> token:{JSON.stringify(expoPushToken)}</Text>
               <Text> token1:{JSON.stringify(token1)}</Text>
-              <Text> token2:{JSON.stringify(token2)}</Text>
-              <Text> status:{JSON.stringify(statusState)}</Text>
-              <Text> resposta:{JSON.stringify(resState)}</Text>
+
             </>
           )}
         </S.Content>
