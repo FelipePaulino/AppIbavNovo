@@ -1,5 +1,12 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { TouchableOpacity, Linking, Alert, Button } from "react-native";
+import {
+  TouchableOpacity,
+  Linking,
+  Alert,
+  Button,
+  Text,
+  ScrollView,
+} from "react-native";
 
 import { LogoComponent } from "../../components/Logo";
 import { HeaderComponent } from "../../components/Header";
@@ -27,6 +34,9 @@ import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 import { Platform } from "react-native";
 
+
+
+
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -42,11 +52,21 @@ export function Preaching() {
   const whatIsOffice = dataUser && dataUser.cargo;
 
   const [expoPushToken, setExpoPushToken] = useState<any>("");
-
+  const [token1, setToken1] = useState<any>("");
+  const [token2, setToken2] = useState<any>("");
+  const [statusState, setsStatusState] = useState<any>("");
+  const [resState, setResState] = useState<any>("");
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) =>
       setExpoPushToken(token)
     );
+  }, []);
+
+  useEffect(async () => {
+    const token1 = await Notifications.getExpoPushTokenAsync({
+      projectId: Constants.expoConfig.extra.eas.projectId,
+    });
+    setToken1(token1);
   }, []);
 
   const logout = () => {
@@ -75,7 +95,12 @@ export function Preaching() {
       Alert.alert("Voce he doido");
       return;
     }
-    
+    setsStatusState(status);
+    await Notifications.getExpoPushTokenAsync().then((res) => setResState(res));
+    const token2 = await Notifications.getExpoPushTokenAsync();
+    setToken2(token2);
+
+
     await Notifications.scheduleNotificationAsync({
       content: {
         title: titulo,
@@ -157,7 +182,7 @@ export function Preaching() {
     { value: "Juvenis" },
     { value: "Familia / Jovens" },
   ];
-
+  console.log(token1, "token1")
   return (
     <Fragment>
       <HeaderComponent>
@@ -172,79 +197,93 @@ export function Preaching() {
           </TouchableOpacity>
         </S.Buttons>
       </HeaderComponent>
-
-      <S.Content>
-        {whatIsOffice === "administrador" && (
-          <>
-            <TitleComponent title={"Tipo da palavra:"} small primary />
-
-            <SelectComponent
-              onChange={(e) => setKindWordSelected(e)}
-              labelSelect={kindWordSelected}
-              dataOptions={listKindWords}
-              selectedOption={() => {}}
-              width={"100%"}
-            />
-
-            <S.BoxButtonComponent>
-              <ButtonComponent
-                title={ButtonsText.UPLOAD}
-                onPress={handleUpload}
-                icon="upload"
-                color="#FFFFFF"
-              />
-            </S.BoxButtonComponent>
-          </>
-        )}
-        <S.BoxTitleComponent>
-          <TitleComponent title={`Palavras:`} small primary uppercase weight />
-          <S.Subtitulo>Faça o download da palavra da semana</S.Subtitulo>
-        </S.BoxTitleComponent>
-
-        {dataUser &&
-          (dataUser?.rede?.includes("Kids") ||
-            whatIsOffice === "administrador") && (
+      <ScrollView>
+        <S.Content>
+          {whatIsOffice === "administrador" && (
             <>
-              <S.BoxWords onPress={() => downloadFile("Kids")}>
-                <S.TextDownloads>
-                  <S.TitleSmall>Kids</S.TitleSmall>
-                  <S.TextSmall>palavra-dos-kids.docx</S.TextSmall>
-                </S.TextDownloads>
-                <S.IconC name="upload" />
-              </S.BoxWords>
+              <TitleComponent title={"Tipo da palavra:"} small primary />
 
-              <S.BoxWords onPress={() => downloadFile("Juvenis")}>
-                <S.TextDownloads>
-                  <S.TitleSmall>Juvenis</S.TitleSmall>
-                  <S.TextSmall>palavra-dos-juvenis.docx</S.TextSmall>
-                </S.TextDownloads>
-                <S.IconC name="upload" />
-              </S.BoxWords>
+              <SelectComponent
+                onChange={(e) => setKindWordSelected(e)}
+                labelSelect={kindWordSelected}
+                dataOptions={listKindWords}
+                selectedOption={() => {}}
+                width={"100%"}
+              />
+
+              <S.BoxButtonComponent>
+                <ButtonComponent
+                  title={ButtonsText.UPLOAD}
+                  onPress={handleUpload}
+                  icon="upload"
+                  color="#FFFFFF"
+                />
+              </S.BoxButtonComponent>
             </>
           )}
-        {dataUser &&
-          (!dataUser?.rede?.includes("Kids") ||
-            whatIsOffice === "administrador") && (
-            <S.BoxWords onPress={() => downloadFile("Familia-Jovens")}>
-              <S.TextDownloads>
-                <S.TitleSmall>Jovens / Familia</S.TitleSmall>
-                <S.TextSmall>palavra-dos-jovens-familia.docx</S.TextSmall>
-              </S.TextDownloads>
-              <S.IconC name="upload" />
-            </S.BoxWords>
+          <S.BoxTitleComponent>
+            <TitleComponent
+              title={`Palavras:`}
+              small
+              primary
+              uppercase
+              weight
+            />
+            <S.Subtitulo>Faça o download da palavra da semana</S.Subtitulo>
+          </S.BoxTitleComponent>
+
+          {dataUser &&
+            (dataUser?.rede?.includes("Kids") ||
+              whatIsOffice === "administrador") && (
+              <>
+                <S.BoxWords onPress={() => downloadFile("Kids")}>
+                  <S.TextDownloads>
+                    <S.TitleSmall>Kids</S.TitleSmall>
+                    <S.TextSmall>palavra-dos-kids.docx</S.TextSmall>
+                  </S.TextDownloads>
+                  <S.IconC name="upload" />
+                </S.BoxWords>
+
+                <S.BoxWords onPress={() => downloadFile("Juvenis")}>
+                  <S.TextDownloads>
+                    <S.TitleSmall>Juvenis</S.TitleSmall>
+                    <S.TextSmall>palavra-dos-juvenis.docx</S.TextSmall>
+                  </S.TextDownloads>
+                  <S.IconC name="upload" />
+                </S.BoxWords>
+              </>
+            )}
+          {dataUser &&
+            (!dataUser?.rede?.includes("Kids") ||
+              whatIsOffice === "administrador") && (
+              <S.BoxWords onPress={() => downloadFile("Familia-Jovens")}>
+                <S.TextDownloads>
+                  <S.TitleSmall>Jovens / Familia</S.TitleSmall>
+                  <S.TextSmall>palavra-dos-jovens-familia.docx</S.TextSmall>
+                </S.TextDownloads>
+                <S.IconC name="upload" />
+              </S.BoxWords>
+            )}
+          {whatIsOffice === "administrador" && (
+            <>
+              <Button
+                title="Testar notificacao"
+                onPress={() =>
+                  PushNot(
+                    "Nova Palavra",
+                    `Faça o download da palavra dos ${kindWordSelected}`
+                  )
+                }
+              />
+              <Text> token:{JSON.stringify(expoPushToken)}</Text>
+              <Text> token1:{JSON.stringify(token1)}</Text>
+              <Text> token2:{JSON.stringify(token2)}</Text>
+              <Text> status:{JSON.stringify(statusState)}</Text>
+              <Text> resposta:{JSON.stringify(resState)}</Text>
+            </>
           )}
-        {whatIsOffice === "administrador" && (
-          <Button
-            title="Testar notificacao"
-            onPress={() =>
-              PushNot(
-                "Nova Palavra",
-                `Faça o download da palavra dos ${kindWordSelected}`
-              )
-            }
-          />
-        )}
-      </S.Content>
+        </S.Content>
+      </ScrollView>
     </Fragment>
   );
 }
