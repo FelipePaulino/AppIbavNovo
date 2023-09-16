@@ -51,7 +51,6 @@ export function HomeScreen() {
   }, [dataUser]);
 
   useEffect(() => {
-    console.log(a, "a")
     if (dataUser && a) {
       registerForPushNotificationsAsync().then((token) => {
         console.log(token, "token")

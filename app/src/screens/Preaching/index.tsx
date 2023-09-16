@@ -33,6 +33,8 @@ import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 import { Platform } from "react-native";
+import { connectApi } from "../../common/services/ConnectApi";
+import axios from "axios";
 
 
 
@@ -50,15 +52,31 @@ export function Preaching() {
   const { updateUsers, user, setUpdateUsers } = useUserFiltered();
   const dataUser = user && user[0] && user[0][1];
   const whatIsOffice = dataUser && dataUser.cargo;
-
-  const [expoPushToken, setExpoPushToken] = useState<any>("");
   const [token1, setToken1] = useState<any>("");
 
-  useEffect(() => {
-    registerForPushNotificationsAsync().then((token) =>
-      setExpoPushToken(token)
-    );
-  }, []);
+  const [register, setRegister] = useState([]);
+
+  const getNotification = async () => {
+    const { data } = await connectApi.get("/notificacao.json");
+    const arrayRegister =
+      data && Object.values(data).map((item) => item?.registro);
+      setRegister(arrayRegister);
+  };
+
+  const postPushNotification = (titulo: any, mensagem: any) => {
+    try {
+      axios.post('https://exp.host/--/api/v2/push/send', {
+        to: register.filter(item => item),
+        title: titulo,
+        body: mensagem
+      })
+      //   .then(() => setSuccessModal(true));
+    } catch (err) {}
+  };
+  
+  useEffect( () => {
+    getNotification();
+  }, [dataUser]);
 
   useEffect(async () => {
     const token1 = await Notifications.getExpoPushTokenAsync({
@@ -135,7 +153,7 @@ export function Preaching() {
             const progress2 =
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             if (progress2 === 100) {
-              PushNot(
+              postPushNotification(
                 "Palavra Disponível",
                 `Faça o download da palavra dos ${kindWordSelected}`
               );
@@ -257,22 +275,6 @@ export function Preaching() {
                 <S.IconC name="upload" />
               </S.BoxWords>
             )}
-          {whatIsOffice === "administrador" && (
-            <>
-              <Button
-                title="Testar notificacao"
-                onPress={() =>
-                  PushNot(
-                    "Nova Palavra",
-                    `Faça o download da palavra dos ${kindWordSelected}`
-                  )
-                }
-              />
-              <Text> token:{JSON.stringify(expoPushToken)}</Text>
-              <Text> token1:{JSON.stringify(token1)}</Text>
-
-            </>
-          )}
         </S.Content>
       </ScrollView>
     </Fragment>
