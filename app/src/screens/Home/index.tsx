@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -17,6 +17,8 @@ import useUserFiltered from "../../hooks/useUserFiltered";
 import { IPropsAppStack } from "../../routes/AppStack/types";
 
 import * as S from "./styles";
+import { connectApi } from "../../common/services/ConnectApi";
+import { registerForPushNotificationsAsync } from "../../components/PushNotification";
 
 export function HomeScreen() {
   const { signOut } = useAuth();
@@ -24,6 +26,40 @@ export function HomeScreen() {
   const navigation = useNavigation<IPropsAppStack>();
   const dataUser = user && user[0] && user[0][1];
   const whatIsOffice = dataUser && dataUser.cargo;
+  const [a, setA] = useState();
+
+  const getNotification = async () => {
+    const { data } = await connectApi.get("/notificacao.json");
+    const arrayRegister =
+      data && Object.values(data).map((item) => item?.registro);
+    setA(arrayRegister);
+  };
+
+  const registerCellphone = (token: any) => {
+    try {
+      connectApi.post("/notificacao.json", {
+        registro: token?.data,
+        rede: dataUser?.rede,
+        nome: dataUser?.nome,
+      });
+      //   .then(() => setSuccessModal(true));
+    } catch (err) {}
+  };
+
+  useEffect( () => {
+    getNotification();
+  }, [dataUser]);
+
+  useEffect(() => {
+    if (dataUser && a) {
+      registerForPushNotificationsAsync().then((token) => {
+        console.log(token, "token")
+        if (!a?.includes(token?.data)) {
+          registerCellphone(token);
+        }
+      });
+    }
+  }, [a]);
 
   const { dispatch } = useFormReport();
   const clean = (page: string) => {
@@ -88,8 +124,6 @@ export function HomeScreen() {
     signOut();
   };
 
-  
-
   return (
     <Fragment>
       <HeaderComponent>
@@ -100,7 +134,6 @@ export function HomeScreen() {
           </TouchableOpacity>
         </S.Buttons>
       </HeaderComponent>
-      
 
       {loading ? (
         <S.Loading source={loadingGif} />
@@ -166,22 +199,19 @@ export function HomeScreen() {
                 />
                 {whatIsOffice === "administrador" && (
                   <>
-                  <SelectedMenuComponent
-                    icon={<S.MultiplicationIcon name="multiplication" />}
-                    title="Multiplicação"
-                    onPress={() => navigation.navigate("Multiplication")}
-                  />
-       
-                </>
+                    <SelectedMenuComponent
+                      icon={<S.MultiplicationIcon name="multiplication" />}
+                      title="Multiplicação"
+                      onPress={() => navigation.navigate("Multiplication")}
+                    />
+                  </>
                 )}
-                           <SelectedMenuComponent
+                <SelectedMenuComponent
                   icon={<S.PreachingIcon name="upload" />}
                   title="Palavra"
                   onPress={() => navigation.navigate("Preaching")}
                 />
               </S.ContentOptions>
-
-
             </Fragment>
           )}
         </S.Content>
