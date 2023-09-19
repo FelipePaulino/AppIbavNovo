@@ -36,9 +36,6 @@ import { Platform } from "react-native";
 import { connectApi } from "../../common/services/ConnectApi";
 import axios from "axios";
 
-
-
-
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -53,28 +50,49 @@ export function Preaching() {
   const dataUser = user && user[0] && user[0][1];
   const whatIsOffice = dataUser && dataUser.cargo;
   const [token1, setToken1] = useState<any>("");
+  const [registerKids, setRegisterKids] = useState<any>([]);
+  const [registerAdultos, setRegisterAdultos] = useState<any>([]);
 
-  const [register, setRegister] = useState([]);
+  const noDuplicates = (data) => {
+    const arrayRegister =
+      data && Object.values(data).map((item) => item?.registro);
+
+    const removeDuplicates = (array: any) => {
+      return [...new Set(array)];
+    };
+
+    return removeDuplicates(arrayRegister);
+  };
 
   const getNotification = async () => {
     const { data } = await connectApi.get("/notificacao.json");
-    const arrayRegister =
-      data && Object.values(data).map((item) => item?.registro);
-      setRegister(arrayRegister);
+    const dataKids =
+      data &&
+      Object.values(data).filter((item) => {
+        return item?.rede?.toLowerCase().indexOf("kids") != -1;
+      });
+    const dataAdultos =
+      data &&
+      Object.values(data).filter((item) => {
+        return item?.rede?.toLowerCase().indexOf("kids") == -1;
+      });
+
+    setRegisterKids(noDuplicates(dataKids));
+    setRegisterAdultos(noDuplicates(dataAdultos));
   };
 
-  const postPushNotification = (titulo: any, mensagem: any) => {
+  const postPushNotification = (titulo: any, mensagem: any, tipo:string) => {
     try {
-      axios.post('https://exp.host/--/api/v2/push/send', {
-        to: register.filter(item => item),
+      axios.post("https://exp.host/--/api/v2/push/send", {
+        to: (tipo === 'Kids' || tipo === "Juvenis") ? registerKids.filter((item: any) => item) : registerAdultos.filter((item: any) => item) ,
         title: titulo,
-        body: mensagem
-      })
+        body: mensagem,
+      });
       //   .then(() => setSuccessModal(true));
     } catch (err) {}
   };
-  
-  useEffect( () => {
+
+  useEffect(() => {
     getNotification();
   }, [dataUser]);
 
@@ -104,24 +122,24 @@ export function Preaching() {
     }
   };
 
-  const PushNot = async (titulo: string, mensagem: string) => {
-    const { status } = await Notifications.getPermissionsAsync();
+  // const PushNot = async (titulo: string, mensagem: string) => {
+  //   const { status } = await Notifications.getPermissionsAsync();
 
-    if (status !== "granted") {
-      Alert.alert("Voce he doido");
-      return;
-    }
+  //   if (status !== "granted") {
+  //     Alert.alert("Voce he doido");
+  //     return;
+  //   }
 
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        title: titulo,
-        body: mensagem,
-      },
-      trigger: {
-        seconds: 5,
-      },
-    });
-  };
+  //   await Notifications.scheduleNotificationAsync({
+  //     content: {
+  //       title: titulo,
+  //       body: mensagem,
+  //     },
+  //     trigger: {
+  //       seconds: 5,
+  //     },
+  //   });
+  // };
 
   const linkSelected = (type: string) => {
     switch (type) {
@@ -155,7 +173,8 @@ export function Preaching() {
             if (progress2 === 100) {
               postPushNotification(
                 "Palavra Disponível",
-                `Faça o download da palavra dos ${kindWordSelected}`
+                `Faça o download da palavra dos ${kindWordSelected}`,
+                kindWordSelected
               );
             }
           },
@@ -191,7 +210,7 @@ export function Preaching() {
   const listKindWords = [
     { value: "Kids" },
     { value: "Juvenis" },
-    { value: "Familia / Jovens" },
+    { value: "Jovens / Família" },
   ];
 
   return (

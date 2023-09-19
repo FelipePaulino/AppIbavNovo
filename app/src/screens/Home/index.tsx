@@ -26,13 +26,13 @@ export function HomeScreen() {
   const navigation = useNavigation<IPropsAppStack>();
   const dataUser = user && user[0] && user[0][1];
   const whatIsOffice = dataUser && dataUser.cargo;
-  const [a, setA] = useState();
+  const [tokenStrings, setTokenStrings] = useState();
 
   const getNotification = async () => {
     const { data } = await connectApi.get("/notificacao.json");
     const arrayRegister =
       data && Object.values(data).map((item) => item?.registro);
-    setA(arrayRegister);
+      setTokenStrings(arrayRegister);
   };
 
   const registerCellphone = (token: any) => {
@@ -51,15 +51,14 @@ export function HomeScreen() {
   }, [dataUser]);
 
   useEffect(() => {
-    if (dataUser && a) {
+    if (dataUser && tokenStrings) {
       registerForPushNotificationsAsync().then((token) => {
-        console.log(token, "token")
-        if (!a?.includes(token?.data)) {
+        if (!tokenStrings?.includes(token?.data)) {
           registerCellphone(token);
         }
       });
     }
-  }, [a]);
+  }, [tokenStrings]);
 
   const { dispatch } = useFormReport();
   const clean = (page: string) => {
