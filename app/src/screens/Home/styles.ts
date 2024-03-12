@@ -79,10 +79,11 @@ export const InfoTextSubtitle = styled.Text`
 export const ContentOptions = styled.View`
   width: 100%;
   margin-top: 24px;
-padding: 0 5%;
+  padding: 0 5%;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: start;
   flex-wrap: wrap;
+  gap: 5px;
 `;
 
 export const SendReportIcon = styled(Ionicons)`

@@ -32,7 +32,7 @@ export function HomeScreen() {
     const { data } = await connectApi.get("/notificacao.json");
     const arrayRegister =
       data && Object.values(data).map((item) => item?.registro);
-      setTokenStrings(arrayRegister);
+    setTokenStrings(arrayRegister);
   };
 
   const registerCellphone = (token: any) => {
@@ -46,7 +46,7 @@ export function HomeScreen() {
     } catch (err) {}
   };
 
-  useEffect( () => {
+  useEffect(() => {
     getNotification();
   }, [dataUser]);
 
@@ -210,6 +210,15 @@ export function HomeScreen() {
                   title="Palavra"
                   onPress={() => navigation.navigate("Preaching")}
                 />
+                {whatIsOffice === "administrador" && (
+                  <>
+                    <SelectedMenuComponent
+                      icon={<S.MultiplicationIcon name="mail" />}
+                      title="Avisos"
+                      onPress={() => navigation.navigate("NoticeMessage")}
+                    />
+                  </>
+                )}
               </S.ContentOptions>
             </Fragment>
           )}

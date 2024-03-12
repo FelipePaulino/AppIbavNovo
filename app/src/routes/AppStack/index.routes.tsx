@@ -24,6 +24,8 @@ import { RedeInformationScreen } from "../../screens/RedeInformation";
 import { Preaching } from "../../screens/Preaching";
 import { INavigationAppStackProps } from "./types";
 import NetworkScreenList from "../../screens/Network";
+import { NoticeMessage } from "../../components/NoticeMessage";
+import { AddNoticeMessage } from "../../components/AddNoticeMessage";
 
 export function AppRoutes() {
   const { Navigator, Screen } =
@@ -39,8 +41,13 @@ export function AppRoutes() {
       <Screen name="ListUsers" component={ListUsersScreen} />
       <Screen name="SendReport" component={SendReportScreen} />
       <Screen name="Multiplication" component={Multiplication} />
+      <Screen name="NoticeMessage" component={NoticeMessage} />
+      <Screen name="AddNoticeMessage" component={AddNoticeMessage} />
       <Screen name="MultiplicationCelula" component={MultiplicationCelula} />
-      <Screen name="MultiplicationDiscipulado" component={MultiplicationDiscipulado} />
+      <Screen
+        name="MultiplicationDiscipulado"
+        component={MultiplicationDiscipulado}
+      />
       <Screen name="MultiplicationRede" component={MultiplicationRede} />
       <Screen name="PreListAdmin" component={PreListAdminScreen} />
       <Screen name="UserRegister" component={UserRegisterScreen} />

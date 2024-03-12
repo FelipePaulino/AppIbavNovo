@@ -11,6 +11,8 @@ export type INavigationAppStackProps = {
   UserRegister: undefined;
   PreListAdmin: undefined;
   MembersReport: undefined;
+  NoticeMessage: undefined;
+  AddNoticeMessage: undefined;
   VisitorsReport: undefined;
   Multiplication: undefined;
   MultiplicationCelula: undefined;
@@ -24,6 +26,6 @@ export type INavigationAppStackProps = {
   SingleReport: undefined;
   RedeInformation: undefined;
   Preaching: undefined;
-}
+};
 
 export type IPropsAppStack = NativeStackScreenProps<INavigationAppStackProps>;
