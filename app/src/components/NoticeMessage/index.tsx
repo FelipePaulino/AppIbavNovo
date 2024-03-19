@@ -1,78 +1,75 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { ScrollView } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { HeaderComponent } from "../Header";
 import { ComeBackComponent } from "../ComeBack";
 import { LogoComponent } from "../Logo";
-import { ScrollView } from "react-native";
-import useUserFiltered from "../../hooks/useUserFiltered";
 import { ButtonComponent } from "../Button";
-import { useNavigation } from "@react-navigation/native";
 import { IPropsAppStack } from "../../routes/AppStack/types";
+import RequestService from "../../common/services/RequestService";
+import { connectApi } from "../../common/services/ConnectApi";
 import * as S from "./styles";
 
 export function NoticeMessage() {
-  const { updateUsers, setUpdateUsers } = useUserFiltered();
-  const navigation = useNavigation<IPropsAppStack>();
+    const [notices, setNotices] = useState<any>();
+    const navigation = useNavigation<IPropsAppStack>();
+    const serviceGet = new RequestService();
 
-  const teste = {
-    "-NrjxOl1B0_dtSmHWmrY": {
-      id: "1",
-      mensagem:
-        "mensagem de teste 1  mensagem de teste 1mensagem de teste 1mensagem de teste 1 mensagem de teste 1 mensagem de teste 1mensagem de teste 1mensagem de teste 1 mensagem de teste 1mensagem de teste 1mensagem de teste 1 mensagem de teste 1 mensagem de teste 1mensagem de teste 1mensagem de teste 1 mensagem de teste 1mensagem de teste 1mensagem de teste 1 mensagem de teste 1 mensagem de teste 1mensagem de teste 1mensagem de teste 1",
-    },
-    "-NrjxREgvvN-cZ5pBQAP": {
-      id: "2",
-      mensagem: "mensagem de teste 2 mensagem de teste  mensagem de teste ",
-    },
-    "-NrjxS0YvTV7hygCZ8Mf": {
-      id: "3",
-      mensagem: "mensagem de teste 3",
-    },
-    "-NrjxSiLh6OIc5BZEo30": {
-      id: "4",
-      mensagem: "mensagem de teste 4 ",
-    },
-    "-NrjxTQf-kcOwiE4y5Wv": {
-      id: "5",
-      mensagem: "mensagem de teste 5",
-    },
-  };
+    const getNotices = async () => {
+        await serviceGet.getNotices().then((response) => {
+            setNotices(Object.values(response));
+        });
+    };
 
-  const teste2 = Object.values(teste);
+    const removerItemPorId = async (idParaRemover: number) => {
+        const updatedNotices = notices.filter((item: { id: number }) => item.id !== idParaRemover);
+        try {
+            await connectApi.put("/avisos.json", updatedNotices);
+            getNotices();
+        } catch (err) {
+            console.error("Erro ao atualizar os avisos: ", err);
+        }
+    };
 
-  console.log(teste2);
+    useEffect(() => {
+        getNotices();
+    }, []);
 
-  return (
-    <>
-      <HeaderComponent>
-        <S.HeadingIcons>
-          <ComeBackComponent />
-          <LogoComponent full />
-        </S.HeadingIcons>
-        <ButtonComponent
-          title="Novo Aviso"
-          onPress={() => navigation.navigate("AddNoticeMessage")}
-          width="136"
-          heigth="33"
-          size="12"
-          color="white"
-        />
-      </HeaderComponent>
-      <S.Names>
-        <S.Name>AVISOS</S.Name>
-      </S.Names>
+    return (
+        <>
+            <HeaderComponent>
+                <S.HeadingIcons>
+                    <ComeBackComponent />
+                    <LogoComponent full />
+                </S.HeadingIcons>
+                <ButtonComponent
+                    title="Novo Aviso"
+                    onPress={() => navigation.navigate("AddNoticeMessage")}
+                    width="136"
+                    heigth="33"
+                    size="12"
+                    color="white"
+                />
+            </HeaderComponent>
+            <S.Names>
+                <S.Name>AVISOS</S.Name>
+            </S.Names>
 
-      <S.Content>
-        {teste2.map((item) => (
-          <S.Box>
-            <S.MessageContainer key={item.id}>
-              <ScrollView style={{ maxHeight: 100 }}>
-                <S.MessageText>{item.mensagem}</S.MessageText>
-              </ScrollView>
-            </S.MessageContainer>
-            <S.Icon name="trash" />
-          </S.Box>
-        ))}
-      </S.Content>
-    </>
-  );
+            <S.Content>
+                {notices?.map((item: any) => (
+                    <S.Box>
+                        <S.MessageContainer key={item.id}>
+                            <ScrollView style={{ maxHeight: 100 }}>
+                                <S.MessageText>{item.mensagem}</S.MessageText>
+                            </ScrollView>
+                        </S.MessageContainer>
+                        <S.Icon
+                            onClick={() => removerItemPorId(item.id)}
+                            name="trash"
+                        />
+                    </S.Box>
+                ))}
+            </S.Content>
+        </>
+    );
 }
