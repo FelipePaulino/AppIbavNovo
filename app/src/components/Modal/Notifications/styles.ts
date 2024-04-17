@@ -4,6 +4,7 @@ import theme from "../../../styles/theme";
 
 export const Background = styled.View`
   flex: 1;
+  background-color: #242424;
 `;
 
 export const Heading = styled.View`
@@ -32,17 +33,21 @@ export const ContentInfo = styled.View`
 
 export const Line = styled.View`
   background-color: ${theme.colors.red};
-  width: 8;
-  height: 65px;
-
+  width: 5px;
+  height: 100%;
   margin-right: 16px;
 `;
 
-export const Info = styled.View``;
+export const Info = styled.View`
+  flex-wrap: wrap;
+`;
 
 export const InfoText = styled.Text`
   color: ${theme.colors.light};
   font-size: ${theme.fonts.fontSize.small}px;
+  max-width: 90vw;
+  width: 100%;
+  flex-wrap: wrap;
 `;
 
 export const Call = styled.Text`

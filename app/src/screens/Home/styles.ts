@@ -15,6 +15,7 @@ export const Buttons = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  gap: 18px;
 `;
 
 export const Content = styled.View`
