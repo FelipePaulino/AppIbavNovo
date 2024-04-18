@@ -11,8 +11,8 @@ export type INavigationAppStackProps = {
   UserRegister: undefined;
   PreListAdmin: undefined;
   MembersReport: undefined;
-  NoticeMessage: undefined;
-  AddNoticeMessage: undefined;
+  NotificationMessage: undefined;
+  NewNotificationMessage: undefined;
   VisitorsReport: undefined;
   Multiplication: undefined;
   MultiplicationCelula: undefined;

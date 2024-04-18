@@ -84,7 +84,6 @@ export const ContentOptions = styled.View`
   flex-direction: row;
   justify-content: start;
   flex-wrap: wrap;
-  gap: 5px;
 `;
 
 export const SendReportIcon = styled(Ionicons)`

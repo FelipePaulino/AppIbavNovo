@@ -1,22 +1,22 @@
 import React, { useState } from "react";
-import { HeaderComponent } from "../Header";
-import { ComeBackComponent } from "../ComeBack";
+import { HeaderComponent } from "../../components/Header";
+import { ComeBackComponent } from "../../components/ComeBack";
 import { useNavigation } from "@react-navigation/native";
-import { LogoComponent } from "../Logo";
-import { ButtonComponent } from "../Button";
+import { LogoComponent } from "../../components/Logo";
+import { ButtonComponent } from "../../components/Button";
 import { connectApi } from "../../common/services/ConnectApi";
-import { ModalComponent } from "../Modal";
-import { DefaultContentModalComponent } from "../Modal/Default";
+import { ModalComponent } from "../../components/Modal";
+import { DefaultContentModalComponent } from "../../components/Modal/Default";
 import { IPropsAppStack } from "../../routes/AppStack/types";
 import { v4 as uuidv4 } from "uuid";
 import * as S from "./styles";
 
-export function AddNoticeMessage() {
+export function NewNotificationMessage() {
   const [notice, setNotice] = useState<any>();
   const [sendModal, setSendModal] = useState<any>();
   const navigation = useNavigation<IPropsAppStack>();
 
-  const handleAddNewNotice = () => {
+  const handleAddNewNotification = () => {
     try {
       connectApi
         .post("/avisos.json", {
@@ -50,7 +50,7 @@ export function AddNoticeMessage() {
           value={notice}
         />
         <S.ContentButton>
-          <ButtonComponent title="SALVAR" onPress={handleAddNewNotice} />
+          <ButtonComponent title="SALVAR" onPress={handleAddNewNotification} />
         </S.ContentButton>
 
         <ModalComponent

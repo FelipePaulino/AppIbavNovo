@@ -238,12 +238,17 @@ export function HomeScreen() {
                       title="Palavra"
                       onPress={() => navigation.navigate("Preaching")}
                     />
+                  </S.ContentOptions>
+
+                  <S.ContentOptions>
                     {whatIsOffice === "administrador" && (
                       <>
                         <SelectedMenuComponent
                           icon={<S.MultiplicationIcon name="mail" />}
                           title="Avisos"
-                          onPress={() => navigation.navigate("NoticeMessage")}
+                          onPress={() =>
+                            navigation.navigate("NotificationMessage")
+                          }
                         />
                       </>
                     )}

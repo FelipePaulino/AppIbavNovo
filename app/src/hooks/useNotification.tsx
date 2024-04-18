@@ -16,7 +16,7 @@ export const useNotification = () => {
 
   const getNotifications = async () => {
     try {
-      const response = await serviceGet.getNotices();
+      const response = await serviceGet.getNotifications();
       setNotifications(Object.values(response));
     } catch (error) {
       console.error("Erro ao buscar notificações:", error);

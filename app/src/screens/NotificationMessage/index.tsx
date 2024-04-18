@@ -1,39 +1,44 @@
 import { useEffect, useState } from "react";
 import { ScrollView, TouchableOpacity } from "react-native";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
-import { HeaderComponent } from "../Header";
-import { ComeBackComponent } from "../ComeBack";
-import { LogoComponent } from "../Logo";
-import { ButtonComponent } from "../Button";
+import { HeaderComponent } from "../../components/Header";
+import { ComeBackComponent } from "../../components/ComeBack";
+import { LogoComponent } from "../../components/Logo";
+import { ButtonComponent } from "../../components/Button";
 import { IPropsAppStack } from "../../routes/AppStack/types";
 import RequestService from "../../common/services/RequestService";
 import { connectApi } from "../../common/services/ConnectApi";
 import useUserFiltered from "../../hooks/useUserFiltered";
 import * as S from "./styles";
 
-export function NoticeMessage() {
+export function NotificationMessage() {
   const isFocused = useIsFocused();
   const { user } = useUserFiltered();
   const serviceGet = new RequestService();
   const [users, setUsers] = useState<any>([]);
+  const [currentUser, setCurrentUser] = useState<any>();
   const [notices, setNotices] = useState<any>([]);
   const navigation = useNavigation<IPropsAppStack>();
   const userData = user && user[0] && user[0][1];
 
   const getUsers = async () => {
     await serviceGet.getUsers().then((response) => {
-      setUsers(Object.values(response));
+      const allUsers = Object.values(response);
+      const currentUser = allUsers.find(
+        (user: any) =>
+          user?.email?.toLowerCase() === userData.email.toLowerCase()
+      );
+      setUsers(allUsers);
+      setCurrentUser(currentUser);
     });
   };
-
   const updateUsers = async (idParaRemover: string) => {
     if (notices && notices.length > 0) {
       const userDataIndex = notices?.findIndex(
         (notice: any) => notice?.id === userData?.idNotification
       );
       const noticeId = notices?.[userDataIndex - 1]?.id;
-
-      if (userData?.idNotification === idParaRemover) {
+      if (currentUser?.idNotification === idParaRemover) {
         const filterOtherUsers = users.filter((item: any) => {
           if (item) {
             return item.email?.toLowerCase() !== userData?.email?.toLowerCase();
@@ -49,9 +54,9 @@ export function NoticeMessage() {
     }
   };
 
-  const getNotices = async () => {
+  const getNotifications = async () => {
     await serviceGet
-      .getNotices()
+      .getNotifications()
       .then((response) => {
         setNotices(Object.values(response));
       })
@@ -67,10 +72,10 @@ export function NoticeMessage() {
     try {
       await updateUsers(idParaRemover);
       await connectApi.put("/avisos.json", updatedNotices);
-      getNotices();
+      getNotifications();
     } catch (err) {
       await updateUsers(idParaRemover);
-      getNotices();
+      getNotifications();
     }
   };
 
@@ -84,12 +89,12 @@ export function NoticeMessage() {
 
     const payload = { ...updatedNotices };
     await connectApi.put(`/avisos.json`, payload);
-    getNotices();
+    getNotifications();
   };
 
   useEffect(() => {
     getUsers();
-    getNotices();
+    getNotifications();
   }, [isFocused]);
 
   return (
@@ -101,7 +106,7 @@ export function NoticeMessage() {
         </S.HeadingIcons>
         <ButtonComponent
           title="Novo Aviso"
-          onPress={() => navigation.navigate("AddNoticeMessage")}
+          onPress={() => navigation.navigate("NewNotificationMessage")}
           width="136"
           heigth="33"
           size="12"

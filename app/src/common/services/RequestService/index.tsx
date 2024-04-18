@@ -40,7 +40,7 @@ class RequestService {
       throw new Error("Algo deu errado na conexão do get");
     }
   }
-  async getNotices() {
+  async getNotifications() {
     const response = await connectApi.get("/avisos.json");
 
     if (response.data) {
