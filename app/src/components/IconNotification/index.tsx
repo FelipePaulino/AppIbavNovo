@@ -20,6 +20,7 @@ export const IconNotification = ({
   const { notifications } = useNotification();
   const dataUser = user && user[0] && user[0][1];
   const [listUsers, setListUsers] = useState<any>([]);
+  const [loading, setLoading] = useState(true);
 
   const lastViewedIndex = notifications.findIndex(
     (notification) => notification.id === dataUser?.idNotification
@@ -41,15 +42,21 @@ export const IconNotification = ({
   }, [listUsers, unreadCount, isFocused]);
 
   useEffect(() => {
-    connectApi.get("/users.json", undefined).then((response) => {
-      setListUsers(Object.entries(response.data));
-    });
+    setLoading(true);
+    connectApi
+      .get("/users.json", undefined)
+      .then((response) => {
+        setListUsers(Object.entries(response.data));
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [update, isFocused]);
 
   return (
     <S.Container>
       <S.IconNotification name="notifications" size={24} />
-      {unreadCount > 0 && (
+      {!loading && unreadCount > 0 && (
         <S.NotificationIndicator>
           <S.UnreadCount>{unreadCount}</S.UnreadCount>
         </S.NotificationIndicator>
