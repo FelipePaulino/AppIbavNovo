@@ -19,25 +19,31 @@ import { IPropsAppStack } from "../../routes/AppStack/types";
 import { connectApi } from "../../common/services/ConnectApi";
 import { registerForPushNotificationsAsync } from "../../components/PushNotification";
 import NotificationContentModalComponent from "../../components/Modal/Notifications";
-import RequestService from "../../common/services/RequestService";
 import { IconNotification } from "../../components/IconNotification";
 import * as S from "./styles";
+import { useNotification } from "../../hooks/useNotification";
 
 export function HomeScreen() {
   const { signOut } = useAuth();
-  const serviceGet = new RequestService();
   const { loading, user, updateUsers, setUpdateUsers } = useUserFiltered();
   const navigation = useNavigation<IPropsAppStack>();
   const dataUser = user && user[0] && user[0][1];
   const whatIsOffice = dataUser && dataUser.cargo;
   const [tokenStrings, setTokenStrings] = useState();
-  const [showNotification, setShowNotification] = useState(false);
   const isFocused = useIsFocused();
+  const {
+    notifications,
+    newNotifications,
+    showNotification,
+    openNotification,
+    setNewNotifications,
+    setShowNotification,
+  } = useNotification();
 
-  const [notices, setNotices] = useState<any>();
   const getNotification = async () => {
     const { data } = await connectApi.get("/notificacao.json");
-    const arrayRegister = data && Object.values(data).map((item) => item?.registro);
+    const arrayRegister =
+      data && Object.values(data).map((item) => item?.registro);
     setTokenStrings(arrayRegister);
   };
 
@@ -54,7 +60,6 @@ export function HomeScreen() {
 
   useEffect(() => {
     getNotification();
-    getNotifications();
   }, [dataUser, isFocused]);
 
   useEffect(() => {
@@ -130,24 +135,16 @@ export function HomeScreen() {
     signOut();
   };
 
-  const getNotifications = async () => {
-    await serviceGet.getNotices().then((response) => {
-      setNotices(Object.values(response));
-    });
-  };
-
-  const OpenNotification = () => {
-    getNotifications();
-    setShowNotification(true);
-  };
-
   return (
     <Fragment>
       <HeaderComponent>
         <LogoComponent full />
         <S.Buttons>
-          <TouchableOpacity onPress={OpenNotification}>
-            <IconNotification update={showNotification} />
+          <TouchableOpacity onPress={openNotification}>
+            <IconNotification
+              setNewNotifications={setNewNotifications}
+              update={showNotification}
+            />
           </TouchableOpacity>
           <TouchableOpacity onPress={logout}>
             <S.Material name="logout" size={24} />
@@ -161,7 +158,8 @@ export function HomeScreen() {
         <>
           {showNotification ? (
             <NotificationContentModalComponent
-              data={notices}
+              newNotifications={newNotifications}
+              data={notifications}
               setShowNotification={setShowNotification}
             />
           ) : (
@@ -205,7 +203,9 @@ export function HomeScreen() {
 
                     {whatIsOffice === "administrador" ? (
                       <SelectedMenuComponent
-                        icon={<S.Material name="format-list-bulleted" size={40} />}
+                        icon={
+                          <S.Material name="format-list-bulleted" size={40} />
+                        }
                         title="Listagem"
                         onPress={() => navigation.navigate("PreListAdmin")}
                       />

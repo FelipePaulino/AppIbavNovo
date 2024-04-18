@@ -12,59 +12,57 @@ import { v4 as uuidv4 } from "uuid";
 import * as S from "./styles";
 
 export function AddNoticeMessage() {
-    const [notice, setNotice] = useState<any>();
-    const [sendModal, setSendModal] = useState<any>();
-    const navigation = useNavigation<IPropsAppStack>();
+  const [notice, setNotice] = useState<any>();
+  const [sendModal, setSendModal] = useState<any>();
+  const navigation = useNavigation<IPropsAppStack>();
 
-    const handleAddNewNotice = () => {
-        try {
-            connectApi
-                .post("/avisos.json", {
-                    mensagem: notice,
-                    id: uuidv4(),
-                })
-                .then(() => {
-                    setSendModal(true);
-                    setNotice("");
-                });
-        } catch (err) {}
-    };
+  const handleAddNewNotice = () => {
+    try {
+      connectApi
+        .post("/avisos.json", {
+          message: notice,
+          id: uuidv4(),
+          isVisible: true,
+        })
+        .then(() => {
+          setSendModal(true);
+          setNotice("");
+        });
+    } catch (err) {}
+  };
 
-    return (
-        <>
-            <HeaderComponent>
-                <S.HeadingIcons>
-                    <ComeBackComponent />
-                    <LogoComponent full />
-                </S.HeadingIcons>
-            </HeaderComponent>
-            <S.Content>
-                <S.Names>
-                    <S.Name>NOVO AVISO</S.Name>
-                </S.Names>
-                <S.Label>Descrição</S.Label>
-                <S.Observations
-                    multiline={true}
-                    onChangeText={(value) => setNotice(value)}
-                    value={notice}
-                />
-                <S.ContentButton>
-                    <ButtonComponent
-                        title="SALVAR"
-                        onPress={handleAddNewNotice}
-                    />
-                </S.ContentButton>
+  return (
+    <>
+      <HeaderComponent>
+        <S.HeadingIcons>
+          <ComeBackComponent />
+          <LogoComponent full />
+        </S.HeadingIcons>
+      </HeaderComponent>
+      <S.Content>
+        <S.Names>
+          <S.Name>NOVO AVISO</S.Name>
+        </S.Names>
+        <S.Label>Descrição</S.Label>
+        <S.Observations
+          multiline={true}
+          onChangeText={(value) => setNotice(value)}
+          value={notice}
+        />
+        <S.ContentButton>
+          <ButtonComponent title="SALVAR" onPress={handleAddNewNotice} />
+        </S.ContentButton>
 
-                <ModalComponent
-                    isVisible={sendModal}
-                    onBackdropPress={() => {
-                        setSendModal(false);
-                        navigation.navigate("Home");
-                    }}
-                >
-                    <DefaultContentModalComponent type="addNotice" />
-                </ModalComponent>
-            </S.Content>
-        </>
-    );
+        <ModalComponent
+          isVisible={sendModal}
+          onBackdropPress={() => {
+            setSendModal(false);
+            navigation.navigate("Home");
+          }}
+        >
+          <DefaultContentModalComponent type="addNotice" />
+        </ModalComponent>
+      </S.Content>
+    </>
+  );
 }

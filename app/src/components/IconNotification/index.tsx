@@ -1,28 +1,31 @@
-import { useEffect, useState } from "react";
-import { connectApi } from "../../common/services/ConnectApi";
-import RequestService from "../../common/services/RequestService";
-import { useIsFocused } from "@react-navigation/native";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
+import { connectApi } from "../../common/services/ConnectApi";
+import { useNotification } from "../../hooks/useNotification";
+import { useIsFocused } from "@react-navigation/native";
 import * as S from "./styles";
 
 interface IconNotificationProps {
   update: boolean;
+  setNewNotifications: Dispatch<SetStateAction<number>>;
 }
 
-interface Notification {
-  id?: string;
-}
-
-export const IconNotification = ({ update }: IconNotificationProps) => {
+export const IconNotification = ({
+  update,
+  setNewNotifications,
+}: IconNotificationProps) => {
   const { user: userAuth } = useAuth();
-  const [notices, setNotices] = useState<Notification[]>([]);
-  const [user, setUser] = useState<any>([]);
-  const [listUsers, setListUsers] = useState<any>([]);
-  const dataUser = user && user[0] && user[0][1];
-  const serviceGet = new RequestService();
-  const lastNotice = notices[notices.length - 1];
-  const shouldShowNotification = lastNotice?.id !== dataUser?.idNotification;
   const isFocused = useIsFocused();
+  const [user, setUser] = useState<any>([]);
+  const { notifications } = useNotification();
+  const dataUser = user && user[0] && user[0][1];
+  const [listUsers, setListUsers] = useState<any>([]);
+
+  const lastViewedIndex = notifications.findIndex(
+    (notification) => notification.id === dataUser?.idNotification
+  );
+
+  const unreadCount = notifications.length - (lastViewedIndex + 1);
 
   useEffect(() => {
     const emailAuth = userAuth && userAuth?.email;
@@ -34,26 +37,23 @@ export const IconNotification = ({ update }: IconNotificationProps) => {
         }
       });
     setUser(filterUser);
-  }, [listUsers, isFocused]);
+    setNewNotifications(unreadCount);
+  }, [listUsers, unreadCount, isFocused]);
 
   useEffect(() => {
     connectApi.get("/users.json", undefined).then((response) => {
       setListUsers(Object.entries(response.data));
     });
-
-    getNotification();
-  }, [isFocused, update]);
-
-  const getNotification = async () => {
-    await serviceGet.getNotices().then((response) => {
-      setNotices(Object.values(response));
-    });
-  };
+  }, [update, isFocused]);
 
   return (
     <S.Container>
       <S.IconNotification name="notifications" size={24} />
-      {shouldShowNotification && <S.NotificationIndicator />}
+      {unreadCount > 0 && (
+        <S.NotificationIndicator>
+          <S.UnreadCount>{unreadCount}</S.UnreadCount>
+        </S.NotificationIndicator>
+      )}
     </S.Container>
   );
 };

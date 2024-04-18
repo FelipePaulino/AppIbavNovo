@@ -58,7 +58,7 @@ export const Buttons = styled.View`
 export const MessageContainer = styled.View`
   padding: 10px;
   margin: 5px 0;
-  width: 100%;
+  width: 90%;
   gap: 10px;
   display: flex;
   flex-direction: row;
@@ -82,4 +82,12 @@ export const MessageText = styled.Text`
 
 export const Icon = styled(FontAwesome)`
   font-size: ${theme.fonts.fontSize.medium}px;
+`;
+
+export const Text = styled.Text`
+  color: ${theme.colors.grey};
+  font-family: ${theme.fonts.fontFamily.bold};
+  text-align: center;
+  width: 100%;
+  margin-left: 5%;
 `;

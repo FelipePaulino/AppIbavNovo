@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
 import { ScrollView } from "react-native";
 import { TitleComponent } from "../../Title";
 import useUserFiltered from "../../../hooks/useUserFiltered";
@@ -6,7 +6,23 @@ import RequestService from "../../../common/services/RequestService";
 import { connectApi } from "../../../common/services/ConnectApi";
 import * as S from "./styles";
 
-export default function NotificationContentModalComponent({ setShowNotification, data }: any) {
+interface Notification {
+  id?: string;
+  message?: string;
+  isVisible?: boolean;
+}
+
+interface Props {
+  data: Notification[];
+  newNotifications: number;
+  setShowNotification: Dispatch<SetStateAction<boolean>>;
+}
+
+export default function NotificationContentModalComponent({
+  data,
+  newNotifications,
+  setShowNotification,
+}: Props) {
   const [users, setUsers] = useState<any>([]);
   const { user } = useUserFiltered();
   const userData = user && user[0] && user[0][1];
@@ -31,12 +47,13 @@ export default function NotificationContentModalComponent({ setShowNotification,
     const payload = { ...filterOtherUsers };
     connectApi.put(`/users.json`, payload);
   };
+
   useEffect(() => {
     getUsers();
   }, []);
 
   useEffect(() => {
-    if (users.length && userData && userData.idNotification !== lastDataId) {
+    if (users.length && userData && userData?.idNotification !== lastDataId) {
       updateUsers();
     }
   }, [userData, data, users]);
@@ -53,14 +70,20 @@ export default function NotificationContentModalComponent({ setShowNotification,
             {data
               ?.slice()
               .reverse()
-              .map((item: any) => {
+              .map((item, index: number) => {
+                const isHighlighted =
+                  newNotifications > 0 && index < newNotifications;
                 return (
-                  <S.ContentInfo key={item.mensagem}>
-                    <S.Line />
-                    <S.Info>
-                      <S.InfoText>{item.mensagem}</S.InfoText>
-                    </S.Info>
-                  </S.ContentInfo>
+                  <>
+                    {item.isVisible && (
+                      <S.ContentInfo key={item.id}>
+                        <S.Line isHighlighted={isHighlighted} />
+                        <S.Info>
+                          <S.InfoText>{item.message}</S.InfoText>
+                        </S.Info>
+                      </S.ContentInfo>
+                    )}
+                  </>
                 );
               })}
           </Fragment>

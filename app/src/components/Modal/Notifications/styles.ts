@@ -31,8 +31,9 @@ export const ContentInfo = styled.View`
   align-items: center;
 `;
 
-export const Line = styled.View`
-  background-color: ${theme.colors.red};
+export const Line = styled.View<{ isHighlighted: boolean }>`
+  background-color: ${({ isHighlighted }) =>
+    isHighlighted ? theme.colors.red : theme.colors.grey};
   width: 5px;
   height: 100%;
   margin-right: 16px;
