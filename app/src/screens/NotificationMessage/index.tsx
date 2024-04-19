@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ScrollView, TouchableOpacity } from "react-native";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { HeaderComponent } from "../../components/Header";
 import { ComeBackComponent } from "../../components/ComeBack";
@@ -9,6 +9,8 @@ import { IPropsAppStack } from "../../routes/AppStack/types";
 import RequestService from "../../common/services/RequestService";
 import { connectApi } from "../../common/services/ConnectApi";
 import useUserFiltered from "../../hooks/useUserFiltered";
+import { ModalComponent } from "../../components/Modal";
+import { RemoveNotification } from "../../components/Modal/RemoveNotification";
 import * as S from "./styles";
 
 export function NotificationMessage() {
@@ -20,6 +22,8 @@ export function NotificationMessage() {
   const [notices, setNotices] = useState<any>([]);
   const navigation = useNavigation<IPropsAppStack>();
   const userData = user && user[0] && user[0][1];
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
+  const [selecteditem, setSelecteditem] = useState<any>();
 
   const getUsers = async () => {
     await serviceGet.getUsers().then((response) => {
@@ -116,41 +120,61 @@ export function NotificationMessage() {
       <S.Names>
         <S.Name>AVISOS</S.Name>
       </S.Names>
-
-      <S.Content>
-        {notices.length ? (
-          <>
-            {notices
-              ?.slice()
-              .reverse()
-              .map((item: any) => (
-                <S.Box>
-                  <S.MessageContainer key={item.id}>
-                    <ScrollView style={{ maxHeight: 100 }}>
+      <ScrollView>
+        <S.Content>
+          {notices.length ? (
+            <>
+              {notices
+                ?.slice()
+                .reverse()
+                .map((item: any) => (
+                  <S.Box key={item.id}>
+                    <S.MessageContainer>
                       <S.MessageText>{item.message}</S.MessageText>
-                    </ScrollView>
-                  </S.MessageContainer>
-                  <TouchableOpacity onPress={() => removerItemPorId(item.id)}>
-                    <S.Icon name="trash" />
-                  </TouchableOpacity>
-                  {item.isVisible ? (
-                    <TouchableOpacity
-                      onPress={() => updateNotices(item, false)}
-                    >
-                      <S.Icon name="eye" />
-                    </TouchableOpacity>
-                  ) : (
-                    <TouchableOpacity onPress={() => updateNotices(item, true)}>
-                      <S.Icon name="eye-slash" />
-                    </TouchableOpacity>
-                  )}
-                </S.Box>
-              ))}
-          </>
-        ) : (
-          <S.Text>Não há nenhuma aviso</S.Text>
-        )}
-      </S.Content>
+                    </S.MessageContainer>
+                    <S.BoxButton>
+                      {item.isVisible ? (
+                        <TouchableOpacity
+                          onPress={() => updateNotices(item, false)}
+                        >
+                          <S.Icon name="eye" />
+                        </TouchableOpacity>
+                      ) : (
+                        <TouchableOpacity
+                          onPress={() => updateNotices(item, true)}
+                        >
+                          <S.Icon name="eye-slash" />
+                        </TouchableOpacity>
+                      )}
+                      <TouchableOpacity
+                        onPress={() => {
+                          setSelecteditem(item)
+                          setOpenConfirmModal(true)
+                        }}
+                      >
+                        <S.Icon name="trash" />
+                      </TouchableOpacity>
+                    </S.BoxButton>
+                  </S.Box>
+                ))}
+            </>
+          ) : (
+            <S.Text>Não há nenhuma aviso</S.Text>
+          )}
+        </S.Content>
+      </ScrollView>
+      <ModalComponent
+        isVisible={openConfirmModal}
+        onBackdropPress={() => setOpenConfirmModal(false)}
+      >
+        <RemoveNotification
+          cancel={() => setOpenConfirmModal(false)}
+          confirm={() => {
+            removerItemPorId(selecteditem.id)
+            setOpenConfirmModal(false)
+          }}
+        />
+      </ModalComponent>
     </>
   );
 }

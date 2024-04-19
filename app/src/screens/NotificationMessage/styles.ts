@@ -13,7 +13,7 @@ export const Names = styled.View`
   align-items: center;
   justify-content: center;
   margin: 10px auto 20px;
-  width: 80%;
+  width: 97%;
   padding: 12px;
   display: flex;
   border-bottom-width: 1px;
@@ -56,23 +56,33 @@ export const Buttons = styled.View`
 `;
 
 export const MessageContainer = styled.View`
-  padding: 10px;
-  margin: 5px 0;
-  width: 90%;
+  padding: 10px 0;
+  margin: 5px;
+  width: 70%;
   gap: 10px;
   display: flex;
   flex-direction: row;
-  border: 1px solid #ccc;
   align-items: center;
 `;
 
 export const Box = styled.View`
-  padding: 10px;
   gap: 10px;
   width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
+  border-bottom-color: ${theme.colors.grey};
+  border-bottom-width: 0.5px;
+  margin-left: 20px;
+`;
+
+export const BoxButton = styled.View`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+
 `;
 
 export const MessageText = styled.Text`

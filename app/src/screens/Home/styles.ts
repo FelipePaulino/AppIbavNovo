@@ -21,10 +21,8 @@ export const Buttons = styled.View`
 export const Content = styled.View`
   flex: 1;
   align-items: center;
-
   max-width: 350px;
   width: 100%;
-
   margin-top: 32px;
   margin-left: auto;
   margin-right: auto;
@@ -82,7 +80,7 @@ export const ContentOptions = styled.View`
   margin-top: 24px;
   padding: 0 5%;
   flex-direction: row;
-  justify-content: start;
+  justify-content: space-around;
   flex-wrap: wrap;
 `;
 

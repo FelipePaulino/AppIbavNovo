@@ -15,7 +15,7 @@ export const Heading = styled.View`
 export const Close = styled(AntDesign)`
   color: ${theme.colors.light};
   font-size: ${theme.fonts.fontSize.medium}px;
-
+  padding: 16px;
   margin-left: auto;
 `;
 
@@ -26,7 +26,7 @@ export const ContainerInfo = styled.View`
 
 export const ContentInfo = styled.View`
   margin-bottom: 32px;
-
+  width: 100%;
   flex-direction: row;
   align-items: center;
 `;
@@ -40,13 +40,12 @@ export const Line = styled.View<{ isHighlighted: boolean }>`
 `;
 
 export const Info = styled.View`
-  flex-wrap: wrap;
+   width: 97%;
 `;
 
 export const InfoText = styled.Text`
   color: ${theme.colors.light};
   font-size: ${theme.fonts.fontSize.small}px;
-  max-width: 90vw;
   width: 100%;
   flex-wrap: wrap;
 `;

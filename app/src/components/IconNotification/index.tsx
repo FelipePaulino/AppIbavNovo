@@ -22,12 +22,12 @@ export const IconNotification = ({
   const [listUsers, setListUsers] = useState<any>([]);
   const [loading, setLoading] = useState(true);
 
-  const lastViewedIndex = notifications.findIndex(
+  const unreadCountVisible = notifications?.filter((item) => item.isVisible);
+  const lastViewedIndex = unreadCountVisible?.findIndex(
     (notification) => notification.id === dataUser?.idNotification
   );
-
-  const unreadCount = notifications.length - (lastViewedIndex + 1);
-
+  const unreadCount = unreadCountVisible?.length - (lastViewedIndex + 1);
+  
   useEffect(() => {
     const emailAuth = userAuth && userAuth?.email;
     const filterUser =

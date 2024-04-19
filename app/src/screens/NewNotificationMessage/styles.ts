@@ -17,7 +17,7 @@ export const Names = styled.View`
     align-items: center;
     justify-content: center;
     margin: 10px auto 50px;
-    width: 80%;
+    width: 100%;
     padding: 12px;
     display: flex;
     border-bottom-width: 1px;
@@ -41,12 +41,12 @@ export const Label = styled.Text`
 `;
 
 export const Observations = styled.TextInput`
-    border-color: ${theme.colors.grey};
-    width: 100%;
-    border-width: 1px;
-    padding: 20px;
-    margin-top: 15px;
-    height: 120px;
+  border-color: ${theme.colors.grey};
+  width: 100%;
+  border-width: 1px;
+  padding: 10px;
+  margin-top: 15px;
+  height: 100px;
 `;
 
 export const ContentButton = styled.View`

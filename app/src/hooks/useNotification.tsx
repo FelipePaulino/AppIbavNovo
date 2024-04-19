@@ -5,6 +5,7 @@ import RequestService from "../common/services/RequestService";
 interface Notification {
   id?: string;
   message?: string;
+  isVisible?: true
 }
 
 export const useNotification = () => {
