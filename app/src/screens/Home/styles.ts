@@ -15,15 +15,14 @@ export const Buttons = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  gap: 18px;
 `;
 
 export const Content = styled.View`
   flex: 1;
   align-items: center;
-
   max-width: 350px;
   width: 100%;
-
   margin-top: 32px;
   margin-left: auto;
   margin-right: auto;
@@ -79,7 +78,7 @@ export const InfoTextSubtitle = styled.Text`
 export const ContentOptions = styled.View`
   width: 100%;
   margin-top: 24px;
-padding: 0 5%;
+  padding: 0 5%;
   flex-direction: row;
   justify-content: space-around;
   flex-wrap: wrap;

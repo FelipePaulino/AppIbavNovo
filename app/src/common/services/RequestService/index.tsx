@@ -40,6 +40,15 @@ class RequestService {
       throw new Error("Algo deu errado na conexão do get");
     }
   }
+  async getNotifications() {
+    const response = await connectApi.get("/avisos.json");
+
+    if (response.data) {
+      return response.data;
+    } else {
+      throw new Error("Algo deu errado na conexão do get");
+    }
+  }
 
   async deleteUser(id: string) {
     await connectApi.delete(`/users/${id}.json`);

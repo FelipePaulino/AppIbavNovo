@@ -15,17 +15,27 @@ import { useAuth } from "../../hooks/useAuth";
 
 import * as S from "./styles";
 import useUserFiltered from "../../hooks/useUserFiltered";
+import { useNotification } from "../../hooks/useNotification";
+import { IconNotification } from "../../components/IconNotification";
+import NotificationContentModalComponent from "../../components/Modal/Notifications";
 
 export function PreListAdminScreen() {
   const { signOut } = useAuth();
   const { updateUsers, setUpdateUsers } = useUserFiltered();
+  const {
+    notifications,
+    newNotifications,
+    showNotification,
+    openNotification,
+    setNewNotifications,
+    setShowNotification,
+  } = useNotification();
 
   const navigation = useNavigation<IPropsAppStack>();
   const { dispatch } = useFormReport();
 
-
   const clean = (value: string) => {
-    navigation.navigate(value)
+    navigation.navigate(value);
     dispatch({
       type: FormReportActions.setRedeSelect,
       payload: 'Selecione',
@@ -54,37 +64,52 @@ export function PreListAdminScreen() {
         </S.HeadingIcons>
 
         <S.Buttons>
+          <TouchableOpacity onPress={openNotification}>
+            <IconNotification
+              setNewNotifications={setNewNotifications}
+              update={showNotification}
+            />
+          </TouchableOpacity>
+
           <TouchableOpacity onPress={logout}>
             <S.Logout name="logout" />
           </TouchableOpacity>
         </S.Buttons>
       </HeaderComponent>
 
-      <S.Content>
-        <S.Names>
-          <TitleComponent title="Listagem" medium uppercase primary weight />
-        </S.Names>
+      {showNotification ? (
+        <NotificationContentModalComponent
+          newNotifications={newNotifications}
+          data={notifications}
+          setShowNotification={setShowNotification}
+        />
+      ) : (
+        <S.Content>
+          <S.Names>
+            <TitleComponent title="Listagem" medium uppercase primary weight />
+          </S.Names>
 
-        <S.ContentOptions>
-          <SelectedMenuComponent
-            icon={<S.MembersIcon name="user-friends" />}
-            title="Membros"
-            onPress={() => clean('Members')}
-          />
+          <S.ContentOptions>
+            <SelectedMenuComponent
+              icon={<S.MembersIcon name="user-friends" />}
+              title="Membros"
+              onPress={() => clean('Members')}
+            />
 
-          <SelectedMenuComponent
-            icon={<S.Font name="user-o" size={34} />}
-            title="Usuário"
-            onPress={() => navigation.navigate("ListUsers")}
-          />
+            <SelectedMenuComponent
+              icon={<S.Font name="user-o" size={34} />}
+              title="Usuário"
+              onPress={() => navigation.navigate("ListUsers")}
+            />
 
-          {/* <SelectedMenuComponent
+            {/* <SelectedMenuComponent
             icon={<S.UserGridIcon name="network-wired" />}
             title="Rede"
             onPress={() => clean('Network')}
           /> */}
-        </S.ContentOptions>
-      </S.Content>
+          </S.ContentOptions>
+        </S.Content>
+      )}
     </Fragment>
   );
 }
