@@ -1,5 +1,6 @@
 import axios from "axios";
-import { API_ENDPOINT } from "../../../config/apiConfig";
+const API_ENDPOINT =
+  "https://app-ibav-f06f4-default-rtdb.firebaseio.com";
 
 export const connectApi = axios.create({
   baseURL: API_ENDPOINT,

@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
-import { API_ENDPOINT } from "./apiConfig";
+
+const API_ENDPOINT =
+  "https://app-ibav-f06f4-default-rtdb.firebaseio.com";
 
 const firebaseConfig2 = {
   apiKey: "AIzaSyDtmBnzDYs3MPshWh65eH-8XuUue2Mtk7Y",
