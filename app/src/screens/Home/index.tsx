@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 
 import { useFormReport } from "../../hooks/useFormReport";
 import { FormReportActions } from "../../contexts/FormReport";
@@ -16,9 +16,12 @@ import useUserFiltered from "../../hooks/useUserFiltered";
 
 import { IPropsAppStack } from "../../routes/AppStack/types";
 
-import * as S from "./styles";
 import { connectApi } from "../../common/services/ConnectApi";
 import { registerForPushNotificationsAsync } from "../../components/PushNotification";
+import NotificationContentModalComponent from "../../components/Modal/Notifications";
+import { IconNotification } from "../../components/IconNotification";
+import * as S from "./styles";
+import { useNotification } from "../../hooks/useNotification";
 
 export function HomeScreen() {
   const { signOut } = useAuth();
@@ -27,12 +30,21 @@ export function HomeScreen() {
   const dataUser = user && user[0] && user[0][1];
   const whatIsOffice = dataUser && dataUser.cargo;
   const [tokenStrings, setTokenStrings] = useState();
+  const isFocused = useIsFocused();
+  const {
+    notifications,
+    newNotifications,
+    showNotification,
+    openNotification,
+    setNewNotifications,
+    setShowNotification,
+  } = useNotification();
 
   const getNotification = async () => {
     const { data } = await connectApi.get("/notificacao.json");
     const arrayRegister =
       data && Object.values(data).map((item) => item?.registro);
-      setTokenStrings(arrayRegister);
+    setTokenStrings(arrayRegister);
   };
 
   const registerCellphone = (token: any) => {
@@ -46,9 +58,9 @@ export function HomeScreen() {
     } catch (err) {}
   };
 
-  useEffect( () => {
+  useEffect(() => {
     getNotification();
-  }, [dataUser]);
+  }, [dataUser, isFocused]);
 
   useEffect(() => {
     if (dataUser && tokenStrings) {
@@ -128,6 +140,12 @@ export function HomeScreen() {
       <HeaderComponent>
         <LogoComponent full />
         <S.Buttons>
+          <TouchableOpacity onPress={openNotification}>
+            <IconNotification
+              setNewNotifications={setNewNotifications}
+              update={showNotification}
+            />
+          </TouchableOpacity>
           <TouchableOpacity onPress={logout}>
             <S.Material name="logout" size={24} />
           </TouchableOpacity>
@@ -137,83 +155,109 @@ export function HomeScreen() {
       {loading ? (
         <S.Loading source={loadingGif} />
       ) : (
-        <S.Content>
-          {dataUser && (
-            <Fragment>
-              <S.Names>
-                <S.Name>{dataUser.nome}</S.Name>
+        <>
+          {showNotification ? (
+            <NotificationContentModalComponent
+              newNotifications={newNotifications}
+              data={notifications}
+              setShowNotification={setShowNotification}
+            />
+          ) : (
+            <S.Content>
+              {dataUser && (
+                <Fragment>
+                  <S.Names>
+                    <S.Name>{dataUser.nome}</S.Name>
 
-                {office()}
-              </S.Names>
+                    {office()}
+                  </S.Names>
 
-              {whatIsOffice === "lider" && (
-                <S.Info>
-                  <S.InfoTextTitle>Célula</S.InfoTextTitle>
+                  {whatIsOffice === "lider" && (
+                    <S.Info>
+                      <S.InfoTextTitle>Célula</S.InfoTextTitle>
 
-                  <S.InfoTextSubtitle>{`${dataUser.numero_celula} - ${dataUser.rede}`}</S.InfoTextSubtitle>
-                </S.Info>
-              )}
+                      <S.InfoTextSubtitle>{`${dataUser.numero_celula} - ${dataUser.rede}`}</S.InfoTextSubtitle>
+                    </S.Info>
+                  )}
 
-              <S.ContentOptions>
-                <SelectedMenuComponent
-                  icon={<S.SendReportIcon name="document-text-sharp" />}
-                  title="Entregar Relatório"
-                  onPress={() => clean("SendReport")}
-                />
-
-                {whatIsOffice === "administrador" ? (
-                  <SelectedMenuComponent
-                    icon={<S.Material name="add" size={40} />}
-                    title="Cadastro"
-                    onPress={() => navigation.navigate("PreRegisterAdmin")}
-                  />
-                ) : (
-                  <SelectedMenuComponent
-                    icon={<S.RegisterIcon name="user-plus" />}
-                    title="Cadastrar"
-                    onPress={() => navigation.navigate("Register")}
-                  />
-                )}
-
-                {whatIsOffice === "administrador" ? (
-                  <SelectedMenuComponent
-                    icon={<S.Material name="format-list-bulleted" size={40} />}
-                    title="Listagem"
-                    onPress={() => navigation.navigate("PreListAdmin")}
-                  />
-                ) : (
-                  <SelectedMenuComponent
-                    icon={<S.MembersIcon name="user-friends" />}
-                    title="Membros"
-                    onPress={() => navigation.navigate("Members")}
-                  />
-                )}
-              </S.ContentOptions>
-
-              <S.ContentOptions>
-                <SelectedMenuComponent
-                  icon={<S.ReportView name="copy" />}
-                  title="Ver Relatórios Entregues"
-                  onPress={() => clean("SeeReports")}
-                />
-                {whatIsOffice === "administrador" && (
-                  <>
+                  <S.ContentOptions>
                     <SelectedMenuComponent
-                      icon={<S.MultiplicationIcon name="multiplication" />}
-                      title="Multiplicação"
-                      onPress={() => navigation.navigate("Multiplication")}
+                      icon={<S.SendReportIcon name="document-text-sharp" />}
+                      title="Entregar Relatório"
+                      onPress={() => clean("SendReport")}
                     />
-                  </>
-                )}
-                <SelectedMenuComponent
-                  icon={<S.PreachingIcon name="upload" />}
-                  title="Palavra"
-                  onPress={() => navigation.navigate("Preaching")}
-                />
-              </S.ContentOptions>
-            </Fragment>
+
+                    {whatIsOffice === "administrador" ? (
+                      <SelectedMenuComponent
+                        icon={<S.Material name="add" size={40} />}
+                        title="Cadastro"
+                        onPress={() => navigation.navigate("PreRegisterAdmin")}
+                      />
+                    ) : (
+                      <SelectedMenuComponent
+                        icon={<S.RegisterIcon name="user-plus" />}
+                        title="Cadastrar"
+                        onPress={() => navigation.navigate("Register")}
+                      />
+                    )}
+
+                    {whatIsOffice === "administrador" ? (
+                      <SelectedMenuComponent
+                        icon={
+                          <S.Material name="format-list-bulleted" size={40} />
+                        }
+                        title="Listagem"
+                        onPress={() => navigation.navigate("PreListAdmin")}
+                      />
+                    ) : (
+                      <SelectedMenuComponent
+                        icon={<S.MembersIcon name="user-friends" />}
+                        title="Membros"
+                        onPress={() => navigation.navigate("Members")}
+                      />
+                    )}
+                  </S.ContentOptions>
+
+                  <S.ContentOptions>
+                    <SelectedMenuComponent
+                      icon={<S.ReportView name="copy" />}
+                      title="Ver Relatórios Entregues"
+                      onPress={() => clean("SeeReports")}
+                    />
+                    {whatIsOffice === "administrador" && (
+                      <>
+                        <SelectedMenuComponent
+                          icon={<S.MultiplicationIcon name="multiplication" />}
+                          title="Multiplicação"
+                          onPress={() => navigation.navigate("Multiplication")}
+                        />
+                      </>
+                    )}
+                    <SelectedMenuComponent
+                      icon={<S.PreachingIcon name="upload" />}
+                      title="Palavra"
+                      onPress={() => navigation.navigate("Preaching")}
+                    />
+                  </S.ContentOptions>
+
+                  <S.ContentOptions>
+                    {whatIsOffice === "administrador" && (
+                      <>
+                        <SelectedMenuComponent
+                          icon={<S.MultiplicationIcon name="mail" />}
+                          title="Avisos"
+                          onPress={() =>
+                            navigation.navigate("NotificationMessage")
+                          }
+                        />
+                      </>
+                    )}
+                  </S.ContentOptions>
+                </Fragment>
+              )}
+            </S.Content>
           )}
-        </S.Content>
+        </>
       )}
     </Fragment>
   );

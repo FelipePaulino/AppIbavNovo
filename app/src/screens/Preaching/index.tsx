@@ -35,6 +35,9 @@ import Constants from "expo-constants";
 import { Platform } from "react-native";
 import { connectApi } from "../../common/services/ConnectApi";
 import axios from "axios";
+import { IconNotification } from "../../components/IconNotification";
+import { useNotification } from "../../hooks/useNotification";
+import NotificationContentModalComponent from "../../components/Modal/Notifications";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -52,6 +55,14 @@ export function Preaching() {
   const [token1, setToken1] = useState<any>("");
   const [registerKids, setRegisterKids] = useState<any>([]);
   const [registerAdultos, setRegisterAdultos] = useState<any>([]);
+  const {
+    notifications,
+    newNotifications,
+    showNotification,
+    openNotification,
+    setNewNotifications,
+    setShowNotification,
+  } = useNotification();
 
   const noDuplicates = (data) => {
     const arrayRegister =
@@ -222,80 +233,95 @@ export function Preaching() {
         </S.HeadingIcons>
 
         <S.Buttons>
+          <TouchableOpacity onPress={openNotification}>
+            <IconNotification
+              setNewNotifications={setNewNotifications}
+              update={showNotification}
+            />
+          </TouchableOpacity>
+
           <TouchableOpacity onPress={logout}>
             <S.Logout name="logout" />
           </TouchableOpacity>
         </S.Buttons>
       </HeaderComponent>
-      <ScrollView>
-        <S.Content>
-          {whatIsOffice === "administrador" && (
-            <>
-              <TitleComponent title={"Tipo da palavra:"} small primary />
-
-              <SelectComponent
-                onChange={(e) => setKindWordSelected(e)}
-                labelSelect={kindWordSelected}
-                dataOptions={listKindWords}
-                selectedOption={() => {}}
-                width={"100%"}
-              />
-
-              <S.BoxButtonComponent>
-                <ButtonComponent
-                  title={ButtonsText.UPLOAD}
-                  onPress={handleUpload}
-                  icon="upload"
-                  color="#FFFFFF"
-                />
-              </S.BoxButtonComponent>
-            </>
-          )}
-          <S.BoxTitleComponent>
-            <TitleComponent
-              title={`Palavras:`}
-              small
-              primary
-              uppercase
-              weight
-            />
-            <S.Subtitulo>Faça o download da palavra da semana</S.Subtitulo>
-          </S.BoxTitleComponent>
-
-          {dataUser &&
-            (dataUser?.rede?.includes("Kids") ||
-              whatIsOffice === "administrador") && (
+      {showNotification ? (
+        <NotificationContentModalComponent
+          newNotifications={newNotifications}
+          data={notifications}
+          setShowNotification={setShowNotification}
+        />
+      ) : (
+        <ScrollView>
+          <S.Content>
+            {whatIsOffice === "administrador" && (
               <>
-                <S.BoxWords onPress={() => downloadFile("Kids")}>
-                  <S.TextDownloads>
-                    <S.TitleSmall>Kids</S.TitleSmall>
-                    <S.TextSmall>palavra-dos-kids.docx</S.TextSmall>
-                  </S.TextDownloads>
-                  <S.IconC name="upload" />
-                </S.BoxWords>
+                <TitleComponent title={"Tipo da palavra:"} small primary />
 
-                <S.BoxWords onPress={() => downloadFile("Juvenis")}>
-                  <S.TextDownloads>
-                    <S.TitleSmall>Juvenis</S.TitleSmall>
-                    <S.TextSmall>palavra-dos-juvenis.docx</S.TextSmall>
-                  </S.TextDownloads>
-                  <S.IconC name="upload" />
-                </S.BoxWords>
+                <SelectComponent
+                  onChange={(e) => setKindWordSelected(e)}
+                  labelSelect={kindWordSelected}
+                  dataOptions={listKindWords}
+                  selectedOption={() => {}}
+                  width={"100%"}
+                />
+
+                <S.BoxButtonComponent>
+                  <ButtonComponent
+                    title={ButtonsText.UPLOAD}
+                    onPress={handleUpload}
+                    icon="upload"
+                    color="#FFFFFF"
+                  />
+                </S.BoxButtonComponent>
               </>
             )}
-          {dataUser &&
-            (!dataUser?.rede?.includes("Kids") ||
-              whatIsOffice === "administrador") && (
-              <S.BoxWords onPress={() => downloadFile("Familia-Jovens")}>
-                <S.TextDownloads>
-                  <S.TitleSmall>Jovens / Familia</S.TitleSmall>
-                  <S.TextSmall>palavra-dos-jovens-familia.docx</S.TextSmall>
-                </S.TextDownloads>
-                <S.IconC name="upload" />
-              </S.BoxWords>
-            )}
-        </S.Content>
-      </ScrollView>
+            <S.BoxTitleComponent>
+              <TitleComponent
+                title={`Palavras:`}
+                small
+                primary
+                uppercase
+                weight
+              />
+              <S.Subtitulo>Faça o download da palavra da semana</S.Subtitulo>
+            </S.BoxTitleComponent>
+
+            {dataUser &&
+              (dataUser?.rede?.includes("Kids") ||
+                whatIsOffice === "administrador") && (
+                <>
+                  <S.BoxWords onPress={() => downloadFile("Kids")}>
+                    <S.TextDownloads>
+                      <S.TitleSmall>Kids</S.TitleSmall>
+                      <S.TextSmall>palavra-dos-kids.docx</S.TextSmall>
+                    </S.TextDownloads>
+                    <S.IconC name="upload" />
+                  </S.BoxWords>
+
+                  <S.BoxWords onPress={() => downloadFile("Juvenis")}>
+                    <S.TextDownloads>
+                      <S.TitleSmall>Juvenis</S.TitleSmall>
+                      <S.TextSmall>palavra-dos-juvenis.docx</S.TextSmall>
+                    </S.TextDownloads>
+                    <S.IconC name="upload" />
+                  </S.BoxWords>
+                </>
+              )}
+            {dataUser &&
+              (!dataUser?.rede?.includes("Kids") ||
+                whatIsOffice === "administrador") && (
+                <S.BoxWords onPress={() => downloadFile("Familia-Jovens")}>
+                  <S.TextDownloads>
+                    <S.TitleSmall>Jovens / Familia</S.TitleSmall>
+                    <S.TextSmall>palavra-dos-jovens-familia.docx</S.TextSmall>
+                  </S.TextDownloads>
+                  <S.IconC name="upload" />
+                </S.BoxWords>
+              )}
+          </S.Content>
+        </ScrollView>
+      )}
     </Fragment>
   );
 }

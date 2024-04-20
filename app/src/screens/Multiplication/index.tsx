@@ -12,14 +12,24 @@ import { useAuth } from "../../hooks/useAuth";
 import { useFormReport } from "../../hooks/useFormReport";
 import { IPropsAppStack } from "../../routes/AppStack/types";
 import { FormReportActions } from "../../contexts/FormReport";
-
-import * as S from "./styles";
 import useUserFiltered from "../../hooks/useUserFiltered";
+import { useNotification } from "../../hooks/useNotification";
+import { IconNotification } from "../../components/IconNotification";
+import NotificationContentModalComponent from "../../components/Modal/Notifications";
+import * as S from "./styles";
 
 export function Multiplication() {
   const { dispatch } = useFormReport();
   const { signOut } = useAuth();
   const { updateUsers, setUpdateUsers } = useUserFiltered();
+  const {
+    notifications,
+    newNotifications,
+    showNotification,
+    openNotification,
+    setNewNotifications,
+    setShowNotification,
+  } = useNotification();
 
   const navigation = useNavigation<IPropsAppStack>();
 
@@ -53,41 +63,55 @@ export function Multiplication() {
         </S.HeadingIcons>
 
         <S.Buttons>
+          <TouchableOpacity onPress={openNotification}>
+            <IconNotification
+              setNewNotifications={setNewNotifications}
+              update={showNotification}
+            />
+          </TouchableOpacity>
+
           <TouchableOpacity onPress={logout}>
             <S.Logout name="logout" />
           </TouchableOpacity>
         </S.Buttons>
       </HeaderComponent>
+      {showNotification ? (
+        <NotificationContentModalComponent
+          newNotifications={newNotifications}
+          data={notifications}
+          setShowNotification={setShowNotification}
+        />
+      ) : (
+        <S.Content>
+          <S.Names>
+            <TitleComponent
+              title="Multiplicação"
+              medium
+              uppercase
+              primary
+              weight
+            />
+          </S.Names>
 
-      <S.Content>
-        <S.Names>
-          <TitleComponent
-            title="Multiplicação"
-            medium
-            uppercase
-            primary
-            weight
-          />
-        </S.Names>
-
-        <S.ContentOptions>
-          <SelectedMenuComponent
-            icon={<S.UserGridIcon name="user-friends" />}
-            title="Multiplicação Celula"
-            onPress={() => clean("MultiplicationCelula")}
-          />
-          <SelectedMenuComponent
-            icon={<S.UserGridIcon name="network-wired" />}
-            title="Multiplicação Discipulado"
-            onPress={() => clean("MultiplicationDiscipulado")}
-          />
-          <SelectedMenuComponent
-            icon={<S.UserGridIcon name="vector-square" />}
-            title="Multiplicação Rede"
-            onPress={() => clean("MultiplicationRede")}
-          />
-        </S.ContentOptions>
-      </S.Content>
+          <S.ContentOptions>
+            <SelectedMenuComponent
+              icon={<S.UserGridIcon name="user-friends" />}
+              title="Multiplicação Celula"
+              onPress={() => clean("MultiplicationCelula")}
+            />
+            <SelectedMenuComponent
+              icon={<S.UserGridIcon name="network-wired" />}
+              title="Multiplicação Discipulado"
+              onPress={() => clean("MultiplicationDiscipulado")}
+            />
+            <SelectedMenuComponent
+              icon={<S.UserGridIcon name="vector-square" />}
+              title="Multiplicação Rede"
+              onPress={() => clean("MultiplicationRede")}
+            />
+          </S.ContentOptions>
+        </S.Content>
+      )}
     </Fragment>
   );
 }

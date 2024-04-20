@@ -22,6 +22,10 @@ export function DefaultContentModalComponent({
       {type === "sendReport" && (
         <S.Description>Relatório entregue com sucesso</S.Description>
       )}
+      
+      {type === "addNotice" && (
+        <S.Description>Aviso enviado com sucesso</S.Description>
+      )}
 
       {type === "register" && (
         <S.InfoModal>

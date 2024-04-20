@@ -13,13 +13,24 @@ import { useFormReport } from "../../hooks/useFormReport";
 import { IPropsAppStack } from "../../routes/AppStack/types";
 import { FormReportActions } from "../../contexts/FormReport";
 
-import * as S from "./styles";
 import useUserFiltered from "../../hooks/useUserFiltered";
+import { useNotification } from "../../hooks/useNotification";
+import { IconNotification } from "../../components/IconNotification";
+import NotificationContentModalComponent from "../../components/Modal/Notifications";
+import * as S from "./styles";
 
 export function PreRegisterAdminScreen() {
   const { dispatch } = useFormReport();
   const { signOut } = useAuth();
   const { updateUsers, setUpdateUsers } = useUserFiltered();
+  const {
+    notifications,
+    newNotifications,
+    showNotification,
+    openNotification,
+    setNewNotifications,
+    setShowNotification,
+  } = useNotification();
 
   const navigation = useNavigation<IPropsAppStack>();
 
@@ -53,30 +64,44 @@ export function PreRegisterAdminScreen() {
         </S.HeadingIcons>
 
         <S.Buttons>
+          <TouchableOpacity onPress={openNotification}>
+            <IconNotification
+              setNewNotifications={setNewNotifications}
+              update={showNotification}
+            />
+          </TouchableOpacity>
+          
           <TouchableOpacity onPress={logout}>
             <S.Logout name="logout" />
           </TouchableOpacity>
         </S.Buttons>
       </HeaderComponent>
+      {showNotification ? (
+        <NotificationContentModalComponent
+          newNotifications={newNotifications}
+          data={notifications}
+          setShowNotification={setShowNotification}
+        />
+      ) : (
+        <S.Content>
+          <S.Names>
+            <TitleComponent title="Cadastro" medium uppercase primary weight />
+          </S.Names>
 
-      <S.Content>
-        <S.Names>
-          <TitleComponent title="Cadastro" medium uppercase primary weight />
-        </S.Names>
-
-        <S.ContentOptions>
-          <SelectedMenuComponent
-            icon={<S.RegisterIcon name="user-plus" />}
-            title="Membros/Visitante"
-            onPress={() => clean('Register')}
-          />
-          <SelectedMenuComponent
-            icon={<S.UserGridIcon name="network-wired" />}
-            title="Usuário/Rede"
-            onPress={() => navigation.navigate("UserRegister")}
-          />
-        </S.ContentOptions>
-      </S.Content>
+          <S.ContentOptions>
+            <SelectedMenuComponent
+              icon={<S.RegisterIcon name="user-plus" />}
+              title="Membros/Visitante"
+              onPress={() => clean("Register")}
+            />
+            <SelectedMenuComponent
+              icon={<S.UserGridIcon name="network-wired" />}
+              title="Usuário/Rede"
+              onPress={() => navigation.navigate("UserRegister")}
+            />
+          </S.ContentOptions>
+        </S.Content>
+      )}
     </Fragment>
   );
 }
