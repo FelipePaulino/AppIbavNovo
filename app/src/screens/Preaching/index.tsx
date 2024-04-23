@@ -92,10 +92,13 @@ export function Preaching() {
     setRegisterAdultos(noDuplicates(dataAdultos));
   };
 
-  const postPushNotification = (titulo: any, mensagem: any, tipo:string) => {
+  const postPushNotification = (titulo: any, mensagem: any, tipo: string) => {
     try {
       axios.post("https://exp.host/--/api/v2/push/send", {
-        to: (tipo === 'Kids' || tipo === "Juvenis") ? registerKids.filter((item: any) => item) : registerAdultos.filter((item: any) => item) ,
+        to:
+          tipo === "Kids" || tipo === "Juvenis"
+            ? registerKids.filter((item: any) => item)
+            : registerAdultos.filter((item: any) => item),
         title: titulo,
         body: mensagem,
       });
@@ -165,40 +168,44 @@ export function Preaching() {
 
   // NA WEB ELE MONTA UM ARRAY PRA 'URI' NO EXPO NAO
   const handleUpload = async () => {
-    try {
-      const result: any = await DocumentPicker.getDocumentAsync({
-        type: "*/*",
-      });
+    if (kindWordSelected !== "Tipo da palavra") {
+      try {
+        const result: any = await DocumentPicker.getDocumentAsync({
+          type: "*/*",
+        });
 
-      if (result) {
-        const response = await fetch(result?.assets[0]?.uri);
-        const blob = await response.blob();
-        const storageRef = ref(storage, wordSelected());
-        const uploadTask = uploadBytesResumable(storageRef, blob);
+        if (result) {
+          const response = await fetch(result?.assets[0]?.uri);
+          const blob = await response.blob();
+          const storageRef = ref(storage, wordSelected());
+          const uploadTask = uploadBytesResumable(storageRef, blob);
 
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            const progress2 =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            if (progress2 === 100) {
-              postPushNotification(
-                "Palavra Disponível",
-                `Faça o download da palavra dos ${kindWordSelected}`,
-                kindWordSelected
-              );
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              const progress2 =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              if (progress2 === 100) {
+                postPushNotification(
+                  "Palavra Disponível",
+                  `Faça o download da palavra dos ${kindWordSelected}`,
+                  kindWordSelected
+                );
+              }
+            },
+            (error) => {
+              alert(error);
+            },
+            async () => {
+              const url = await getDownloadURL(uploadTask.snapshot.ref);
             }
-          },
-          (error) => {
-            alert(error);
-          },
-          async () => {
-            const url = await getDownloadURL(uploadTask.snapshot.ref);
-          }
-        );
+          );
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
+    } else {
+      Alert.alert("Selecione o tipo da palavra que quer subir");
     }
   };
 
