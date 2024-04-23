@@ -1,6 +1,7 @@
 node_modules/
 .expo/
 src/config/apiConfig/index.tsx
+src/config/apiConfig/
 .vscode/
 dist/
 npm-debug.*
