@@ -2,7 +2,7 @@
   "expo": {
     "name": "IBAV RP",
     "slug": "aguavivarp",
-    "version": "73.0.0",
+    "version": "79.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -19,13 +19,13 @@
       "**/*"
     ],
     "ios": {
-      "versionCode": 73,
+      "versionCode": 79,
       "supportsTablet": true,
       "bundleIdentifier": "com.viniciusdevitalo.aguavivarp"
     },
     "android": {
       "googleServicesFile": "./google-services.json",
-      "versionCode": 73,
+      "versionCode": 79,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
