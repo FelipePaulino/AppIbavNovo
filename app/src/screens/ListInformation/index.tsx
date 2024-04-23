@@ -252,7 +252,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
       redeSelect = selectNetwork.split(" -")[0].trim();
       pastorSelect = selectNetwork.split("- ")[1].trim();
       celulaMudada = filterCelulas.map((item: any) => {
-        return { ...item, discipulador: name?.trim() };
+        return { ...item, discipulador: name?.trim(), rede: redeSelect  };
       });
     }
     if (filterUser[0]?.cargo === "pastor") {
@@ -289,7 +289,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
       filterOtherUsers = [...filterUsersNaoPastor, ...juncaoUserPastor];
       redeSelect = selectNetwork.split(" -")[0].trim();
       pastorSelect = filterUser[0].nome;
-
+      
       celulaMudada = filterCelulas.map((item: any) => {
         return { ...item, rede: redeSelect, pastor: name?.trim() };
       });
@@ -303,7 +303,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
       discipulador: selectDisciples.trim(),
       numero_celula: numberCelula.trim(),
     };
-
+    
     let celulasDefinitivo: any;
     if (filterUser[0]?.cargo === "lider de celula") {
       celulasDefinitivo = [...filterOtherCelulas, celulaMudada];
@@ -312,7 +312,7 @@ export function UsersInformationScreen(this: any, { route }: any) {
     }
 
     const usersDefinitivo = { ...filterOtherUsers, userMudado };
-
+  
     try {
       const putUsers = connectApi.put(`/users.json`, usersDefinitivo);
       const putCelulas = connectApi.put(`/celulas.json`, {
