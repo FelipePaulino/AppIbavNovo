@@ -1,7 +1,7 @@
 node_modules/
 .expo/
-src/config/base/index.tsx
-src/config/base/
+src/config//index.tsx
+src/config//
 .vscode/
 dist/
 npm-debug.*
