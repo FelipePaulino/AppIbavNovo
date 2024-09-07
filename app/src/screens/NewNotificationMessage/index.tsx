@@ -8,7 +8,7 @@ import { connectApi } from "../../common/services/ConnectApi";
 import { ModalComponent } from "../../components/Modal";
 import { DefaultContentModalComponent } from "../../components/Modal/Default";
 import { IPropsAppStack } from "../../routes/AppStack/types";
-import { v4 as uuidv4 } from "uuid";
+import uuid from 'react-native-uuid';
 import axios from "axios";
 import * as S from "./styles";
 
@@ -36,15 +36,23 @@ export function NewNotificationMessage() {
     return removeDuplicates(arrayRegister);
   };
 
-  const postPushNotification = (titulo: any, mensagem: any, data: any) => {
+  const postPushNotification = async (titulo: any, mensagem: any, data: any[]) => {
     try {
-      axios.post("https://exp.host/--/api/v2/push/send", {
-        to: data,
-        title: titulo,
-        body: mensagem,
-      });
-      //   .then(() => setSuccessModal(true));
-    } catch (err) {}
+      const batchSize = 100; // tamanho do lote de 100
+  
+      for (let i = 0; i < data.length; i += batchSize) {
+        const batch = data.slice(i, i + batchSize); // pega um lote de 100
+  
+        // Envia a notificação para o lote atual
+        await axios.post("https://exp.host/--/api/v2/push/send", {
+          to: batch,
+          title: titulo,
+          body: mensagem,
+        });
+      }
+    } catch (err) {
+      console.error("Erro ao enviar notificação:", err);
+    }
   };
 
   const handleAddNewNotification = () => {
@@ -52,7 +60,7 @@ export function NewNotificationMessage() {
       connectApi
         .post("/avisos.json", {
           message: notice,
-          id: uuidv4(),
+          id: uuid.v4(),
           isVisible: true,
         })
         .then(() => {
