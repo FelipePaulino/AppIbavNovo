@@ -19,9 +19,16 @@ export function NewNotificationMessage() {
   const navigation = useNavigation<IPropsAppStack>();
 
 
-  useEffect(async () => {
-    const { data } =  await connectApi.get("/notificacao.json");
-    setRegister(noDuplicates(data).filter((item: any) => item))
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await connectApi.get("/notificacao.json");
+        setRegister(noDuplicates(data).filter((item: any) => item));
+      } catch (error) {
+        console.error("Erro ao buscar notificações:", error);
+      }
+    };
+    fetchData();
   }, []);
 
   const noDuplicates = (data) => {

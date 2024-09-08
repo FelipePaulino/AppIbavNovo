@@ -52,7 +52,6 @@ export function Preaching() {
   const { updateUsers, user, setUpdateUsers } = useUserFiltered();
   const dataUser = user && user[0] && user[0][1];
   const whatIsOffice = dataUser && dataUser.cargo;
-  const [token1, setToken1] = useState<any>("");
   const [registerKids, setRegisterKids] = useState<any>([]);
   const [registerAdultos, setRegisterAdultos] = useState<any>([]);
   const {
@@ -110,12 +109,6 @@ export function Preaching() {
     getNotification();
   }, [dataUser]);
 
-  useEffect(async () => {
-    const token1 = await Notifications.getExpoPushTokenAsync({
-      projectId: Constants.expoConfig.extra.eas.projectId,
-    });
-    setToken1(token1);
-  }, []);
 
   const logout = () => {
     setUpdateUsers(!updateUsers);
