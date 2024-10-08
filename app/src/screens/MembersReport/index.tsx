@@ -129,13 +129,10 @@ export function MembersReportScreen() {
   }, [selectPerson]);
 
   function compared(a: IDataUserProps, b: IDataUserProps) {
-    if(a && b){
     if (a.nome > b.nome) return -1;
     if (a.nome < b.nome) return 1;
     return 0;
-    }
   }
-  console.log(newArrayMembers, 'newArrayMembers')
   newArrayMembers && newArrayMembers?.sort(compared);
 
   return (
