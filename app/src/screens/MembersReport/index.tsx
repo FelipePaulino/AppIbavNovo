@@ -85,7 +85,7 @@ export function MembersReportScreen() {
         members[0][1]?.membros && (
           Object.values(members[0][1]?.membros).filter(
             (member: any) =>
-                member.status !== "visitante" && member.status !== "Visitante"
+            member && member.status !== "visitante" && member.status !== "Visitante"
           )
         )
       )

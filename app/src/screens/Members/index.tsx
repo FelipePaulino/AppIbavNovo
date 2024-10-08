@@ -280,7 +280,7 @@ export function MembersScreen(this: any) {
   const newMembersList =
     members && members.length > 0 && members[0][1].membros
       ? Object.entries(members[0][1].membros).filter(
-          (member: any) => member.status !== "visitante"
+          (member: any) => member && member.status !== "visitante"
         )
       : [];
 
