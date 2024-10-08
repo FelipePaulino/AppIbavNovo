@@ -78,7 +78,7 @@ export function VisitorsReportScreen() {
     }
 
   const visitantes = y && Object.values(y[0][1].membros).filter((visitors: any) => {
-    return visitors.status === 'visitante'
+    return visitors && visitors.status === 'visitante'
   })
 
   const newArrayVisitors = visitorsIdentify
