@@ -85,7 +85,7 @@ export function MembersReportScreen() {
         members[0][1]?.membros && (
           Object.values(members[0][1]?.membros).filter(
             (member: any) =>
-                member.status !== "visitante" && member.status !== "Visitante"
+            member && member.status !== "visitante" && member.status !== "Visitante"
           )
         )
       )
@@ -129,10 +129,13 @@ export function MembersReportScreen() {
   }, [selectPerson]);
 
   function compared(a: IDataUserProps, b: IDataUserProps) {
+    if(a && b){
     if (a.nome > b.nome) return -1;
     if (a.nome < b.nome) return 1;
     return 0;
+    }
   }
+  console.log(newArrayMembers, 'newArrayMembers')
   newArrayMembers && newArrayMembers?.sort(compared);
 
   return (
