@@ -2,7 +2,7 @@
   "expo": {
     "name": "IBAV RP",
     "slug": "aguavivarp",
-    "version": "99.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -19,18 +19,18 @@
       "**/*"
     ],
     "ios": {
-      "versionCode": 99,
+      "versionCode": 1,
       "supportsTablet": true,
-      "bundleIdentifier": "com.viniciusdevitalo.aguavivarp"
+      "bundleIdentifier": "com.mogi.aguavivarp"
     },
     "android": {
       "googleServicesFile": "./google-services.json",
-      "versionCode": 99,
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.viniciusdevitalo.aguavivarp"
+      "package": "com.mogi.aguavivarp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
