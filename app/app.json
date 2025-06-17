@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "IBAV RP",
-    "slug": "aguavivarp",
-    "version": "2.0.1",
+    "name": "IBAV Mogi",
+    "slug": "aguavivamogi",
+    "version": "6.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -19,13 +19,16 @@
       "**/*"
     ],
     "ios": {
-      "versionCode": 2,
+      "versionCode": 6,
       "supportsTablet": true,
-      "bundleIdentifier": "com.mogi.aguavivarp"
+      "bundleIdentifier": "com.mogiaguavivarp.felipepaulino",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "googleServicesFile": "./google-services.json",
-      "versionCode": 2,
+      "versionCode": 6,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
