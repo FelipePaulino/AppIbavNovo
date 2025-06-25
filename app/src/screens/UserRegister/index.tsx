@@ -689,7 +689,7 @@ export function UserRegisterScreen() {
                 title="Cadastrar"
                 onPress={registerUser}
                 width="170"
-                disabled={disable}
+                // disabled={disable}
               />
             </S.FooterFields>
           </Fragment>
