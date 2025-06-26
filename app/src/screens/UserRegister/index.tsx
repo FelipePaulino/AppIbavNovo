@@ -292,7 +292,7 @@ export function UserRegisterScreen() {
               });
             });
         } else {
-          if (validateCell.length === 0) {
+          if (validateCell.length === 0 || celulas.length === 0 ) {
             if (validateExistingEmail.length === 0) {
               connectApi
                 .post("/users.json", {
