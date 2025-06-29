@@ -121,11 +121,11 @@ export function Preaching() {
   const wordSelected = () => {
     switch (kindWordSelected) {
       case "Kids":
-        return "kids.docx";
+        return "mogi-kids.docx";
       case "Juvenis":
-        return "juvenis.docx";
+        return "mogi-juvenis.docx";
       default:
-        return "familia-jovens.docx";
+        return "mogi-familia-jovens.docx";
     }
   };
 
@@ -151,11 +151,11 @@ export function Preaching() {
   const linkSelected = (type: string) => {
     switch (type) {
       case "Kids":
-        return "https://firebasestorage.googleapis.com/v0/b/app-ibav-f06f4.appspot.com/o/kids.docx?alt=media&token=8a874f22-d5c4-4c02-b328-96018b89309c";
+        return "https://firebasestorage.googleapis.com/v0/b/app-ibav-f06f4.appspot.com/o/mogi-kids.docx?alt=media&token=8a874f22-d5c4-4c02-b328-96018b89309c";
       case "Juvenis":
-        return "https://firebasestorage.googleapis.com/v0/b/app-ibav-f06f4.appspot.com/o/juvenis.docx?alt=media&token=ac9a6be2-8426-4e6e-a630-9beaec275e82";
+        return "https://firebasestorage.googleapis.com/v0/b/app-ibav-f06f4.appspot.com/o/mogi-juvenis.docx?alt=media&token=ac9a6be2-8426-4e6e-a630-9beaec275e82";
       default:
-        return "https://firebasestorage.googleapis.com/v0/b/app-ibav-f06f4.appspot.com/o/familia-jovens.docx?alt=media&token=b1e41b44-6d00-4838-8167-a18f62717ed8";
+        return "https://firebasestorage.googleapis.com/v0/b/app-ibav-f06f4.appspot.com/o/mogi-familia-jovens.docx?alt=media&token=b1e41b44-6d00-4838-8167-a18f62717ed8";
     }
   };
 

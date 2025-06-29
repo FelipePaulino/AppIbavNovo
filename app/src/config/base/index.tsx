@@ -1,1 +1,1 @@
-export const API_ENDPOINT = "https://app-homologacao-mogi-default-rtdb.firebaseio.com/";
+export const API_ENDPOINT = "https://app-producao-mogi-default-rtdb.firebaseio.com/";
